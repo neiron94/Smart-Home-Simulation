@@ -4,6 +4,7 @@ import consumer.ElectricityConsumer;
 import consumer.device.Device;
 import consumer.device.DeviceStatus;
 import consumer.device.Manual;
+import place.Room;
 
 import java.util.Date;
 

@@ -1,13 +1,18 @@
 package place;
 
+import consumer.ElectricityConsumer;
+import consumer.GasConsumer;
+import consumer.SupplySystem;
+import consumer.WaterConsumer;
+import event.Event;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class Home implements EventDestination {
     private final List<Floor> floors;
-    private List<Event> events; // TODO Control after creating Event class
+    private List<Event> events;
 
-    // TODO Control after creating SupplySystem classes
     private final SupplySystem<ElectricityConsumer> electricitySupplySystem;
     private final SupplySystem<WaterConsumer> waterSupplySystem;
     private final SupplySystem<GasConsumer> gasSupplySystem;
@@ -32,7 +37,7 @@ public class Home implements EventDestination {
         return events;
     }
 
-    public void addEvent(Event event) { // TODO Control after creating Event class
+    public void addEvent(Event event) {
         events.add(event);
     }
 
@@ -54,7 +59,7 @@ public class Home implements EventDestination {
     }
 
     @Override
-    public void deleteEvent(Event event) { // TODO Control after creating Event class
+    public void deleteEvent(Event event) {
         events.remove(event);
     } // TODO For use by event solver
 }

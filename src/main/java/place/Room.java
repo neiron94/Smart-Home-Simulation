@@ -1,7 +1,9 @@
 package place;
 
+import event.Event;
 import utils.Percent;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Room implements EventDestination {
     private static int id = 1;
@@ -9,15 +11,15 @@ public class Room implements EventDestination {
     private final int roomId;
     private final RoomType type;
     private final ControlPanel controlPanel;
-    private List<Event> events; // TODO Control after creating Event class
+    private List<Event> events;
 
     private boolean activeElectricity;
     private boolean activeWater;
     private boolean activeGas;
 
     private double temperature;
-    private Percent humidity; // TODO Control after creating Percent class
-    private Percent brightness; // TODO Control after creating Percent class
+    private Percent humidity;
+    private Percent brightness;
 
     public Room(RoomType type) {
         roomId = id++;
@@ -29,16 +31,16 @@ public class Room implements EventDestination {
         activeWater = true;
         activeGas = true;
 
-        temperature = ; // TODO Add default temperature value
-        humidity = ; // TODO Add default humidity value
-        brightness = ; // TODO Add default brightness value
+        temperature = 0; // TODO Add default temperature value
+        humidity = new Percent(0); // TODO Add default humidity value
+        brightness = new Percent(0); // TODO Add default brightness value
     }
 
     public List<Event> getEvents() {
         return events;
     }
 
-    public void addEvent(Event event) { // TODO Control after creating Event class
+    public void addEvent(Event event) {
         events.add(event);
     }
 
@@ -104,7 +106,7 @@ public class Room implements EventDestination {
     }
 
     @Override
-    public void deleteEvent(Event event) { // TODO Control after creating Event class
+    public void deleteEvent(Event event) {
         events.remove(event);
     } // TODO For use by event solver
 }

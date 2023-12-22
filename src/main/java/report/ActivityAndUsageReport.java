@@ -1,5 +1,6 @@
 package report;
 
+import consumer.device.Device;
 import creature.Action;
 import creature.Creature;
 import java.util.ArrayList;
@@ -18,7 +19,7 @@ public class ActivityAndUsageReport extends Report {
         this.usage = usage;
     }
 
-    public static ActivityAndUsageReport makeReport(Creature creature) { // Factory method // TODO Control after creation Device class
+    public static ActivityAndUsageReport makeReport(Creature creature) { // Factory method
         String creatureName = creature.getName();
 
         String activityString = creature.getActivity().getActivities().stream() // Get activities stream

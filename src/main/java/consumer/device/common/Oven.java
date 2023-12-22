@@ -3,6 +3,7 @@ package consumer.device.common;
 import consumer.device.Device;
 import consumer.device.DeviceStatus;
 import consumer.device.Manual;
+import place.Room;
 
 public abstract class Oven extends Device {
     private boolean isFoodInside;

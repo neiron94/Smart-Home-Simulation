@@ -1,5 +1,7 @@
 package place;
 
+import event.Event;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,7 +10,7 @@ public class Floor implements EventDestination {
 
     private final int floorId;
     private final List<Room> rooms;
-    private List<Event> events; // TODO Control after creating Event class
+    private List<Event> events;
 
     public Floor() {
         floorId = id++;
@@ -28,7 +30,7 @@ public class Floor implements EventDestination {
         return events;
     }
 
-    public void addEvent(Event event) { // TODO Control after creating Event class
+    public void addEvent(Event event) {
         events.add(event);
     }
 
@@ -38,7 +40,7 @@ public class Floor implements EventDestination {
     }
 
     @Override
-    public void deleteEvent(Event event) { // TODO Control after creating Event class
+    public void deleteEvent(Event event) {
         events.remove(event); // TODO For use by event solver
     }
 }

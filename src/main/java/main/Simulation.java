@@ -1,5 +1,6 @@
 package main;
 
+import consumer.device.Device;
 import creature.Creature;
 import place.DeviceService;
 import place.Home;
@@ -17,7 +18,7 @@ public class Simulation {
 
     private final Home home;
     private final List<Creature> residents;
-    private final List<Device> devices; // TODO Control after creating Device class
+    private final List<Device> devices;
     private final DeviceService service;
 
     private double streetTemperature; // TODO Changes in calculateSimulation() function
@@ -96,7 +97,7 @@ public class Simulation {
             residents.forEach(Creature::routine); // Calls routine function in all creatures
             devices.forEach(Device::routine); // Calls routine function in all devices
 
-            if (null) { // TODO Change condition (once in a day)
+            if (false) { // TODO Change condition (once in a day)
                 generateReport(); // generates reports
                 home.getGasSupplySystem().restoreConsumptions(); // After reporting - count from the beginning
                 home.getWaterSupplySystem().restoreConsumptions(); // After reporting - count from the beginning

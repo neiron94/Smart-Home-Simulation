@@ -3,6 +3,8 @@ package consumer.device.common;
 import consumer.ElectricityConsumer;
 import consumer.device.Device;
 import consumer.device.DeviceStatus;
+import place.Room;
+import utils.Percent;
 
 import java.util.List;
 import java.util.Queue;

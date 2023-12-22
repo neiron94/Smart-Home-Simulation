@@ -4,6 +4,9 @@ import consumer.ElectricityConsumer;
 import consumer.device.Device;
 import consumer.device.DeviceStatus;
 import consumer.device.Manual;
+import creature.pet.PetType;
+import place.Room;
+import utils.Percent;
 
 public class Feeder extends Device implements ElectricityConsumer {
 

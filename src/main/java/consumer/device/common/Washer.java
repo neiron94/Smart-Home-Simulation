@@ -5,6 +5,8 @@ import consumer.WaterConsumer;
 import consumer.device.Device;
 import consumer.device.DeviceStatus;
 import consumer.device.Manual;
+import place.Room;
+import utils.Percent;
 
 public class Washer extends Device implements WaterConsumer, ElectricityConsumer {
 

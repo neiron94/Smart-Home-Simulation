@@ -3,6 +3,7 @@ package consumer.device.common;
 import consumer.GasConsumer;
 import consumer.device.DeviceStatus;
 import consumer.device.Manual;
+import place.Room;
 
 public class GasOven extends Oven implements GasConsumer {
 

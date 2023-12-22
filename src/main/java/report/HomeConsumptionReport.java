@@ -1,5 +1,6 @@
 package report;
 
+import consumer.device.Device;
 import main.Simulation;
 import place.Home;
 
@@ -10,17 +11,17 @@ public class HomeConsumptionReport extends ConsumptionReport {
         super(usedGas, usedWater, usedElectricity, spentMoney);
     }
 
-    public static HomeConsumptionReport makeReport(Device device) { // Factory method // TODO Control after creation Device and SupplySystems classes
-        int usedGas = Simulation.getInstance().getHome().getGasSupplySystem().entrySet().stream() // Get gas consumers stream
+    public static HomeConsumptionReport makeReport(Device device) { // Factory method
+        int usedGas = Simulation.getInstance().getHome().getGasSupplySystem().getConsumedMap().entrySet().stream() // Get gas consumers stream
                                     .mapToInt(Map.Entry::getValue) // Get values stream
                                     .sum(); // Sum overall consumed gas
-        int usedWater = Simulation.getInstance().getHome().getWaterSupplySystem().entrySet().stream() // Get water consumers stream
+        int usedWater = Simulation.getInstance().getHome().getWaterSupplySystem().getConsumedMap().entrySet().stream() // Get water consumers stream
                                     .mapToInt(Map.Entry::getValue) // Get values stream
                                     .sum(); // Sum overall consumed water
-        int usedElectricity = Simulation.getInstance().getHome().getElectricitySupplySystem().entrySet().stream() // Get electricity consumers stream
+        int usedElectricity = Simulation.getInstance().getHome().getElectricitySupplySystem().getConsumedMap().entrySet().stream() // Get electricity consumers stream
                                     .mapToInt(Map.Entry::getValue) // Get values stream
                                     .sum(); // Sum overall consumed electricity
-        int spentMoney = ; // TODO Make formulae to count money
+        int spentMoney = 0; // TODO Make formulae to count money
 
         return new HomeConsumptionReport(String.valueOf(usedGas),
                 String.valueOf(usedWater),

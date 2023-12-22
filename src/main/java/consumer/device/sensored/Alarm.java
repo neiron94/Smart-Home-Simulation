@@ -3,6 +3,7 @@ package consumer.device.sensored;
 import consumer.device.DeviceStatus;
 import consumer.device.Manual;
 import consumer.device.sensored.sensor.EventSensor;
+import place.Room;
 
 public abstract class Alarm<T extends EventSensor> extends EventDevice<T> {
     private boolean isAlerting;

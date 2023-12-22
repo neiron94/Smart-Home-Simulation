@@ -1,5 +1,7 @@
 package consumer;
 
+import place.Room;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -37,5 +39,17 @@ public class SupplySystem<T extends Consumer> {
 
     public void deleteConsumer(T consumer) {
         consumedMap.remove(consumer);
+    }
+
+    public Map<T, Integer> getConsumedMap() {
+        return consumedMap;
+    }
+
+    public boolean isResourceAvailable() {
+        return resourceAvailable;
+    }
+
+    public void setResourceAvailable(boolean resourceAvailable) {
+        this.resourceAvailable = resourceAvailable;
     }
 }

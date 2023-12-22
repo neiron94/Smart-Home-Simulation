@@ -2,6 +2,8 @@ package event;
 
 import consumer.device.Device;
 import event.throwStrategy.EventThrowStrategy;
+import place.EventDestination;
+import place.Room;
 
 import java.util.Date;
 
@@ -21,6 +23,7 @@ public abstract class Event {
         this.priority = priority;
         this.throwStrategy = throwStrategy;
         this.eventDate = eventDate;
+        this.origin = origin;
     }
 
     public void throwEvent(Room room) {
@@ -41,5 +44,29 @@ public abstract class Event {
 
     public void setSolveDate(Date solveDate) {
         this.solveDate = solveDate;
+    }
+
+    public EventType getEventType() {
+        return eventType;
+    }
+
+    public Device getCreator() {
+        return creator;
+    }
+
+    public EventPriority getPriority() {
+        return priority;
+    }
+
+    public Room getOrigin() {
+        return origin;
+    }
+
+    public EventThrowStrategy getThrowStrategy() {
+        return throwStrategy;
+    }
+
+    public Date getEventDate() {
+        return eventDate;
     }
 }
