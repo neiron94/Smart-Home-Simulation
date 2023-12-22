@@ -1,0 +1,45 @@
+package event;
+
+import consumer.device.Device;
+import event.throwStrategy.EventThrowStrategy;
+
+import java.util.Date;
+
+public abstract class Event {
+    private final EventType eventType;
+    private final Device creator;
+    private final EventPriority priority;
+    private final Room origin;
+    private final EventThrowStrategy throwStrategy;
+    private final Date eventDate;
+    private EventDestination destination;   // TODO - remove?
+    private Date solveDate; // TODO - move to Person
+
+    protected Event(EventType eventType, EventPriority priority, EventThrowStrategy throwStrategy, Date eventDate, Device creator, Room origin) {
+        this.eventType = eventType;
+        this.creator = creator;
+        this.priority = priority;
+        this.throwStrategy = throwStrategy;
+        this.eventDate = eventDate;
+    }
+
+    public void throwEvent(Room room) {
+        throwStrategy.throwEvent(this, room);
+    }
+
+    public EventDestination getDestination() {
+        return destination;
+    }
+
+    public void setDestination(EventDestination destination) {
+        this.destination = destination;
+    }
+
+    public Date getSolveDate() {
+        return solveDate;
+    }
+
+    public void setSolveDate(Date solveDate) {
+        this.solveDate = solveDate;
+    }
+}
