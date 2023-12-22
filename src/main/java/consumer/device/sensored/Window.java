@@ -2,6 +2,8 @@ package consumer.device.sensored;
 
 import consumer.device.DeviceStatus;
 import consumer.device.sensored.sensor.LightSensor;
+import place.Room;
+import utils.Percent;
 
 import java.awt.*;
 

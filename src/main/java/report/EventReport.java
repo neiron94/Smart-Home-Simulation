@@ -1,6 +1,7 @@
 package report;
 
 import creature.person.Person;
+import event.Event;
 
 public class EventReport extends Report {
     private final String solver;
@@ -14,7 +15,7 @@ public class EventReport extends Report {
         this.type = type;
     }
 
-    public static EventReport makeReport(Person solver, Event event) { // Factory method // TODO Control after creating Event class
+    public static EventReport makeReport(Person solver, Event event) { // Factory method
         String solverName = solver.getName();
         String creatorName = event.getCreator().toString();
         String typeName = event.getEventType().toString();

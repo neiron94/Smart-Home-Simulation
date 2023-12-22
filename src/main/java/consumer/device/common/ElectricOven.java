@@ -2,6 +2,7 @@ package consumer.device.common;
 
 import consumer.ElectricityConsumer;
 import consumer.device.DeviceStatus;
+import place.Room;
 
 public class ElectricOven extends Oven implements ElectricityConsumer {
 

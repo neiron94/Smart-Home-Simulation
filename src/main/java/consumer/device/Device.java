@@ -1,6 +1,8 @@
 package consumer.device;
 
 import consumer.Consumer;
+import place.Room;
+import utils.Percent;
 
 public abstract class Device implements Consumer {
     private static int id = 1;

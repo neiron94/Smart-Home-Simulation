@@ -1,6 +1,10 @@
 package creature.person;
 
 import creature.Creature;
+import event.Event;
+import place.Room;
+
+import java.util.List;
 
 public class Person extends Creature {
     private final Gender gender;
@@ -8,7 +12,7 @@ public class Person extends Creature {
     private List<Event> solvedEvents;
     // TODO Additional parameters can be added
 
-    public Person(String name, Room room, Gender gender, FamilyStatus status) { // TODO Control after creating Room class
+    public Person(String name, Room room, Gender gender, FamilyStatus status) {
         super(name, room);
         this.gender = gender;
         this.status = status;

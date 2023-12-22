@@ -2,6 +2,7 @@ package consumer.device.sensored;
 
 import consumer.device.sensored.sensor.GasSensor;
 import consumer.device.sensored.sensor.SmokeSensor;
+import place.Room;
 
 public class FireAlarm extends Alarm<SmokeSensor> {
     public FireAlarm(Room startRoom, SmokeSensor sensor) {

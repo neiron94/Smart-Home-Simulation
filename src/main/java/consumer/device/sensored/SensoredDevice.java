@@ -5,6 +5,7 @@ import consumer.ElectricityConsumer;
 import consumer.device.DeviceStatus;
 import consumer.device.Manual;
 import consumer.device.sensored.sensor.Sensor;
+import place.Room;
 
 public abstract class SensoredDevice<T extends Sensor<?>> extends Device implements ElectricityConsumer {
 

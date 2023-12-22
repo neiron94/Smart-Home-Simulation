@@ -1,6 +1,9 @@
 package creature;
 
+import consumer.device.Device;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -10,7 +13,7 @@ public class Activity {
 
     public Activity() {
         this.activities = new ArrayList<>();
-        this.usage = new Map<Device, Integer>(); // TODO Control after creating Device class
+        this.usage = new HashMap<>();
     }
 
     public List<Action> getActivities() {
@@ -25,8 +28,8 @@ public class Activity {
         activities.add(action);
     }
 
-    public void increaseUsage(Device device) {  // TODO Control after creating Device class
-        if (usage.containsKey(device)) usage.put(device, usage.get(device)++);
+    public void increaseUsage(Device device) {
+        if (usage.containsKey(device)) usage.put(device, usage.get(device) + 1);
         else usage.put(device, 1);
     }
 }

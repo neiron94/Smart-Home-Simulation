@@ -1,6 +1,7 @@
 package event.throwStrategy;
 
 import event.Event;
+import place.Room;
 
 public class RoomThrowStrategy implements EventThrowStrategy {
     @Override

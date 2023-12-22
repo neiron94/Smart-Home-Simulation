@@ -3,6 +3,9 @@ package creature;
 import java.util.Deque;
 import java.util.LinkedList;
 import java.util.Optional;
+
+import main.Simulation;
+import place.Room;
 import utils.Percent;
 
 public abstract class Creature {
@@ -15,7 +18,7 @@ public abstract class Creature {
 
     public Creature(String name, Room room) {
         this.name = name;
-        this.room = room; // TODO Control after creating Room class
+        this.room = room;
         this.abundance = new Percent(100);
         this.activity = new Activity();
         this.isBusy = false;
@@ -51,7 +54,7 @@ public abstract class Creature {
     }
 
     public void delete() {
-        Simulation.getInstance().getResidents().remove(this); // TODO Control after creating Simulation class
+        Simulation.getInstance().getResidents().remove(this);
     }
 
     public void routine() {

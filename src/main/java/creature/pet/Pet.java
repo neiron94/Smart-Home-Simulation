@@ -1,12 +1,13 @@
 package creature.pet;
 
 import creature.Creature;
+import place.Room;
 
 public class Pet extends Creature {
     private final PetType type;
     // TODO Additional parameters can be added
 
-    public Pet(String name, Room room, PetType type) { // TODO Control after creating Room class
+    public Pet(String name, Room room, PetType type) {
         super(name, room);
         this.type = type;
     }

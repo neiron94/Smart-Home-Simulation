@@ -4,6 +4,7 @@ import consumer.GasConsumer;
 import consumer.device.Manual;
 import consumer.device.sensored.sensor.EventSensor;
 import consumer.device.sensored.sensor.GasSensor;
+import place.Room;
 
 public class GasAlarm extends Alarm<GasSensor> {
     public GasAlarm(Room startRoom, GasSensor sensor) {

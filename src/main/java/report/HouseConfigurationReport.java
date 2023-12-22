@@ -1,5 +1,6 @@
 package report;
 
+import consumer.device.Device;
 import creature.Creature;
 import main.Simulation;
 import place.Floor;
@@ -20,7 +21,7 @@ public class HouseConfigurationReport extends Report {
         this.residents = residents;
     }
 
-    public static HouseConfigurationReport makeReport() { // Factory method // TODO Control after creation Simulation and Device classes
+    public static HouseConfigurationReport makeReport() { // Factory method
         String hierarchyString = Simulation.getInstance().getHome().getFloors().stream() // Get floors stream
                 .flatMap(floor -> Stream.concat( // Step into floor
                         Stream.of("\t" + floor.toString()), // Get floor name
@@ -28,7 +29,7 @@ public class HouseConfigurationReport extends Report {
                                 .flatMap(room -> Stream.concat( // Step into room
                                         Stream.of("\t\t" + room.toString()), // Get room name
                                         Simulation.getInstance().getDevices().stream() // Get devices stream
-                                                .filter(device -> room.equals(device.getRoom())) // Filter only devices in this room
+                                                .filter(device -> room == device.getRoom()) // Filter only devices in this room
                                                 .map(device -> "\t\t\t" + device.toString())) // Get devices name
                                 ))
                         ).collect(Collectors.joining("\n")); // Make result string
@@ -37,7 +38,7 @@ public class HouseConfigurationReport extends Report {
                                     .map(resident -> "\t" + resident.getName()) // Get creature names stream
                                     .collect(Collectors.joining("\n")); // Make result string
 
-        return new HouseConfigurationReport(hierarchyString, residentsString);;
+        return new HouseConfigurationReport(hierarchyString, residentsString);
     }
 
     @Override

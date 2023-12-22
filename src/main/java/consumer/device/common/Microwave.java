@@ -3,6 +3,7 @@ package consumer.device.common;
 import consumer.ElectricityConsumer;
 import consumer.device.Device;
 import consumer.device.DeviceStatus;
+import place.Room;
 
 public class Microwave extends Device implements ElectricityConsumer {
     private boolean isFoodInside;

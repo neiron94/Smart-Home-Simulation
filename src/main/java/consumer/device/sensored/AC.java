@@ -3,6 +3,8 @@ package consumer.device.sensored;
 import consumer.device.DeviceStatus;
 import consumer.device.Manual;
 import consumer.device.sensored.sensor.TemperatureSensor;
+import place.Room;
+import utils.Percent;
 
 public class AC extends ParameterDevice<TemperatureSensor> {
 

@@ -2,6 +2,7 @@ package consumer.device.sensored;
 
 import consumer.device.sensored.sensor.FloodSensor;
 import consumer.device.sensored.sensor.GasSensor;
+import place.Room;
 
 public class FloodAlarm extends Alarm<FloodSensor> {
     public FloodAlarm(Room startRoom, FloodSensor sensor) {

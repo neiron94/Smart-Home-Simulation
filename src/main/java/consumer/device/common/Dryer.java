@@ -4,6 +4,8 @@ import consumer.ElectricityConsumer;
 import consumer.device.Device;
 import consumer.device.DeviceStatus;
 import consumer.device.Manual;
+import place.Room;
+import utils.Percent;
 
 public class Dryer extends Device implements ElectricityConsumer {
 
