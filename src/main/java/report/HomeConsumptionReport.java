@@ -1,8 +1,7 @@
 package report;
 
 import consumer.device.Device;
-import main.Simulation;
-import place.Home;
+import smarthome.Simulation;
 
 import java.util.Map;
 

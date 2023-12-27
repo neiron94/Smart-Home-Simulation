@@ -1,8 +1,6 @@
 package report;
 
-import main.Simulation;
-
-import java.util.Date;
+import smarthome.Simulation;
 
 public abstract class Report {
     protected final String date;

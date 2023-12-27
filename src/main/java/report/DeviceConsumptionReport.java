@@ -1,10 +1,8 @@
 package report;
 
 import consumer.device.Device;
-import creature.Creature;
-import main.Simulation;
+import smarthome.Simulation;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 public class DeviceConsumptionReport extends ConsumptionReport {
     private final String device;
