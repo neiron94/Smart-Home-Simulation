@@ -9,11 +9,8 @@ import java.awt.*;
 
 public class Window extends ParameterDevice<LightSensor> {
 
-    private Percent opacity;
-
     public Window(Room startRoom, LightSensor sensor) {
         super(DeviceStatus.ON, null, startRoom, sensor);  // TODO - manual should be taken from somewhere
-        opacity.setMin();
     }
 
     @Override
@@ -28,7 +25,11 @@ public class Window extends ParameterDevice<LightSensor> {
 
     @Override
     public void react(Number parameter) {
-        // TODO - take room.getBrightness(), streetBrightness and correct opacity
+        // TODO - increment and decrement by 5?
+        if (room.getBrightness().intValue() > room.getControlPanel().getBrightness().intValue())
+            power.increment();
+        else if (room.getBrightness().intValue() < room.getControlPanel().getBrightness().intValue())
+            power.decrement();
     }
 
     @Override

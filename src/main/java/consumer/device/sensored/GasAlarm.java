@@ -20,15 +20,4 @@ public class GasAlarm extends Alarm<GasSensor> {
     public void fire() {
         // TODO
     }
-
-    @Override
-    public void alert() {
-        // TODO - throws event
-    }
-
-    @Override
-    public void react() {
-        alert();
-        // TODO - smth else?
-    }
 }

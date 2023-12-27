@@ -7,12 +7,8 @@ import place.Room;
 import utils.Percent;
 
 public class AC extends ParameterDevice<TemperatureSensor> {
-
-    private Percent power;
-
     public AC(Room startRoom, TemperatureSensor sensor) {
         super(DeviceStatus.ON, null, startRoom, sensor);  // TODO - manual should be taken from somewhere
-        power.setMin();
     }
 
     @Override
@@ -27,7 +23,11 @@ public class AC extends ParameterDevice<TemperatureSensor> {
 
     @Override
     public void react(Number parameter) {
-        // TODO - take room.getTemperature() and correct power
+        // TODO - increment and decrement by 5?
+        if (room.getTemperature() > room.getControlPanel().getTemperature())
+            power.increment();
+        else if (room.getTemperature() < room.getControlPanel().getTemperature())
+            power.decrement();
     }
 
     @Override
