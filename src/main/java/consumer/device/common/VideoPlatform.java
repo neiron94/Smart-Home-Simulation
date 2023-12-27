@@ -1,6 +1,6 @@
 package consumer.device.common;
 
-public enum Platform {
+public enum VideoPlatform {
     NETFLIX,
     YOUTUBE,
     DISNEY_PLUS,
