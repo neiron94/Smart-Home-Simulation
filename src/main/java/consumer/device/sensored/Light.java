@@ -1,6 +1,7 @@
 package consumer.device.sensored;
 
 import consumer.device.DeviceStatus;
+import consumer.device.DeviceType;
 import consumer.device.Manual;
 import consumer.device.sensored.sensor.LightSensor;
 import consumer.device.sensored.sensor.TemperatureSensor;
@@ -12,8 +13,8 @@ import java.awt.*;
 public class Light extends ParameterDevice<LightSensor> {
     private Color color;
 
-    public Light(Room startRoom, LightSensor sensor) {
-        super(DeviceStatus.ON, null, startRoom, sensor);  // TODO - manual should be taken from somewhere
+    public Light(int id, Room startRoom, LightSensor sensor) {
+        super(DeviceType.LIGHT, id, startRoom, sensor);
         color = new Color(0);
     }
 

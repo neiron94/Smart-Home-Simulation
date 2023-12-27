@@ -4,6 +4,7 @@ import consumer.ElectricityConsumer;
 import consumer.WaterConsumer;
 import consumer.device.Device;
 import consumer.device.DeviceStatus;
+import consumer.device.DeviceType;
 import consumer.device.Manual;
 import place.Room;
 import utils.Percent;
@@ -15,8 +16,8 @@ public class Washer extends Device implements WaterConsumer, ElectricityConsumer
     private boolean areClothesInside;
     private Percent filterStatus;
 
-    public Washer(Room startRoom) {
-        super(DeviceStatus.STANDBY, null, startRoom);  // TODO - manual should be taken from somewhere
+    public Washer(int id, Room startRoom) {
+        super(DeviceType.WASHER, id, startRoom);
         // TODO - set areClothesInside, program, timeToReady, filterStatus?
     }
 

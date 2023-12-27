@@ -1,6 +1,7 @@
 package consumer.device.sensored;
 
 import consumer.device.DeviceStatus;
+import consumer.device.DeviceType;
 import consumer.device.sensored.sensor.HumiditySensor;
 import consumer.device.sensored.sensor.TemperatureSensor;
 import place.Room;
@@ -8,8 +9,8 @@ import utils.Percent;
 
 public class AirDryer extends ParameterDevice<HumiditySensor> {
 
-    public AirDryer(Room startRoom, HumiditySensor sensor) {
-        super(DeviceStatus.ON, null, startRoom, sensor);  // TODO - manual should be taken from somewhere
+    public AirDryer(int id, Room startRoom, HumiditySensor sensor) {
+        super(DeviceType.AIR_DRYER, id, startRoom, sensor);
     }
 
     @Override

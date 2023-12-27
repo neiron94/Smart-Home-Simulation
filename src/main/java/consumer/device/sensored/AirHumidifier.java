@@ -1,14 +1,15 @@
 package consumer.device.sensored;
 
 import consumer.device.DeviceStatus;
+import consumer.device.DeviceType;
 import consumer.device.sensored.sensor.HumiditySensor;
 import place.Room;
 import utils.Percent;
 
 public class AirHumidifier extends ParameterDevice<HumiditySensor> {
 
-    public AirHumidifier(Room startRoom, HumiditySensor sensor) {
-        super(DeviceStatus.ON, null, startRoom, sensor);  // TODO - manual should be taken from somewhere
+    public AirHumidifier(int id, Room startRoom, HumiditySensor sensor) {
+        super(DeviceType.AIR_HUMIDIFIER, id, startRoom, sensor);
     }
 
     @Override

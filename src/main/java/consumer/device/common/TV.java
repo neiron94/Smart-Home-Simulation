@@ -3,6 +3,7 @@ package consumer.device.common;
 import consumer.ElectricityConsumer;
 import consumer.device.Device;
 import consumer.device.DeviceStatus;
+import consumer.device.DeviceType;
 import place.Room;
 import utils.Percent;
 
@@ -17,8 +18,8 @@ public class TV extends Device implements ElectricityConsumer {
     private Video currentVideo;
 
 
-    public TV(Room startRoom) {
-        super(DeviceStatus.STANDBY, null, startRoom);  // TODO - manual should be taken from somewhere
+    public TV(int id, Room startRoom) {
+        super(DeviceType.TV, id, startRoom);
         currentVideo = null; // TODO - null?
     }
 

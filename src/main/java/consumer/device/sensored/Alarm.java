@@ -1,6 +1,7 @@
 package consumer.device.sensored;
 
 import consumer.device.DeviceStatus;
+import consumer.device.DeviceType;
 import consumer.device.Manual;
 import consumer.device.sensored.sensor.EventSensor;
 import event.AlertEvent;
@@ -9,8 +10,8 @@ import place.Room;
 public abstract class Alarm<T extends EventSensor> extends EventDevice<T> {
     protected boolean isAlerting;
 
-    public Alarm(Manual manual, Room startRoom, T sensor) {
-        super(DeviceStatus.STANDBY, manual, startRoom, sensor);
+    public Alarm(DeviceType alarmType, int id, Room startRoom, T sensor) {
+        super(alarmType, id, startRoom, sensor);
         isAlerting = false;
     }
 

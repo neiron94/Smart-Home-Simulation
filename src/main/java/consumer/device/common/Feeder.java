@@ -3,6 +3,7 @@ package consumer.device.common;
 import consumer.ElectricityConsumer;
 import consumer.device.Device;
 import consumer.device.DeviceStatus;
+import consumer.device.DeviceType;
 import consumer.device.Manual;
 import creature.pet.PetType;
 import place.Room;
@@ -16,8 +17,8 @@ public class Feeder extends Device implements ElectricityConsumer {
     private Percent foodLevel;
     private Percent waterLevel;
 
-    public Feeder(Room startRoom) {
-        super(DeviceStatus.ON, null, startRoom);  // TODO - manual should be taken from somewhere
+    public Feeder(int id, Room startRoom) {
+        super(DeviceType.FEEDER, id, startRoom);
         // TODO - set type, food/water fullness/level?
     }
 

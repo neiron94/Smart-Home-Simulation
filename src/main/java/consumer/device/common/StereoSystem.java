@@ -3,6 +3,7 @@ package consumer.device.common;
 import consumer.ElectricityConsumer;
 import consumer.device.Device;
 import consumer.device.DeviceStatus;
+import consumer.device.DeviceType;
 import place.Room;
 import utils.Percent;
 
@@ -18,8 +19,8 @@ public class StereoSystem extends Device implements ElectricityConsumer {
     private Song currentSong;
     private Time timeToReady;   // from song in queue TODO - Time?
 
-    public StereoSystem(Room startRoom) {
-        super(DeviceStatus.STANDBY, null, startRoom);  // TODO - manual should be taken from somewhere
+    public StereoSystem(int id, Room startRoom) {
+        super(DeviceType.STEREO_SYSTEM, id, startRoom);
         currentSong = null; // TODO - null?
         // TODO - set other? (volume, queue, timeToReady)
     }

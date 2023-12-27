@@ -3,6 +3,7 @@ package consumer.device.common;
 import consumer.ElectricityConsumer;
 import consumer.device.Device;
 import consumer.device.DeviceStatus;
+import consumer.device.DeviceType;
 import consumer.device.Manual;
 import place.Room;
 import utils.Percent;
@@ -12,8 +13,8 @@ public class Fridge extends Device implements ElectricityConsumer {
     private int temperature;
     private Percent fullness;
 
-    public Fridge(Room startRoom) {
-        super(DeviceStatus.ON, null, startRoom);  // TODO - manual should be taken from somewhere
+    public Fridge(int id, Room startRoom) {
+        super(DeviceType.FRIDGE, id, startRoom);
         // TODO - set fullness, temperature?
     }
 

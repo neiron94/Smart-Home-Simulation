@@ -1,14 +1,15 @@
 package consumer.device.sensored;
 
 import consumer.device.DeviceStatus;
+import consumer.device.DeviceType;
 import consumer.device.Manual;
 import consumer.device.sensored.sensor.TemperatureSensor;
 import place.Room;
 import utils.Percent;
 
 public class AC extends ParameterDevice<TemperatureSensor> {
-    public AC(Room startRoom, TemperatureSensor sensor) {
-        super(DeviceStatus.ON, null, startRoom, sensor);  // TODO - manual should be taken from somewhere
+    public AC(int id, Room startRoom, TemperatureSensor sensor) {
+        super(DeviceType.AC, id, startRoom, sensor);
     }
 
     @Override

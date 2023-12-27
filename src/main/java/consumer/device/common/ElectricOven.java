@@ -2,12 +2,13 @@ package consumer.device.common;
 
 import consumer.ElectricityConsumer;
 import consumer.device.DeviceStatus;
+import consumer.device.DeviceType;
 import place.Room;
 
 public class ElectricOven extends Oven implements ElectricityConsumer {
 
-    public ElectricOven(Room startRoom) {
-        super(DeviceStatus.STANDBY, null, startRoom);  // TODO - manual should be taken from somewhere
+    public ElectricOven(int id, Room startRoom) {
+        super(DeviceType.ELECTRIC_OVEN, id, startRoom);
     }
 
     @Override

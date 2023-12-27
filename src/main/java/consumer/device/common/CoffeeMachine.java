@@ -3,6 +3,7 @@ package consumer.device.common;
 import consumer.ElectricityConsumer;
 import consumer.device.Device;
 import consumer.device.DeviceStatus;
+import consumer.device.DeviceType;
 import consumer.device.Manual;
 import place.Room;
 
@@ -16,8 +17,8 @@ public class CoffeeMachine extends Device implements ElectricityConsumer {
     private final int COFFEE_CAPACITY = 0;  // TODO - move to Constants and give value
     private final int MILK_CAPACITY = 0;    // TODO - move to Constants and give value
 
-    public CoffeeMachine(Room startRoom) {
-        super(DeviceStatus.OFF, null, startRoom);  // TODO - manual should be taken from somewhere
+    public CoffeeMachine(int id, Room startRoom) {
+        super(DeviceType.COFFEE_MACHINE, id, startRoom);
         // TODO - set program, waterFullness, coffeeFullness, milkFullness?
     }
 
