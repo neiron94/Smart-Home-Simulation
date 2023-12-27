@@ -4,6 +4,7 @@ import consumer.ElectricityConsumer;
 import consumer.WaterConsumer;
 import consumer.device.Device;
 import consumer.device.DeviceStatus;
+import consumer.device.DeviceType;
 import consumer.device.Manual;
 import place.Room;
 import utils.Percent;
@@ -15,8 +16,8 @@ public class Dishwasher extends Device implements WaterConsumer, ElectricityCons
     private Percent filterStatus;
     private Time timeToReady;   // TODO - Time?
 
-    public Dishwasher(Room startRoom) {
-        super(DeviceStatus.STANDBY, null, startRoom);  // TODO - manual should be taken from somewhere
+    public Dishwasher(int id, Room startRoom) {
+        super(DeviceType.DISHWASHER, id, startRoom);
         // TODO - set fullness, program, timeToReady, filterStatus?
     }
 

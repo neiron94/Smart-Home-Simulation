@@ -3,6 +3,7 @@ package consumer.device.common;
 import consumer.ElectricityConsumer;
 import consumer.device.Device;
 import consumer.device.DeviceStatus;
+import consumer.device.DeviceType;
 import consumer.device.Manual;
 import place.Room;
 import utils.Percent;
@@ -14,8 +15,8 @@ public class Dryer extends Device implements ElectricityConsumer {
     private Percent filterStatus;
     private Time timeToReady;   // TODO - Time?
 
-    public Dryer(Room startRoom) {
-        super(DeviceStatus.STANDBY, null, startRoom);  // TODO - manual should be taken from somewhere
+    public Dryer(int id, Room startRoom) {
+        super(DeviceType.DRYER, id, startRoom);
         // TODO - set areClothesInside, program, timeToReady, filterStatus?
     }
 

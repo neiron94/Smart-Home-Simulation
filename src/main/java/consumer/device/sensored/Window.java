@@ -1,6 +1,7 @@
 package consumer.device.sensored;
 
 import consumer.device.DeviceStatus;
+import consumer.device.DeviceType;
 import consumer.device.sensored.sensor.LightSensor;
 import place.Room;
 import utils.Percent;
@@ -9,11 +10,8 @@ import java.awt.*;
 
 public class Window extends ParameterDevice<LightSensor> {
 
-    private Percent opacity;
-
-    public Window(Room startRoom, LightSensor sensor) {
-        super(DeviceStatus.ON, null, startRoom, sensor);  // TODO - manual should be taken from somewhere
-        opacity.setMin();
+    public Window(int id, Room startRoom, LightSensor sensor) {
+        super(DeviceType.WINDOW, id, startRoom, sensor);
     }
 
     @Override
@@ -28,7 +26,11 @@ public class Window extends ParameterDevice<LightSensor> {
 
     @Override
     public void react(Number parameter) {
-        // TODO - take room.getBrightness(), streetBrightness and correct opacity
+        // TODO - increment and decrement by 5?
+        if (room.getBrightness().intValue() > room.getControlPanel().getBrightness().intValue())
+            power.increment();
+        else if (room.getBrightness().intValue() < room.getControlPanel().getBrightness().intValue())
+            power.decrement();
     }
 
     @Override

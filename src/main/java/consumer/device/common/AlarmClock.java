@@ -3,6 +3,7 @@ package consumer.device.common;
 import consumer.ElectricityConsumer;
 import consumer.device.Device;
 import consumer.device.DeviceStatus;
+import consumer.device.DeviceType;
 import consumer.device.Manual;
 import place.Room;
 
@@ -13,8 +14,8 @@ public class AlarmClock extends Device implements ElectricityConsumer {
     private Date ringTime;
     private Song song;
 
-    public AlarmClock(Room startRoom) {
-        super(DeviceStatus.STANDBY, null, startRoom);  // TODO - manual should be taken from somewhere
+    public AlarmClock(int id, Room startRoom) {
+        super(DeviceType.ALARM_CLOCK, id, startRoom);
         // TODO - set ringTime, song?
     }
 

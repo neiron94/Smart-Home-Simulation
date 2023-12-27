@@ -2,25 +2,27 @@ package consumer.device;
 
 import consumer.Consumer;
 import place.Room;
+import smarthome.Simulation;
 import utils.Percent;
 
 public abstract class Device implements Consumer {
-    private static int id = 1;
-
     protected final int deviceID;
-    protected final DeviceStatus START_STATUS;
-    protected final Manual MANUAL;
+    protected  final DeviceType type;
+    protected Room room;    // TODO - what if null?
+    protected final Manual manual;
     protected DeviceStatus status;
     protected Percent durability;
     protected Percent maxDurability;
-    protected Room room;    // TODO - what if null?
 
-    public Device(DeviceStatus startStatus, Manual manual, Room startRoom) {
-        deviceID = id++;
-        status = START_STATUS = startStatus;
-        MANUAL = manual;
+    public Device(DeviceType type, int id, Room startRoom) {
+        this.type = type;
+        deviceID = id;
+        this.room = startRoom;
+
+        manual = new Manual(type);
+        status = type.getStartStatus();
         durability = maxDurability = new Percent(100);   // TODO - means 100%
-        room = startRoom;
+
         this.add(); // Consumer's method
     }
 
@@ -70,9 +72,16 @@ public abstract class Device implements Consumer {
         this.room = room;
     }
 
-    // TODO - test if getClass returns child class
+    public DeviceType getType() {
+        return type;
+    }
+
+    public Manual getManual() {
+        return manual;
+    }
+
     @Override
     public String toString() {
-        return getClass().getSimpleName() + "_" + deviceID;
+        return String.format("%s_%d", type.getName(), deviceID);
     }
 }

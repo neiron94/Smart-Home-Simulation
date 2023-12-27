@@ -3,6 +3,7 @@ package consumer.device.common;
 import consumer.ElectricityConsumer;
 import consumer.device.Device;
 import consumer.device.DeviceStatus;
+import consumer.device.DeviceType;
 import place.Room;
 
 import java.util.List;
@@ -13,8 +14,8 @@ public class GamingConsole extends Device implements ElectricityConsumer {
 
     private Game currentGame;
 
-    public GamingConsole(Room startRoom) {
-        super(DeviceStatus.STANDBY, null, startRoom);  // TODO - manual should be taken from somewhere
+    public GamingConsole(int id, Room startRoom) {
+        super(DeviceType.GAMING_CONSOLE, id, startRoom);
         currentGame = null; // TODO - null?
     }
 

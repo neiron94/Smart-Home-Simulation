@@ -4,6 +4,7 @@ import consumer.ElectricityConsumer;
 import consumer.WaterConsumer;
 import consumer.device.Device;
 import consumer.device.DeviceStatus;
+import consumer.device.DeviceType;
 import consumer.device.Manual;
 import place.Room;
 import utils.Percent;
@@ -13,8 +14,8 @@ public class WaterTap extends Device implements WaterConsumer, ElectricityConsum
     private int temperature;
     private Percent openness;
 
-    public WaterTap(Room startRoom) {
-        super(DeviceStatus.OFF, null, startRoom);     // TODO - manual should be taken from somewhere
+    public WaterTap(int id, Room startRoom) {
+        super(DeviceType.WATER_TAP, id, startRoom);
         // TODO - set openness, temperature?
     }
 

@@ -1,6 +1,7 @@
 package consumer.device.sensored;
 
 import consumer.device.DeviceStatus;
+import consumer.device.DeviceType;
 import consumer.device.Manual;
 import consumer.device.sensored.sensor.LightSensor;
 import consumer.device.sensored.sensor.TemperatureSensor;
@@ -10,13 +11,10 @@ import utils.Percent;
 import java.awt.*;
 
 public class Light extends ParameterDevice<LightSensor> {
-
-    private Percent brightness;
     private Color color;
 
-    public Light(Room startRoom, LightSensor sensor) {
-        super(DeviceStatus.ON, null, startRoom, sensor);  // TODO - manual should be taken from somewhere
-        brightness.setMin();
+    public Light(int id, Room startRoom, LightSensor sensor) {
+        super(DeviceType.LIGHT, id, startRoom, sensor);
         color = new Color(0);
     }
 
@@ -32,12 +30,23 @@ public class Light extends ParameterDevice<LightSensor> {
 
     @Override
     public void react(Number parameter) {
-        // TODO - take room.getBrightness() and correct brightness
+        // TODO - increment and decrement by 5?
+        if (room.getBrightness().intValue() < room.getControlPanel().getBrightness().intValue())
+            power.increment();
+        else if (room.getBrightness().intValue() > room.getControlPanel().getBrightness().intValue())
+            power.decrement();
+
+        if (color.getRGB() != room.getControlPanel().getColor().getRGB())
+            color = new Color(room.getControlPanel().getColor().getRGB());
     }
 
     @Override
     public void setStatus(DeviceStatus status) {
         if (status != DeviceStatus.STANDBY)
             this.status = status;
+    }
+
+    public Color getColor() {
+        return color;
     }
 }

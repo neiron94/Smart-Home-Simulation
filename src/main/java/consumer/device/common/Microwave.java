@@ -3,6 +3,7 @@ package consumer.device.common;
 import consumer.ElectricityConsumer;
 import consumer.device.Device;
 import consumer.device.DeviceStatus;
+import consumer.device.DeviceType;
 import place.Room;
 
 public class Microwave extends Device implements ElectricityConsumer {
@@ -10,8 +11,8 @@ public class Microwave extends Device implements ElectricityConsumer {
     private int power;
     private Time timeToReady;   // TODO -Time?
 
-    public Microwave(Room startRoom) {
-        super(DeviceStatus.STANDBY, null, startRoom);  // TODO - manual should be taken from somewhere
+    public Microwave(int id, Room startRoom) {
+        super(DeviceType.MICROWAVE, id, startRoom);
         // TODO - set isFoodInside, power, timeToReady?
     }
 

@@ -3,6 +3,7 @@ package consumer.device.common;
 import consumer.ElectricityConsumer;
 import consumer.device.Device;
 import consumer.device.DeviceStatus;
+import consumer.device.DeviceType;
 import consumer.device.Manual;
 import place.Room;
 import utils.Percent;
@@ -12,8 +13,8 @@ public class Vent extends Device implements ElectricityConsumer {
     private VentProgram program;
     private Percent filterStatus;
 
-    public Vent(Room startRoom) {
-        super(DeviceStatus.STANDBY, null, startRoom);  // TODO - manual should be taken from somewhere
+    public Vent(int id, Room startRoom) {
+        super(DeviceType.VENT, id, startRoom);
     }
 
     @Override

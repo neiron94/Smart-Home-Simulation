@@ -1,12 +1,14 @@
 package consumer.device.sensored;
 
+import consumer.device.DeviceType;
 import consumer.device.sensored.sensor.GasSensor;
 import consumer.device.sensored.sensor.SmokeSensor;
+import event.AlertEvent;
 import place.Room;
 
 public class FireAlarm extends Alarm<SmokeSensor> {
-    public FireAlarm(Room startRoom, SmokeSensor sensor) {
-        super(null, startRoom, sensor);  // TODO - manual should be taken from somewhere
+    public FireAlarm(int id, Room startRoom, SmokeSensor sensor) {
+        super(DeviceType.FIRE_ALARM, id, startRoom, sensor);
     }
 
     @Override
@@ -17,16 +19,5 @@ public class FireAlarm extends Alarm<SmokeSensor> {
     @Override
     public void fire() {
         // TODO
-    }
-
-    @Override
-    public void alert() {
-        // TODO - throws event
-    }
-
-    @Override
-    public void react() {
-        alert();
-        // TODO - smth else?
     }
 }

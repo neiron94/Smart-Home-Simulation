@@ -3,6 +3,7 @@ package consumer.device.common;
 import consumer.WaterConsumer;
 import consumer.device.Device;
 import consumer.device.DeviceStatus;
+import consumer.device.DeviceType;
 import consumer.device.Manual;
 import place.Room;
 
@@ -11,8 +12,8 @@ public class WC extends Device implements WaterConsumer {
     private boolean shouldBeFlushed;
     private FlushType flushType;
 
-    public WC(Room startRoom) {
-        super(DeviceStatus.OFF, null, startRoom);   // TODO - implement, depends on power
+    public WC(int id, Room startRoom) {
+        super(DeviceType.WC, id, startRoom);
         shouldBeFlushed = false;
     }
 

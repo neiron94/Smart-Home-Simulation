@@ -1,6 +1,7 @@
 package consumer.device.sensored;
 
 import consumer.device.DeviceStatus;
+import consumer.device.DeviceType;
 import consumer.device.Manual;
 import consumer.device.sensored.sensor.TemperatureSensor;
 import place.Room;
@@ -8,11 +9,8 @@ import utils.Percent;
 
 public class Heater extends ParameterDevice<TemperatureSensor> {
 
-    private Percent power;
-
-    public Heater(Manual manual, Room startRoom, TemperatureSensor sensor) {
-        super(DeviceStatus.ON, null, startRoom, sensor);  // TODO - manual should be taken from somewhere
-        power.setMin();
+    public Heater(int id, Room startRoom, TemperatureSensor sensor) {
+        super(DeviceType.HEATER, id, startRoom, sensor);
     }
 
     @Override
@@ -27,7 +25,11 @@ public class Heater extends ParameterDevice<TemperatureSensor> {
 
     @Override
     public void react(Number parameter) {
-        // TODO - take room.getTemperature() and correct power
+        // TODO - increment and decrement by 5?
+        if (room.getTemperature() < room.getControlPanel().getTemperature())
+            power.increment();
+        else if (room.getTemperature() > room.getControlPanel().getTemperature())
+            power.decrement();
     }
 
     @Override

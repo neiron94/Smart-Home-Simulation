@@ -2,6 +2,7 @@ package consumer.device.common;
 
 import consumer.device.Device;
 import consumer.device.DeviceStatus;
+import consumer.device.DeviceType;
 import consumer.device.Manual;
 import place.Room;
 
@@ -10,8 +11,8 @@ public abstract class Oven extends Device {
     private int temperature;
     private Time timeToReady;   // TODO - Time?
 
-    public Oven(DeviceStatus startStatus, Manual manual, Room startRoom) {
-        super(startStatus, manual, startRoom);
+    public Oven(DeviceType ovenType, int id, Room startRoom) {
+        super(ovenType, id, startRoom);
     }
 
     @Override
