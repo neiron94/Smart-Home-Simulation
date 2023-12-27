@@ -4,7 +4,10 @@ public class Percent extends Number {
     private int value;
 
     public Percent(int value) {
+        // TODO Is it better to throw an exception if value out of range ?
         this.value = value;
+        if (value > 100) setMax();
+        if (value < 0) setMin();
     }
 
     public int getValue() {
