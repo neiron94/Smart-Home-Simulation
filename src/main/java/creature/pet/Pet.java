@@ -7,8 +7,8 @@ public class Pet extends Creature {
     private final PetType type;
     // TODO Additional parameters can be added
 
-    public Pet(String name, Room room, PetType type) {
-        super(name, room);
+    public Pet(String name, PetType type) {
+        super(name);
         this.type = type;
     }
 

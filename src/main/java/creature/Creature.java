@@ -15,9 +15,9 @@ public abstract class Creature {
     protected boolean isBusy; // TODO Sets in routine function
     protected Deque<Deque<Action>> actions; // TODO Sets in routine function
 
-    public Creature(String name, Room room) {
+    public Creature(String name) {
         this.name = name;
-        this.room = room;
+        this.room = null; // TODO Think of storing Optional or Location
         this.abundance = new Percent(100);
         this.activity = new Activity();
         this.isBusy = false;
