@@ -9,6 +9,6 @@ public class LightSensor extends ParameterSensor {
 
     @Override
     public void checkInfo() {
-        // TODO - room.getBrightness() -> device.react(brightness)
+        device.react(device.getRoom().getBrightness());
     }
 }

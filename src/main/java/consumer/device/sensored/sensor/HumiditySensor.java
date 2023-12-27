@@ -9,6 +9,6 @@ public class HumiditySensor extends ParameterSensor {
 
     @Override
     public void checkInfo() {
-        // TODO - room.getHumidity() -> device.react(humidity)
+        device.react(device.getRoom().getHumidity());
     }
 }
