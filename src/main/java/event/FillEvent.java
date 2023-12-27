@@ -2,7 +2,7 @@ package event;
 
 import consumer.device.Device;
 import event.throwStrategy.HomeThrowStrategy;
-import main.Simulation;
+import smarthome.Simulation;
 import place.Room;
 
 public class FillEvent extends Event {

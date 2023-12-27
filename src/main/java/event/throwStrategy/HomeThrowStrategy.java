@@ -1,7 +1,7 @@
 package event.throwStrategy;
 
 import event.Event;
-import main.Simulation;
+import smarthome.Simulation;
 import place.Room;
 
 public class HomeThrowStrategy implements EventThrowStrategy {

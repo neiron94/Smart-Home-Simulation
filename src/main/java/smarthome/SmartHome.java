@@ -1,6 +1,6 @@
-package main;
+package smarthome;
 
-public class Main {
+public class SmartHome {
     public static void main(String[] args) {
         Simulation.getInstance().start();
     }

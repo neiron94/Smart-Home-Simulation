@@ -2,7 +2,7 @@ package event;
 
 import consumer.device.Device;
 import event.throwStrategy.RoomThrowStrategy;
-import main.Simulation;
+import smarthome.Simulation;
 import place.Room;
 
 public class WakeUpEvent extends Event {

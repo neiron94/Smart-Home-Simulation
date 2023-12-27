@@ -1,4 +1,4 @@
-package main;
+package smarthome;
 
 import consumer.device.Device;
 import creature.Creature;

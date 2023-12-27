@@ -2,9 +2,8 @@ package creature;
 
 import java.util.Deque;
 import java.util.LinkedList;
-import java.util.Optional;
 
-import main.Simulation;
+import smarthome.Simulation;
 import place.Room;
 import utils.Percent;
 

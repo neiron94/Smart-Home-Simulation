@@ -1,12 +1,7 @@
 package report;
 
-import consumer.device.Device;
-import creature.Creature;
-import main.Simulation;
-import place.Floor;
-import place.Room;
-import java.util.ArrayList;
-import java.util.List;
+import smarthome.Simulation;
+
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
