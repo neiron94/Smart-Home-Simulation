@@ -1,6 +1,6 @@
 package utils;
 
-public class Percent {
+public class Percent extends Number {
     private int value;
 
     public Percent(int value) {
@@ -47,5 +47,25 @@ public class Percent {
     @Override
     public String toString() {
         return String.valueOf(value);
+    }
+
+    @Override
+    public int intValue() {
+        return value;
+    }
+
+    @Override
+    public long longValue() {
+        return value;
+    }
+
+    @Override
+    public float floatValue() {
+        return value;
+    }
+
+    @Override
+    public double doubleValue() {
+        return value;
     }
 }
