@@ -12,8 +12,8 @@ public class Person extends Creature {
     private List<Event> solvedEvents;
     // TODO Additional parameters can be added
 
-    public Person(String name, Room room, Gender gender, FamilyStatus status) {
-        super(name, room);
+    public Person(String name, Gender gender, FamilyStatus status) {
+        super(name);
         this.gender = gender;
         this.status = status;
     }
