@@ -18,15 +18,4 @@ public class FloodAlarm extends Alarm<FloodSensor> {
     public void fire() {
         // TODO
     }
-
-    @Override
-    public void alert() {
-        // TODO - throws event
-    }
-
-    @Override
-    public void react() {
-        alert();
-        // TODO - smth else?
-    }
 }

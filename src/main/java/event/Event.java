@@ -14,7 +14,6 @@ public abstract class Event {
     private final Room origin;
     private final EventThrowStrategy throwStrategy;
     private final Date eventDate;
-    private EventDestination destination;   // TODO - remove?
     private Date solveDate; // TODO - move to Person
 
     protected Event(EventType eventType, EventPriority priority, EventThrowStrategy throwStrategy, Date eventDate, Device creator, Room origin) {
@@ -26,16 +25,8 @@ public abstract class Event {
         this.origin = origin;
     }
 
-    public void throwEvent(Room room) {
-        throwStrategy.throwEvent(this, room);
-    }
-
-    public EventDestination getDestination() {
-        return destination;
-    }
-
-    public void setDestination(EventDestination destination) {
-        this.destination = destination;
+    public void throwEvent() {
+        throwStrategy.throwEvent(this);
     }
 
     public Date getSolveDate() {

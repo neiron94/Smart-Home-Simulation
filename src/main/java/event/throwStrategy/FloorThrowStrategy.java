@@ -2,13 +2,14 @@ package event.throwStrategy;
 
 import event.Event;
 import smarthome.Simulation;
-import place.Room;
 
 public class FloorThrowStrategy implements EventThrowStrategy {
     @Override
-    public void throwEvent(Event event, Room room) {
-        // TODO - write without destination?
-        event.setDestination(Simulation.getInstance().getHome().getFloors().stream().filter(floor -> floor.getRooms().contains(room)).findFirst().get());
-        event.getDestination().addEvent(event);
+    public void throwEvent(Event event) {
+        Simulation.getInstance().getHome().getFloors().stream()
+                .filter(floor -> floor.getRooms().contains(event.getOrigin()))   // Find floor where event was created
+                .findFirst()
+                .orElseThrow()      // TODO - process exception?
+                .addEvent(event);
     }
 }

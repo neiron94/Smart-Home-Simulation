@@ -9,6 +9,6 @@ public class TemperatureSensor extends ParameterSensor {
 
     @Override
     public void checkInfo() {
-        // TODO - room.getTemperature() -> device.react(temperature)
+        device.react(device.getRoom().getTemperature());
     }
 }
