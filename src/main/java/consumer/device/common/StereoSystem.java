@@ -6,13 +6,10 @@ import consumer.device.DeviceStatus;
 import consumer.device.DeviceType;
 import place.Room;
 import utils.Percent;
-
 import java.util.List;
 import java.util.Queue;
 
 public class StereoSystem extends Device implements ElectricityConsumer {
-
-    public static List<List<Song>> playlists; // simulation of database of playlists TODO - should be preloaded, maybe in a static block
 
     private Percent volume;
     private Queue<Song> queue;
@@ -32,7 +29,7 @@ public class StereoSystem extends Device implements ElectricityConsumer {
 
     @Override
     public void fire() {
-        // TODO - implement
+        // TODO - implemens
     }
 
     @Override

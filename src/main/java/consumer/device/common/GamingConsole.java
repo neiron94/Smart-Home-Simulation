@@ -10,8 +10,6 @@ import java.util.List;
 
 public class GamingConsole extends Device implements ElectricityConsumer {
 
-    public static List<Game> games; // simulation of database of games TODO - should be preloaded, maybe in a static block
-
     private Game currentGame;
 
     public GamingConsole(int id, Room startRoom) {
@@ -42,14 +40,6 @@ public class GamingConsole extends Device implements ElectricityConsumer {
     }
 
     // TODO - maybe delete some getters or setters
-
-    public static List<Game> getGames() {
-        return games;
-    }
-
-    public static void setGames(List<Game> games) {
-        GamingConsole.games = games;
-    }
 
     public Game getCurrentGame() {
         return currentGame;

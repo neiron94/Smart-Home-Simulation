@@ -11,8 +11,6 @@ import java.util.List;
 
 public class TV extends Device implements ElectricityConsumer {
 
-    public static List<Video> shows;    // simulation of database of videos TODO - should be preloaded, maybe in a static block
-
     private Percent brightness;
     private Percent volume;
     private Video currentVideo;
@@ -46,14 +44,6 @@ public class TV extends Device implements ElectricityConsumer {
     }
 
     // TODO - maybe delete some getters or setters
-
-    public static List<Video> getShows() {
-        return shows;
-    }
-
-    public static void setShows(List<Video> shows) {
-        TV.shows = shows;
-    }
 
     public Percent getBrightness() {
         return brightness;
