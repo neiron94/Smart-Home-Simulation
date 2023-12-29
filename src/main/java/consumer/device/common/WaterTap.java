@@ -49,7 +49,7 @@ public class WaterTap extends Device implements WaterConsumer, ElectricityConsum
 
     public void close() {
         this.status = DeviceStatus.OFF;
-        openness.setMin();
+        openness = 0;
         // TODO - smth else?
     }
 

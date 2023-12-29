@@ -5,6 +5,7 @@ import consumer.device.DeviceType;
 import consumer.device.sensored.sensor.HumiditySensor;
 import consumer.device.sensored.sensor.TemperatureSensor;
 import place.Room;
+import utils.HelpFunctions;
 import utils.Percent;
 
 public class AirDryer extends ParameterDevice<HumiditySensor> {
@@ -26,10 +27,10 @@ public class AirDryer extends ParameterDevice<HumiditySensor> {
     @Override
     public void react(Number parameter) {
         // TODO - increment and decrement by 5?
-        if (room.getHumidity().intValue() > room.getControlPanel().getHumidity().intValue())
-            power.increment();
-        else if (room.getHumidity().intValue() < room.getControlPanel().getHumidity().intValue())
-            power.decrement();
+        if (room.getHumidity() > room.getControlPanel().getHumidity())
+            power = HelpFunctions.adjustPercent(++power);
+        else if (room.getHumidity() < room.getControlPanel().getHumidity())
+            power = HelpFunctions.adjustPercent(--power);
     }
 
     @Override

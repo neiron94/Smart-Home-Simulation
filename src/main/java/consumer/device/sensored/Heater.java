@@ -5,6 +5,7 @@ import consumer.device.DeviceType;
 import consumer.device.Manual;
 import consumer.device.sensored.sensor.TemperatureSensor;
 import place.Room;
+import utils.HelpFunctions;
 import utils.Percent;
 
 public class Heater extends ParameterDevice<TemperatureSensor> {
@@ -27,9 +28,9 @@ public class Heater extends ParameterDevice<TemperatureSensor> {
     public void react(Number parameter) {
         // TODO - increment and decrement by 5?
         if (room.getTemperature() < room.getControlPanel().getTemperature())
-            power.increment();
+            power = HelpFunctions.adjustPercent(++power);
         else if (room.getTemperature() > room.getControlPanel().getTemperature())
-            power.decrement();
+            power = HelpFunctions.adjustPercent(--power);
     }
 
     @Override

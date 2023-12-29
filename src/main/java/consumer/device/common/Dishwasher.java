@@ -7,6 +7,7 @@ import consumer.device.DeviceStatus;
 import consumer.device.DeviceType;
 import consumer.device.Manual;
 import place.Room;
+import utils.HelpFunctions;
 import utils.Percent;
 
 public class Dishwasher extends Device implements WaterConsumer, ElectricityConsumer {
@@ -55,16 +56,15 @@ public class Dishwasher extends Device implements WaterConsumer, ElectricityCons
     }
 
     public void putDishes(Percent amount) {
-        fullness.increment(amount);
-        // TODO - handle exception?
+        fullness = HelpFunctions.adjustPercent(fullness + amount);
     }
 
     public void takeDishes() {
-        fullness.setMin();
+        fullness = 0;
     }
 
     public void cleanFilter() {
-        filterStatus.setMax();
+        filterStatus = 100;
     }
 
     // TODO - maybe delete some getters or setters

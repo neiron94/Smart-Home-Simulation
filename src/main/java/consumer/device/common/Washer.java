@@ -63,7 +63,7 @@ public class Washer extends Device implements WaterConsumer, ElectricityConsumer
     }
 
     public void cleanFilter() {
-        filterStatus.setMax();
+        filterStatus = 100;
     }
 
     // TODO - maybe delete some getters or setters
