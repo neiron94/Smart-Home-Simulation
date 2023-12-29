@@ -17,9 +17,10 @@ public class Feeder extends Device implements ElectricityConsumer {
     private Percent foodLevel;
     private Percent waterLevel;
 
-    public Feeder(int id, Room startRoom) {
+    public Feeder(int id, Room startRoom, PetType type) {
         super(DeviceType.FEEDER, id, startRoom);
-        // TODO - set type, food/water fullness/level?
+        this.type = type;
+        // TODO - food/water fullness/level?
     }
 
     @Override
