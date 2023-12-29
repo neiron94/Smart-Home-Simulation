@@ -1,6 +1,6 @@
 package place;
 
-import utils.Percent;
+
 import java.awt.Color;
 import java.util.List;
 
@@ -9,8 +9,8 @@ public class ControlPanel {
     private static List<RoomConfiguration> configurations;
 
     private float temperature;
-    private Percent humidity;
-    private Percent brightness;
+    private int humidity;
+    private int brightness;
     private Color color;
 
     public ControlPanel(Room room) { // TODO Maybe not to take room, but accept it
@@ -37,19 +37,19 @@ public class ControlPanel {
         this.temperature = temperature;
     }
 
-    public Percent getHumidity() {
+    public int getHumidity() {
         return humidity;
     }
 
-    public void setHumidity(Percent humidity) {
+    public void setHumidity(int humidity) {
         this.humidity = humidity;
     }
 
-    public Percent getBrightness() {
+    public int getBrightness() {
         return brightness;
     }
 
-    public void setBrightness(Percent brightness) {
+    public void setBrightness(int brightness) {
         this.brightness = brightness;
     }
 

@@ -7,12 +7,12 @@ import consumer.device.DeviceStatus;
 import consumer.device.DeviceType;
 import consumer.device.Manual;
 import place.Room;
-import utils.Percent;
+
 
 public class WaterTap extends Device implements WaterConsumer, ElectricityConsumer {
 
     private int temperature;
-    private Percent openness;
+    private int openness;
 
     public WaterTap(int id, Room startRoom) {
         super(DeviceType.WATER_TAP, id, startRoom);
@@ -39,7 +39,7 @@ public class WaterTap extends Device implements WaterConsumer, ElectricityConsum
         // TODO - implement
     }
 
-    public void open(int temperature, Percent openness) {
+    public void open(int temperature, int openness) {
         // TODO - check durability
         this.temperature = temperature;
         this.openness = openness;
@@ -69,11 +69,11 @@ public class WaterTap extends Device implements WaterConsumer, ElectricityConsum
         this.temperature = temperature;
     }
 
-    public Percent getOpenness() {
+    public int getOpenness() {
         return openness;
     }
 
-    public void setOpenness(Percent openness) {
+    public void setOpenness(int openness) {
         this.openness = openness;
     }
 }

@@ -5,14 +5,14 @@ import consumer.device.Device;
 import consumer.device.DeviceStatus;
 import consumer.device.DeviceType;
 import place.Room;
-import utils.Percent;
+
 
 import java.util.List;
 
 public class TV extends Device implements ElectricityConsumer {
 
-    private Percent brightness;
-    private Percent volume;
+    private int brightness;
+    private int volume;
     private Video currentVideo;
 
 
@@ -45,19 +45,19 @@ public class TV extends Device implements ElectricityConsumer {
 
     // TODO - maybe delete some getters or setters
 
-    public Percent getBrightness() {
+    public int getBrightness() {
         return brightness;
     }
 
-    public void setBrightness(Percent brightness) {
+    public void setBrightness(int brightness) {
         this.brightness = brightness;
     }
 
-    public Percent getVolume() {
+    public int getVolume() {
         return volume;
     }
 
-    public void setVolume(Percent volume) {
+    public void setVolume(int volume) {
         this.volume = volume;
     }
 

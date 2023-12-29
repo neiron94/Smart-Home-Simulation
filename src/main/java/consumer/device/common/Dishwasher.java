@@ -8,13 +8,13 @@ import consumer.device.DeviceType;
 import consumer.device.Manual;
 import place.Room;
 import utils.HelpFunctions;
-import utils.Percent;
+
 
 public class Dishwasher extends Device implements WaterConsumer, ElectricityConsumer {
 
     private DishwasherProgram program;
-    private Percent fullness;
-    private Percent filterStatus;
+    private int fullness;
+    private int filterStatus;
     private Time timeToReady;   // TODO - Time?
 
     public Dishwasher(int id, Room startRoom) {
@@ -55,7 +55,7 @@ public class Dishwasher extends Device implements WaterConsumer, ElectricityCons
         // TODO - smth else?
     }
 
-    public void putDishes(Percent amount) {
+    public void putDishes(int amount) {
         fullness = HelpFunctions.adjustPercent(fullness + amount);
     }
 
@@ -77,19 +77,19 @@ public class Dishwasher extends Device implements WaterConsumer, ElectricityCons
         this.program = program;
     }
 
-    public Percent getFullness() {
+    public int getFullness() {
         return fullness;
     }
 
-    public void setFullness(Percent fullness) {
+    public void setFullness(int fullness) {
         this.fullness = fullness;
     }
 
-    public Percent getFilterStatus() {
+    public int getFilterStatus() {
         return filterStatus;
     }
 
-    public void setFilterStatus(Percent filterStatus) {
+    public void setFilterStatus(int filterStatus) {
         this.filterStatus = filterStatus;
     }
 

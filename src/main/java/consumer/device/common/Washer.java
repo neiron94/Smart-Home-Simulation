@@ -7,14 +7,14 @@ import consumer.device.DeviceStatus;
 import consumer.device.DeviceType;
 import consumer.device.Manual;
 import place.Room;
-import utils.Percent;
+
 
 public class Washer extends Device implements WaterConsumer, ElectricityConsumer {
 
     private Time timeToReady;   // TODO - Time?
     private WasherProgram program;
     private boolean areClothesInside;
-    private Percent filterStatus;
+    private int filterStatus;
 
     public Washer(int id, Room startRoom) {
         super(DeviceType.WASHER, id, startRoom);
@@ -92,11 +92,11 @@ public class Washer extends Device implements WaterConsumer, ElectricityConsumer
         this.areClothesInside = areClothesInside;
     }
 
-    public Percent getFilterStatus() {
+    public int getFilterStatus() {
         return filterStatus;
     }
 
-    public void setFilterStatus(Percent filterStatus) {
+    public void setFilterStatus(int filterStatus) {
         this.filterStatus = filterStatus;
     }
 }

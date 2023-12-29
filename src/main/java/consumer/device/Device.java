@@ -3,7 +3,7 @@ package consumer.device;
 import consumer.Consumer;
 import place.Room;
 import smarthome.Simulation;
-import utils.Percent;
+
 
 public abstract class Device implements Consumer {
     protected final int deviceID;
@@ -11,8 +11,8 @@ public abstract class Device implements Consumer {
     protected Room room;    // TODO - what if null?
     protected final Manual manual;
     protected DeviceStatus status;
-    protected Percent durability;
-    protected Percent maxDurability;
+    protected int durability;
+    protected int maxDurability;
 
     public Device(DeviceType type, int id, Room startRoom) {
         this.type = type;
@@ -21,7 +21,7 @@ public abstract class Device implements Consumer {
 
         manual = new Manual(type);
         status = type.getStartStatus();
-        durability = maxDurability = new Percent(100);   // TODO - means 100%
+        durability = maxDurability = 100;   // TODO - means 100%
 
         this.add(); // Consumer's method
     }
@@ -48,19 +48,19 @@ public abstract class Device implements Consumer {
         this.status = status;
     }
 
-    public Percent getDurability() {
+    public int getDurability() {
         return durability;
     }
 
-    public void setDurability(Percent durability) {
+    public void setDurability(int durability) {
         this.durability = durability;
     }
 
-    public Percent getMaxDurability() {
+    public int getMaxDurability() {
         return maxDurability;
     }
 
-    public void setMaxDurability(Percent maxDurability) {
+    public void setMaxDurability(int maxDurability) {
         this.maxDurability = maxDurability;
     }
 

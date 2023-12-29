@@ -4,7 +4,7 @@ import consumer.device.Device;
 import creature.Creature;
 import place.DeviceService;
 import place.Home;
-import utils.Percent;
+
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -22,8 +22,8 @@ public class Simulation {
     private final DeviceService service;
 
     private double streetTemperature; // TODO Changes in calculateSimulation() function
-    private Percent streetBrightness; // TODO Changes in calculateSimulation() function
-    private Percent streetHumidity; // TODO Changes in calculateSimulation() function
+    private int streetBrightness; // TODO Changes in calculateSimulation() function
+    private int streetHumidity; // TODO Changes in calculateSimulation() function
 
     private Simulation() {
         home = new Home(); // TODO Make from JSON config - Home Builder ???
@@ -35,8 +35,8 @@ public class Simulation {
         finishTime = null; // TODO Read from console or JSON config ??
 
         streetTemperature = 0; // TODO Initialize value of temperature - or maybe at first iteration ??
-        streetHumidity = new Percent(0); // TODO Initialize value of humidity - or maybe at first iteration ??
-        streetBrightness = new Percent(0); // TODO Initialize value of brightness - or maybe at first iteration ??
+        streetHumidity = 0; // TODO Initialize value of humidity - or maybe at first iteration ??
+        streetBrightness = 0; // TODO Initialize value of brightness - or maybe at first iteration ??
     }
 
     public static Simulation getInstance() {
@@ -68,11 +68,11 @@ public class Simulation {
         return streetTemperature;
     }
 
-    public Percent getStreetBrightness() {
+    public int getStreetBrightness() {
         return streetBrightness;
     }
 
-    public Percent getStreetHumidity() {
+    public int getStreetHumidity() {
         return streetHumidity;
     }
 

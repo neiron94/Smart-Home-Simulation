@@ -6,13 +6,13 @@ import consumer.device.DeviceStatus;
 import consumer.device.DeviceType;
 import consumer.device.Manual;
 import place.Room;
-import utils.Percent;
+
 
 public class Dryer extends Device implements ElectricityConsumer {
 
     private DryerProgram program;
     private boolean areClothesInside;
-    private Percent filterStatus;
+    private int filterStatus;
     private Time timeToReady;   // TODO - Time?
 
     public Dryer(int id, Room startRoom) {
@@ -73,11 +73,11 @@ public class Dryer extends Device implements ElectricityConsumer {
         this.areClothesInside = areClothesInside;
     }
 
-    public Percent getFilterStatus() {
+    public int getFilterStatus() {
         return filterStatus;
     }
 
-    public void setFilterStatus(Percent filterStatus) {
+    public void setFilterStatus(int filterStatus) {
         this.filterStatus = filterStatus;
     }
 

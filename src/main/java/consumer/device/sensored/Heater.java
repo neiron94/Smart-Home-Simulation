@@ -6,7 +6,7 @@ import consumer.device.Manual;
 import consumer.device.sensored.sensor.TemperatureSensor;
 import place.Room;
 import utils.HelpFunctions;
-import utils.Percent;
+
 
 public class Heater extends ParameterDevice<TemperatureSensor> {
 

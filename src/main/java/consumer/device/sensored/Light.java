@@ -7,7 +7,7 @@ import consumer.device.sensored.sensor.LightSensor;
 import consumer.device.sensored.sensor.TemperatureSensor;
 import place.Room;
 import utils.HelpFunctions;
-import utils.Percent;
+
 
 import java.awt.*;
 

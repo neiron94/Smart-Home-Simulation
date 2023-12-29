@@ -6,7 +6,7 @@ import consumer.device.sensored.sensor.HumiditySensor;
 import consumer.device.sensored.sensor.TemperatureSensor;
 import place.Room;
 import utils.HelpFunctions;
-import utils.Percent;
+
 
 public class AirDryer extends ParameterDevice<HumiditySensor> {
 

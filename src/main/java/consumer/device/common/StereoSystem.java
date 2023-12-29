@@ -5,13 +5,13 @@ import consumer.device.Device;
 import consumer.device.DeviceStatus;
 import consumer.device.DeviceType;
 import place.Room;
-import utils.Percent;
+
 import java.util.List;
 import java.util.Queue;
 
 public class StereoSystem extends Device implements ElectricityConsumer {
 
-    private Percent volume;
+    private int volume;
     private Queue<Song> queue;
     private Song currentSong;
     private Time timeToReady;   // from song in queue TODO - Time?
@@ -56,11 +56,11 @@ public class StereoSystem extends Device implements ElectricityConsumer {
 
     // TODO - maybe delete some getters or setters
 
-    public Percent getVolume() {
+    public int getVolume() {
         return volume;
     }
 
-    public void setVolume(Percent volume) {
+    public void setVolume(int volume) {
         this.volume = volume;
     }
 

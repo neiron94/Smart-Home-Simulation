@@ -5,7 +5,7 @@ import consumer.device.DeviceType;
 import consumer.device.sensored.sensor.HumiditySensor;
 import place.Room;
 import utils.HelpFunctions;
-import utils.Percent;
+
 
 public class AirHumidifier extends ParameterDevice<HumiditySensor> {
 

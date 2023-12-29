@@ -7,15 +7,15 @@ import consumer.device.DeviceType;
 import consumer.device.Manual;
 import creature.pet.PetType;
 import place.Room;
-import utils.Percent;
+
 
 public class Feeder extends Device implements ElectricityConsumer {
 
     private PetType type;
-    private Percent foodFullness;   // TODO - comment what is what
-    private Percent waterFullness;
-    private Percent foodLevel;
-    private Percent waterLevel;
+    private int foodFullness;   // TODO - comment what is what
+    private int waterFullness;
+    private int foodLevel;
+    private int waterLevel;
 
     public Feeder(int id, Room startRoom, PetType type) {
         super(DeviceType.FEEDER, id, startRoom);
@@ -77,35 +77,35 @@ public class Feeder extends Device implements ElectricityConsumer {
         this.type = type;
     }
 
-    public Percent getFoodFullness() {
+    public int getFoodFullness() {
         return foodFullness;
     }
 
-    public void setFoodFullness(Percent foodFullness) {
+    public void setFoodFullness(int foodFullness) {
         this.foodFullness = foodFullness;
     }
 
-    public Percent getWaterFullness() {
+    public int getWaterFullness() {
         return waterFullness;
     }
 
-    public void setWaterFullness(Percent waterFullness) {
+    public void setWaterFullness(int waterFullness) {
         this.waterFullness = waterFullness;
     }
 
-    public Percent getFoodLevel() {
+    public int getFoodLevel() {
         return foodLevel;
     }
 
-    public void setFoodLevel(Percent foodLevel) {
+    public void setFoodLevel(int foodLevel) {
         this.foodLevel = foodLevel;
     }
 
-    public Percent getWaterLevel() {
+    public int getWaterLevel() {
         return waterLevel;
     }
 
-    public void setWaterLevel(Percent waterLevel) {
+    public void setWaterLevel(int waterLevel) {
         this.waterLevel = waterLevel;
     }
 }
