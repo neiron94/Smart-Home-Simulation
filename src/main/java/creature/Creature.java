@@ -5,12 +5,12 @@ import java.util.LinkedList;
 
 import smarthome.Simulation;
 import place.Room;
-import utils.Percent;
+
 
 public abstract class Creature {
     protected final String name;
     protected Room room; // TODO What if null - Creature can be outside
-    protected Percent abundance; // TODO Sets in routine function
+    protected int abundance; // TODO Sets in routine function
     protected Activity activity; // TODO Sets in routine function
     protected boolean isBusy; // TODO Sets in routine function
     protected Deque<Deque<Action>> actions; // TODO Sets in routine function
@@ -18,7 +18,7 @@ public abstract class Creature {
     public Creature(String name) {
         this.name = name;
         this.room = null; // TODO Think of storing Optional or Location
-        this.abundance = new Percent(100);
+        this.abundance = 0;
         this.activity = new Activity();
         this.isBusy = false;
         this.actions = new LinkedList<>();
@@ -36,7 +36,7 @@ public abstract class Creature {
         this.room = room;
     }
 
-    public Percent getAbundance() {
+    public int getAbundance() {
         return abundance;
     }
 

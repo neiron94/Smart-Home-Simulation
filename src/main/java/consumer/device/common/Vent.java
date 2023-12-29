@@ -6,12 +6,12 @@ import consumer.device.DeviceStatus;
 import consumer.device.DeviceType;
 import consumer.device.Manual;
 import place.Room;
-import utils.Percent;
+
 
 public class Vent extends Device implements ElectricityConsumer {
 
     private VentProgram program;
-    private Percent filterStatus;
+    private int filterStatus;
 
     public Vent(int id, Room startRoom) {
         super(DeviceType.VENT, id, startRoom);
@@ -28,7 +28,7 @@ public class Vent extends Device implements ElectricityConsumer {
     }
 
     public void cleanFilter() {
-        filterStatus.setMax();
+        filterStatus = 100;
     }
 
     // TODO - maybe delete some getters or setters
@@ -41,11 +41,11 @@ public class Vent extends Device implements ElectricityConsumer {
         this.program = program;
     }
 
-    public Percent getFilterStatus() {
+    public int getFilterStatus() {
         return filterStatus;
     }
 
-    public void setFilterStatus(Percent filterStatus) {
+    public void setFilterStatus(int filterStatus) {
         this.filterStatus = filterStatus;
     }
 }

@@ -4,7 +4,8 @@ import consumer.device.DeviceStatus;
 import consumer.device.DeviceType;
 import consumer.device.sensored.sensor.HumiditySensor;
 import place.Room;
-import utils.Percent;
+import utils.HelpFunctions;
+
 
 public class AirHumidifier extends ParameterDevice<HumiditySensor> {
 
@@ -25,10 +26,10 @@ public class AirHumidifier extends ParameterDevice<HumiditySensor> {
     @Override
     public void react(Number parameter) {
         // TODO - increment and decrement by 5?
-        if (room.getHumidity().intValue() < room.getControlPanel().getHumidity().intValue())
-            power.increment();
-        else if (room.getHumidity().intValue() > room.getControlPanel().getHumidity().intValue())
-            power.decrement();
+        if (room.getHumidity() < room.getControlPanel().getHumidity())
+            power = HelpFunctions.adjustPercent(++power);
+        else if (room.getHumidity() > room.getControlPanel().getHumidity())
+            power = HelpFunctions.adjustPercent(--power);
     }
 
     @Override

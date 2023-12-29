@@ -6,12 +6,13 @@ import consumer.device.DeviceStatus;
 import consumer.device.DeviceType;
 import consumer.device.Manual;
 import place.Room;
-import utils.Percent;
+import utils.HelpFunctions;
+
 
 public class Fridge extends Device implements ElectricityConsumer {
 
     private int temperature;
-    private Percent fullness;
+    private int fullness;
 
     public Fridge(int id, Room startRoom) {
         super(DeviceType.FRIDGE, id, startRoom);
@@ -36,17 +37,17 @@ public class Fridge extends Device implements ElectricityConsumer {
 
     public void orderFood() {
         // TODO - may last for some time?
-        fullness.setMax();  // TODO - max?
+        fullness = 100;  // TODO - 100?
     }
 
-    public void takeFood(Percent amount) {
+    public void takeFood(int amount) {
         // TODO - check amount?
-        fullness.decrement(amount);
+        fullness = HelpFunctions.adjustPercent(fullness - amount);
     }
 
-    public void putFood(Percent amount) {
+    public void putFood(int amount) {
         // TODO - check amount?
-        fullness.increment(amount);
+        fullness = HelpFunctions.adjustPercent(fullness + amount);
     }
 
     // TODO - maybe delete some getters or setters
@@ -59,11 +60,11 @@ public class Fridge extends Device implements ElectricityConsumer {
         this.temperature = temperature;
     }
 
-    public Percent getFullness() {
+    public int getFullness() {
         return fullness;
     }
 
-    public void setFullness(Percent fullness) {
+    public void setFullness(int fullness) {
         this.fullness = fullness;
     }
 }

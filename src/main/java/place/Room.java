@@ -1,7 +1,7 @@
 package place;
 
 import event.Event;
-import utils.Percent;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,8 +18,8 @@ public class Room implements EventDestination {
     private boolean activeGas;
 
     private double temperature;
-    private Percent humidity;
-    private Percent brightness;
+    private int humidity;
+    private int brightness;
 
     public Room(RoomType type) {
         roomId = id++;
@@ -32,8 +32,8 @@ public class Room implements EventDestination {
         activeGas = true;
 
         temperature = 0; // TODO Add default temperature value
-        humidity = new Percent(0); // TODO Add default humidity value
-        brightness = new Percent(0); // TODO Add default brightness value
+        humidity = 0; // TODO Add default humidity value
+        brightness = 0; // TODO Add default brightness value
     }
 
     public List<Event> getEvents() {
@@ -52,19 +52,19 @@ public class Room implements EventDestination {
         this.temperature = temperature;
     }
 
-    public Percent getHumidity() {
+    public int getHumidity() {
         return humidity;
     }
 
-    public void setHumidity(Percent humidity) {
+    public void setHumidity(int humidity) {
         this.humidity = humidity;
     }
 
-    public Percent getBrightness() {
+    public int getBrightness() {
         return brightness;
     }
 
-    public void setBrightness(Percent brightness) {
+    public void setBrightness(int brightness) {
         this.brightness = brightness;
     }
 

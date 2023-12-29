@@ -4,7 +4,8 @@ import consumer.device.DeviceStatus;
 import consumer.device.DeviceType;
 import consumer.device.sensored.sensor.LightSensor;
 import place.Room;
-import utils.Percent;
+import utils.HelpFunctions;
+
 
 import java.awt.*;
 
@@ -27,10 +28,10 @@ public class Window extends ParameterDevice<LightSensor> {
     @Override
     public void react(Number parameter) {
         // TODO - increment and decrement by 5?
-        if (room.getBrightness().intValue() > room.getControlPanel().getBrightness().intValue())
-            power.increment();
-        else if (room.getBrightness().intValue() < room.getControlPanel().getBrightness().intValue())
-            power.decrement();
+        if (room.getBrightness() > room.getControlPanel().getBrightness())
+            power = HelpFunctions.adjustPercent(++power);
+        else if (room.getBrightness() < room.getControlPanel().getBrightness())
+            power = HelpFunctions.adjustPercent(--power);
     }
 
     @Override
