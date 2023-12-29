@@ -49,7 +49,7 @@ public class Percent extends Number {
 
     @Override
     public String toString() {
-        return String.valueOf(value);
+        return value + "%";
     }
 
     @Override
