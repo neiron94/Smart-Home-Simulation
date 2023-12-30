@@ -50,8 +50,6 @@ public class Simulation {
         simulation.home = new HomeBuilder(configurationName).buildHome();
         ConfigurationReader.readCreatureConfig(configurationName);
         ConfigurationReader.readDeviceConfig(configurationName);
-        ConfigurationReader.readContentConfig();
-        ConfigurationReader.readRoomConfigurationConfig();
     }
 
     public Date getCurrentTime() {

@@ -3,8 +3,9 @@ package utils;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import consumer.device.DeviceFactory;
-import consumer.device.SensoredDeviceFactory;
 import consumer.device.Device;
+import creature.Creature;
+import creature.CreatureFactory;
 import place.Room;
 import smarthome.Simulation;
 import java.io.File;
@@ -49,6 +50,23 @@ public class ConfigurationReader {
         String configPath = System.getProperty("user.dir") + "/config/" + configName + "/Creature.json";
         JsonNode config = openConfig(configPath);
 
+        CreatureFactory factory = new CreatureFactory();
+        List<Creature> creatures = Simulation.getInstance().getResidents();
+
+        for (int i = 0; i < config.path("PERSON").size(); ++i) {
+            JsonNode person = config.path("PERSON").get(i);
+            String name = person.path("name").asText();
+            String gender = person.path("gender").asText();
+            String familyStatus = person.path("status").asText();
+            creatures.add(factory.createPerson(name, gender, familyStatus));
+        }
+
+        for (int i = 0; i < config.path("PET").size(); ++i) {
+            JsonNode pet = config.path("PET").get(i);
+            String name = pet.path("name").asText();
+            String petType = pet.path("type").asText();
+            creatures.add(factory.createPet(name, petType));
+        }
     }
 
     public static void readRoomConfigurationConfig() {
