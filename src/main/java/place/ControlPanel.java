@@ -1,8 +1,8 @@
 package place;
 
 
+import utils.ConfigurationReader;
 import utils.HelpFunctions;
-
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Collections;
