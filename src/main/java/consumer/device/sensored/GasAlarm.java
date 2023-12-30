@@ -1,17 +1,14 @@
 package consumer.device.sensored;
 
 import consumer.device.DeviceType;
+import consumer.device.sensored.sensor.FloodSensor;
 import consumer.device.sensored.sensor.GasSensor;
 import place.Room;
 
 public class GasAlarm extends Alarm<GasSensor> {
-    public GasAlarm(int id, Room startRoom, GasSensor sensor) {
-        super(DeviceType.GAS_ALARM, id, startRoom, sensor);
-    }
-
-    @Override
-    public int consumeElectricity() {
-        // TODO
-        return 0;
+    public GasAlarm(int id, Room startRoom) {
+        super(DeviceType.GAS_ALARM, id, startRoom);
+        this.sensor = new GasSensor();
+        this.sensor.attachDevice(this);
     }
 }

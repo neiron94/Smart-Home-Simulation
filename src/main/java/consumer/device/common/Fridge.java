@@ -10,8 +10,8 @@ import utils.HelpFunctions;
 
 public class Fridge extends Device implements ElectricityConsumer {
 
-    private int temperature;
-    private int fullness;
+    private double temperature;
+    private int fullness;   // percent
 
     public Fridge(int id, Room startRoom) {
         super(DeviceType.FRIDGE, id, startRoom);
@@ -19,9 +19,9 @@ public class Fridge extends Device implements ElectricityConsumer {
     }
 
     @Override
-    public int consumeElectricity() {
-        // TODO - implement, depends on temperature
-        return 0;
+    public double consumeElectricity() {
+        // TODO - should be reverse dependence
+        return HelpFunctions.countElectricityConsumption(status, temperature / 2);      // TODO - change 2 for Constant (temperature for 1kW)
     }
 
     @Override
@@ -47,11 +47,11 @@ public class Fridge extends Device implements ElectricityConsumer {
 
     // TODO - maybe delete some getters or setters
 
-    public int getTemperature() {
+    public double getTemperature() {
         return temperature;
     }
 
-    public void setTemperature(int temperature) {
+    public void setTemperature(double temperature) {
         this.temperature = temperature;
     }
 
@@ -60,6 +60,6 @@ public class Fridge extends Device implements ElectricityConsumer {
     }
 
     public void setFullness(int fullness) {
-        this.fullness = fullness;
+        this.fullness = HelpFunctions.adjustPercent(fullness);
     }
 }

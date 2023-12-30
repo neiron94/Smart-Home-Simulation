@@ -8,14 +8,10 @@ import utils.HelpFunctions;
 
 public class Window extends ParameterDevice<LightSensor> {
 
-    public Window(int id, Room startRoom, LightSensor sensor) {
-        super(DeviceType.WINDOW, id, startRoom, sensor);
-    }
-
-    @Override
-    public int consumeElectricity() {
-        // TODO - implement, depends on brightness
-        return 0;
+    public Window(int id, Room startRoom) {
+        super(DeviceType.WINDOW, id, startRoom);
+        this.sensor = new LightSensor();
+        this.sensor.attachDevice(this);
     }
 
     @Override

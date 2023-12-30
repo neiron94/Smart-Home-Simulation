@@ -5,16 +5,18 @@ import consumer.device.Device;
 import consumer.device.DeviceStatus;
 import consumer.device.DeviceType;
 import place.Room;
+import utils.HelpFunctions;
 
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Queue;
 
 public class StereoSystem extends Device implements ElectricityConsumer {
 
-    private int volume;
+    private int volume; // percent
     private Queue<Song> queue;
     private Song currentSong;
-    private Time timeToReady;   // from song in queue TODO - Time?
+    private LocalTime timeToReady;   // from song in queue
 
     public StereoSystem(int id, Room startRoom) {
         super(DeviceType.STEREO_SYSTEM, id, startRoom);
@@ -23,9 +25,8 @@ public class StereoSystem extends Device implements ElectricityConsumer {
     }
 
     @Override
-    public int consumeElectricity() {
-        // TODO - implement, depends on volume
-        return 0;
+    public double consumeElectricity() {
+        return HelpFunctions.countElectricityConsumption(status, 1.0 * volume / 100);       // TODO - change 1.0 for Constant (max microwave kW)
     }
 
     @Override
@@ -57,7 +58,7 @@ public class StereoSystem extends Device implements ElectricityConsumer {
     }
 
     public void setVolume(int volume) {
-        this.volume = volume;
+        this.volume = HelpFunctions.adjustPercent(volume);
     }
 
     public Queue<Song> getQueue() {
@@ -76,11 +77,11 @@ public class StereoSystem extends Device implements ElectricityConsumer {
         this.currentSong = currentSong;
     }
 
-    public int getTimeToReady() {
+    public LocalTime getTimeToReady() {
         return timeToReady;
     }
 
-    public void setTimeToReady(int timeToReady) {
+    public void setTimeToReady(LocalTime timeToReady) {
         this.timeToReady = timeToReady;
     }
 }
