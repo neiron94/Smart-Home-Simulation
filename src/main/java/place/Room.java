@@ -6,9 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Room implements EventDestination {
-    private static int id = 1;
-
-    private final int roomId;
+    private final int id;
     private final RoomType type;
     private final ControlPanel controlPanel;
     private List<Event> events;
@@ -21,8 +19,8 @@ public class Room implements EventDestination {
     private int humidity;
     private int brightness;
 
-    public Room(RoomType type) {
-        roomId = id++;
+    public Room(int id, RoomType type) {
+        this.id = id;
         this.type = type;
         controlPanel = new ControlPanel(this); // TODO Maybe not to give this to ControlPanel, but accept this by ControlPanel
         events = new ArrayList<>();
@@ -102,7 +100,7 @@ public class Room implements EventDestination {
 
     @Override
     public String toString() {
-        return "Room_" + roomId + " (" + getRoomType().toString() + ")";
+        return "Room_" + id + " (" + getRoomType().toString() + ")";
     }
 
     @Override
