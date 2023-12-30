@@ -2,9 +2,7 @@ package consumer.device.common;
 
 import consumer.ElectricityConsumer;
 import consumer.device.Device;
-import consumer.device.DeviceStatus;
 import consumer.device.DeviceType;
-import consumer.device.Manual;
 import place.Room;
 
 import java.util.Date;
@@ -20,8 +18,9 @@ public class AlarmClock extends Device implements ElectricityConsumer {
     }
 
     @Override
-    public void consumeElectricity() {
+    public int consumeElectricity() {
         // TODO - implement
+        return 0;
     }
 
     @Override

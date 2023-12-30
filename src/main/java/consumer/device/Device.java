@@ -1,5 +1,7 @@
 package consumer.device;
 
+import consumer.AddVisitor;
+import consumer.ConsumeVisitor;
 import consumer.Consumer;
 import place.Room;
 import smarthome.Simulation;
@@ -11,8 +13,8 @@ public abstract class Device implements Consumer {
     protected Room room;    // TODO - what if null?
     protected final Manual manual;
     protected DeviceStatus status;
-    protected int durability;
-    protected int maxDurability;
+    protected int durability;       // percent
+    protected int maxDurability;    // percent
 
     public Device(DeviceType type, int id, Room startRoom) {
         this.type = type;
@@ -23,11 +25,11 @@ public abstract class Device implements Consumer {
         status = type.getStartStatus();
         durability = maxDurability = 100;   // TODO - means 100%
 
-        this.add(); // Consumer's method
+        accept(new AddVisitor());   // add to consumption map in supply system
     }
 
     public void routine() { // Is called every tick
-        this.consume(); // TODO - something can be added
+        accept(new ConsumeVisitor());   // TODO - send one common ConsumeVisitor to routine(), so shouldn't create new one for each device?
     }
 
     public void repair() {

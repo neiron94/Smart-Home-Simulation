@@ -2,7 +2,6 @@ package consumer.device.common;
 
 import consumer.ElectricityConsumer;
 import consumer.device.Device;
-import consumer.device.DeviceStatus;
 import consumer.device.DeviceType;
 import place.Room;
 
@@ -16,8 +15,9 @@ public class Toaster extends Device implements ElectricityConsumer {
     }
 
     @Override
-    public void consumeElectricity() {
+    public int consumeElectricity() {
         // TODO - implement, depends on ToastType
+        return 0;
     }
 
     @Override

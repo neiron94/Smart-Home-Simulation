@@ -3,7 +3,6 @@ package consumer.device.common;
 import consumer.GasConsumer;
 import consumer.device.DeviceStatus;
 import consumer.device.DeviceType;
-import consumer.device.Manual;
 import place.Room;
 
 public class GasOven extends Oven implements GasConsumer {
@@ -13,8 +12,9 @@ public class GasOven extends Oven implements GasConsumer {
     }
 
     @Override
-    public void consumeGas() {
+    public int consumeGas() {
         // TODO - implement, depends on temperature
+        return 0;
     }
 
     @Override

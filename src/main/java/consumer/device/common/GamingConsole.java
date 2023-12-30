@@ -6,8 +6,6 @@ import consumer.device.DeviceStatus;
 import consumer.device.DeviceType;
 import place.Room;
 
-import java.util.List;
-
 public class GamingConsole extends Device implements ElectricityConsumer {
 
     private Game currentGame;
@@ -18,8 +16,9 @@ public class GamingConsole extends Device implements ElectricityConsumer {
     }
 
     @Override
-    public void consumeElectricity() {
+    public int consumeElectricity() {
         // TODO - implement
+        return 0;
     }
 
     @Override

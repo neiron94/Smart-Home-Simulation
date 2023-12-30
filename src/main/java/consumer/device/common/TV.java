@@ -6,9 +6,6 @@ import consumer.device.DeviceStatus;
 import consumer.device.DeviceType;
 import place.Room;
 
-
-import java.util.List;
-
 public class TV extends Device implements ElectricityConsumer {
 
     private int brightness;
@@ -22,8 +19,9 @@ public class TV extends Device implements ElectricityConsumer {
     }
 
     @Override
-    public void consumeElectricity() {
+    public int consumeElectricity() {
         // TODO - implement, depends on brightness and volume
+        return 0;
     }
 
     @Override

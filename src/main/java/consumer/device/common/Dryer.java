@@ -2,9 +2,7 @@ package consumer.device.common;
 
 import consumer.ElectricityConsumer;
 import consumer.device.Device;
-import consumer.device.DeviceStatus;
 import consumer.device.DeviceType;
-import consumer.device.Manual;
 import place.Room;
 
 
@@ -27,8 +25,9 @@ public class Dryer extends Device implements ElectricityConsumer {
     }
 
     @Override
-    public void consumeElectricity() {
+    public int consumeElectricity() {
         // TODO - implement, depends on program
+        return 0;
     }
 
     @Override

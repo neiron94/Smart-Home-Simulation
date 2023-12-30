@@ -23,8 +23,9 @@ public class StereoSystem extends Device implements ElectricityConsumer {
     }
 
     @Override
-    public void consumeElectricity() {
+    public int consumeElectricity() {
         // TODO - implement, depends on volume
+        return 0;
     }
 
     @Override

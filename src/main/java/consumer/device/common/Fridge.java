@@ -4,7 +4,6 @@ import consumer.ElectricityConsumer;
 import consumer.device.Device;
 import consumer.device.DeviceStatus;
 import consumer.device.DeviceType;
-import consumer.device.Manual;
 import place.Room;
 import utils.HelpFunctions;
 
@@ -20,8 +19,9 @@ public class Fridge extends Device implements ElectricityConsumer {
     }
 
     @Override
-    public void consumeElectricity() {
+    public int consumeElectricity() {
         // TODO - implement, depends on temperature
+        return 0;
     }
 
     @Override

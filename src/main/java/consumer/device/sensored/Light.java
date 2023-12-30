@@ -2,9 +2,7 @@ package consumer.device.sensored;
 
 import consumer.device.DeviceStatus;
 import consumer.device.DeviceType;
-import consumer.device.Manual;
 import consumer.device.sensored.sensor.LightSensor;
-import consumer.device.sensored.sensor.TemperatureSensor;
 import place.Room;
 import utils.HelpFunctions;
 
@@ -20,8 +18,9 @@ public class Light extends ParameterDevice<LightSensor> {
     }
 
     @Override
-    public void consumeElectricity() {
+    public int consumeElectricity() {
         // TODO - implement, depends on brightness
+        return 0;
     }
 
     @Override

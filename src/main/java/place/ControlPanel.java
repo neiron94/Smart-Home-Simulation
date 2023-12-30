@@ -1,20 +1,32 @@
 package place;
 
 
+import utils.HelpFunctions;
+
 import java.awt.Color;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 public class ControlPanel {
     private final Room room;
-    private static List<RoomConfiguration> configurations;
+    private RoomConfiguration currentConfiguration;
 
-    private float temperature;
-    private int humidity;
-    private int brightness;
-    private Color color;
+    private static final List<RoomConfiguration> configurations = new ArrayList<>();
+    static {
+        configurations.add(new RoomConfiguration("DEFAULT", 0,0,0,new Color(0)));   // TODO - set some values
+        try {
+            // TODO - Load json
+        }
+        catch (Exception e) {   // TODO - catch concrete exception
+            // TODO - print message and continue work
+        }
+    }
 
-    public ControlPanel(Room room) { // TODO Maybe not to take room, but accept it
+    public ControlPanel(Room room) {
         this.room = room;
+        this.currentConfiguration = configurations.get(0).copy();
     }
 
     public Room getRoom() {
@@ -26,49 +38,86 @@ public class ControlPanel {
     }
 
     public static void addConfiguration(RoomConfiguration configuration) {
-        configurations.add(configuration);
+        configurations.add(configuration.copy());
     }
 
     public float getTemperature() {
-        return temperature;
+        return currentConfiguration.getTemperature();
     }
 
     public void setTemperature(float temperature) {
-        this.temperature = temperature;
+        currentConfiguration.setTemperature(temperature);
     }
 
-    public int getHumidity() {
-        return humidity;
+    public void increaseTemperature(float value) {
+        currentConfiguration.setTemperature(currentConfiguration.getTemperature() + value);
+    }
+
+    public void decreaseTemperature(float value) {
+        currentConfiguration.setTemperature(currentConfiguration.getTemperature() - value);
+    }
+
+    public float getHumidity() {
+        return currentConfiguration.getHumidity();
     }
 
     public void setHumidity(int humidity) {
-        this.humidity = humidity;
+        currentConfiguration.setHumidity(humidity);
     }
 
-    public int getBrightness() {
-        return brightness;
+    public void increaseHumidity(int value) {
+        currentConfiguration.setHumidity(currentConfiguration.getHumidity() + value);
+    }
+
+    public void decreaseHumidity(int value) {
+        currentConfiguration.setHumidity(currentConfiguration.getHumidity() - value);
+    }
+
+    public float getBrightness() {
+        return currentConfiguration.getBrightness();
     }
 
     public void setBrightness(int brightness) {
-        this.brightness = brightness;
+        currentConfiguration.setBrightness(brightness);
+    }
+
+    public void increaseBrightness(int value) {
+        currentConfiguration.setBrightness(currentConfiguration.getBrightness() + value);
+    }
+
+    public void decreaseBrightness(int value) {
+        currentConfiguration.setBrightness(currentConfiguration.getBrightness() - value);
     }
 
     public Color getColor() {
-        return color;
+        return currentConfiguration.getColor();
     }
 
     public void setColor(Color color) {
-        this.color = color;
+        currentConfiguration.setColor(color);
     }
 
-    public void saveConfiguration(String name) { // TODO Memento pattern ???
-        configurations.add(new RoomConfiguration(name, temperature, humidity, brightness, color));
+    public void saveConfiguration(String name) {
+        RoomConfiguration copy = currentConfiguration.copy();
+        copy.setName(name);
+        configurations.add(copy);
     }
 
-    public void loadConfiguration(RoomConfiguration configuration) { // TODO Memento pattern ???
-        temperature = configuration.temperature();
-        humidity = configuration.humidity();
-        brightness = configuration.brightness();
-        color = configuration.color();
+    public RoomConfiguration getRandomConfiguration() {
+        return HelpFunctions.getRandomObject(configurations);
+    }
+
+    public void loadConfiguration(RoomConfiguration configuration) {
+        currentConfiguration = configuration.copy();
+    }
+
+    public void loadConfiguration(String name) throws NoSuchElementException {
+        for (RoomConfiguration configuration : configurations) {
+            if (configuration.getName().equals(name)) {
+                currentConfiguration = configuration.copy();
+                return;
+            }
+        }
+        throw new NoSuchElementException("No configuration with name " + name);
     }
 }

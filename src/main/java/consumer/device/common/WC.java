@@ -4,7 +4,6 @@ import consumer.WaterConsumer;
 import consumer.device.Device;
 import consumer.device.DeviceStatus;
 import consumer.device.DeviceType;
-import consumer.device.Manual;
 import place.Room;
 
 public class WC extends Device implements WaterConsumer {
@@ -18,8 +17,9 @@ public class WC extends Device implements WaterConsumer {
     }
 
     @Override
-    public void consumeWater() {
+    public int consumeWater() {
         // TODO - implement, depends on flushType
+        return 0;
     }
 
     @Override

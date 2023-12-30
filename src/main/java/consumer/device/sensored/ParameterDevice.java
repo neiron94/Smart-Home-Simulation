@@ -8,7 +8,7 @@ import place.Room;
 
 
 public abstract class ParameterDevice<T extends ParameterSensor> extends SensoredDevice<T> {
-    protected final int power;
+    protected int power;
 
     public ParameterDevice(DeviceType type, int id, Room startRoom, T sensor) {
         super(type, id, startRoom, sensor);
