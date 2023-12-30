@@ -1,3 +1,5 @@
 package consumer.device.common;
 
-public record Video(String name, String description, VideoPlatform platform, int duration) {}
+import java.time.LocalTime;
+
+public record Video(String name, String description, VideoPlatform platform, LocalTime duration) {}
