@@ -6,8 +6,7 @@ import place.DeviceService;
 import place.Home;
 import place.HomeBuilder;
 import utils.ConfigurationReader;
-
-
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -15,10 +14,8 @@ import java.util.List;
 public class Simulation {
     private static Simulation instance = null;
     public static String configurationName;
-    public static Date finishTime; // TODO Choose proper class
-    public static Date reportTime; // TODO Choose proper class
-
-    private Date currentTime; // TODO Choose proper class, changes in simulate() function
+    public static LocalDateTime currentTime; // TODO changes in simulate() function
+    public static LocalDateTime finishTime;
 
     private Home home;
     private final List<Creature> residents = new ArrayList<>();
@@ -30,7 +27,7 @@ public class Simulation {
     private int streetHumidity; // TODO Changes in calculateSimulation() function
 
     private Simulation() {
-        currentTime = null; // TODO Get local PC time
+        currentTime = LocalDateTime.now(); // TODO Get local PC time
         ConfigurationReader.readSimulationConfig();
 
         streetTemperature = 0; // TODO Initialize value of temperature - or maybe at first iteration ??
@@ -52,7 +49,7 @@ public class Simulation {
         ConfigurationReader.readDeviceConfig(configurationName);
     }
 
-    public Date getCurrentTime() {
+    public LocalDateTime getCurrentTime() {
         return currentTime;
     }
 
