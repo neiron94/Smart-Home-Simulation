@@ -22,11 +22,6 @@ public class WC extends Device implements WaterConsumer {
         return 0;
     }
 
-    @Override
-    public void flood() {
-        // TODO - implement
-    }
-
     public void flush(FlushType flushType) {
         // TODO - check durability
         shouldBeFlushed = false;

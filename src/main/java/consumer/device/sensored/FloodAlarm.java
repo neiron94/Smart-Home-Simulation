@@ -14,9 +14,4 @@ public class FloodAlarm extends Alarm<FloodSensor> {
         // TODO
         return 0;
     }
-
-    @Override
-    public void fire() {
-        // TODO
-    }
 }

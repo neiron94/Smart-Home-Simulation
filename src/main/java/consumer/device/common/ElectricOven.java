@@ -15,9 +15,4 @@ public class ElectricOven extends Oven implements ElectricityConsumer {
         // TODO - implement, depends on temperature
         return 0;
     }
-
-    @Override
-    public void fire() {
-        // TODO - implement
-    }
 }

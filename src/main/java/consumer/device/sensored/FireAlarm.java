@@ -14,9 +14,4 @@ public class FireAlarm extends Alarm<SmokeSensor> {
         // TODO
         return 0;
     }
-
-    @Override
-    public void fire() {
-        // TODO
-    }
 }

@@ -25,19 +25,9 @@ public class WaterTap extends Device implements WaterConsumer, ElectricityConsum
     }
 
     @Override
-    public void fire() {
-        // TODO - implement
-    }
-
-    @Override
     public int consumeWater() {
         // TODO - implement, depends on openness
         return 0;
-    }
-
-    @Override
-    public void flood() {
-        // TODO - implement
     }
 
     public void open(int temperature, int openness) {

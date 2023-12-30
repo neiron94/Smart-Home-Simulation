@@ -21,11 +21,6 @@ public class Vent extends Device implements ElectricityConsumer {
         return 0;
     }
 
-    @Override
-    public void fire() {
-        // TODO - implement
-    }
-
     public void cleanFilter() {
         filterStatus = 100;
     }

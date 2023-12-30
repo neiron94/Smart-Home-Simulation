@@ -30,11 +30,6 @@ public class Dryer extends Device implements ElectricityConsumer {
         return 0;
     }
 
-    @Override
-    public void fire() {
-        // TODO - implement
-    }
-
     public void dry(Time time, DryerProgram program) {
         // TODO - check durability
         timeToReady = time;

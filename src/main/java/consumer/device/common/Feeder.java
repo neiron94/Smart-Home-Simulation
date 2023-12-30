@@ -5,6 +5,7 @@ import consumer.device.Device;
 import consumer.device.DeviceStatus;
 import consumer.device.DeviceType;
 import creature.pet.PetType;
+import event.FillEvent;
 import place.Room;
 
 
@@ -29,18 +30,13 @@ public class Feeder extends Device implements ElectricityConsumer {
     }
 
     @Override
-    public void fire() {
-        // TODO - implement
-    }
-
-    @Override
     public void setStatus(DeviceStatus status) {
         if (status != DeviceStatus.STANDBY)
             this.status = status;
     }
 
-    public void foodEmpty() {
-        // TODO - implement, throw event
+    public void requestFill() {
+        new FillEvent(this, this.room).throwEvent();
     }
 
     public void addFood() {

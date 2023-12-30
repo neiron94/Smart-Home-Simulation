@@ -20,11 +20,6 @@ public class Heater extends ParameterDevice<TemperatureSensor> {
     }
 
     @Override
-    public void fire() {
-        // TODO - implement
-    }
-
-    @Override
     public void react(Number parameter) {
         // TODO - increment and decrement by 5?
         if (room.getTemperature() < room.getControlPanel().getTemperature())

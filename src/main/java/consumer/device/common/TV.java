@@ -24,11 +24,6 @@ public class TV extends Device implements ElectricityConsumer {
         return 0;
     }
 
-    @Override
-    public void fire() {
-        // TODO - implement
-    }
-
     public void show(Video video) {
         currentVideo = video;
         status = DeviceStatus.ON;

@@ -18,11 +18,6 @@ public class GasOven extends Oven implements GasConsumer {
     }
 
     @Override
-    public void leak() {
-        // TODO - implement
-    }
-
-    @Override
     public void setStatus(DeviceStatus status) {
         if (status != DeviceStatus.STANDBY)
             this.status = status;
