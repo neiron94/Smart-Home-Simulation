@@ -1,11 +1,4 @@
-package service;
-
-import consumer.device.common.Song;
-import consumer.device.common.Video;
-import consumer.device.common.Game;
-import consumer.device.common.SongGenre;
-import consumer.device.common.VideoPlatform;
-import consumer.device.common.GameGenre;
+package consumer.device.common.entertainment;
 
 import java.time.LocalTime;
 import java.util.NoSuchElementException;

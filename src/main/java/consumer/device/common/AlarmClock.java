@@ -3,13 +3,11 @@ package consumer.device.common;
 import consumer.ElectricityConsumer;
 import consumer.device.Device;
 import consumer.device.DeviceType;
+import consumer.device.common.entertainment.Song;
 import event.WakeUpEvent;
 import place.Room;
 import utils.HelpFunctions;
-
 import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.util.Date;
 
 public class AlarmClock extends Device implements ElectricityConsumer {
 

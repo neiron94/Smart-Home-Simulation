@@ -1,4 +1,4 @@
-package consumer.device.common;
+package consumer.device.common.entertainment;
 
 public enum VideoPlatform {
     NETFLIX,

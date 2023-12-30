@@ -4,6 +4,7 @@ import consumer.ElectricityConsumer;
 import consumer.device.Device;
 import consumer.device.DeviceStatus;
 import consumer.device.DeviceType;
+import consumer.device.common.entertainment.Video;
 import place.Room;
 import utils.HelpFunctions;
 

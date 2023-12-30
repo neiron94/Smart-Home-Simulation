@@ -1,10 +1,7 @@
-package service;
+package consumer.device.common.entertainment;
 
-import consumer.device.common.Game;
-import consumer.device.common.Song;
-import consumer.device.common.Video;
+import utils.ConfigurationReader;
 import java.util.Random;
-
 import java.util.ArrayList;
 import java.util.List;
 

@@ -9,8 +9,8 @@ import creature.CreatureFactory;
 import place.ControlPanel;
 import place.Room;
 import place.RoomConfiguration;
-import service.EntertainmentFactory;
-import service.EntertainmentService;
+import consumer.device.common.entertainment.EntertainmentFactory;
+import consumer.device.common.entertainment.EntertainmentService;
 import smarthome.Simulation;
 
 import java.awt.*;
