@@ -2,25 +2,16 @@ package consumer.device.sensored;
 
 import consumer.device.DeviceStatus;
 import consumer.device.DeviceType;
-import consumer.device.Manual;
 import consumer.device.sensored.sensor.TemperatureSensor;
 import place.Room;
 import utils.HelpFunctions;
 
 
 public class AC extends ParameterDevice<TemperatureSensor> {
-    public AC(int id, Room startRoom, TemperatureSensor sensor) {
-        super(DeviceType.AC, id, startRoom, sensor);
-    }
-
-    @Override
-    public void consumeElectricity() {
-        // TODO - implement, depends on power
-    }
-
-    @Override
-    public void fire() {
-        // TODO - implement
+    public AC(int id, Room startRoom) {
+        super(DeviceType.AC, id, startRoom);
+        this.sensor = new TemperatureSensor();
+        this.sensor.attachDevice(this);
     }
 
     @Override

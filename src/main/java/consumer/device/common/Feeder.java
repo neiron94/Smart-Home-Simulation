@@ -4,33 +4,28 @@ import consumer.ElectricityConsumer;
 import consumer.device.Device;
 import consumer.device.DeviceStatus;
 import consumer.device.DeviceType;
-import consumer.device.Manual;
 import creature.pet.PetType;
+import event.FillEvent;
 import place.Room;
+import utils.HelpFunctions;
 
 
 public class Feeder extends Device implements ElectricityConsumer {
 
     private PetType type;
-    private int foodFullness;   // TODO - comment what is what
-    private int waterFullness;
-    private int foodLevel;
-    private int waterLevel;
+    private int foodFullness; // percent  // TODO - comment what is what
+    private int waterFullness;  // percent
+    private int foodLevel;  // percent
+    private int waterLevel; // percent
 
-    public Feeder(int id, Room startRoom, PetType type) {
+    public Feeder(int id, Room startRoom) {
         super(DeviceType.FEEDER, id, startRoom);
-        this.type = type;
         // TODO - food/water fullness/level?
     }
 
     @Override
-    public void consumeElectricity() {
-        // TODO - implement
-    }
-
-    @Override
-    public void fire() {
-        // TODO - implement
+    public double consumeElectricity() {
+        return HelpFunctions.countElectricityConsumption(status, 1);    // TODO - change 1 for Constant
     }
 
     @Override
@@ -39,8 +34,8 @@ public class Feeder extends Device implements ElectricityConsumer {
             this.status = status;
     }
 
-    public void foodEmpty() {
-        // TODO - implement, throw event
+    public void requestFill() {
+        new FillEvent(this, this.room).throwEvent();
     }
 
     public void addFood() {
@@ -69,7 +64,7 @@ public class Feeder extends Device implements ElectricityConsumer {
 
     // TODO - maybe delete some getters or setters
 
-    public PetType getType() {
+    public PetType getPetType() {
         return type;
     }
 
@@ -82,7 +77,7 @@ public class Feeder extends Device implements ElectricityConsumer {
     }
 
     public void setFoodFullness(int foodFullness) {
-        this.foodFullness = foodFullness;
+        this.foodFullness = HelpFunctions.adjustPercent(foodFullness);
     }
 
     public int getWaterFullness() {
@@ -90,7 +85,7 @@ public class Feeder extends Device implements ElectricityConsumer {
     }
 
     public void setWaterFullness(int waterFullness) {
-        this.waterFullness = waterFullness;
+        this.waterFullness = HelpFunctions.adjustPercent(waterFullness);
     }
 
     public int getFoodLevel() {
@@ -98,7 +93,7 @@ public class Feeder extends Device implements ElectricityConsumer {
     }
 
     public void setFoodLevel(int foodLevel) {
-        this.foodLevel = foodLevel;
+        this.foodLevel = HelpFunctions.adjustPercent(foodLevel);
     }
 
     public int getWaterLevel() {
@@ -106,6 +101,6 @@ public class Feeder extends Device implements ElectricityConsumer {
     }
 
     public void setWaterLevel(int waterLevel) {
-        this.waterLevel = waterLevel;
+        this.waterLevel = HelpFunctions.adjustPercent(waterLevel);
     }
 }

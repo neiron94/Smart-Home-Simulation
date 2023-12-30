@@ -2,14 +2,16 @@ package consumer.device.common;
 
 import consumer.ElectricityConsumer;
 import consumer.device.Device;
-import consumer.device.DeviceStatus;
 import consumer.device.DeviceType;
 import place.Room;
+import utils.HelpFunctions;
+
+import java.time.LocalTime;
 
 public class Microwave extends Device implements ElectricityConsumer {
     private boolean isFoodInside;
-    private int power;
-    private Time timeToReady;   // TODO -Time?
+    private int power;  // percent
+    private LocalTime timeToReady;
 
     public Microwave(int id, Room startRoom) {
         super(DeviceType.MICROWAVE, id, startRoom);
@@ -17,13 +19,8 @@ public class Microwave extends Device implements ElectricityConsumer {
     }
 
     @Override
-    public void consumeElectricity() {
-        // TODO - implement, depends on power
-    }
-
-    @Override
-    public void fire() {
-        // TODO - implement
+    public double consumeElectricity() {
+        return HelpFunctions.countElectricityConsumption(status, 1.0 * power / 100);    // TODO - change 1.0 for Constant (max microwave kW)
     }
 
     @Override
@@ -32,10 +29,10 @@ public class Microwave extends Device implements ElectricityConsumer {
         // TODO - doAction(): timeToReady--, if == 0 -> set STANDBY
     }
 
-    public void heatFood(Time heatTime, int heatPower) {
+    public void heatFood(LocalTime heatTime, int heatPower) {
         // TODO - check durability
         timeToReady = heatTime;
-        power = heatPower;
+        power = HelpFunctions.adjustPercent(heatPower);
         // TODO - smth else?
     }
 
@@ -62,14 +59,14 @@ public class Microwave extends Device implements ElectricityConsumer {
     }
 
     public void setPower(int power) {
-        this.power = power;
+        this.power = HelpFunctions.adjustPercent(power);
     }
 
-    public Time getTimeToReady() {
+    public LocalTime getTimeToReady() {
         return timeToReady;
     }
 
-    public void setTimeToReady(Time timeToReady) {
+    public void setTimeToReady(LocalTime timeToReady) {
         this.timeToReady = timeToReady;
     }
 }

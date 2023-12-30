@@ -2,7 +2,6 @@ package consumer.device.sensored;
 
 import consumer.device.DeviceStatus;
 import consumer.device.DeviceType;
-import consumer.device.Manual;
 import consumer.device.sensored.sensor.LightSensor;
 import consumer.device.sensored.sensor.TemperatureSensor;
 import place.Room;
@@ -14,19 +13,11 @@ import java.awt.*;
 public class Light extends ParameterDevice<LightSensor> {
     private Color color;
 
-    public Light(int id, Room startRoom, LightSensor sensor) {
-        super(DeviceType.LIGHT, id, startRoom, sensor);
-        color = new Color(0);
-    }
-
-    @Override
-    public void consumeElectricity() {
-        // TODO - implement, depends on brightness
-    }
-
-    @Override
-    public void fire() {
-        // TODO - implement
+    public Light(int id, Room startRoom) {
+        super(DeviceType.LIGHT, id, startRoom);
+        color = new Color(Color.YELLOW.getRGB());
+        this.sensor = new LightSensor();
+        this.sensor.attachDevice(this);
     }
 
     @Override

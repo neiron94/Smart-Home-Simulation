@@ -5,14 +5,12 @@ import consumer.device.Device;
 import consumer.device.DeviceStatus;
 import consumer.device.DeviceType;
 import place.Room;
-
-
-import java.util.List;
+import utils.HelpFunctions;
 
 public class TV extends Device implements ElectricityConsumer {
 
-    private int brightness;
-    private int volume;
+    private int brightness; // percent
+    private int volume; // percent
     private Video currentVideo;
 
 
@@ -22,13 +20,8 @@ public class TV extends Device implements ElectricityConsumer {
     }
 
     @Override
-    public void consumeElectricity() {
-        // TODO - implement, depends on brightness and volume
-    }
-
-    @Override
-    public void fire() {
-        // TODO - implement
+    public double consumeElectricity() {
+        return HelpFunctions.countElectricityConsumption(status, 1.0 / 2 * brightness + 1.0 / 2 * volume);  // TODO - change 1.0 for Constant
     }
 
     public void show(Video video) {
@@ -50,7 +43,7 @@ public class TV extends Device implements ElectricityConsumer {
     }
 
     public void setBrightness(int brightness) {
-        this.brightness = brightness;
+        this.brightness = HelpFunctions.adjustPercent(brightness);
     }
 
     public int getVolume() {
@@ -58,7 +51,7 @@ public class TV extends Device implements ElectricityConsumer {
     }
 
     public void setVolume(int volume) {
-        this.volume = volume;
+        this.volume = HelpFunctions.adjustPercent(volume);
     }
 
     public Video getCurrentVideo() {

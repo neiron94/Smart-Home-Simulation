@@ -2,27 +2,24 @@ package consumer.device.common;
 
 import consumer.ElectricityConsumer;
 import consumer.device.Device;
-import consumer.device.DeviceStatus;
 import consumer.device.DeviceType;
 import place.Room;
+import utils.HelpFunctions;
+
+import java.time.LocalTime;
 
 public class Toaster extends Device implements ElectricityConsumer {
     private boolean isToastInside;
     private ToastType program;
-    private Time timeToReady;   // TODO -Time?
+    private LocalTime timeToReady;
 
     public Toaster(int id, Room startRoom) {
         super(DeviceType.TOASTER, id, startRoom);
     }
 
     @Override
-    public void consumeElectricity() {
-        // TODO - implement, depends on ToastType
-    }
-
-    @Override
-    public void fire() {
-        // TODO - implement
+    public double consumeElectricity() {
+        return program != null ? HelpFunctions.countElectricityConsumption(status, program.getPower()) : 0;
     }
 
     @Override
@@ -33,6 +30,7 @@ public class Toaster extends Device implements ElectricityConsumer {
 
     public void makeToast(ToastType program) {
         // TODO - check durability
+        this.timeToReady = program.getCookTime();
         this.program = program;
         // TODO - smth else?
     }
@@ -63,11 +61,11 @@ public class Toaster extends Device implements ElectricityConsumer {
         this.program = program;
     }
 
-    public Time getTimeToReady() {
+    public LocalTime getTimeToReady() {
         return timeToReady;
     }
 
-    public void setTimeToReady(Time timeToReady) {
+    public void setTimeToReady(LocalTime timeToReady) {
         this.timeToReady = timeToReady;
     }
 }

@@ -5,17 +5,18 @@ import consumer.WaterConsumer;
 import consumer.device.Device;
 import consumer.device.DeviceStatus;
 import consumer.device.DeviceType;
-import consumer.device.Manual;
 import place.Room;
 import utils.HelpFunctions;
+
+import java.time.LocalTime;
 
 
 public class Dishwasher extends Device implements WaterConsumer, ElectricityConsumer {
 
     private DishwasherProgram program;
-    private int fullness;
-    private int filterStatus;
-    private Time timeToReady;   // TODO - Time?
+    private int fullness;   // percent
+    private int filterStatus;   // percent
+    private LocalTime timeToReady;
 
     public Dishwasher(int id, Room startRoom) {
         super(DeviceType.DISHWASHER, id, startRoom);
@@ -29,28 +30,18 @@ public class Dishwasher extends Device implements WaterConsumer, ElectricityCons
     }
 
     @Override
-    public void consumeElectricity() {
-        // TODO - implement, depends on program
+    public double consumeElectricity() {
+        return program != null ? HelpFunctions.countElectricityConsumption(status, program.getElectricityConsumption()) : 0;
     }
 
     @Override
-    public void fire() {
-        // TODO - implement
-    }
-
-    @Override
-    public void consumeWater() {
-        // TODO - implement, depends on program
-    }
-
-    @Override
-    public void flood() {
-        // TODO - implement
+    public double consumeWater() {
+        return HelpFunctions.countWaterConsumption(status, program.getWaterConsumption());
     }
 
     public void wash(DishwasherProgram program) {
         // TODO - check durability
-        // TODO - timeToReady = program.getTime();
+        timeToReady = program.getDuration();
         this.program = program;
         // TODO - smth else?
     }
@@ -82,7 +73,7 @@ public class Dishwasher extends Device implements WaterConsumer, ElectricityCons
     }
 
     public void setFullness(int fullness) {
-        this.fullness = fullness;
+        this.fullness = HelpFunctions.adjustPercent(fullness);
     }
 
     public int getFilterStatus() {
@@ -90,14 +81,14 @@ public class Dishwasher extends Device implements WaterConsumer, ElectricityCons
     }
 
     public void setFilterStatus(int filterStatus) {
-        this.filterStatus = filterStatus;
+        this.filterStatus = HelpFunctions.adjustPercent(filterStatus);
     }
 
-    public Time getTimeToReady() {
+    public LocalTime getTimeToReady() {
         return timeToReady;
     }
 
-    public void setTimeToReady(Time timeToReady) {
+    public void setTimeToReady(LocalTime timeToReady) {
         this.timeToReady = timeToReady;
     }
 }

@@ -1,19 +1,17 @@
 package consumer;
 
+import consumer.device.Device;
+import event.LeakEvent;
+
 public interface GasConsumer extends Consumer {
     int GAS_COST = 0;   // cost for unit of gas TODO - move to Constants and give value
 
-    void consumeGas();
+    double consumeGas();
 
-    default void deleteGas()   // deletes itself from proper places
-    {
-        // TODO - implement
+    default void leak() {
+        if (this instanceof Device device) {    // TODO - can we remove instanceof?
+            new LeakEvent(device, device.getRoom()).throwEvent();
+        }
+        // TODO - add else?
     }
-
-    default void addGas()  // adds itself to proper places
-    {
-        // TODO - implement
-    }
-
-    void leak();    // Throws event
 }

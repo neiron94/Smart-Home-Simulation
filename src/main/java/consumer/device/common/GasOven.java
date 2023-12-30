@@ -3,8 +3,8 @@ package consumer.device.common;
 import consumer.GasConsumer;
 import consumer.device.DeviceStatus;
 import consumer.device.DeviceType;
-import consumer.device.Manual;
 import place.Room;
+import utils.HelpFunctions;
 
 public class GasOven extends Oven implements GasConsumer {
 
@@ -13,13 +13,8 @@ public class GasOven extends Oven implements GasConsumer {
     }
 
     @Override
-    public void consumeGas() {
-        // TODO - implement, depends on temperature
-    }
-
-    @Override
-    public void leak() {
-        // TODO - implement
+    public double consumeGas() {
+        return HelpFunctions.countGasConsumption(status, temperature / 2);      // TODO - change 2 for Constant (temperature for 1m^3)
     }
 
     @Override

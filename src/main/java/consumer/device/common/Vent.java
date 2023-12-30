@@ -2,29 +2,23 @@ package consumer.device.common;
 
 import consumer.ElectricityConsumer;
 import consumer.device.Device;
-import consumer.device.DeviceStatus;
 import consumer.device.DeviceType;
-import consumer.device.Manual;
 import place.Room;
+import utils.HelpFunctions;
 
 
 public class Vent extends Device implements ElectricityConsumer {
 
     private VentProgram program;
-    private int filterStatus;
+    private int filterStatus;   // percent
 
     public Vent(int id, Room startRoom) {
         super(DeviceType.VENT, id, startRoom);
     }
 
     @Override
-    public void consumeElectricity() {
-        // TODO - implement, depends on program
-    }
-
-    @Override
-    public void fire() {
-        // TODO - implement
+    public double consumeElectricity() {
+        return program != null ? HelpFunctions.countElectricityConsumption(status, program.getPower()) : 0;
     }
 
     public void cleanFilter() {
@@ -46,6 +40,6 @@ public class Vent extends Device implements ElectricityConsumer {
     }
 
     public void setFilterStatus(int filterStatus) {
-        this.filterStatus = filterStatus;
+        this.filterStatus = HelpFunctions.adjustPercent(filterStatus);
     }
 }

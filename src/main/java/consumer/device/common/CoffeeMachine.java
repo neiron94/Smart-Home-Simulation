@@ -4,8 +4,8 @@ import consumer.ElectricityConsumer;
 import consumer.device.Device;
 import consumer.device.DeviceStatus;
 import consumer.device.DeviceType;
-import consumer.device.Manual;
 import place.Room;
+import utils.HelpFunctions;
 
 public class CoffeeMachine extends Device implements ElectricityConsumer {
 
@@ -23,13 +23,8 @@ public class CoffeeMachine extends Device implements ElectricityConsumer {
     }
 
     @Override
-    public void consumeElectricity() {
-        // TODO - implement, depends on program
-    }
-
-    @Override
-    public void fire() {
-        // TODO - implement
+    public double consumeElectricity() {
+        return HelpFunctions.countElectricityConsumption(status, 1);    // TODO - change 1 for Constant
     }
 
     @Override

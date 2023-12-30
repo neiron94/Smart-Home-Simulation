@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class SupplySystem<T extends Consumer> {
-    private Map<T, Integer> consumedMap;
+    private final Map<T, Integer> consumedMap;
     private boolean resourceAvailable;
 
     public SupplySystem() {

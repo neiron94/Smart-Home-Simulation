@@ -10,18 +10,10 @@ import utils.HelpFunctions;
 
 public class AirDryer extends ParameterDevice<HumiditySensor> {
 
-    public AirDryer(int id, Room startRoom, HumiditySensor sensor) {
-        super(DeviceType.AIR_DRYER, id, startRoom, sensor);
-    }
-
-    @Override
-    public void consumeElectricity() {
-        // TODO - implement, depends on power
-    }
-
-    @Override
-    public void fire() {
-        // TODO - implement
+    public AirDryer(int id, Room startRoom) {
+        super(DeviceType.AIR_DRYER, id, startRoom);
+        this.sensor = new HumiditySensor();
+        this.sensor.attachDevice(this);
     }
 
     @Override
