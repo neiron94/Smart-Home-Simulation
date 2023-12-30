@@ -12,7 +12,6 @@ import place.RoomConfiguration;
 import consumer.device.common.entertainment.EntertainmentFactory;
 import consumer.device.common.entertainment.EntertainmentService;
 import smarthome.Simulation;
-
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
@@ -30,8 +29,7 @@ public class ConfigurationReader {
         JsonNode config = openConfig(configPath);
 
         Simulation.configurationName = config.path("config").asText();
-        Simulation.finishTime = 0; // TODO Count simulation finish time
-        Simulation.reportTime = 0; // TODO Count simulation report time
+        Simulation.finishTime = Simulation.currentTime.plusDays(config.path("duration").asLong()); // TODO Count simulation finish time
     }
 
     public static JsonNode readHomeConfig(String configName) {

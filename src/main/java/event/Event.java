@@ -5,6 +5,7 @@ import event.throwStrategy.EventThrowStrategy;
 import place.EventDestination;
 import place.Room;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 public abstract class Event {
@@ -13,10 +14,10 @@ public abstract class Event {
     private final EventPriority priority;
     private final Room origin;
     private final EventThrowStrategy throwStrategy;
-    private final Date eventDate;
-    private Date solveDate; // TODO - move to Person
+    private final LocalDateTime eventDate;
+    private LocalDateTime solveDate; // TODO - move to Person
 
-    protected Event(EventType eventType, EventPriority priority, EventThrowStrategy throwStrategy, Date eventDate, Device creator, Room origin) {
+    protected Event(EventType eventType, EventPriority priority, EventThrowStrategy throwStrategy, LocalDateTime eventDate, Device creator, Room origin) {
         this.eventType = eventType;
         this.creator = creator;
         this.priority = priority;
@@ -29,11 +30,11 @@ public abstract class Event {
         throwStrategy.throwEvent(this);
     }
 
-    public Date getSolveDate() {
+    public LocalDateTime getSolveDate() {
         return solveDate;
     }
 
-    public void setSolveDate(Date solveDate) {
+    public void setSolveDate(LocalDateTime solveDate) {
         this.solveDate = solveDate;
     }
 
@@ -57,7 +58,7 @@ public abstract class Event {
         return throwStrategy;
     }
 
-    public Date getEventDate() {
+    public LocalDateTime getEventDate() {
         return eventDate;
     }
 }

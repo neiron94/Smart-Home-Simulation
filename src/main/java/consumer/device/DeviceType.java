@@ -1,6 +1,6 @@
 package consumer.device;
 
-import java.util.Date;
+import java.time.Period;
 import consumer.device.common.*;
 import consumer.device.sensored.*;
 
@@ -37,14 +37,14 @@ public enum DeviceType {
     private final Class<?> deviceClass;
     private final DeviceStatus startStatus;
     private final RepairDifficulty difficulty;
-    private final Date guarantee; // TODO Select proper class for store guarantee period (in months)
+    private final Period guarantee;
 
-    DeviceType(String name, Class<?> deviceClass, DeviceStatus status, RepairDifficulty difficulty, Date guarantee) {
+    DeviceType(String name, Class<?> deviceClass, DeviceStatus status, RepairDifficulty difficulty, int guarantee) {
         this.name = name;
         this.deviceClass = deviceClass;
         this.startStatus = status;
         this.difficulty = difficulty;
-        this.guarantee = guarantee;
+        this.guarantee = Period.ofMonths(guarantee);
     }
 
     public String getName() {
@@ -59,7 +59,7 @@ public enum DeviceType {
         return startStatus;
     }
 
-    public Date getGuarantee() {
+    public Period getGuarantee() {
         return guarantee;
     }
 

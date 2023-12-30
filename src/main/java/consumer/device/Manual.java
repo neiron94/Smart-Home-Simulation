@@ -1,20 +1,20 @@
 package consumer.device;
 
 import smarthome.Simulation;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 public class Manual {
-    private final Date guaranteeExpirationDate;
+    private final LocalDateTime guaranteeExpirationDate;
     private final String text;
     private final RepairDifficulty difficulty;
 
     public Manual(DeviceType type) {
-        this.guaranteeExpirationDate = Simulation.getInstance().getCurrentTime() + type.getGuarantee(); // TODO Calculate guarantee expiration date properly
+        this.guaranteeExpirationDate = Simulation.getInstance().getCurrentTime().plus(type.getGuarantee());
         this.text = String.format("You are reading %s manual. Difficulty of repair is %s.", type.getName(), type.getDifficulty());
         this.difficulty = type.getDifficulty();
     }
 
-    public Date getGuaranteeExpirationDate() {
+    public LocalDateTime getGuaranteeExpirationDate() {
         return guaranteeExpirationDate;
     }
 
