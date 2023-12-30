@@ -1,0 +1,11 @@
+{
+  "configurations" : [
+    {
+      "name" : "",
+      "temperature" : 0,
+      "humidity" : 0,
+      "brightness" : 0,
+      "color" : [0, 0, 0]
+    }
+  ]
+}
