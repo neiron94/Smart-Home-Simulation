@@ -3,7 +3,6 @@ package consumer.device.sensored;
 import consumer.device.DeviceStatus;
 import consumer.device.DeviceType;
 import consumer.device.sensored.sensor.HumiditySensor;
-import consumer.device.sensored.sensor.TemperatureSensor;
 import place.Room;
 import utils.HelpFunctions;
 
@@ -15,8 +14,9 @@ public class AirDryer extends ParameterDevice<HumiditySensor> {
     }
 
     @Override
-    public void consumeElectricity() {
+    public int consumeElectricity() {
         // TODO - implement, depends on power
+        return 0;
     }
 
     @Override

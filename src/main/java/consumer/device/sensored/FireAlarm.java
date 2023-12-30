@@ -1,9 +1,7 @@
 package consumer.device.sensored;
 
 import consumer.device.DeviceType;
-import consumer.device.sensored.sensor.GasSensor;
 import consumer.device.sensored.sensor.SmokeSensor;
-import event.AlertEvent;
 import place.Room;
 
 public class FireAlarm extends Alarm<SmokeSensor> {
@@ -12,8 +10,9 @@ public class FireAlarm extends Alarm<SmokeSensor> {
     }
 
     @Override
-    public void consumeElectricity() {
+    public int consumeElectricity() {
         // TODO
+        return 0;
     }
 
     @Override

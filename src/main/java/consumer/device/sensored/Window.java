@@ -6,9 +6,6 @@ import consumer.device.sensored.sensor.LightSensor;
 import place.Room;
 import utils.HelpFunctions;
 
-
-import java.awt.*;
-
 public class Window extends ParameterDevice<LightSensor> {
 
     public Window(int id, Room startRoom, LightSensor sensor) {
@@ -16,8 +13,9 @@ public class Window extends ParameterDevice<LightSensor> {
     }
 
     @Override
-    public void consumeElectricity() {
+    public int consumeElectricity() {
         // TODO - implement, depends on brightness
+        return 0;
     }
 
     @Override

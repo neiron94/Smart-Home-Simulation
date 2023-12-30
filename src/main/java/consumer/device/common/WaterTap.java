@@ -5,7 +5,6 @@ import consumer.WaterConsumer;
 import consumer.device.Device;
 import consumer.device.DeviceStatus;
 import consumer.device.DeviceType;
-import consumer.device.Manual;
 import place.Room;
 
 
@@ -20,8 +19,9 @@ public class WaterTap extends Device implements WaterConsumer, ElectricityConsum
     }
 
     @Override
-    public void consumeElectricity() {
+    public int consumeElectricity() {
         // TODO - implement, depends on temperature
+        return 0;
     }
 
     @Override
@@ -30,8 +30,9 @@ public class WaterTap extends Device implements WaterConsumer, ElectricityConsum
     }
 
     @Override
-    public void consumeWater() {
+    public int consumeWater() {
         // TODO - implement, depends on openness
+        return 0;
     }
 
     @Override

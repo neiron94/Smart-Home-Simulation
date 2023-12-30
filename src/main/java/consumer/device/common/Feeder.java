@@ -4,7 +4,6 @@ import consumer.ElectricityConsumer;
 import consumer.device.Device;
 import consumer.device.DeviceStatus;
 import consumer.device.DeviceType;
-import consumer.device.Manual;
 import creature.pet.PetType;
 import place.Room;
 
@@ -24,8 +23,9 @@ public class Feeder extends Device implements ElectricityConsumer {
     }
 
     @Override
-    public void consumeElectricity() {
+    public int consumeElectricity() {
         // TODO - implement
+        return 0;
     }
 
     @Override
@@ -69,7 +69,7 @@ public class Feeder extends Device implements ElectricityConsumer {
 
     // TODO - maybe delete some getters or setters
 
-    public PetType getType() {
+    public PetType getPetType() {
         return type;
     }
 

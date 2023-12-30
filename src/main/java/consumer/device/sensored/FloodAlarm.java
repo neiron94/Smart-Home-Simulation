@@ -2,7 +2,6 @@ package consumer.device.sensored;
 
 import consumer.device.DeviceType;
 import consumer.device.sensored.sensor.FloodSensor;
-import consumer.device.sensored.sensor.GasSensor;
 import place.Room;
 
 public class FloodAlarm extends Alarm<FloodSensor> {
@@ -11,8 +10,9 @@ public class FloodAlarm extends Alarm<FloodSensor> {
     }
 
     @Override
-    public void consumeElectricity() {
+    public int consumeElectricity() {
         // TODO
+        return 0;
     }
 
     @Override

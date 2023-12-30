@@ -14,8 +14,9 @@ public class AirHumidifier extends ParameterDevice<HumiditySensor> {
     }
 
     @Override
-    public void consumeElectricity() {
+    public int consumeElectricity() {
         // TODO - implement, depends on power
+        return 0;
     }
 
     @Override

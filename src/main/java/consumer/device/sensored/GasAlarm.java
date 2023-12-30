@@ -1,9 +1,6 @@
 package consumer.device.sensored;
 
-import consumer.GasConsumer;
 import consumer.device.DeviceType;
-import consumer.device.Manual;
-import consumer.device.sensored.sensor.EventSensor;
 import consumer.device.sensored.sensor.GasSensor;
 import place.Room;
 
@@ -13,8 +10,9 @@ public class GasAlarm extends Alarm<GasSensor> {
     }
 
     @Override
-    public void consumeElectricity() {
+    public int consumeElectricity() {
         // TODO
+        return 0;
     }
 
     @Override
