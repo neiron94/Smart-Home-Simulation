@@ -10,7 +10,7 @@ public class Manual {
 
     public Manual(DeviceType type) {
         this.guaranteeExpirationDate = Simulation.getInstance().getCurrentTime() + type.getGuarantee(); // TODO Calculate guarantee expiration date properly
-        this.text = type.getManualText();
+        this.text = String.format("You are reading %s manual. Difficulty of repair is %s.", type.getName(), type.getDifficulty());
         this.difficulty = type.getDifficulty();
     }
 

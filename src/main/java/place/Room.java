@@ -98,6 +98,10 @@ public class Room implements EventDestination {
         return type;
     }
 
+    public int getId() {
+        return id;
+    }
+
     @Override
     public String toString() {
         return "Room_" + id + " (" + getRoomType().toString() + ")";

@@ -9,7 +9,7 @@ public class HomeBuilder {
     private final JsonNode roomDraft;
 
     public HomeBuilder(String config) {
-        JsonNode draft = ConfigurationReader.readHomeConfig(config + "/Home.json");
+        JsonNode draft = ConfigurationReader.readHomeConfig(config);
         homeDraft = draft.path("HOME");
         floorDraft = draft.path("FLOOR");
         roomDraft = draft.path("ROOM");
