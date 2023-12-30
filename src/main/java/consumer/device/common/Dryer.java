@@ -4,14 +4,17 @@ import consumer.ElectricityConsumer;
 import consumer.device.Device;
 import consumer.device.DeviceType;
 import place.Room;
+import utils.HelpFunctions;
+
+import java.time.LocalTime;
 
 
 public class Dryer extends Device implements ElectricityConsumer {
 
     private DryerProgram program;
     private boolean areClothesInside;
-    private int filterStatus;
-    private Time timeToReady;   // TODO - Time?
+    private int filterStatus;   // percent
+    private LocalTime timeToReady;
 
     public Dryer(int id, Room startRoom) {
         super(DeviceType.DRYER, id, startRoom);
@@ -25,14 +28,13 @@ public class Dryer extends Device implements ElectricityConsumer {
     }
 
     @Override
-    public int consumeElectricity() {
-        // TODO - implement, depends on program
-        return 0;
+    public double consumeElectricity() {
+        return program != null ? HelpFunctions.countElectricityConsumption(status, program.getElectricityConsumption()) : 0;
     }
 
-    public void dry(Time time, DryerProgram program) {
+    public void dry(DryerProgram program) {
         // TODO - check durability
-        timeToReady = time;
+        timeToReady = program.getDuration();
         this.program = program;
         // TODO - smth else?
     }
@@ -72,14 +74,14 @@ public class Dryer extends Device implements ElectricityConsumer {
     }
 
     public void setFilterStatus(int filterStatus) {
-        this.filterStatus = filterStatus;
+        this.filterStatus = HelpFunctions.adjustPercent(filterStatus);
     }
 
-    public Time getTimeToReady() {
+    public LocalTime getTimeToReady() {
         return timeToReady;
     }
 
-    public void setTimeToReady(Time timeToReady) {
+    public void setTimeToReady(LocalTime timeToReady) {
         this.timeToReady = timeToReady;
     }
 }

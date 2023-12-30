@@ -6,13 +6,19 @@ import consumer.device.Manual;
 import consumer.device.sensored.sensor.EventSensor;
 import event.AlertEvent;
 import place.Room;
+import utils.HelpFunctions;
 
 public abstract class Alarm<T extends EventSensor> extends EventDevice<T> {
     protected boolean isAlerting;
 
-    public Alarm(DeviceType alarmType, int id, Room startRoom, T sensor) {
-        super(alarmType, id, startRoom, sensor);
+    public Alarm(DeviceType alarmType, int id, Room startRoom) {
+        super(alarmType, id, startRoom);
         isAlerting = false;
+    }
+
+    @Override
+    public double consumeElectricity() {
+        return HelpFunctions.countElectricityConsumption(status, 1);    // TODO - change 1 for Constant
     }
 
     @Override

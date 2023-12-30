@@ -6,7 +6,7 @@ import event.FireEvent;
 public interface ElectricityConsumer extends Consumer {
     int ELECTRICITY_COST = 0;   // cost for unit of electricity TODO - move to Constants and give value
 
-    int consumeElectricity();
+    double consumeElectricity();
 
     default void fire() {
         if (this instanceof Device device) {    // TODO - can we remove instanceof?

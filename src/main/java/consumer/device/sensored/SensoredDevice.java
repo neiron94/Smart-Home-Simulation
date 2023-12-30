@@ -10,11 +10,10 @@ import place.Room;
 
 public abstract class SensoredDevice<T extends Sensor<?>> extends Device implements ElectricityConsumer {
 
-    protected final T sensor;
+    protected T sensor;
 
-    public SensoredDevice(DeviceType type, int id, Room startRoom, T sensor) {
+    public SensoredDevice(DeviceType type, int id, Room startRoom) {
         super(type, id, startRoom);
-        this.sensor = sensor;
     }
 
     @Override

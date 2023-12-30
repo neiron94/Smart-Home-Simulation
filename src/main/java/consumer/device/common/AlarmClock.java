@@ -5,12 +5,15 @@ import consumer.device.Device;
 import consumer.device.DeviceType;
 import event.WakeUpEvent;
 import place.Room;
+import utils.HelpFunctions;
 
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.Date;
 
 public class AlarmClock extends Device implements ElectricityConsumer {
 
-    private Date ringTime;
+    private LocalDateTime ringTime;
     private Song song;
 
     public AlarmClock(int id, Room startRoom) {
@@ -19,9 +22,8 @@ public class AlarmClock extends Device implements ElectricityConsumer {
     }
 
     @Override
-    public int consumeElectricity() {
-        // TODO - implement
-        return 0;
+    public double consumeElectricity() {
+        return HelpFunctions.countElectricityConsumption(status, 1);    // TODO - change 1 for Constant
     }
 
     @Override
@@ -36,11 +38,11 @@ public class AlarmClock extends Device implements ElectricityConsumer {
 
     // TODO - maybe delete some getters or setters
 
-    public Date getRingTime() {
+    public LocalDateTime getRingTime() {
         return ringTime;
     }
 
-    public void setRingTime(Date ringTime) {
+    public void setRingTime(LocalDateTime ringTime) {
         this.ringTime = ringTime;
     }
 

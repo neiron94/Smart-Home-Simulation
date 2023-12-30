@@ -5,6 +5,7 @@ import consumer.device.Device;
 import consumer.device.DeviceStatus;
 import consumer.device.DeviceType;
 import place.Room;
+import utils.HelpFunctions;
 
 public class WC extends Device implements WaterConsumer {
 
@@ -17,9 +18,8 @@ public class WC extends Device implements WaterConsumer {
     }
 
     @Override
-    public int consumeWater() {
-        // TODO - implement, depends on flushType
-        return 0;
+    public double consumeWater() {
+        return flushType != null ? HelpFunctions.countWaterConsumption(status, flushType.getWaterConsumption()) : 0;
     }
 
     public void flush(FlushType flushType) {

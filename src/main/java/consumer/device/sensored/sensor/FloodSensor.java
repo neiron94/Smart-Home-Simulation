@@ -4,7 +4,7 @@ import consumer.device.sensored.EventDevice;
 import event.EventType;
 
 public class FloodSensor extends EventSensor {
-    public FloodSensor(EventDevice<?> device) {
-        super(device, EventType.FLOOD);
+    public FloodSensor() {
+        super(EventType.FLOOD);
     }
 }

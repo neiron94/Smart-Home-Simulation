@@ -3,20 +3,17 @@ package consumer.device.sensored;
 import consumer.device.DeviceStatus;
 import consumer.device.DeviceType;
 import consumer.device.sensored.sensor.HumiditySensor;
+import consumer.device.sensored.sensor.TemperatureSensor;
 import place.Room;
 import utils.HelpFunctions;
 
 
 public class AirHumidifier extends ParameterDevice<HumiditySensor> {
 
-    public AirHumidifier(int id, Room startRoom, HumiditySensor sensor) {
-        super(DeviceType.AIR_HUMIDIFIER, id, startRoom, sensor);
-    }
-
-    @Override
-    public int consumeElectricity() {
-        // TODO - implement, depends on power
-        return 0;
+    public AirHumidifier(int id, Room startRoom) {
+        super(DeviceType.AIR_HUMIDIFIER, id, startRoom);
+        this.sensor = new HumiditySensor();
+        this.sensor.attachDevice(this);
     }
 
     @Override

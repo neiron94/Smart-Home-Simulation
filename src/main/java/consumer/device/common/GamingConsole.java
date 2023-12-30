@@ -5,6 +5,7 @@ import consumer.device.Device;
 import consumer.device.DeviceStatus;
 import consumer.device.DeviceType;
 import place.Room;
+import utils.HelpFunctions;
 
 public class GamingConsole extends Device implements ElectricityConsumer {
 
@@ -16,9 +17,8 @@ public class GamingConsole extends Device implements ElectricityConsumer {
     }
 
     @Override
-    public int consumeElectricity() {
-        // TODO - implement
-        return 0;
+    public double consumeElectricity() {
+        return HelpFunctions.countElectricityConsumption(status, 1);    // TODO - change 1 for Constant
     }
 
     public void play(Game game) {

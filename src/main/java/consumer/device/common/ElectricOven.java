@@ -3,6 +3,7 @@ package consumer.device.common;
 import consumer.ElectricityConsumer;
 import consumer.device.DeviceType;
 import place.Room;
+import utils.HelpFunctions;
 
 public class ElectricOven extends Oven implements ElectricityConsumer {
 
@@ -11,8 +12,7 @@ public class ElectricOven extends Oven implements ElectricityConsumer {
     }
 
     @Override
-    public int consumeElectricity() {
-        // TODO - implement, depends on temperature
-        return 0;
+    public double consumeElectricity() {
+        return HelpFunctions.countElectricityConsumption(status, temperature / 2); // TODO - change 2 for Constant (temperature for 1kW)
     }
 }

@@ -5,14 +5,17 @@ import consumer.WaterConsumer;
 import consumer.device.Device;
 import consumer.device.DeviceType;
 import place.Room;
+import utils.HelpFunctions;
+
+import java.time.LocalTime;
 
 
 public class Washer extends Device implements WaterConsumer, ElectricityConsumer {
 
-    private Time timeToReady;   // TODO - Time?
+    private LocalTime timeToReady;
     private WasherProgram program;
     private boolean areClothesInside;
-    private int filterStatus;
+    private int filterStatus;   // percent
 
     public Washer(int id, Room startRoom) {
         super(DeviceType.WASHER, id, startRoom);
@@ -26,20 +29,18 @@ public class Washer extends Device implements WaterConsumer, ElectricityConsumer
     }
 
     @Override
-    public int consumeElectricity() {
-        // TODO - implement, depends on program
-        return 0;
+    public double consumeElectricity() {
+        return program != null ? HelpFunctions.countElectricityConsumption(status, program.getPower()) : 0;
     }
 
     @Override
-    public int consumeWater() {
-        // TODO - implement, depends on program
-        return 0;
+    public double consumeWater() {
+        return program != null ? HelpFunctions.countWaterConsumption(status, program.getWaterConsumption()) : 0;
     }
 
-    public void wash(Time time, WasherProgram program) {
+    public void wash(WasherProgram program) {
         // TODO - check durability
-        timeToReady = time;
+        timeToReady = program.getDuration();
         this.program = program;
         // TODO - smth else?
     }
@@ -58,11 +59,11 @@ public class Washer extends Device implements WaterConsumer, ElectricityConsumer
 
     // TODO - maybe delete some getters or setters
 
-    public Time getTimeToReady() {
+    public LocalTime getTimeToReady() {
         return timeToReady;
     }
 
-    public void setTimeToReady(Time timeToReady) {
+    public void setTimeToReady(LocalTime timeToReady) {
         this.timeToReady = timeToReady;
     }
 
@@ -87,6 +88,6 @@ public class Washer extends Device implements WaterConsumer, ElectricityConsumer
     }
 
     public void setFilterStatus(int filterStatus) {
-        this.filterStatus = filterStatus;
+        this.filterStatus = HelpFunctions.adjustPercent(filterStatus);
     }
 }

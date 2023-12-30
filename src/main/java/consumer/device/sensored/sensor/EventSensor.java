@@ -8,8 +8,7 @@ public abstract class EventSensor extends Sensor<EventDevice<?>> {
 
     protected final EventType eventType;
 
-    protected EventSensor(EventDevice<?> device, EventType eventType) {
-        super(device);
+    protected EventSensor(EventType eventType) {
         this.eventType = eventType;
     }
 

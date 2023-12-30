@@ -4,6 +4,7 @@ import consumer.GasConsumer;
 import consumer.device.DeviceStatus;
 import consumer.device.DeviceType;
 import place.Room;
+import utils.HelpFunctions;
 
 public class GasOven extends Oven implements GasConsumer {
 
@@ -12,9 +13,8 @@ public class GasOven extends Oven implements GasConsumer {
     }
 
     @Override
-    public int consumeGas() {
-        // TODO - implement, depends on temperature
-        return 0;
+    public double consumeGas() {
+        return HelpFunctions.countGasConsumption(status, temperature / 2);      // TODO - change 2 for Constant (temperature for 1m^3)
     }
 
     @Override

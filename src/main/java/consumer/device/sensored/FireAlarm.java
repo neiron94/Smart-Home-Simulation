@@ -1,17 +1,15 @@
 package consumer.device.sensored;
 
 import consumer.device.DeviceType;
+import consumer.device.sensored.sensor.HumiditySensor;
 import consumer.device.sensored.sensor.SmokeSensor;
+import consumer.device.sensored.sensor.TemperatureSensor;
 import place.Room;
 
 public class FireAlarm extends Alarm<SmokeSensor> {
-    public FireAlarm(int id, Room startRoom, SmokeSensor sensor) {
-        super(DeviceType.FIRE_ALARM, id, startRoom, sensor);
-    }
-
-    @Override
-    public int consumeElectricity() {
-        // TODO
-        return 0;
+    public FireAlarm(int id, Room startRoom) {
+        super(DeviceType.FIRE_ALARM, id, startRoom);
+        this.sensor = new SmokeSensor();
+        this.sensor.attachDevice(this);
     }
 }

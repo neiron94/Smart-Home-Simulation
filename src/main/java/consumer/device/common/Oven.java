@@ -6,10 +6,12 @@ import consumer.device.DeviceType;
 import consumer.device.Manual;
 import place.Room;
 
+import java.time.LocalTime;
+
 public abstract class Oven extends Device {
-    private boolean isFoodInside;
-    private int temperature;
-    private Time timeToReady;   // TODO - Time?
+    protected boolean isFoodInside;
+    protected double temperature;
+    protected LocalTime timeToReady;
 
     public Oven(DeviceType ovenType, int id, Room startRoom) {
         super(ovenType, id, startRoom);
@@ -21,7 +23,7 @@ public abstract class Oven extends Device {
         // TODO - doAction(): timeToReady--, if == 0 -> set STANDBY
     }
 
-    public void makeFood(Time cookTime, int cookTemperature) {
+    public void makeFood(LocalTime cookTime, int cookTemperature) {
         // TODO - check durability?, add smth?
         temperature = cookTemperature;
         timeToReady = cookTime;
@@ -45,19 +47,19 @@ public abstract class Oven extends Device {
         isFoodInside = foodInside;
     }
 
-    public int getTemperature() {
+    public double getTemperature() {
         return temperature;
     }
 
-    public void setTemperature(int temperature) {
+    public void setTemperature(double temperature) {
         this.temperature = temperature;
     }
 
-    public Time getTimeToReady() {
+    public LocalTime getTimeToReady() {
         return timeToReady;
     }
 
-    public void setTimeToReady(Time timeToReady) {
+    public void setTimeToReady(LocalTime timeToReady) {
         this.timeToReady = timeToReady;
     }
 }

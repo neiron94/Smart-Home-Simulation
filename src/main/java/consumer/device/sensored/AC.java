@@ -8,14 +8,10 @@ import utils.HelpFunctions;
 
 
 public class AC extends ParameterDevice<TemperatureSensor> {
-    public AC(int id, Room startRoom, TemperatureSensor sensor) {
-        super(DeviceType.AC, id, startRoom, sensor);
-    }
-
-    @Override
-    public int consumeElectricity() {
-        // TODO - implement, depends on power
-        return 0;
+    public AC(int id, Room startRoom) {
+        super(DeviceType.AC, id, startRoom);
+        this.sensor = new TemperatureSensor();
+        this.sensor.attachDevice(this);
     }
 
     @Override

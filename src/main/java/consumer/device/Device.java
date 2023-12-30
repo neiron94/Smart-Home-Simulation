@@ -9,6 +9,7 @@ import smarthome.Simulation;
 
 
 public abstract class Device implements Consumer {
+    public static final double TICK_DURATION = 1.0 * 1 / 60; // 1 minute in hours TODO - move to Constants
     protected final int deviceID;
     protected  final DeviceType type;
     protected Room room;    // TODO - what if null?

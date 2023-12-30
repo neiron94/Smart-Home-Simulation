@@ -2,6 +2,7 @@ package consumer.device.sensored;
 
 import consumer.device.DeviceStatus;
 import consumer.device.DeviceType;
+import consumer.device.sensored.sensor.GasSensor;
 import consumer.device.sensored.sensor.TemperatureSensor;
 import place.Room;
 import utils.HelpFunctions;
@@ -9,14 +10,10 @@ import utils.HelpFunctions;
 
 public class Heater extends ParameterDevice<TemperatureSensor> {
 
-    public Heater(int id, Room startRoom, TemperatureSensor sensor) {
-        super(DeviceType.HEATER, id, startRoom, sensor);
-    }
-
-    @Override
-    public int consumeElectricity() {
-        // TODO - implement, depends on power
-        return 0;
+    public Heater(int id, Room startRoom) {
+        super(DeviceType.HEATER, id, startRoom);
+        this.sensor = new TemperatureSensor();
+        this.sensor.attachDevice(this);
     }
 
     @Override

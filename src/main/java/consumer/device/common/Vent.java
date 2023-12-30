@@ -4,21 +4,21 @@ import consumer.ElectricityConsumer;
 import consumer.device.Device;
 import consumer.device.DeviceType;
 import place.Room;
+import utils.HelpFunctions;
 
 
 public class Vent extends Device implements ElectricityConsumer {
 
     private VentProgram program;
-    private int filterStatus;
+    private int filterStatus;   // percent
 
     public Vent(int id, Room startRoom) {
         super(DeviceType.VENT, id, startRoom);
     }
 
     @Override
-    public int consumeElectricity() {
-        // TODO - implement, depends on program
-        return 0;
+    public double consumeElectricity() {
+        return program != null ? HelpFunctions.countElectricityConsumption(status, program.getPower()) : 0;
     }
 
     public void cleanFilter() {
@@ -40,6 +40,6 @@ public class Vent extends Device implements ElectricityConsumer {
     }
 
     public void setFilterStatus(int filterStatus) {
-        this.filterStatus = filterStatus;
+        this.filterStatus = HelpFunctions.adjustPercent(filterStatus);
     }
 }

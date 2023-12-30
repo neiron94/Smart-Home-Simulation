@@ -4,7 +4,7 @@ import consumer.device.sensored.EventDevice;
 import event.EventType;
 
 public class SmokeSensor extends EventSensor {
-    protected SmokeSensor(EventDevice<?> device) {
-        super(device, EventType.FIRE);
+    public SmokeSensor() {
+        super(EventType.FIRE);
     }
 }
