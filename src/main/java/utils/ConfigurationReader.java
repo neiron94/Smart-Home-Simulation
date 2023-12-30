@@ -6,10 +6,14 @@ import consumer.device.DeviceFactory;
 import consumer.device.Device;
 import creature.Creature;
 import creature.CreatureFactory;
+import place.ControlPanel;
 import place.Room;
+import place.RoomConfiguration;
 import service.EntertainmentFactory;
 import service.EntertainmentService;
 import smarthome.Simulation;
+
+import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
@@ -17,6 +21,9 @@ import java.util.NoSuchElementException;
 
 public class ConfigurationReader {
     public static final String CONFIG_PATH = System.getProperty("user.dir") + "/src/main/resources/config/";
+    public static final int RED = 0;
+    public static final int GREEN = 1;
+    public static final int BLUE = 2;
 
     public static void readSimulationConfig() {
         String configPath = CONFIG_PATH + "Simulation.json";
@@ -77,6 +84,17 @@ public class ConfigurationReader {
         String configPath = CONFIG_PATH + "RoomConfiguration.json";
         JsonNode config = openConfig(configPath);
 
+        for (int i = 0; i < config.path("configurations").size(); ++i) {
+            JsonNode configuration = config.path("configurations").get(i);
+            String name = configuration.path("name").asText();
+            float temperature = configuration.path("temperature").floatValue();
+            int humidity = configuration.path("humidity").asInt();
+            int brightness = configuration.path("brightness").asInt();
+            int r = configuration.path("color").get(RED).asInt();
+            int g = configuration.path("color").get(GREEN).asInt();
+            int b = configuration.path("color").get(BLUE).asInt();
+            ControlPanel.addConfiguration(new RoomConfiguration(name, temperature, humidity, brightness, new Color(r, g, b)));
+        }
     }
 
     public static void readContentConfig() {
