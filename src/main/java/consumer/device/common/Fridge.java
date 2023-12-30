@@ -25,11 +25,6 @@ public class Fridge extends Device implements ElectricityConsumer {
     }
 
     @Override
-    public void fire() {
-        // TODO - implement
-    }
-
-    @Override
     public void setStatus(DeviceStatus status) {
         if (status != DeviceStatus.STANDBY)
             this.status = status;

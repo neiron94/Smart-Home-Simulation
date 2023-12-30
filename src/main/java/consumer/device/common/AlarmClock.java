@@ -3,6 +3,7 @@ package consumer.device.common;
 import consumer.ElectricityConsumer;
 import consumer.device.Device;
 import consumer.device.DeviceType;
+import event.WakeUpEvent;
 import place.Room;
 
 import java.util.Date;
@@ -24,18 +25,13 @@ public class AlarmClock extends Device implements ElectricityConsumer {
     }
 
     @Override
-    public void fire() {
-        // TODO - implement
-    }
-
-    @Override
     public void routine() {
         super.routine();
         // TODO - doAction(): compare ringTime with Simulation.getDate()
     }
 
     public void ring() {
-        // TODO - throw event
+        new WakeUpEvent(this, this.room).throwEvent();
     }
 
     // TODO - maybe delete some getters or setters

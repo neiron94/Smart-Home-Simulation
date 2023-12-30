@@ -20,11 +20,6 @@ public class AirDryer extends ParameterDevice<HumiditySensor> {
     }
 
     @Override
-    public void fire() {
-        // TODO - implement
-    }
-
-    @Override
     public void react(Number parameter) {
         // TODO - increment and decrement by 5?
         if (room.getHumidity() > room.getControlPanel().getHumidity())

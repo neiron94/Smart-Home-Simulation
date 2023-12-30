@@ -19,11 +19,6 @@ public class Window extends ParameterDevice<LightSensor> {
     }
 
     @Override
-    public void fire() {
-        // TODO - implement
-    }
-
-    @Override
     public void react(Number parameter) {
         // TODO - increment and decrement by 5?
         if (room.getBrightness() > room.getControlPanel().getBrightness())

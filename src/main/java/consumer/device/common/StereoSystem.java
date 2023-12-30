@@ -29,11 +29,6 @@ public class StereoSystem extends Device implements ElectricityConsumer {
     }
 
     @Override
-    public void fire() {
-        // TODO - implemens
-    }
-
-    @Override
     public void routine() {
         super.routine();
         // TODO - doAction(): timeToReady--, check timeToReady, pop next song or stop playing

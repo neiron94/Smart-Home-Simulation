@@ -21,11 +21,6 @@ public class GamingConsole extends Device implements ElectricityConsumer {
         return 0;
     }
 
-    @Override
-    public void fire() {
-        // TODO - implement
-    }
-
     public void play(Game game) {
         currentGame = game;
         status = DeviceStatus.ON;

@@ -3,6 +3,7 @@ package consumer.device;
 import consumer.AddVisitor;
 import consumer.ConsumeVisitor;
 import consumer.Consumer;
+import event.BreakEvent;
 import place.Room;
 import smarthome.Simulation;
 
@@ -37,7 +38,7 @@ public abstract class Device implements Consumer {
     }
 
     public void brake() {
-        // TODO - implement. Throws event
+        new BreakEvent(this, this.room).throwEvent();
     }
 
     // TODO - maybe remove some getters or setters

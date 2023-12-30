@@ -33,19 +33,9 @@ public class Dishwasher extends Device implements WaterConsumer, ElectricityCons
     }
 
     @Override
-    public void fire() {
-        // TODO - implement
-    }
-
-    @Override
     public int consumeWater() {
         // TODO - implement, depends on program
         return 0;
-    }
-
-    @Override
-    public void flood() {
-        // TODO - implement
     }
 
     public void wash(DishwasherProgram program) {
