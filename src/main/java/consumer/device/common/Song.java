@@ -1,3 +1,5 @@
 package consumer.device.common;
 
-public record Song(String author, String album, String name, SongGenre genre, int duration) {}
+import java.time.LocalTime;
+
+public record Song(String author, String album, String name, SongGenre genre, LocalTime duration) {}

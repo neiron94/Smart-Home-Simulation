@@ -6,14 +6,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Floor implements EventDestination {
-    private static int id = 1;
-
-    private final int floorId;
+    private final int id;
     private final List<Room> rooms;
     private List<Event> events;
 
-    public Floor() {
-        floorId = id++;
+    public Floor(int id) {
+        this.id = id;
         rooms = new ArrayList<>();
         events = new ArrayList<>();
     }
@@ -36,7 +34,7 @@ public class Floor implements EventDestination {
 
     @Override
     public String toString() {
-        return "Floor_" + floorId;
+        return "Floor_" + id;
     }
 
     @Override

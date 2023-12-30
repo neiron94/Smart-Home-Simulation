@@ -4,6 +4,8 @@ import consumer.device.Device;
 import creature.Creature;
 import place.DeviceService;
 import place.Home;
+import place.HomeBuilder;
+import utils.ConfigurationReader;
 
 
 import java.util.ArrayList;
@@ -12,27 +14,24 @@ import java.util.List;
 
 public class Simulation {
     private static Simulation instance = null;
+    public static String configurationName;
+    public static Date finishTime; // TODO Choose proper class
+    public static Date reportTime; // TODO Choose proper class
 
-    private Date currentTime; // TODO Changes in simulate() function
-    private final Date finishTime;
+    private Date currentTime; // TODO Choose proper class, changes in simulate() function
 
-    private final Home home;
-    private final List<Creature> residents;
-    private final List<Device> devices;
-    private final DeviceService service;
+    private Home home;
+    private final List<Creature> residents = new ArrayList<>();
+    private final List<Device> devices = new ArrayList<>();
+    private final DeviceService service = new DeviceService();
 
     private double streetTemperature; // TODO Changes in calculateSimulation() function
     private int streetBrightness; // TODO Changes in calculateSimulation() function
     private int streetHumidity; // TODO Changes in calculateSimulation() function
 
     private Simulation() {
-        home = new Home(); // TODO Make from JSON config - Home Builder ???
-        residents = new ArrayList<>(); // TODO Make from JSON config - Creatures Factory ???
-        devices = new ArrayList<>(); // TODO Make from JSON config - Devices Factory ???
-        service = new DeviceService();
-
         currentTime = null; // TODO Get local PC time
-        finishTime = null; // TODO Read from console or JSON config ??
+        ConfigurationReader.readSimulationConfig();
 
         streetTemperature = 0; // TODO Initialize value of temperature - or maybe at first iteration ??
         streetHumidity = 0; // TODO Initialize value of humidity - or maybe at first iteration ??
@@ -40,8 +39,17 @@ public class Simulation {
     }
 
     public static Simulation getInstance() {
-        if (instance == null) instance = new Simulation();
+        if (instance == null) {
+            instance = new Simulation();
+            readConfig(instance);
+        }
         return instance;
+    }
+
+    private static void readConfig(Simulation simulation) {
+        simulation.home = new HomeBuilder(configurationName).buildHome();
+        ConfigurationReader.readCreatureConfig(configurationName);
+        ConfigurationReader.readDeviceConfig(configurationName);
     }
 
     public Date getCurrentTime() {
@@ -76,21 +84,9 @@ public class Simulation {
         return streetHumidity;
     }
 
-    public void start() {
-        readConfig(); build(); // TODO Read configs + simulation build - here or at instance creating in Main ???
-        // TODO Generate Configuration Report
-        simulate(); // Program loop
-    }
+    public void simulate() {
+        // TODO Create HouseConfigurationReport
 
-    private void readConfig() {
-        // TODO Read JSON configs - here or earlier ???
-    }
-
-    private void build() {
-        // TODO Build simulation - here or earlier ???
-    }
-
-    private void simulate() {
         while (true) { // TODO Change condition to compare currentTime and finishTime
             calculateSimulation(); // Updates simulation parameters (temperature, humidity, brightness)
 
