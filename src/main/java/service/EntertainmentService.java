@@ -9,6 +9,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class EntertainmentService {
+
+    static {
+        ConfigurationReader.readContentConfig();
+    }
+
     public static class GameService {
         private final static List<Game> games = new ArrayList<>(); // simulation of database of games TODO - should be preloaded
 
