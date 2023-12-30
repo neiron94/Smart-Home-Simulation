@@ -1,6 +1,8 @@
 package consumer.device.common.entertainment;
 
 import utils.ConfigurationReader;
+import utils.HelpFunctions;
+
 import java.util.Random;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +21,7 @@ public class EntertainmentService {
         }
 
         public static Game getRandomGame() {
-            return getRandomObject(games);
+            return HelpFunctions.getRandomObject(games);
         }
     }
 
@@ -32,7 +34,7 @@ public class EntertainmentService {
         }
 
         public static Song getRandomSong() {
-            return getRandomObject(songs);
+            return HelpFunctions.getRandomObject(songs);
         }
 
         public static void addPlaylist(List<Song> playlist) {
@@ -40,7 +42,7 @@ public class EntertainmentService {
         }
 
         public static List<Song> getRandomPlaylist() {
-            return getRandomObject(playlists);
+            return HelpFunctions.getRandomObject(playlists);
         }
     }
 
@@ -52,17 +54,7 @@ public class EntertainmentService {
         }
 
         public static Video getRandomVideo() {
-            return getRandomObject(shows);
-        }
-    }
-
-    private static <T> T getRandomObject(List<T> array) {
-        Random random = new Random();
-        try {
-            int randomIndex = random.nextInt(array.size());
-            return array.get(randomIndex);
-        } catch (IllegalArgumentException e) {
-            return null; // TODO Change return value
+            return HelpFunctions.getRandomObject(shows);
         }
     }
 }
