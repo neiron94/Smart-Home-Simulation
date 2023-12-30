@@ -1,0 +1,28 @@
+{
+  "SONG" : [
+    {
+      "author" : "",
+      "album" : "",
+      "name" : "",
+      "genre" : "",
+      "duration" : 0
+    }
+  ],
+
+  "VIDEO" : [
+    {
+      "name": "",
+      "description": "",
+      "platform": "",
+      "duration": 0
+    }
+  ],
+
+  "GAME" : [
+    {
+      "name" : "",
+      "description" : "",
+      "genre" : ""
+    }
+  ]
+}

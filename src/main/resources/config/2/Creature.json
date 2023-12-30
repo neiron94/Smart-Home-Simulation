@@ -1,0 +1,16 @@
+{
+  "PERSON" : [
+    {
+      "name" : "",
+      "gender" : "",
+      "status" : ""
+    }
+  ],
+
+  "PET" : [
+    {
+      "name" : "",
+      "type" : ""
+    }
+  ]
+}
