@@ -15,13 +15,7 @@ public class ControlPanel {
 
     private static final List<RoomConfiguration> configurations = new ArrayList<>();
     static {
-        configurations.add(new RoomConfiguration("DEFAULT", 0,0,0,new Color(0)));   // TODO - set some values
-        try {
-            // TODO - Load json
-        }
-        catch (Exception e) {   // TODO - catch concrete exception
-            // TODO - print message and continue work
-        }
+        ConfigurationReader.readRoomConfigurationConfig();
     }
 
     public ControlPanel(Room room) {
