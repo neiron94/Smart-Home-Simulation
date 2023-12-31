@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class SupplySystem<T extends Consumer> {
-    private final Map<T, Integer> consumedMap;
+    private final Map<T, Double> consumedMap;
     private boolean resourceAvailable;
 
     public SupplySystem() {
@@ -16,8 +16,8 @@ public class SupplySystem<T extends Consumer> {
     }
 
     public void restoreConsumptions() {     // Sets each value in consumed map to zero
-        for (Map.Entry<T, Integer> consumption : consumedMap.entrySet()) {
-            consumption.setValue(0);
+        for (Map.Entry<T, Double> consumption : consumedMap.entrySet()) {
+            consumption.setValue(0.0);
         }
     }
 
@@ -29,19 +29,19 @@ public class SupplySystem<T extends Consumer> {
         // TODO - implement. For each device from consumed map in this room set status to 1) OFF if switchOn is false 2) START_STATUS if true
     }
 
-    public void addConsumption(T consumer, int consumed) {
+    public void addConsumption(T consumer, double consumed) {
         consumedMap.put(consumer, consumed + consumedMap.get(consumer));
     }
 
     public void addConsumer(T consumer) {
-        consumedMap.put(consumer, 0);
+        consumedMap.put(consumer, 0.0);
     }
 
     public void deleteConsumer(T consumer) {
         consumedMap.remove(consumer);
     }
 
-    public Map<T, Integer> getConsumedMap() {
+    public Map<T, Double> getConsumedMap() {
         return consumedMap;
     }
 

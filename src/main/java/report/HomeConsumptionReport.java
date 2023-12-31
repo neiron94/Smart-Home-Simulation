@@ -11,16 +11,16 @@ public class HomeConsumptionReport extends ConsumptionReport {
     }
 
     public static HomeConsumptionReport makeReport(Device device) { // Factory method
-        int usedGas = Simulation.getInstance().getHome().getGasSupplySystem().getConsumedMap().entrySet().stream() // Get gas consumers stream
-                                    .mapToInt(Map.Entry::getValue) // Get values stream
+        double usedGas = Simulation.getInstance().getHome().getGasSupplySystem().getConsumedMap().entrySet().stream() // Get gas consumers stream
+                                    .mapToDouble(Map.Entry::getValue) // Get values stream
                                     .sum(); // Sum overall consumed gas
-        int usedWater = Simulation.getInstance().getHome().getWaterSupplySystem().getConsumedMap().entrySet().stream() // Get water consumers stream
-                                    .mapToInt(Map.Entry::getValue) // Get values stream
+        double usedWater = Simulation.getInstance().getHome().getWaterSupplySystem().getConsumedMap().entrySet().stream() // Get water consumers stream
+                                    .mapToDouble(Map.Entry::getValue) // Get values stream
                                     .sum(); // Sum overall consumed water
-        int usedElectricity = Simulation.getInstance().getHome().getElectricitySupplySystem().getConsumedMap().entrySet().stream() // Get electricity consumers stream
-                                    .mapToInt(Map.Entry::getValue) // Get values stream
+        double usedElectricity = Simulation.getInstance().getHome().getElectricitySupplySystem().getConsumedMap().entrySet().stream() // Get electricity consumers stream
+                                    .mapToDouble(Map.Entry::getValue) // Get values stream
                                     .sum(); // Sum overall consumed electricity
-        int spentMoney = 0; // TODO Make formulae to count money
+        int spentMoney = 0; // TODO Make formulae to count money + choose proper class to store Money
 
         return new HomeConsumptionReport(String.valueOf(usedGas),
                 String.valueOf(usedWater),
