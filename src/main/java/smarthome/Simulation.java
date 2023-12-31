@@ -12,10 +12,11 @@ import java.util.Date;
 import java.util.List;
 
 public class Simulation {
-    private static Simulation instance = null;
-    public static String configurationName;
-    public static LocalDateTime currentTime; // TODO changes in simulate() function
-    public static LocalDateTime finishTime;
+    private static Simulation INSTANCE;
+
+    private String configurationName;
+    private LocalDateTime finishTime;
+    private LocalDateTime currentTime; // TODO changes in simulate() function
 
     private Home home;
     private final List<Creature> residents = new ArrayList<>();
@@ -27,26 +28,34 @@ public class Simulation {
     private int streetHumidity; // TODO Changes in calculateSimulation() function
 
     private Simulation() {
-        currentTime = LocalDateTime.now(); // TODO Get local PC time
-        ConfigurationReader.readSimulationConfig();
-
+        currentTime = LocalDateTime.now();
         streetTemperature = 0; // TODO Initialize value of temperature - or maybe at first iteration ??
         streetHumidity = 0; // TODO Initialize value of humidity - or maybe at first iteration ??
         streetBrightness = 0; // TODO Initialize value of brightness - or maybe at first iteration ??
     }
 
-    public static Simulation getInstance() {
-        if (instance == null) {
-            instance = new Simulation();
-            readConfig(instance);
+    public synchronized static Simulation getInstance() {
+        if (INSTANCE == null) {
+            INSTANCE = new Simulation();
+            readConfig(INSTANCE);
         }
-        return instance;
+        return INSTANCE;
     }
 
     private static void readConfig(Simulation simulation) {
-        simulation.home = new HomeBuilder(configurationName).buildHome();
+        ConfigurationReader.readSimulationConfig();
+        String configurationName = Simulation.getInstance().configurationName;
+        simulation.home = new HomeBuilder(configurationName).getHome();
         ConfigurationReader.readCreatureConfig(configurationName);
         ConfigurationReader.readDeviceConfig(configurationName);
+    }
+
+    public void setConfigurationName(String configurationName) {
+        this.configurationName = configurationName;
+    }
+
+    public void setFinishTime(LocalDateTime finishTime) {
+        this.finishTime = finishTime;
     }
 
     public LocalDateTime getCurrentTime() {
