@@ -45,7 +45,7 @@ public class Simulation {
     private static void readConfig(Simulation simulation) {
         ConfigurationReader.readSimulationConfig();
         String configurationName = Simulation.getInstance().configurationName;
-        simulation.home = new HomeBuilder(configurationName).buildHome();
+        simulation.home = new HomeBuilder(configurationName).getHome();
         ConfigurationReader.readCreatureConfig(configurationName);
         ConfigurationReader.readDeviceConfig(configurationName);
     }
