@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 public class ConfigurationReader {
-    public static final String CONFIG_PATH = System.getProperty("user.dir") + "/src/main/resources/config/";
+    public static final String CONFIG_PATH = System.getProperty("user.dir") + "/src/main/resources/config/"; // TODO Find out how to open configurations (not to use System.getProperty)
     public static final int RED = 0;
     public static final int GREEN = 1;
     public static final int BLUE = 2;
