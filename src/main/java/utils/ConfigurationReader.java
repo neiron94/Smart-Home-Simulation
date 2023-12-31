@@ -19,17 +19,17 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 public class ConfigurationReader {
-    public static final String CONFIG_PATH = System.getProperty("user.dir") + "/src/main/resources/config/"; // TODO Find out how to open configurations (not to use System.getProperty)
-    public static final int RED = 0;
-    public static final int GREEN = 1;
-    public static final int BLUE = 2;
+    private static final String CONFIG_PATH = System.getProperty("user.dir") + "/src/main/resources/config/"; // TODO Find out how to open configurations (not to use System.getProperty)
+    private static final int RED = 0;
+    private static final int GREEN = 1;
+    private static final int BLUE = 2;
 
     public static void readSimulationConfig() {
         String configPath = CONFIG_PATH + "Simulation.json";
         JsonNode config = openConfig(configPath);
 
-        Simulation.configurationName = config.path("config").asText();
-        Simulation.finishTime = Simulation.currentTime.plusDays(config.path("duration").asLong()); // TODO Count simulation finish time
+        Simulation.getInstance().setConfigurationName(config.path("config").asText());
+        Simulation.getInstance().setFinishTime(Simulation.getInstance().getCurrentTime().plusDays(config.path("duration").asLong()));
     }
 
     public static JsonNode readHomeConfig(String configName) {
