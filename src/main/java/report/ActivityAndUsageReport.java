@@ -12,31 +12,22 @@ public class ActivityAndUsageReport extends Report {
     private final String activity;
     private final String usage;
 
-    private ActivityAndUsageReport(String creature, String activity, String usage) {
-        super();
+    public ActivityAndUsageReport(String creature, String activity, String usage) {
+        super(ReportType.ACTIVITY);
         this.creature = creature;
         this.activity = activity;
         this.usage = usage;
     }
 
-    public static ActivityAndUsageReport makeReport(Creature creature) { // Factory method
-        String creatureName = creature.getName();
-
-        String activityString = creature.getActivity().getActivities().stream() // Get activities stream
-                                    .map(x -> "\t" + x.getDescription()) // Get activity string representation stream
-                                    .collect(Collectors.joining("\n")); // Make result string
-
-        String usageString = creature.getActivity().getUsage().entrySet().stream() // Get usage stream
-                                    .map(x -> "\t" + x.getKey().toString() + " " + x.getValue().toString()) // Get usage string representation stream
-                                    .collect(Collectors.joining("\n")); // Make result string
-
-        return new ActivityAndUsageReport(creatureName, activityString, usageString);
+    public String getCreature() {
+        return creature;
     }
 
-    @Override
-    public void saveReport() {
-        // TODO Path to .txt file by default
+    public String getActivity() {
+        return activity;
+    }
 
-        // TODO Create file creature.txt
+    public String getUsage() {
+        return usage;
     }
 }
