@@ -20,4 +20,17 @@ public class HouseConfigurationReport extends Report {
     public List<String> getResidents() {
         return residents;
     }
+
+    @Override
+    public String toString() {
+        StringBuilder report = new StringBuilder();
+
+        report.append("Home").append('\n');
+        hierarchy.forEach((key, value) -> report.append(value.stream().reduce('\t' + key, (result, room) -> result + ("\n\t\t" + room))).append('\n'));
+
+        report.append("Residents").append('\n');
+        residents.forEach(resident -> report.append('\t').append(resident).append('\n'));
+
+        return report.toString();
+    }
 }

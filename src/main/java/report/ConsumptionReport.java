@@ -35,4 +35,13 @@ public class ConsumptionReport extends Report {
     public String getSpentMoney() {
         return spentMoney;
     }
+
+    @Override
+    public String toString() {
+        return device + '\t' +
+                usedGas + '\t' +
+                usedWater + '\t' +
+                usedElectricity + '\t' +
+                spentMoney;
+    }
 }

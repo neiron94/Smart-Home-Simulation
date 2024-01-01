@@ -44,10 +44,6 @@ public abstract class Creature {
         return activity;
     }
 
-    public void setActivity(Activity activity) {
-        this.activity = activity;
-    }
-
     public boolean isBusy() {
         return isBusy;
     }

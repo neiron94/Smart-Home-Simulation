@@ -23,28 +23,18 @@ public class ReportCreator {
     }
 
     public static void createConfigurationReport() {
-        HouseConfigurationReport report = (HouseConfigurationReport) new ReportFactory().makeReport(ReportType.CONFIGURATION);
-
-        writeFile(ReportType.CONFIGURATION, "Home");
-        report.getHierarchy().forEach((key, value) -> {
-            String data = value.stream().reduce(key, (result, room) -> result + ("\n\t\t" + room));
-            writeFile(ReportType.CONFIGURATION, '\t' + data);
-        });
-
-        writeFile(ReportType.CONFIGURATION, "Residents");
-        report.getResidents().forEach(resident -> writeFile(ReportType.CONFIGURATION, '\t' + resident));
+        Report report = new ReportFactory().makeReport(ReportType.CONFIGURATION);
+        writeFile(report.getReportType(), report.toString());
     }
 
     private static void createActivityReports() {
         writeFile(ReportType.ACTIVITY, Simulation.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
 
         Simulation.getInstance().getResidents().forEach(resident -> {
-            ActivityAndUsageReport report = (ActivityAndUsageReport) new ReportFactory(resident).makeReport(ReportType.ACTIVITY);
-            String creature = '\t' + report.getCreature();
-            String activities = report.getActivities().stream().reduce("\t\tActivity", (result, activity) -> result + ("\n\t\t\t" + activity));
-            String usages = report.getUsages().stream().reduce("\t\tUsage", (result, usage) -> result + ("\n\t\t\t" + usage));
-            writeFile(ReportType.ACTIVITY, String.join("\n", creature, activities, usages));
-            resident.setActivity(null); // Clear reported activity // TODO Maybe smth better than null?
+            Report report = new ReportFactory(resident).makeReport(ReportType.ACTIVITY);
+            writeFile(report.getReportType(), report.toString());
+            resident.getActivity().getActivities().clear(); // Clear reported activities
+            resident.getActivity().getUsage().clear(); // Clear reported usages
         });
     }
 
@@ -52,19 +42,14 @@ public class ReportCreator {
         String date = Simulation.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
 
         Simulation.getInstance().getDevices().forEach(device -> {
-            ConsumptionReport report = (ConsumptionReport) new ReportFactory(device).makeReport(ReportType.CONSUMPTION);
-            String consumer = report.getDevice();
-            String gas = report.getUsedGas();
-            String water = report.getUsedWater();
-            String electricity = report.getUsedElectricity();
-            String money = report.getSpentMoney();
-            writeFile(ReportType.CONSUMPTION, String.join("\t", date, consumer, gas, water, electricity, money));
+            Report report = new ReportFactory(device).makeReport(ReportType.CONSUMPTION);
+            writeFile(report.getReportType(), String.join("\t", date, report.toString()));
         });
 
         Home home = Simulation.getInstance().getHome();
-        home.getGasSupplySystem().restoreConsumptions(); // Clear reported gas consumption
-        home.getWaterSupplySystem().restoreConsumptions(); // Clear reported water consumption
-        home.getElectricitySupplySystem().restoreConsumptions(); // Clear reported electricity consumption
+        home.getGasSupplySystem().restoreConsumptions(); // Clear reported gas consumptions
+        home.getWaterSupplySystem().restoreConsumptions(); // Clear reported water consumptions
+        home.getElectricitySupplySystem().restoreConsumptions(); // Clear reported electricity consumptions
     }
 
     private static void createEventReports() {
@@ -73,13 +58,8 @@ public class ReportCreator {
                 .map(creature -> (Person) creature)
                 .forEach(person -> {
                     person.getSolvedEvents().entrySet().forEach(event -> {
-                        EventReport report = (EventReport) new ReportFactory(person, event).makeReport(ReportType.EVENT);
-                        String creationTime = report.getCreationTime();
-                        String solutionTime = report.getSolutionTime();
-                        String type = report.getType();
-                        String solver = report.getSolver();
-                        String creator = report.getCreator();
-                        writeFile(ReportType.EVENT, String.join("\t", creationTime, solutionTime, type, solver, creator));
+                        Report report = new ReportFactory(person, event).makeReport(ReportType.EVENT);
+                        writeFile(report.getReportType(), report.toString());
                     });
                     person.getSolvedEvents().clear(); // Clear reported events
                 });
@@ -87,13 +67,19 @@ public class ReportCreator {
 
     private static void createFile(ReportType type) {
         try {
-            new File(REPORT_PATH + type.getFileName()).delete(); // Delete previous simulation report
-            FileWriter file = new FileWriter(REPORT_PATH + type.getFileName()); // Create new report file
+            File file = new File(REPORT_PATH + type.getFileName()); // Delete previous simulation report
+            if (file.exists()) if (!file.delete()) return; // TODO Handle an error + log info about error of old report file deletion
 
-            if (type == ReportType.CONSUMPTION) file.write("Date\tDevice\tElectricity\tWater\tGas\tMoney" + '\n'); // Add ConsumptionReport header
-            if (type == ReportType.EVENT) file.write("Created\tSolved\tType\tCreator\tSolver" + '\n'); // Add EventReport header
+            FileWriter writer = new FileWriter(REPORT_PATH + type.getFileName()); // Create new report file
 
-            file.close();
+            switch (type) {
+                case CONSUMPTION -> writer.write("Date\tDevice\tElectricity\tWater\tGas\tMoney" + '\n'); // Add ConsumptionReport header
+                case EVENT -> writer.write("Created\tSolved\tType\tCreator\tSolver" + '\n'); // Add EventReport header
+                case CONFIGURATION, ACTIVITY -> writer.write("");
+                default -> throw new IllegalArgumentException("Invalid report type!"); // TODO Handle error
+            }
+
+            writer.close();
         } catch (IOException e) {
             // TODO Handle an error
         }
@@ -101,9 +87,9 @@ public class ReportCreator {
 
     private static void writeFile(ReportType type, String data) {
         try {
-            FileWriter file = new FileWriter(REPORT_PATH + type.getFileName());
-            file.write(data + '\n');
-            file.close();
+            FileWriter writer = new FileWriter(REPORT_PATH + type.getFileName());
+            writer.write(data + '\n');
+            writer.close();
         } catch (IOException e) {
             // TODO Handle an error
         }

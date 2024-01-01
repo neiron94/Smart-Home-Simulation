@@ -1,7 +1,5 @@
 package report;
 
-import creature.person.Person;
-import event.Event;
 
 public class EventReport extends Report {
     private final String creationTime;
@@ -37,5 +35,14 @@ public class EventReport extends Report {
 
     public String getCreator() {
         return creator;
+    }
+
+    @Override
+    public String toString() {
+        return creationTime + '\t' +
+                solutionTime + '\t' +
+                type + '\t' +
+                solver + '\t' +
+                creator;
     }
 }

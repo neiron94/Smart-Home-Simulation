@@ -1,11 +1,6 @@
 package report;
 
-import consumer.device.Device;
-import creature.Action;
-import creature.Creature;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class ActivityAndUsageReport extends Report {
     private final String creature;
@@ -29,5 +24,12 @@ public class ActivityAndUsageReport extends Report {
 
     public List<String> getUsages() {
         return usages;
+    }
+
+    @Override
+    public String toString() {
+        return '\t' + creature + '\n' +
+                activities.stream().reduce("\t\tActivity", (result, activity) -> result + ("\n\t\t\t" + activity)) + '\n' +
+                usages.stream().reduce("\t\tUsage", (result, usage) -> result + ("\n\t\t\t" + usage));
     }
 }
