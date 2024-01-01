@@ -1,22 +1,26 @@
 package event;
 
 public enum EventType {
-    FLOOD("FloodEvent"),
-    LEAK("LeakEvent"),
-    FIRE("FireEvent"),
-    BREAK("BrakeEvent"),
-    WAKEUP("WakeupEvent"),
-    ALERT("AlertEvent"),
-    FILL("FillEvent");
+    FLOOD("Flood"),
+    LEAK("Leak"),
+    FIRE("Fire"),
+    BREAK("Brake"),
+    WAKEUP("Wakeup"),
+    ALERT("Alert"),
+    FILL("Fill");
 
-    private final String description;
+    private final String name;
 
-    EventType(String description) {
-        this.description = description;
+    EventType(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
     }
 
     @Override
     public String toString() {
-        return description;
+        return String.format("%s Event", name);
     }
 }

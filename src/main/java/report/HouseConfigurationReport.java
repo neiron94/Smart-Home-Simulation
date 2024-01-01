@@ -1,45 +1,36 @@
 package report;
 
-import smarthome.Simulation;
-
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
+import java.util.List;
+import java.util.Map;
 
 public class HouseConfigurationReport extends Report {
-    private final String hierarchy;
-    private final String residents;
+    private final Map<String, List<String>> hierarchy;
+    private final List<String> residents;
 
-    private HouseConfigurationReport(String hierarchy, String residents) {
-        super();
+    public HouseConfigurationReport(Map<String, List<String>> hierarchy, List<String> residents) {
+        super(ReportType.CONFIGURATION);
         this.hierarchy = hierarchy;
         this.residents = residents;
     }
 
-    public static HouseConfigurationReport makeReport() { // Factory method
-        String hierarchyString = Simulation.getInstance().getHome().getFloors().stream() // Get floors stream
-                .flatMap(floor -> Stream.concat( // Step into floor
-                        Stream.of("\t" + floor.toString()), // Get floor name
-                        floor.getRooms().stream() // Get rooms stream
-                                .flatMap(room -> Stream.concat( // Step into room
-                                        Stream.of("\t\t" + room.toString()), // Get room name
-                                        Simulation.getInstance().getDevices().stream() // Get devices stream
-                                                .filter(device -> room == device.getRoom()) // Filter only devices in this room
-                                                .map(device -> "\t\t\t" + device.toString())) // Get devices name
-                                ))
-                        ).collect(Collectors.joining("\n")); // Make result string
+    public Map<String, List<String>> getHierarchy() {
+        return hierarchy;
+    }
 
-        String residentsString = Simulation.getInstance().getResidents().stream() // Get creatures stream
-                                    .map(resident -> "\t" + resident.getName()) // Get creature names stream
-                                    .collect(Collectors.joining("\n")); // Make result string
-
-        return new HouseConfigurationReport(hierarchyString, residentsString);
+    public List<String> getResidents() {
+        return residents;
     }
 
     @Override
-    public void saveReport() {
-        // TODO Path to .txt file by default
+    public String toString() {
+        StringBuilder report = new StringBuilder();
 
-        // TODO Save to .txt
+        report.append("Home").append('\n');
+        hierarchy.forEach((key, value) -> report.append(value.stream().reduce('\t' + key, (result, room) -> result + ("\n\t\t" + room))).append('\n'));
+
+        report.append("Residents").append('\n');
+        residents.forEach(resident -> report.append('\t').append(resident).append('\n'));
+
+        return report.toString();
     }
 }

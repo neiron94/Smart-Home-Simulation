@@ -5,6 +5,9 @@ import creature.Creature;
 import place.DeviceService;
 import place.Home;
 import place.HomeBuilder;
+import report.ReportCreator;
+import report.ReportFactory;
+import report.ReportType;
 import utils.ConfigurationReader;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -28,7 +31,7 @@ public class Simulation {
     private int streetHumidity; // TODO Changes in calculateSimulation() function
 
     private Simulation() {
-        currentTime = LocalDateTime.now();
+        currentTime = LocalDateTime.now(); // TODO Cut of seconds
         streetTemperature = 0; // TODO Initialize value of temperature - or maybe at first iteration ??
         streetHumidity = 0; // TODO Initialize value of humidity - or maybe at first iteration ??
         streetBrightness = 0; // TODO Initialize value of brightness - or maybe at first iteration ??
@@ -91,7 +94,7 @@ public class Simulation {
     }
 
     public void simulate() {
-        // TODO Create HouseConfigurationReport
+        ReportCreator.createConfigurationReport();
 
         while (true) { // TODO Change condition to compare currentTime and finishTime
             calculateSimulation(); // Updates simulation parameters (temperature, humidity, brightness)
@@ -99,13 +102,10 @@ public class Simulation {
             residents.forEach(Creature::routine); // Calls routine function in all creatures
             devices.forEach(Device::routine); // Calls routine function in all devices
 
-            if (false) { // TODO Change condition (once in a day)
-                generateReport(); // generates reports
-                home.getGasSupplySystem().restoreConsumptions(); // After reporting - count from the beginning
-                home.getWaterSupplySystem().restoreConsumptions(); // After reporting - count from the beginning
-                home.getElectricitySupplySystem().restoreConsumptions(); // After reporting - count from the beginning
-            }
+            if (false) ReportCreator.createReports(); // TODO Change condition (once in a day)
         }
+
+        // TODO Log simulation finish
     }
 
     private void calculateSimulation() {
@@ -113,11 +113,5 @@ public class Simulation {
         // TODO streetTemperature depends on time and month
         // TODO streetBrightness depends on time
         // TODO streetHumidity depends on month
-    }
-
-    private void generateReport() {
-        // TODO Generate and save Activity and Usage Report
-        // TODO Generate and save Consumption Report
-        // TODO Generate and save Event Report
     }
 }

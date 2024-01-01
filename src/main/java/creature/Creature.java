@@ -59,4 +59,9 @@ public abstract class Creature {
     public void routine() {
         // TODO Routine function
     }
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }

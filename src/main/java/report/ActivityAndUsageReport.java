@@ -1,42 +1,35 @@
 package report;
 
-import consumer.device.Device;
-import creature.Action;
-import creature.Creature;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class ActivityAndUsageReport extends Report {
     private final String creature;
-    private final String activity;
-    private final String usage;
+    private final List<String> activities;
+    private final List<String> usages;
 
-    private ActivityAndUsageReport(String creature, String activity, String usage) {
-        super();
+    public ActivityAndUsageReport(String creature, List<String> activities, List<String> usages) {
+        super(ReportType.ACTIVITY);
         this.creature = creature;
-        this.activity = activity;
-        this.usage = usage;
+        this.activities = activities;
+        this.usages = usages;
     }
 
-    public static ActivityAndUsageReport makeReport(Creature creature) { // Factory method
-        String creatureName = creature.getName();
+    public String getCreature() {
+        return creature;
+    }
 
-        String activityString = creature.getActivity().getActivities().stream() // Get activities stream
-                                    .map(x -> "\t" + x.getDescription()) // Get activity string representation stream
-                                    .collect(Collectors.joining("\n")); // Make result string
+    public List<String> getActivities() {
+        return activities;
+    }
 
-        String usageString = creature.getActivity().getUsage().entrySet().stream() // Get usage stream
-                                    .map(x -> "\t" + x.getKey().toString() + " " + x.getValue().toString()) // Get usage string representation stream
-                                    .collect(Collectors.joining("\n")); // Make result string
-
-        return new ActivityAndUsageReport(creatureName, activityString, usageString);
+    public List<String> getUsages() {
+        return usages;
     }
 
     @Override
-    public void saveReport() {
-        // TODO Path to .txt file by default
-
-        // TODO Create file creature.txt
+    public String toString() {
+        return '\t' + creature + '\n' +
+                activities.stream().reduce("\t\tActivity", (result, activity) -> result + ("\n\t\t\t" + activity)) + '\n' +
+                usages.stream().reduce("\t\tUsage", (result, usage) -> result + ("\n\t\t\t" + usage));
     }
 }

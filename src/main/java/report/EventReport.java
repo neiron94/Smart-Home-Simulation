@@ -1,33 +1,48 @@
 package report;
 
-import creature.person.Person;
-import event.Event;
 
 public class EventReport extends Report {
+    private final String creationTime;
+    private final String solutionTime;
+    private final String type;
     private final String solver;
     private final String creator;
-    private final String type;
 
-    private EventReport(String creature, String device, String type) {
-        super();
-        solver = creature;
-        creator = device;
+    public EventReport(String creationTime, String solutionTime, String type, String creator, String solver) {
+        super(ReportType.EVENT);
+        this.creationTime = creationTime;
+        this.solutionTime = solutionTime;
         this.type = type;
+        this.creator = creator;
+        this.solver = solver;
     }
 
-    public static EventReport makeReport(Person solver, Event event) { // Factory method
-        String solverName = solver.getName();
-        String creatorName = event.getCreator().toString();
-        String typeName = event.getEventType().toString();
-        return new EventReport(solverName, creatorName, typeName);
+    public String getCreationTime() {
+        return creationTime;
+    }
+
+    public String getSolutionTime() {
+        return solutionTime;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public String getSolver() {
+        return solver;
+    }
+
+    public String getCreator() {
+        return creator;
     }
 
     @Override
-    public void saveReport() {
-        // TODO Path to .txt file by default
-
-        // TODO Create file creator.txt - append method
-        // TODO Create file solver.txt - append method
-        // TODO Create file type.txt - append method
+    public String toString() {
+        return creationTime + '\t' +
+                solutionTime + '\t' +
+                type + '\t' +
+                solver + '\t' +
+                creator;
     }
 }

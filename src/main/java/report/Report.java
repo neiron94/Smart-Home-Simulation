@@ -3,11 +3,15 @@ package report;
 import smarthome.Simulation;
 
 public abstract class Report {
-    protected final String date;
+    protected final ReportType reportType;
 
-    public Report() {
-        this.date = Simulation.getInstance().getCurrentTime().toString(); // TODO Convert to String in format DD/MM/YYYY
+    public Report(ReportType type) {
+        this.reportType = type;
     }
 
-    public abstract void saveReport();
+    public ReportType getReportType() {
+        return reportType;
+    }
+
+    public abstract String toString();
 }

@@ -2,11 +2,10 @@ package event;
 
 import consumer.device.Device;
 import event.throwStrategy.EventThrowStrategy;
-import place.EventDestination;
 import place.Room;
+import smarthome.Simulation;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 
 public abstract class Event {
     private final EventType eventType;
@@ -15,27 +14,18 @@ public abstract class Event {
     private final Room origin;
     private final EventThrowStrategy throwStrategy;
     private final LocalDateTime eventDate;
-    private LocalDateTime solveDate; // TODO - move to Person
 
-    protected Event(EventType eventType, EventPriority priority, EventThrowStrategy throwStrategy, LocalDateTime eventDate, Device creator, Room origin) {
+    protected Event(EventType eventType, EventPriority priority, EventThrowStrategy throwStrategy, Device creator, Room origin) {
         this.eventType = eventType;
         this.creator = creator;
         this.priority = priority;
         this.throwStrategy = throwStrategy;
-        this.eventDate = eventDate;
         this.origin = origin;
+        eventDate = Simulation.getInstance().getCurrentTime();
     }
 
     public void throwEvent() {
         throwStrategy.throwEvent(this);
-    }
-
-    public LocalDateTime getSolveDate() {
-        return solveDate;
-    }
-
-    public void setSolveDate(LocalDateTime solveDate) {
-        this.solveDate = solveDate;
     }
 
     public EventType getEventType() {

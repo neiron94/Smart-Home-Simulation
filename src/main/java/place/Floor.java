@@ -34,7 +34,7 @@ public class Floor implements EventDestination {
 
     @Override
     public String toString() {
-        return "Floor_" + id;
+        return String.format("%s_%d", "Floor_", id);
     }
 
     @Override

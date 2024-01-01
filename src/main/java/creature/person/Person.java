@@ -2,14 +2,16 @@ package creature.person;
 
 import creature.Creature;
 import event.Event;
-import place.Room;
+import smarthome.Simulation;
 
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 public class Person extends Creature {
     private final Gender gender;
     private final FamilyStatus status;
-    private List<Event> solvedEvents;
+    private Map<Event, LocalDateTime> solvedEvents;
     // TODO Additional parameters can be added
 
     public Person(String name, Gender gender, FamilyStatus status) {
@@ -26,16 +28,16 @@ public class Person extends Creature {
         return status;
     }
 
-    public List<Event> getSolvedEvents() {
+    public Map<Event, LocalDateTime> getSolvedEvents() {
         return solvedEvents;
     }
 
-    public void addSolvedEvent(Event solvedEvent) { // TODO Control after Creation Event class
-        solvedEvents.add(solvedEvent);
+    public void addSolvedEvent(Event solvedEvent) {
+        solvedEvents.put(solvedEvent, Simulation.getInstance().getCurrentTime());
     }
 
     @Override
     public String toString() {
-        return "Person " + name;
+        return String.format("%s (%s, %s)", name, gender.toString(), status.toString());
     }
 }
