@@ -8,10 +8,8 @@ import event.Event;
 import place.Floor;
 import place.Home;
 import smarthome.Simulation;
-
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeFormatterBuilder;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -39,13 +37,12 @@ public class ReportFactory {
         this.event = event;
     }
 
-    @SuppressWarnings("unchecked")
-    public <T extends Report> T makeReport(ReportType type) {
+    public Report makeReport(ReportType type) {
         return switch (type) {
-            case CONFIGURATION -> (T) makeConfigurationReport();
-            case ACTIVITY -> (T) makeActivityReport();
-            case CONSUMPTION -> (T) makeConsumptionReport();
-            case EVENT -> (T) makeEventReport();
+            case CONFIGURATION -> makeConfigurationReport();
+            case ACTIVITY -> makeActivityReport();
+            case CONSUMPTION -> makeConsumptionReport();
+            case EVENT -> makeEventReport();
             default -> throw new IllegalArgumentException("Invalid report type!"); // TODO Handle error
         };
     }

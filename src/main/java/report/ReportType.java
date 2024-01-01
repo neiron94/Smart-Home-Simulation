@@ -1,25 +1,25 @@
 package report;
 
 public enum ReportType {
-    CONFIGURATION("HouseConfigurationReport", "txt"),
-    CONSUMPTION("ConsumptionReport", "csv"),
-    ACTIVITY("ActivityAndUsageReport", "txt"),
-    EVENT("EventReport", "csv");
+    CONFIGURATION("Configuration", "txt"),
+    CONSUMPTION("Consumption", "csv"),
+    ACTIVITY("Activity", "txt"),
+    EVENT("Event", "csv");
 
-    private final String description;
-    private final String extension;
+    private final String name;
+    private final String fileName;
 
-    ReportType(String description, String extension) {
-        this.description = description;
-        this.extension = extension;
+    ReportType(String name, String extension) {
+        this.name = String.join(" ", name, "report");
+        this.fileName = String.join(".", name, extension);
     }
 
-    public String getExtension() {
-        return extension;
+    public String getFileName() {
+        return fileName;
     }
 
     @Override
     public String toString() {
-        return description;
+        return this.name;
     }
 }
