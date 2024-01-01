@@ -17,6 +17,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Set;
 
 public class ConfigurationReader {
     private static final String CONFIG_PATH = System.getProperty("user.dir") + "/src/main/resources/config/"; // TODO Find out how to open configurations (not to use System.getProperty)
@@ -41,7 +42,7 @@ public class ConfigurationReader {
         String configPath = CONFIG_PATH + configName + "/Device.json";
         JsonNode config = openConfig(configPath);
 
-        List<Device> devices = Simulation.getInstance().getDevices();
+        Set<Device> devices = Simulation.getInstance().getDevices();
 
         config.fields().forEachRemaining(device -> {
             for (int i = 0; i < device.getValue().size(); ++i) {
@@ -60,7 +61,7 @@ public class ConfigurationReader {
         JsonNode config = openConfig(configPath);
 
         CreatureFactory factory = new CreatureFactory();
-        List<Creature> creatures = Simulation.getInstance().getResidents();
+        Set<Creature> creatures = Simulation.getInstance().getResidents();
 
         for (int i = 0; i < config.path("PERSON").size(); ++i) {
             JsonNode person = config.path("PERSON").get(i);

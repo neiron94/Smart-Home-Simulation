@@ -6,13 +6,12 @@ import place.DeviceService;
 import place.Home;
 import place.HomeBuilder;
 import report.ReportCreator;
-import report.ReportFactory;
-import report.ReportType;
 import utils.ConfigurationReader;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class Simulation {
     private static Simulation INSTANCE;
@@ -22,8 +21,8 @@ public class Simulation {
     private LocalDateTime currentTime; // TODO changes in simulate() function
 
     private Home home;
-    private final List<Creature> residents = new ArrayList<>();
-    private final List<Device> devices = new ArrayList<>();
+    private final Set<Creature> residents = new HashSet<>();
+    private final Set<Device> devices = new HashSet<>();
     private final DeviceService service = new DeviceService();
 
     private double streetTemperature; // TODO Changes in calculateSimulation() function
@@ -69,11 +68,11 @@ public class Simulation {
         return home;
     }
 
-    public List<Creature> getResidents() {
+    public Set<Creature> getResidents() {
         return residents;
     }
 
-    public List<Device> getDevices() {
+    public Set<Device> getDevices() {
         return devices;
     }
 
