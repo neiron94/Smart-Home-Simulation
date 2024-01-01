@@ -6,6 +6,7 @@ import consumer.device.DeviceType;
 import consumer.device.common.entertainment.Song;
 import event.WakeUpEvent;
 import place.Room;
+import utils.Constants.Consumption.Electricity;
 import utils.HelpFunctions;
 import java.time.LocalDateTime;
 
@@ -21,7 +22,7 @@ public class AlarmClock extends Device implements ElectricityConsumer {
 
     @Override
     public double consumeElectricity() {
-        return HelpFunctions.countElectricityConsumption(status, 1);    // TODO - change 1 for Constant
+        return HelpFunctions.countElectricityConsumption(status, Electricity.ALARM_CLOCK);
     }
 
     @Override

@@ -7,6 +7,7 @@ import consumer.device.DeviceType;
 import creature.pet.PetType;
 import event.FillEvent;
 import place.Room;
+import utils.Constants.Consumption.Electricity;
 import utils.HelpFunctions;
 
 
@@ -25,7 +26,7 @@ public class Feeder extends Device implements ElectricityConsumer {
 
     @Override
     public double consumeElectricity() {
-        return HelpFunctions.countElectricityConsumption(status, 1);    // TODO - change 1 for Constant
+        return HelpFunctions.countElectricityConsumption(status, Electricity.FEEDER);
     }
 
     @Override

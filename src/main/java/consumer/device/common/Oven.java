@@ -5,12 +5,16 @@ import consumer.device.DeviceStatus;
 import consumer.device.DeviceType;
 import consumer.device.Manual;
 import place.Room;
+import utils.HelpFunctions;
 
 import java.time.LocalTime;
 
 public abstract class Oven extends Device {
+    protected static final double MAX_TEMPERATURE = 250;
+    protected static final double MIN_TEMPERATURE = 0;
+
     protected boolean isFoodInside;
-    protected double temperature;
+    protected double temperature;   // 0-250 °C
     protected LocalTime timeToReady;
 
     public Oven(DeviceType ovenType, int id, Room startRoom) {
@@ -52,7 +56,7 @@ public abstract class Oven extends Device {
     }
 
     public void setTemperature(double temperature) {
-        this.temperature = temperature;
+        this.temperature = HelpFunctions.adjustToRange(temperature, MIN_TEMPERATURE, MAX_TEMPERATURE);
     }
 
     public LocalTime getTimeToReady() {

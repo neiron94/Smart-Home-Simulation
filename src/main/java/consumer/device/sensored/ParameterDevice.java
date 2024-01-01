@@ -25,9 +25,4 @@ public abstract class ParameterDevice<T extends ParameterSensor> extends Sensore
     public void setPower(int power) {
         this.power = HelpFunctions.adjustPercent(power);
     }
-
-    @Override
-    public double consumeElectricity() {
-        return HelpFunctions.countElectricityConsumption(status, 1.0 * power);  // TODO - change 1.0 for Constant (electricity consumption with max power)
-    }
 }

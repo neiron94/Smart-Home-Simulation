@@ -6,6 +6,7 @@ import consumer.device.DeviceStatus;
 import consumer.device.DeviceType;
 import consumer.device.common.entertainment.Video;
 import place.Room;
+import utils.Constants.Consumption.Electricity;
 import utils.HelpFunctions;
 
 public class TV extends Device implements ElectricityConsumer {
@@ -22,7 +23,7 @@ public class TV extends Device implements ElectricityConsumer {
 
     @Override
     public double consumeElectricity() {
-        return HelpFunctions.countElectricityConsumption(status, 1.0 / 2 * brightness + 1.0 / 2 * volume);  // TODO - change 1.0 for Constant
+        return HelpFunctions.countElectricityConsumption(status, Electricity.TV / 2 * brightness + Electricity.TV / 2 * volume);
     }
 
     public void show(Video video) {

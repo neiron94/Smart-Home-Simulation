@@ -1,9 +1,11 @@
 package consumer.device.common;
 
+import utils.Constants.Consumption.Electricity;
+
 public enum VentProgram {
-    SLOW(0),    // TODO - set values
-    NORMAL(0),
-    TURBO(0);
+    SLOW(Electricity.VENT_SLOW),
+    NORMAL(Electricity.VENT_NORMAL),
+    TURBO(Electricity.VENT_TURBO);
 
     private final double power;
 

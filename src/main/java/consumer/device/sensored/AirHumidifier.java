@@ -3,8 +3,8 @@ package consumer.device.sensored;
 import consumer.device.DeviceStatus;
 import consumer.device.DeviceType;
 import consumer.device.sensored.sensor.HumiditySensor;
-import consumer.device.sensored.sensor.TemperatureSensor;
 import place.Room;
+import utils.Constants.Consumption.Electricity;
 import utils.HelpFunctions;
 
 
@@ -23,6 +23,11 @@ public class AirHumidifier extends ParameterDevice<HumiditySensor> {
             power = HelpFunctions.adjustPercent(++power);
         else if (room.getHumidity() > room.getControlPanel().getHumidity())
             power = HelpFunctions.adjustPercent(--power);
+    }
+
+    @Override
+    public double consumeElectricity() {
+        return HelpFunctions.countElectricityConsumption(status, Electricity.AIR_HUMIDIFIER * power);
     }
 
     @Override

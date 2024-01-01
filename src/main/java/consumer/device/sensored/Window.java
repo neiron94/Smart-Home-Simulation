@@ -4,6 +4,7 @@ import consumer.device.DeviceStatus;
 import consumer.device.DeviceType;
 import consumer.device.sensored.sensor.LightSensor;
 import place.Room;
+import utils.Constants.Consumption.Electricity;
 import utils.HelpFunctions;
 
 public class Window extends ParameterDevice<LightSensor> {
@@ -21,6 +22,11 @@ public class Window extends ParameterDevice<LightSensor> {
             power = HelpFunctions.adjustPercent(++power);
         else if (room.getBrightness() < room.getControlPanel().getBrightness())
             power = HelpFunctions.adjustPercent(--power);
+    }
+
+    @Override
+    public double consumeElectricity() {
+        return HelpFunctions.countElectricityConsumption(status, Electricity.WINDOW * power);
     }
 
     @Override

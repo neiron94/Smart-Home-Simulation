@@ -1,8 +1,10 @@
 package consumer.device.common;
 
+import utils.Constants.Consumption.Water;
+
 public enum FlushType {
-    SMALL(0),   // TODO - set values
-    BIG(0);
+    SMALL(Water.WC_SMALL),
+    BIG(Water.WC_BIG);
 
     private final double waterConsumption;
 

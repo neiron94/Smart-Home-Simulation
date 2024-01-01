@@ -47,7 +47,7 @@ public class Dishwasher extends Device implements WaterConsumer, ElectricityCons
     }
 
     public void putDishes(int amount) {
-        fullness = HelpFunctions.adjustPercent(fullness + amount);
+        setFullness(fullness + amount);
     }
 
     public void takeDishes() {

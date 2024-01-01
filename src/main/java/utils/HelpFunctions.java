@@ -11,6 +11,10 @@ public class HelpFunctions {
         return value < 0 ? 0 : Math.min(value, 100);
     }
 
+    public static double adjustToRange(double value, double min, double max) {
+        return value < min ? min : Math.min(value, max);
+    }
+
     public static <T> T getRandomObject(List<T> array) {
         Random random = new Random();
         try {

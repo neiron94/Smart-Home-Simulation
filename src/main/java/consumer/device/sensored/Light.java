@@ -3,8 +3,8 @@ package consumer.device.sensored;
 import consumer.device.DeviceStatus;
 import consumer.device.DeviceType;
 import consumer.device.sensored.sensor.LightSensor;
-import consumer.device.sensored.sensor.TemperatureSensor;
 import place.Room;
+import utils.Constants.Consumption.Electricity;
 import utils.HelpFunctions;
 
 
@@ -30,6 +30,11 @@ public class Light extends ParameterDevice<LightSensor> {
 
         if (color.getRGB() != room.getControlPanel().getColor().getRGB())
             color = new Color(room.getControlPanel().getColor().getRGB());
+    }
+
+    @Override
+    public double consumeElectricity() {
+        return HelpFunctions.countElectricityConsumption(status, Electricity.LIGHT * power);
     }
 
     @Override

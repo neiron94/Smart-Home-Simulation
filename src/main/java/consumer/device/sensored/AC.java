@@ -4,6 +4,7 @@ import consumer.device.DeviceStatus;
 import consumer.device.DeviceType;
 import consumer.device.sensored.sensor.TemperatureSensor;
 import place.Room;
+import utils.Constants.Consumption.Electricity;
 import utils.HelpFunctions;
 
 
@@ -21,6 +22,11 @@ public class AC extends ParameterDevice<TemperatureSensor> {
             power = HelpFunctions.adjustPercent(++power);
         else if (room.getTemperature() < room.getControlPanel().getTemperature())
             power = HelpFunctions.adjustPercent(--power);
+    }
+
+    @Override
+    public double consumeElectricity() {
+        return HelpFunctions.countElectricityConsumption(status, Electricity.AC * power / 100);
     }
 
     @Override

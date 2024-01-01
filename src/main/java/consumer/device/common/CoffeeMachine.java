@@ -5,17 +5,18 @@ import consumer.device.Device;
 import consumer.device.DeviceStatus;
 import consumer.device.DeviceType;
 import place.Room;
+import utils.Constants.Consumption.Electricity;
 import utils.HelpFunctions;
 
 public class CoffeeMachine extends Device implements ElectricityConsumer {
+    private static final int WATER_CAPACITY = 1500;
+    private static final int COFFEE_CAPACITY = 400;
+    private static final int MILK_CAPACITY = 700;
 
     private CoffeeType program;
     private int waterFullness;
     private int coffeeFullness;
     private int milkFullness;
-    private final int WATER_CAPACITY = 0;   // TODO - move to Constants and give value
-    private final int COFFEE_CAPACITY = 0;  // TODO - move to Constants and give value
-    private final int MILK_CAPACITY = 0;    // TODO - move to Constants and give value
 
     public CoffeeMachine(int id, Room startRoom) {
         super(DeviceType.COFFEE_MACHINE, id, startRoom);
@@ -24,7 +25,7 @@ public class CoffeeMachine extends Device implements ElectricityConsumer {
 
     @Override
     public double consumeElectricity() {
-        return HelpFunctions.countElectricityConsumption(status, 1);    // TODO - change 1 for Constant
+        return HelpFunctions.countElectricityConsumption(status, Electricity.COFFEE_MACHINE);
     }
 
     @Override

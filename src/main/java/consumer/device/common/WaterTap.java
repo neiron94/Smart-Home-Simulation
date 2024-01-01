@@ -6,12 +6,16 @@ import consumer.device.Device;
 import consumer.device.DeviceStatus;
 import consumer.device.DeviceType;
 import place.Room;
+import utils.Constants.Consumption.Water;
+import utils.Constants.Consumption.Electricity;
 import utils.HelpFunctions;
 
 
 public class WaterTap extends Device implements WaterConsumer, ElectricityConsumer {
+    private static final double MAX_TEMPERATURE = 60;
+    private static final double MIN_TEMPERATURE = 10;
 
-    private double temperature;
+    private double temperature; // 10-60 °C
     private int openness;   // percent
 
     public WaterTap(int id, Room startRoom) {
@@ -21,12 +25,12 @@ public class WaterTap extends Device implements WaterConsumer, ElectricityConsum
 
     @Override
     public double consumeElectricity() {
-        return HelpFunctions.countElectricityConsumption(status, temperature / 2);  // TODO - change 2 for Constant (temperature for 1kW)
+        return HelpFunctions.countElectricityConsumption(status, Electricity.WATER_TAP * temperature / MAX_TEMPERATURE);
     }
 
     @Override
     public double consumeWater() {
-        return HelpFunctions.countWaterConsumption(status, 1.0 * openness); // TODO - change 1.0 for Constant (water consumption when openness is max)
+        return HelpFunctions.countWaterConsumption(status, Water.WATER_TAP * openness / 100);
     }
 
     public void open(int temperature, int openness) {
@@ -56,7 +60,7 @@ public class WaterTap extends Device implements WaterConsumer, ElectricityConsum
     }
 
     public void setTemperature(double temperature) {
-        this.temperature = temperature;
+        this.temperature = HelpFunctions.adjustToRange(temperature, MIN_TEMPERATURE, MAX_TEMPERATURE);
     }
 
     public int getOpenness() {

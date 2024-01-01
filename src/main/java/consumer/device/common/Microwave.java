@@ -4,6 +4,7 @@ import consumer.ElectricityConsumer;
 import consumer.device.Device;
 import consumer.device.DeviceType;
 import place.Room;
+import utils.Constants.Consumption.Electricity;
 import utils.HelpFunctions;
 
 import java.time.LocalTime;
@@ -20,7 +21,7 @@ public class Microwave extends Device implements ElectricityConsumer {
 
     @Override
     public double consumeElectricity() {
-        return HelpFunctions.countElectricityConsumption(status, 1.0 * power / 100);    // TODO - change 1.0 for Constant (max microwave kW)
+        return HelpFunctions.countElectricityConsumption(status, Electricity.MICROWAVE * power / 100);
     }
 
     @Override
