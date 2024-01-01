@@ -8,6 +8,6 @@ import place.Room;
 public class FireEvent extends Event {
 
     public FireEvent(Device creator, Room origin) {
-        super(EventType.FIRE, EventPriority.HIGH, new RoomThrowStrategy(), Simulation.getInstance().getCurrentTime(), creator, origin);
+        super(EventType.FIRE, EventPriority.HIGH, new RoomThrowStrategy(), creator, origin);
     }
 }

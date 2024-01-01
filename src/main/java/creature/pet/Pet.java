@@ -18,6 +18,6 @@ public class Pet extends Creature {
 
     @Override
     public String toString() {
-        return type.toString() + " " + name;
+        return String.format("%s (%s)", name, type.toString());
     }
 }

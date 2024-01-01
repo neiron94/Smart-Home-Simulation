@@ -1,73 +1,76 @@
 package report;
 
 import consumer.device.Device;
+import creature.Action;
 import creature.Creature;
 import creature.person.Person;
 import event.Event;
+import place.Floor;
 import place.Home;
 import smarthome.Simulation;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
+import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class ReportFactory {
-    private Home home;
-    private Event event;
-    private Person person;
     private Device device;
     private Creature creature;
-    private Simulation simulation;
+    private Person person;
+    private Map.Entry<Event, LocalDateTime> event;
 
-    public ReportFactory(Simulation simulation) {
-        this.simulation = simulation;
-    }
+    public ReportFactory() {}
 
     public ReportFactory(Creature creature) {
         this.creature = creature;
     }
 
-    public ReportFactory(Home home) {
-        this.home = home;
-    }
-
-    public ReportFactory(Home home, Device device) {
-        this.home = home;
+    public ReportFactory(Device device) {
         this.device = device;
     }
 
-    public ReportFactory(Person person, Event event) {
+    public ReportFactory(Person person, Map.Entry<Event, LocalDateTime> event) {
         this.person = person;
         this.event = event;
     }
 
     @SuppressWarnings("unchecked")
-    public <T extends Report> T makeReport(ReportType type) { // TODO Change report return type
+    public <T extends Report> T makeReport(ReportType type) {
         return switch (type) {
             case CONFIGURATION -> (T) makeConfigurationReport();
             case ACTIVITY -> (T) makeActivityReport();
-            case CONSUMPTION -> device == null ? (T) makeHomeConsumptionReport() : (T) makeDeviceConsumptionReport();
+            case CONSUMPTION -> (T) makeConsumptionReport();
             case EVENT -> (T) makeEventReport();
             default -> throw new IllegalArgumentException("Invalid report type!"); // TODO Handle error
         };
     }
 
     private HouseConfigurationReport makeConfigurationReport() {
-        String hierarchy = simulation.getHome().getFloors().stream() // Get floors stream
-                .flatMap(floor -> Stream.concat( // Step into floor
-                        Stream.of("\t" + floor.toString()), // Get floor name
-                        floor.getRooms().stream() // Get rooms stream
-                                .flatMap(room -> Stream.concat( // Step into room
-                                        Stream.of("\t\t" + room.toString()), // Get room name
-                                        Simulation.getInstance().getDevices().stream() // Get devices stream
-                                                .filter(device -> room == device.getRoom()) // Filter only devices in this room
-                                                .map(device -> "\t\t\t" + device.toString())) // Get devices name
-                                ))
-                ).collect(Collectors.joining("\n")); // Make result string
+        Simulation simulation = Simulation.getInstance();
 
-        String residents = simulation.getResidents().stream() // Get creatures stream
-                .map(resident -> "\t" + resident.getName()) // Get creature names stream
-                .collect(Collectors.joining("\n")); // Make result string
+        Map<String, List<String>> hierarchy = simulation.getHome().getFloors().stream() // Get floors stream
+                .collect(Collectors.toMap( // Convert to map (K - Floor name, V - Room hierarchies)
+                        Floor::toString, // Get floor name
+                        floor -> floor.getRooms().stream() // Get rooms stream
+                                .sorted() // Sort rooms in alphabetical order
+                                .map(room -> Stream.concat( // Step into room
+                                        Stream.of(room.toString()), // Get room name
+                                        simulation.getDevices().stream() // Get devices stream
+                                                .filter(device -> room == device.getRoom()) // Filter only devices in this room
+                                                .sorted() // Sort devices in alphabetical order
+                                                .map(device -> "\t\t\t" + device) // Get devices name
+                                        ).collect(Collectors.joining("\n")) // Make result string
+                                ).toList() // Convert hierarchies to list
+                ));
+
+        List<String> residents = simulation.getResidents().stream() // Get residents stream
+                .map(Objects::toString) // Get resident string representation
+                .toList(); // Convert representations to list
 
         return new HouseConfigurationReport(hierarchy, residents);
     }
@@ -75,61 +78,47 @@ public class ReportFactory {
     private ActivityAndUsageReport makeActivityReport() {
         String name = creature.getName();
 
-        String activity = creature.getActivity().getActivities().stream() // Get activities stream
-                .map(action -> "\t" + action.getDescription()) // Get activity string representation stream
-                .collect(Collectors.joining("\n")); // Make result string
+        List<String> activities = creature.getActivity().getActivities().stream() // Get activities stream
+                .map(Action::getDescription) // Get activity string representation stream
+                .toList(); // Convert representations to list
 
-        String usage = creature.getActivity().getUsage().entrySet().stream() // Get usage stream
-                .map(entry -> "\t" + entry.getKey().toString() + " " + entry.getValue().toString()) // Get usage string representation stream
-                .collect(Collectors.joining("\n")); // Make result string
+        List<String> usages = creature.getActivity().getUsage().entrySet().stream() // Get usage stream
+                .map(entry -> String.format("%s - %d", entry.getKey().toString(), entry.getValue())) // Get usage string representation stream
+                .toList(); // Convert representations to list
 
-        return new ActivityAndUsageReport(name, activity, usage);
+        return new ActivityAndUsageReport(name, activities, usages);
     }
 
-    private ConsumptionReport makeDeviceConsumptionReport() {
+    private ConsumptionReport makeConsumptionReport() {
+        Home home = Simulation.getInstance().getHome();
+
         double usedGas = home.getGasSupplySystem().getConsumedMap().entrySet().stream() // Get gas consumers stream
                 .filter(entry -> entry.getKey() == device) // Filter this device
                 .map(Map.Entry::getValue) // Get consumed gas value
-                .findFirst().orElse(0.0);  // TODO Or throw error?
+                .findFirst().orElse(0.0);
         double usedWater = home.getWaterSupplySystem().getConsumedMap().entrySet().stream() // Get water consumers stream
                 .filter(entry -> entry.getKey() == device) // Filter this device
                 .map(Map.Entry::getValue) // Get consumed water value
-                .findFirst().orElse(0.0);  // TODO Or throw error?
+                .findFirst().orElse(0.0);
         double usedElectricity = home.getElectricitySupplySystem().getConsumedMap().entrySet().stream() // Get electricity consumers stream
                 .filter(entry -> entry.getKey() == device) // Filter this device
                 .map(Map.Entry::getValue) // Get consumed electricity value
-                .findFirst().orElse(0.0);  // TODO Or throw error?
+                .findFirst().orElse(0.0);
         int spentMoney = 0; // TODO Make formulae to count money + choose proper class to store Money
 
-        return new DeviceConsumptionReport(String.valueOf(usedGas),
-                String.valueOf(usedWater),
-                String.valueOf(usedElectricity),
-                String.valueOf(spentMoney),
-                device.toString());
-    }
-
-    private ConsumptionReport makeHomeConsumptionReport() {
-        double usedGas = home.getGasSupplySystem().getConsumedMap().values().stream() // Get gas consumers stream
-                .mapToDouble(v -> v) // Get values stream
-                .sum(); // Sum overall consumed gas
-        double usedWater = home.getWaterSupplySystem().getConsumedMap().values().stream() // Get water consumers stream
-                .mapToDouble(v -> v) // Get values stream
-                .sum(); // Sum overall consumed water
-        double usedElectricity = home.getElectricitySupplySystem().getConsumedMap().values().stream() // Get electricity consumers stream
-                .mapToDouble(v -> v) // Get values stream
-                .sum(); // Sum overall consumed electricity
-        int spentMoney = 0; // TODO Make formulae to count money + choose proper class to store Money
-
-        return new ConsumptionReport(String.valueOf(usedGas),
+        return new ConsumptionReport(device.toString(),
+                String.valueOf(usedGas),
                 String.valueOf(usedWater),
                 String.valueOf(usedElectricity),
                 String.valueOf(spentMoney));
     }
 
     private EventReport makeEventReport() {
+        String creationTime = event.getKey().getEventDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"));
+        String solutionTime = event.getValue().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"));
+        String type = event.getKey().getEventType().toString();
         String solver = person.getName();
-        String creator = event.getCreator().toString();
-        String type = event.getEventType().toString();
-        return new EventReport(solver, creator, type);
+        String creator = event.getKey().getCreator().toString();
+        return new EventReport(creationTime, solutionTime, type, solver, creator);
     }
 }

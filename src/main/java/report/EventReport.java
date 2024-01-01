@@ -4,15 +4,31 @@ import creature.person.Person;
 import event.Event;
 
 public class EventReport extends Report {
+    private final String creationTime;
+    private final String solutionTime;
+    private final String type;
     private final String solver;
     private final String creator;
-    private final String type;
 
-    public EventReport(String creature, String device, String type) {
+    public EventReport(String creationTime, String solutionTime, String type, String creator, String solver) {
         super(ReportType.EVENT);
-        solver = creature;
-        creator = device;
+        this.creationTime = creationTime;
+        this.solutionTime = solutionTime;
         this.type = type;
+        this.creator = creator;
+        this.solver = solver;
+    }
+
+    public String getCreationTime() {
+        return creationTime;
+    }
+
+    public String getSolutionTime() {
+        return solutionTime;
+    }
+
+    public String getType() {
+        return type;
     }
 
     public String getSolver() {
@@ -21,9 +37,5 @@ public class EventReport extends Report {
 
     public String getCreator() {
         return creator;
-    }
-
-    public String getType() {
-        return type;
     }
 }

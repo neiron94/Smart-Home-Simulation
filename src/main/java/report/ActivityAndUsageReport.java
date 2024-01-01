@@ -9,25 +9,25 @@ import java.util.stream.Collectors;
 
 public class ActivityAndUsageReport extends Report {
     private final String creature;
-    private final String activity;
-    private final String usage;
+    private final List<String> activities;
+    private final List<String> usages;
 
-    public ActivityAndUsageReport(String creature, String activity, String usage) {
+    public ActivityAndUsageReport(String creature, List<String> activities, List<String> usages) {
         super(ReportType.ACTIVITY);
         this.creature = creature;
-        this.activity = activity;
-        this.usage = usage;
+        this.activities = activities;
+        this.usages = usages;
     }
 
     public String getCreature() {
         return creature;
     }
 
-    public String getActivity() {
-        return activity;
+    public List<String> getActivities() {
+        return activities;
     }
 
-    public String getUsage() {
-        return usage;
+    public List<String> getUsages() {
+        return usages;
     }
 }

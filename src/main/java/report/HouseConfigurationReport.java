@@ -1,26 +1,23 @@
 package report;
 
-import smarthome.Simulation;
-
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
+import java.util.List;
+import java.util.Map;
 
 public class HouseConfigurationReport extends Report {
-    private final String hierarchy;
-    private final String residents;
+    private final Map<String, List<String>> hierarchy;
+    private final List<String> residents;
 
-    public HouseConfigurationReport(String hierarchy, String residents) {
+    public HouseConfigurationReport(Map<String, List<String>> hierarchy, List<String> residents) {
         super(ReportType.CONFIGURATION);
         this.hierarchy = hierarchy;
         this.residents = residents;
     }
 
-    public String getHierarchy() {
+    public Map<String, List<String>> getHierarchy() {
         return hierarchy;
     }
 
-    public String getResidents() {
+    public List<String> getResidents() {
         return residents;
     }
 }

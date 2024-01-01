@@ -44,6 +44,10 @@ public abstract class Creature {
         return activity;
     }
 
+    public void setActivity(Activity activity) {
+        this.activity = activity;
+    }
+
     public boolean isBusy() {
         return isBusy;
     }
@@ -58,5 +62,10 @@ public abstract class Creature {
 
     public void routine() {
         // TODO Routine function
+    }
+
+    @Override
+    public String toString() {
+        return name;
     }
 }
