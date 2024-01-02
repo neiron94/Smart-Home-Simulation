@@ -1,8 +1,6 @@
 package consumer.device;
 
-import consumer.AddVisitor;
-import consumer.ConsumeVisitor;
-import consumer.Consumer;
+import consumer.*;
 import event.BreakEvent;
 import place.Room;
 import utils.Constants;
@@ -72,11 +70,17 @@ public abstract class Device implements Consumer {
         return (long)(hours / Constants.TICK_DURATION);
     }
 
-    private void checkBeforeStatusSet() throws DeviceIsBrokenException, ResourceNotAvailableException {
+    protected void checkBeforeStatusSet() throws DeviceIsBrokenException, ResourceNotAvailableException {
         if (durability <= 0)
             throw new DeviceIsBrokenException(this + " is broken.");
-        if (room != null && !room.isActiveElectricity())    // TODO - remove room != null?
-            throw new ResourceNotAvailableException("Electricity in " + room + " is not available.");
+        if (room != null) {
+            if (this instanceof ElectricityConsumer && !room.isActiveElectricity())    // TODO - remove room != null?
+                throw new ResourceNotAvailableException("Electricity in " + room + " is not available.");
+            if (this instanceof WaterConsumer && !room.isActiveWater())    // TODO - remove room != null?
+                throw new ResourceNotAvailableException("Water in " + room + " is not available.");
+            if (this instanceof GasConsumer && !room.isActiveGas())    // TODO - remove room != null?
+                throw new ResourceNotAvailableException("Gas in " + room + " is not available.");
+        }
     }
 
     @Override
