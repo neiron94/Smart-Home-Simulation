@@ -3,21 +3,18 @@ package utils;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import consumer.device.DeviceFactory;
-import consumer.device.Device;
-import creature.Creature;
 import creature.CreatureFactory;
 import place.ControlPanel;
 import place.Room;
 import place.RoomConfiguration;
 import consumer.device.common.entertainment.EntertainmentFactory;
 import consumer.device.common.entertainment.EntertainmentService;
+import place.Street;
 import smarthome.Simulation;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Set;
 
 public class ConfigurationReader {
     private static final String CONFIG_PATH = System.getProperty("user.dir") + "/src/main/resources/config/"; // TODO Find out how to open configurations (not to use System.getProperty)
@@ -124,6 +121,23 @@ public class ConfigurationReader {
             String description = game.path("description").asText();
             String genre = game.path("genre").asText();
             EntertainmentService.GameService.addGame(factory.createGame(name, description, genre));
+        }
+    }
+
+    public static void readWeatherConfig() {
+        String configPath = CONFIG_PATH + "Weather.json";
+        JsonNode config = openConfig(configPath);
+
+        JsonNode temperature = config.path("temperature");
+        JsonNode humidity = config.path("temperature");
+        JsonNode brightness = config.path("temperature");
+
+        for (int i = 0; i < 12; ++i) {
+            for (int j = 0; j < 24; ++j) {
+                Street.temperatureStats[i][j] = temperature.get(i).get(j).asDouble();
+                Street.humidityStats[i][j] = humidity.get(i).get(j).asInt();
+                Street.brightnessStats[i][j] = brightness.get(i).get(j).asInt();
+            }
         }
     }
 
