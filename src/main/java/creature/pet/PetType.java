@@ -7,14 +7,14 @@ public enum PetType {
     FISH("Fish"),
     HAMSTER("Hamster");
 
-    private final String type;
+    private final String description;
 
-    PetType(String type) {
-        this.type = type;
+    PetType(String description) {
+        this.description = description;
     }
 
     @Override
     public String toString() {
-        return type;
+        return description;
     }
 }
