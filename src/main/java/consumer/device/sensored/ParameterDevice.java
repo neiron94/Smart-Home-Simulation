@@ -22,7 +22,7 @@ public abstract class ParameterDevice<T extends ParameterSensor> extends Sensore
         return power;
     }
 
-    public void setPower(int power) {
+    protected void setPower(int power) {
         this.power = HelpFunctions.adjustPercent(power);
     }
 }

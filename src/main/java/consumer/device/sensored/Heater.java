@@ -18,21 +18,14 @@ public class Heater extends ParameterDevice<TemperatureSensor> {
 
     @Override
     public void react(Number parameter) {
-        // TODO - increment and decrement by 5?
         if (parameter.doubleValue() < room.getControlPanel().getTemperature())
-            power = HelpFunctions.adjustPercent(++power);
+            setPower(power + 1);
         else if (parameter.doubleValue() > room.getControlPanel().getTemperature())
-            power = HelpFunctions.adjustPercent(--power);
+            setPower(power - 1);
     }
 
     @Override
     public double consumeElectricity() {
         return HelpFunctions.countElectricityConsumption(status, Electricity.HEATER * power);
-    }
-
-    @Override
-    public void setStatus(DeviceStatus status) {
-        if (status != DeviceStatus.STANDBY)
-            this.status = status;
     }
 }

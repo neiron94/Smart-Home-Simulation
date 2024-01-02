@@ -1,5 +1,6 @@
 package consumer.device.sensored;
 
+import consumer.device.DeviceStatus;
 import consumer.device.DeviceType;
 import consumer.device.sensored.sensor.EventSensor;
 import event.AlertEvent;
@@ -29,15 +30,17 @@ public abstract class Alarm<T extends EventSensor> extends EventDevice<T> {
         // Throws event if not alerting
         if (!isAlerting) {
             isAlerting = true;
+            status = DeviceStatus.ON;
             new AlertEvent(this, this.room).throwEvent();
         }
     }
 
-    public boolean isAlerting() {
-        return isAlerting;
+    public void stop() {
+        isAlerting = false;
+        status = DeviceStatus.STANDBY;
     }
 
-    public void setAlerting(boolean alerting) {
-        isAlerting = alerting;
+    public boolean isAlerting() {
+        return isAlerting;
     }
 }

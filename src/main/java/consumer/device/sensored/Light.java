@@ -22,11 +22,10 @@ public class Light extends ParameterDevice<LightSensor> {
 
     @Override
     public void react(Number parameter) {
-        // TODO - increment and decrement by 5?
         if (parameter.doubleValue() < room.getControlPanel().getBrightness())
-            power = HelpFunctions.adjustPercent(++power);
+            setPower(power + 1);
         else if (parameter.doubleValue() > room.getControlPanel().getBrightness())
-            power = HelpFunctions.adjustPercent(--power);
+            setPower(power - 1);
 
         if (color.getRGB() != room.getControlPanel().getColor().getRGB())
             color = new Color(room.getControlPanel().getColor().getRGB());
@@ -35,12 +34,6 @@ public class Light extends ParameterDevice<LightSensor> {
     @Override
     public double consumeElectricity() {
         return HelpFunctions.countElectricityConsumption(status, Electricity.LIGHT * power);
-    }
-
-    @Override
-    public void setStatus(DeviceStatus status) {
-        if (status != DeviceStatus.STANDBY)
-            this.status = status;
     }
 
     public Color getColor() {

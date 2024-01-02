@@ -17,21 +17,14 @@ public class Window extends ParameterDevice<LightSensor> {
 
     @Override
     public void react(Number parameter) {
-        // TODO - increment and decrement by 5?
         if (room.getBrightness() > room.getControlPanel().getBrightness())
-            power = HelpFunctions.adjustPercent(++power);
+            setPower(power + 1);
         else if (room.getBrightness() < room.getControlPanel().getBrightness())
-            power = HelpFunctions.adjustPercent(--power);
+            setPower(power - 1);
     }
 
     @Override
     public double consumeElectricity() {
         return HelpFunctions.countElectricityConsumption(status, Electricity.WINDOW * power);
-    }
-
-    @Override
-    public void setStatus(DeviceStatus status) {
-        if (status != DeviceStatus.STANDBY)
-            this.status = status;
     }
 }

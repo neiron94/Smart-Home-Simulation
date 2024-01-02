@@ -17,8 +17,11 @@ public abstract class SensoredDevice<T extends Sensor<?>> extends Device impleme
     }
 
     @Override
-    public void routine() {
-        super.routine();
+    public boolean routine() {
+        if (!super.routine()) return false;
+
         sensor.checkInfo();
+
+        return true;
     }
 }

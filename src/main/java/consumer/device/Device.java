@@ -33,6 +33,10 @@ public abstract class Device implements Consumer {
 
     //--------- Main public functions ----------//
 
+    public void setStatus(DeviceStatus status) {
+        this.status = status;
+    }
+
     public boolean routine() { // Is called every tick  // TODO - implement random brake, fire, flood, leak
         if (status == DeviceStatus.ON) decreaseDurability(Constants.USE_DEGRADATION);
         else decreaseDurability(Constants.TIME_DEGRADATION);
@@ -45,6 +49,7 @@ public abstract class Device implements Consumer {
     //---------- API for human -----------//
 
     public void repair() throws NotRepairableDeviceException {
+        status = type.getStartStatus();
         maxDurability -= maxDurability * 0.05;
         durability = maxDurability;
         if (maxDurability <= 0)

@@ -9,7 +9,6 @@ import utils.HelpFunctions;
 
 
 public class AirDryer extends ParameterDevice<HumiditySensor> {
-
     public AirDryer(int id, Room startRoom) {
         super(DeviceType.AIR_DRYER, id, startRoom);
         this.sensor = new HumiditySensor();
@@ -18,21 +17,14 @@ public class AirDryer extends ParameterDevice<HumiditySensor> {
 
     @Override
     public void react(Number parameter) {
-        // TODO - increment and decrement by 5?
         if (parameter.doubleValue() > room.getControlPanel().getHumidity())
-            power = HelpFunctions.adjustPercent(++power);
+            setPower(power + 1);
         else if (parameter.doubleValue() < room.getControlPanel().getHumidity())
-            power = HelpFunctions.adjustPercent(--power);
+            setPower(power - 1);
     }
 
     @Override
     public double consumeElectricity() {
         return HelpFunctions.countElectricityConsumption(status, Electricity.AIR_DRYER * power);
-    }
-
-    @Override
-    public void setStatus(DeviceStatus status) {
-        if (status != DeviceStatus.STANDBY)
-            this.status = status;
     }
 }
