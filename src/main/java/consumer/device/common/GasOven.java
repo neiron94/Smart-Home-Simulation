@@ -19,8 +19,5 @@ public class GasOven extends Oven implements GasConsumer {
     }
 
     @Override
-    public void setStatus(DeviceStatus status) {
-        if (status != DeviceStatus.STANDBY)
-            this.status = status;
-    }
+    public void setStandby() {}
 }

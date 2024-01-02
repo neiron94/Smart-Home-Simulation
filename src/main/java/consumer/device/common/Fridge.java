@@ -27,10 +27,7 @@ public class Fridge extends Device implements ElectricityConsumer {
     }
 
     @Override
-    public void setStatus(DeviceStatus status) {
-        if (status != DeviceStatus.STANDBY)
-            this.status = status;
-    }
+    public void setStandby() {}
 
     public void orderFood() {
         // TODO - may last for some time?

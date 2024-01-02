@@ -23,9 +23,10 @@ public class Toaster extends Device implements ElectricityConsumer {
     }
 
     @Override
-    public void routine() {
+    public boolean routine() {
         super.routine();
         // TODO - doAction(): timeToReady--, if == 0 -> set STANDBY
+        return true;
     }
 
     public void makeToast(ToastType program) {

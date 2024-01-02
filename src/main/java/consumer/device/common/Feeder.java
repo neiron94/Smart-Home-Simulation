@@ -30,10 +30,7 @@ public class Feeder extends Device implements ElectricityConsumer {
     }
 
     @Override
-    public void setStatus(DeviceStatus status) {
-        if (status != DeviceStatus.STANDBY)
-            this.status = status;
-    }
+    public void setStandby() {}
 
     public void requestFill() {
         new FillEvent(this, this.room).throwEvent();

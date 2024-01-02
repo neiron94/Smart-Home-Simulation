@@ -48,10 +48,7 @@ public class WaterTap extends Device implements WaterConsumer, ElectricityConsum
     }
 
     @Override
-    public void setStatus(DeviceStatus status) {
-        if (status != DeviceStatus.STANDBY)
-            this.status = status;
-    }
+    public void setStandby() {}
 
     // TODO - maybe delete some getters or setters
 

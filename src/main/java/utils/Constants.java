@@ -1,8 +1,15 @@
 package utils;
 
+import java.time.Duration;
 import java.time.LocalTime;
 
 public final class Constants {
+    public static final double TICK_DURATION = 1.0 * 1 / 60; // 1 minute in hours
+    public static final Duration TICK = Duration.ofMinutes(1);  // 1 minute
+    public static final int TIME_DEGRADATION = 1;
+    public static final int USE_DEGRADATION = 5;
+    public static final double FILTER_DEGRADATION = 0.05;
+
     public static final class Coffee {
         // Water in milliliters (mL), milk in milliliters (mL), coffee in grams (g)
         public static final int COFFEE = 18;
@@ -24,18 +31,18 @@ public final class Constants {
     }
 
     public static final class WorkTime {
-        public static final LocalTime DISHWASHER_LIGHT = LocalTime.of(0,30);
-        public static final LocalTime DISHWASHER_MEDIUM = LocalTime.of(1,0);
-        public static final LocalTime DISHWASHER_HEAVY = LocalTime.of(2,0);
-        public static final LocalTime DRYER_COLD = LocalTime.of(0,30);
-        public static final LocalTime DRYER_NORMAL = LocalTime.of(1,0);
-        public static final LocalTime DRYER_HOT = LocalTime.of(1,30);
-        public static final LocalTime TOASTER_SANDWICH = LocalTime.of(0,1);
-        public static final LocalTime TOASTER_GOLDEN = LocalTime.of(0,2);
-        public static final LocalTime TOASTER_CRUST = LocalTime.of(0,3);
-        public static final LocalTime WASHER_DELICATE = LocalTime.of(0,30);
-        public static final LocalTime WASHER_NORMAL = LocalTime.of(1,0);
-        public static final LocalTime WASHER_INTENSIVE = LocalTime.of(1,30);
+        public static final Duration DISHWASHER_LIGHT = Duration.ofMinutes(30);
+        public static final Duration DISHWASHER_MEDIUM = Duration.ofMinutes(60);
+        public static final Duration DISHWASHER_HEAVY = Duration.ofMinutes(120);
+        public static final Duration DRYER_COLD = Duration.ofMinutes(30);
+        public static final Duration DRYER_NORMAL = Duration.ofMinutes(60);
+        public static final Duration DRYER_HOT = Duration.ofMinutes(90);
+        public static final Duration TOASTER_SANDWICH = Duration.ofMinutes(1);
+        public static final Duration TOASTER_GOLDEN = Duration.ofMinutes(2);
+        public static final Duration TOASTER_CRUST = Duration.ofMinutes(3);
+        public static final Duration WASHER_DELICATE = Duration.ofMinutes(30);
+        public static final Duration WASHER_NORMAL = Duration.ofMinutes(60);
+        public static final Duration WASHER_INTENSIVE = Duration.ofMinutes(90);
     }
 
     public static final class Consumption {

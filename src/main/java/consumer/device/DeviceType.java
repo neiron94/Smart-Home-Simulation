@@ -7,7 +7,7 @@ import consumer.device.sensored.*;
 public enum DeviceType {
     // TODO Check repairDifficulties, guarantee
     FRIDGE("Fridge", Fridge.class, DeviceStatus.ON, RepairDifficulty.MEDIUM, 24),
-    COFFEE_MACHINE("CoffeeMachine", CoffeeMachine.class, DeviceStatus.OFF, RepairDifficulty.MEDIUM, 12),
+    COFFEE_MACHINE("CoffeeMachine", CoffeeMachine.class, DeviceStatus.STANDBY, RepairDifficulty.MEDIUM, 12),
     TOASTER("Toaster", Toaster.class, DeviceStatus.STANDBY, RepairDifficulty.EASY, 12),
     MICROWAVE("Microwave", Microwave.class, DeviceStatus.STANDBY, RepairDifficulty.MEDIUM, 18),
     ELECTRIC_OVEN("ElectricOven", ElectricOven.class, DeviceStatus.STANDBY, RepairDifficulty.HARD, 36),

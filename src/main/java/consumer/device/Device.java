@@ -5,18 +5,21 @@ import consumer.ConsumeVisitor;
 import consumer.Consumer;
 import event.BreakEvent;
 import place.Room;
-import smarthome.Simulation;
+import utils.Constants;
+import utils.exceptions.DeviceIsBrokenException;
+import utils.exceptions.WrongDeviceStatusException;
+import utils.exceptions.NotRepairableDeviceException;
+import utils.exceptions.ResourceNotAvailableException;
 
 
 public abstract class Device implements Consumer {
-    public static final double TICK_DURATION = 1.0 * 1 / 60; // 1 minute in hours TODO - move to Constants
     protected final int deviceID;
     protected  final DeviceType type;
     protected Room room;    // TODO - what if null?
     protected final Manual manual;
     protected DeviceStatus status;
-    protected int durability;       // percent
-    protected int maxDurability;    // percent
+    protected long durability;  // number of ticks before break
+    private long maxDurability;
 
     public Device(DeviceType type, int id, Room startRoom) {
         this.type = type;
@@ -25,47 +28,94 @@ public abstract class Device implements Consumer {
 
         manual = new Manual(type);
         status = type.getStartStatus();
-        durability = maxDurability = 100;   // TODO - means 100%
+        durability = maxDurability = countDurability(type);
 
         accept(new AddVisitor());   // add to consumption map in supply system
     }
 
-    public void routine() { // Is called every tick
-        accept(new ConsumeVisitor());   // TODO - send one common ConsumeVisitor to routine(), so shouldn't create new one for each device?
+    //--------- Main public functions ----------//
+
+    public boolean routine() { // Is called every tick
+        decreaseDurability(Constants.TIME_DEGRADATION);
+        if (durability <= 0 || status == DeviceStatus.OFF)    return false;
+        accept(new ConsumeVisitor());
+        return true;
     }
 
-    public void repair() {
-        // TODO - implement
+    //---------- API for human -----------//
+
+    public void repair() throws NotRepairableDeviceException {
+        maxDurability -= maxDurability * 0.05;
+        durability = maxDurability;
+        if (maxDurability <= 0)
+            throw new NotRepairableDeviceException("Device " + this + " can't be repaired.");
     }
 
-    public void brake() {
+    //------------- Help functions -------------//
+
+    protected void checkDeviceOn() throws WrongDeviceStatusException {
+        if (status != DeviceStatus.ON)
+            throw new WrongDeviceStatusException(this + " should be on.");
+    }
+
+    protected void checkDeviceStandby() throws WrongDeviceStatusException {
+        if (status != DeviceStatus.STANDBY)
+            throw new WrongDeviceStatusException(this + " should be standby.");
+    }
+
+    private void brake() {
         new BreakEvent(this, this.room).throwEvent();
     }
 
-    // TODO - maybe remove some getters or setters
+    private long countDurability(DeviceType type) {
+        long hours = type.getGuarantee().getDays() * 24L * 4 / 3;
+        return (long)(hours / Constants.TICK_DURATION);
+    }
+
+    private void checkBeforeStatusSet() throws DeviceIsBrokenException, ResourceNotAvailableException {
+        if (durability <= 0)
+            throw new DeviceIsBrokenException(this + " is broken.");
+        if (room != null && !room.isActiveElectricity())    // TODO - remove room != null?
+            throw new ResourceNotAvailableException("Electricity in " + room + " is not available.");
+    }
+
+    @Override
+    public String toString() {
+        return String.format("%s_%d", type.getName(), deviceID);
+    }
+
+    //---------- Getters and Setters ----------//
 
     public DeviceStatus getStatus() {
         return status;
     }
 
-    public void setStatus(DeviceStatus status) {
-        this.status = status;
+    protected void setOn() throws DeviceIsBrokenException, ResourceNotAvailableException {
+        if (status == DeviceStatus.ON)  return;
+        checkBeforeStatusSet();
+        this.status = DeviceStatus.ON;
     }
 
-    public int getDurability() {
+    protected void setStandby() throws DeviceIsBrokenException, ResourceNotAvailableException {
+        if (status == DeviceStatus.STANDBY) return;
+        checkBeforeStatusSet();
+        this.status = DeviceStatus.STANDBY;
+    }
+
+    protected void setOff() {
+        this.status = DeviceStatus.OFF;
+    }
+
+    public long getDurability() {
         return durability;
     }
 
-    public void setDurability(int durability) {
-        this.durability = durability;
-    }
-
-    public int getMaxDurability() {
-        return maxDurability;
-    }
-
-    public void setMaxDurability(int maxDurability) {
-        this.maxDurability = maxDurability;
+    public void decreaseDurability(long degradation) {
+        this.durability -= degradation;
+        if (durability <= 0) {
+            durability = 0;
+            brake();
+        }
     }
 
     public Room getRoom() {
@@ -82,10 +132,5 @@ public abstract class Device implements Consumer {
 
     public Manual getManual() {
         return manual;
-    }
-
-    @Override
-    public String toString() {
-        return String.format("%s_%d", type.getName(), deviceID);
     }
 }

@@ -2,23 +2,35 @@ package consumer.device.common;
 
 import consumer.ElectricityConsumer;
 import consumer.device.Device;
+import consumer.device.DeviceStatus;
 import consumer.device.DeviceType;
-import consumer.device.common.entertainment.Song;
 import event.WakeUpEvent;
 import place.Room;
+import smarthome.Simulation;
+import utils.Constants;
 import utils.Constants.Consumption.Electricity;
 import utils.HelpFunctions;
-import java.time.LocalDateTime;
+import utils.exceptions.DeviceIsBrokenException;
+import utils.exceptions.ResourceNotAvailableException;
+import utils.exceptions.WrongDeviceStatusException;
+
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 public class AlarmClock extends Device implements ElectricityConsumer {
 
-    private LocalDateTime ringTime;
-    private Song song;
+    private LocalTime ringTime;
+    private boolean rangToday;
+    private LocalDate lastRingDay;
 
     public AlarmClock(int id, Room startRoom) {
         super(DeviceType.ALARM_CLOCK, id, startRoom);
-        // TODO - set ringTime, song?
+        ringTime = LocalTime.of(8,0);   // 8:00 by default
+        rangToday = ringTime.isAfter(Simulation.getInstance().getCurrentTime().toLocalTime());
+        lastRingDay = Simulation.getInstance().getCurrentTime().toLocalDate();
     }
+
+    //--------- Main public functions ----------//
 
     @Override
     public double consumeElectricity() {
@@ -26,31 +38,59 @@ public class AlarmClock extends Device implements ElectricityConsumer {
     }
 
     @Override
-    public void routine() {
-        super.routine();
-        // TODO - doAction(): compare ringTime with Simulation.getDate()
+    public boolean routine() {
+        if (!super.routine())    return false;
+
+        updateStatus();
+        if (shouldRing())   ring();
+
+        return true;
     }
 
-    public void ring() {
-        new WakeUpEvent(this, this.room).throwEvent();
+    //---------- API for human -----------//
+    public void turnOn() throws DeviceIsBrokenException, ResourceNotAvailableException {
+        setStandby();
     }
 
-    // TODO - maybe delete some getters or setters
+    public void setAlarm(LocalTime ringTime) throws WrongDeviceStatusException {
+        if (ringTime == null)   return;
+        checkDeviceStandby();
 
-    public LocalDateTime getRingTime() {
-        return ringTime;
-    }
-
-    public void setRingTime(LocalDateTime ringTime) {
         this.ringTime = ringTime;
+        rangToday = ringTime.isAfter(Simulation.getInstance().getCurrentTime().toLocalTime());
     }
 
-    public Song getSong() {
-        return song;
+    public void stopAlarm() {
+        setOff();
     }
 
-    public void setSong(Song song) {
-        this.song = song;
+    //------------- Help functions -------------//
+
+    private void updateStatus() {
+        if (status == DeviceStatus.ON)
+            decreaseDurability(Constants.USE_DEGRADATION);
+
+        LocalDate currentDate = Simulation.getInstance().getCurrentTime().toLocalDate();
+        if (currentDate.isEqual(lastRingDay)) {
+            rangToday = false;
+            lastRingDay = currentDate;
+        }
+    }
+
+    private boolean shouldRing() {
+        return !rangToday && status == DeviceStatus.STANDBY && ringTime.isAfter(Simulation.getInstance().getCurrentTime().toLocalTime());
+    }
+
+    private void ring() {
+        status = DeviceStatus.ON;
+        new WakeUpEvent(this, this.room).throwEvent();
+        rangToday = true;
+    }
+
+    //---------- Getters and Setters ----------//
+
+    public LocalTime getRingTime() {
+        return ringTime;
     }
 }
 

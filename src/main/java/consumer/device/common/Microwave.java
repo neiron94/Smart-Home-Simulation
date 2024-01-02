@@ -25,9 +25,10 @@ public class Microwave extends Device implements ElectricityConsumer {
     }
 
     @Override
-    public void routine() {
+    public boolean routine() {
         super.routine();
         // TODO - doAction(): timeToReady--, if == 0 -> set STANDBY
+        return true;
     }
 
     public void heatFood(LocalTime heatTime, int heatPower) {

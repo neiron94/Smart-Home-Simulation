@@ -23,9 +23,10 @@ public class Washer extends Device implements WaterConsumer, ElectricityConsumer
     }
 
     @Override
-    public void routine() {
+    public boolean routine() {
         super.routine();
         // TODO - doAction(): timeToReady--, if == 0 -> set STANDBY
+        return true;
     }
 
     @Override

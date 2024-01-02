@@ -22,9 +22,10 @@ public abstract class Oven extends Device {
     }
 
     @Override
-    public void routine() {
+    public boolean routine() {
         super.routine();
         // TODO - doAction(): timeToReady--, if == 0 -> set STANDBY
+        return true;
     }
 
     public void makeFood(LocalTime cookTime, int cookTemperature) {

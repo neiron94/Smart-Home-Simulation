@@ -32,9 +32,10 @@ public class StereoSystem extends Device implements ElectricityConsumer {
     }
 
     @Override
-    public void routine() {
+    public boolean routine() {
         super.routine();
         // TODO - doAction(): timeToReady--, check timeToReady, pop next song or stop playing
+        return true;
     }
 
     public void play(List<Song> playlist) {
