@@ -2,10 +2,16 @@ package consumer.device.common;
 
 import consumer.ElectricityConsumer;
 import consumer.device.Device;
+import consumer.device.DeviceStatus;
 import consumer.device.DeviceType;
 import place.Room;
+import smarthome.Simulation;
+import utils.Constants;
 import utils.HelpFunctions;
+import utils.exceptions.*;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 
@@ -13,18 +19,29 @@ public class Dryer extends Device implements ElectricityConsumer {
 
     private DryerProgram program;
     private boolean areClothesInside;
-    private int filterStatus;   // percent
-    private LocalTime timeToReady;
+    private double filterStatus;   // percent
+    private LocalDateTime readyTime;
 
     public Dryer(int id, Room startRoom) {
         super(DeviceType.DRYER, id, startRoom);
-        // TODO - set areClothesInside, program, timeToReady, filterStatus?
+        program = DryerProgram.COLD;
+        areClothesInside = false;
+        setFilterStatus(100);
+        setReadyTime(program.getDuration());
     }
+
+    //--------- Main public functions ----------//
 
     @Override
     public boolean routine() {
-        super.routine();
-        // TODO - doAction(): timeToReady--, if == 0 -> set STANDBY
+        if (!super.routine())   return false;   // TODO - solve duplicate
+
+        if (status == DeviceStatus.ON) {
+            decreaseDurability(Constants.USE_DEGRADATION);
+            setFilterStatus(filterStatus - Constants.FILTER_DEGRADATION);
+            if (readyTime.isAfter(Simulation.getInstance().getCurrentTime()))
+                status = DeviceStatus.STANDBY;
+        }
         return true;
     }
 
@@ -33,11 +50,19 @@ public class Dryer extends Device implements ElectricityConsumer {
         return program != null ? HelpFunctions.countElectricityConsumption(status, program.getElectricityConsumption()) : 0;
     }
 
-    public void dry(DryerProgram program) {
-        // TODO - check durability
-        timeToReady = program.getDuration();
+    //---------- API for human -----------//
+
+    public void turnOn() throws DeviceIsBrokenException, ResourceNotAvailableException {
+        setStandby();
+    }
+
+    public void startDry(DryerProgram program) throws WrongDeviceStatusException, DirtyFilterException, EntryProblemException {
+        if (program == null || status == DeviceStatus.ON) return;
+        checkBeforeStart();
+
+        setReadyTime(program.getDuration());
         this.program = program;
-        // TODO - smth else?
+        status = DeviceStatus.ON;
     }
 
     public void putClothes() {
@@ -49,40 +74,42 @@ public class Dryer extends Device implements ElectricityConsumer {
     }
 
     public void cleanFilter() {
-        filterStatus = 100;
+        setFilterStatus(100);
     }
 
-    // TODO - maybe delete some getters or setters
+    //------------- Help functions -------------//
+
+    private void checkBeforeStart() throws DirtyFilterException, EntryProblemException, WrongDeviceStatusException {
+        checkDeviceStandby();
+        if (filterStatus <= 0)
+            throw new DirtyFilterException("Filter is too dirty.");
+        if (!areClothesInside)
+            throw new EntryProblemException("No clothes inside.");
+    }
+
+    //---------- Getters and Setters ----------//
 
     public DryerProgram getProgram() {
         return program;
-    }
-
-    public void setProgram(DryerProgram program) {
-        this.program = program;
     }
 
     public boolean isAreClothesInside() {
         return areClothesInside;
     }
 
-    public void setAreClothesInside(boolean areClothesInside) {
-        this.areClothesInside = areClothesInside;
-    }
-
-    public int getFilterStatus() {
+    public double getFilterStatus() {
         return filterStatus;
     }
 
-    public void setFilterStatus(int filterStatus) {
+    private void setFilterStatus(double filterStatus) {
         this.filterStatus = HelpFunctions.adjustPercent(filterStatus);
     }
 
-    public LocalTime getTimeToReady() {
-        return timeToReady;
+    public LocalDateTime getReadyTime() {
+        return readyTime;
     }
 
-    public void setTimeToReady(LocalTime timeToReady) {
-        this.timeToReady = timeToReady;
+    private void setReadyTime(Duration duration) {
+        readyTime = Simulation.getInstance().getCurrentTime().plus(duration);
     }
 }

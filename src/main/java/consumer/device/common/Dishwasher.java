@@ -26,7 +26,7 @@ public class Dishwasher extends Device implements WaterConsumer, ElectricityCons
         super(DeviceType.DISHWASHER, id, startRoom);
         program = DishwasherProgram.LIGHT;
         fullness = 0;
-        filterStatus = 100;
+        setFilterStatus(100);
         setReadyTime(program.getDuration());
     }
 

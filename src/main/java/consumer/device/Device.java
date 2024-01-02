@@ -35,7 +35,7 @@ public abstract class Device implements Consumer {
 
     //--------- Main public functions ----------//
 
-    public boolean routine() { // Is called every tick
+    public boolean routine() { // Is called every tick  // TODO - implement random brake, fire, flood, leak
         decreaseDurability(Constants.TIME_DEGRADATION);
         if (durability <= 0 || status == DeviceStatus.OFF)    return false;
         accept(new ConsumeVisitor());
@@ -53,7 +53,7 @@ public abstract class Device implements Consumer {
 
     //------------- Help functions -------------//
 
-    protected void checkDeviceOn() throws WrongDeviceStatusException {
+    protected void checkDeviceOn() throws WrongDeviceStatusException {  // TODO - move to help functions?
         if (status != DeviceStatus.ON)
             throw new WrongDeviceStatusException(this + " should be on.");
     }
