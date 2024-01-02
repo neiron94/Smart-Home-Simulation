@@ -68,18 +68,18 @@ public class Simulation {
     public void simulate() {
         // TODO Log simulation start
 
-        while (currentTime.isBefore(finishTime)) {
-            // TODO Log step of simulation (currentTime)
+        while (!currentTime.isAfter(finishTime)) {
+                // TODO Log step of simulation (currentTime)
 
-            Street.getInstance().routine(); // Update street parameters (temperature, humidity, brightness)
-            home.getFloors().stream().flatMap(floor -> floor.getRooms().stream()).forEach(Room::routine); // Do rooms routine
-            service.routine(); // Do device service routine
+                Street.getInstance().routine(); // Update street parameters (temperature, humidity, brightness)
+                home.getFloors().stream().flatMap(floor -> floor.getRooms().stream()).forEach(Room::routine); // Do rooms routine
+                service.routine(); // Do device service routine
 
-            creatures.forEach(Creature::routine); // Do creatures routine
-            devices.forEach(Device::routine); // Do devices routine
+                creatures.forEach(Creature::routine); // Do creatures routine
+                devices.forEach(Device::routine); // Do devices routine
 
-            currentTime = currentTime.plusMinutes(1);
-            if (currentTime.toLocalTime().equals(REPORT_TIME)) ReportCreator.createReports();
+                currentTime = currentTime.plusMinutes(1);
+                if (currentTime.toLocalTime().equals(REPORT_TIME)) ReportCreator.createReports();
         }
 
         // TODO Log simulation finish

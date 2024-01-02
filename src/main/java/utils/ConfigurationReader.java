@@ -30,7 +30,7 @@ public class ConfigurationReader {
         JsonNode config = openConfig(configPath);
 
         simulation.setConfigurationName(config.path("config").asText());
-        simulation.setFinishTime(Simulation.getInstance().getCurrentTime().plusDays(config.path("duration").asLong()));
+        simulation.setFinishTime(Simulation.getInstance().getCurrentTime().toLocalDate().atStartOfDay().plusDays(config.path("duration").asLong()));
     }
 
     public static JsonNode readHomeConfig(String configName) {
