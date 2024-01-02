@@ -23,9 +23,9 @@ public class Light extends ParameterDevice<LightSensor> {
     @Override
     public void react(Number parameter) {
         // TODO - increment and decrement by 5?
-        if (room.getBrightness() < room.getControlPanel().getBrightness())
+        if (parameter.doubleValue() < room.getControlPanel().getBrightness())
             power = HelpFunctions.adjustPercent(++power);
-        else if (room.getBrightness() > room.getControlPanel().getBrightness())
+        else if (parameter.doubleValue() > room.getControlPanel().getBrightness())
             power = HelpFunctions.adjustPercent(--power);
 
         if (color.getRGB() != room.getControlPanel().getColor().getRGB())

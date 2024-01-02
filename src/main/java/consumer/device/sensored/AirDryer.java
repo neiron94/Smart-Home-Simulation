@@ -19,9 +19,9 @@ public class AirDryer extends ParameterDevice<HumiditySensor> {
     @Override
     public void react(Number parameter) {
         // TODO - increment and decrement by 5?
-        if (room.getHumidity() > room.getControlPanel().getHumidity())
+        if (parameter.doubleValue() > room.getControlPanel().getHumidity())
             power = HelpFunctions.adjustPercent(++power);
-        else if (room.getHumidity() < room.getControlPanel().getHumidity())
+        else if (parameter.doubleValue() < room.getControlPanel().getHumidity())
             power = HelpFunctions.adjustPercent(--power);
     }
 

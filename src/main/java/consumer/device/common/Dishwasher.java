@@ -37,7 +37,6 @@ public class Dishwasher extends Device implements WaterConsumer, ElectricityCons
         if (!super.routine())   return false;
 
         if (status == DeviceStatus.ON) {
-            decreaseDurability(Constants.USE_DEGRADATION);
             setFilterStatus(filterStatus - Constants.FILTER_DEGRADATION);
             if (readyTime.isAfter(Simulation.getInstance().getCurrentTime()))
                 status = DeviceStatus.STANDBY;

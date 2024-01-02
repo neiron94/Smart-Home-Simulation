@@ -37,7 +37,6 @@ public class Dryer extends Device implements ElectricityConsumer {
         if (!super.routine())   return false;   // TODO - solve duplicate
 
         if (status == DeviceStatus.ON) {
-            decreaseDurability(Constants.USE_DEGRADATION);
             setFilterStatus(filterStatus - Constants.FILTER_DEGRADATION);
             if (readyTime.isAfter(Simulation.getInstance().getCurrentTime()))
                 status = DeviceStatus.STANDBY;

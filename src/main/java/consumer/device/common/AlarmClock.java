@@ -67,9 +67,6 @@ public class AlarmClock extends Device implements ElectricityConsumer {
     //------------- Help functions -------------//
 
     private void updateStatus() {
-        if (status == DeviceStatus.ON)
-            decreaseDurability(Constants.USE_DEGRADATION);
-
         LocalDate currentDate = Simulation.getInstance().getCurrentTime().toLocalDate();
         if (currentDate.isEqual(lastRingDay)) {
             rangToday = false;

@@ -34,7 +34,9 @@ public abstract class Device implements Consumer {
     //--------- Main public functions ----------//
 
     public boolean routine() { // Is called every tick  // TODO - implement random brake, fire, flood, leak
-        decreaseDurability(Constants.TIME_DEGRADATION);
+        if (status == DeviceStatus.ON) decreaseDurability(Constants.USE_DEGRADATION);
+        else decreaseDurability(Constants.TIME_DEGRADATION);
+
         if (durability <= 0 || status == DeviceStatus.OFF)    return false;
         accept(new ConsumeVisitor());
         return true;
@@ -62,6 +64,7 @@ public abstract class Device implements Consumer {
     }
 
     private void brake() {
+        durability = 0;
         new BreakEvent(this, this.room).throwEvent();
     }
 
@@ -80,6 +83,13 @@ public abstract class Device implements Consumer {
                 throw new ResourceNotAvailableException("Water in " + room + " is not available.");
             if (this instanceof GasConsumer && !room.isActiveGas())    // TODO - remove room != null?
                 throw new ResourceNotAvailableException("Gas in " + room + " is not available.");
+        }
+    }
+
+    public void decreaseDurability(long degradation) {
+        this.durability -= degradation;
+        if (durability <= 0) {
+            brake();
         }
     }
 
@@ -112,14 +122,6 @@ public abstract class Device implements Consumer {
 
     public long getDurability() {
         return durability;
-    }
-
-    public void decreaseDurability(long degradation) {
-        this.durability -= degradation;
-        if (durability <= 0) {
-            durability = 0;
-            brake();
-        }
     }
 
     public Room getRoom() {

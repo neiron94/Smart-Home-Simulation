@@ -19,9 +19,9 @@ public class Heater extends ParameterDevice<TemperatureSensor> {
     @Override
     public void react(Number parameter) {
         // TODO - increment and decrement by 5?
-        if (room.getTemperature() < room.getControlPanel().getTemperature())
+        if (parameter.doubleValue() < room.getControlPanel().getTemperature())
             power = HelpFunctions.adjustPercent(++power);
-        else if (room.getTemperature() > room.getControlPanel().getTemperature())
+        else if (parameter.doubleValue() > room.getControlPanel().getTemperature())
             power = HelpFunctions.adjustPercent(--power);
     }
 
