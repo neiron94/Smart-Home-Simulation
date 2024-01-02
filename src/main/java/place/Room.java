@@ -9,7 +9,7 @@ public class Room implements EventDestination, Location {
     private final int id;
     private final RoomType type;
     private final ControlPanel controlPanel;
-    private List<Event> events;
+    private final List<Event> events;
 
     private boolean activeElectricity;
     private boolean activeWater;
@@ -22,7 +22,7 @@ public class Room implements EventDestination, Location {
     public Room(int id, RoomType type) {
         this.id = id;
         this.type = type;
-        controlPanel = new ControlPanel(this); // TODO Maybe not to give this to ControlPanel, but accept this by ControlPanel
+        controlPanel = new ControlPanel(this);
         events = new ArrayList<>();
 
         activeElectricity = true;

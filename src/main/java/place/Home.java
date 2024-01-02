@@ -11,7 +11,7 @@ import java.util.List;
 
 public class Home implements EventDestination {
     private final List<Floor> floors;
-    private List<Event> events;
+    private final List<Event> events;
 
     private final SupplySystem<ElectricityConsumer> electricitySupplySystem;
     private final SupplySystem<WaterConsumer> waterSupplySystem;

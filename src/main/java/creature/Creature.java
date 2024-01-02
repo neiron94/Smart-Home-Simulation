@@ -9,11 +9,13 @@ import place.Room;
 public abstract class Creature {
     protected final String name;
     protected Location location;
+
     protected float hunger; // TODO Changes in routine function
     protected float fullness; // TODO Changes in routine function
-    protected Activity activity; // TODO Changes in routine function
+
+    protected final Activity activity; // TODO Changes in routine function
+    protected final Deque<Deque<Action>> actions; // TODO Changes in routine function
     protected boolean isBusy; // TODO Changes in routine function
-    protected Deque<Deque<Action>> actions; // TODO Changes in routine function
 
     public Creature(String name, Location startLocation) {
         Simulation.getInstance().getCreatures().add(this);

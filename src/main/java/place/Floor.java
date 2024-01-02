@@ -8,7 +8,7 @@ import java.util.List;
 public class Floor implements EventDestination {
     private final int id;
     private final List<Room> rooms;
-    private List<Event> events;
+    private final List<Event> events;
 
     public Floor(int id) {
         this.id = id;
