@@ -1,7 +1,9 @@
 package place;
 
+import consumer.device.sensored.*;
 import event.Event;
-
+import smarthome.Simulation;
+import utils.HelpFunctions;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,8 +18,8 @@ public class Room implements EventDestination, Location {
     private boolean activeGas;
 
     private double temperature;
-    private int humidity;
-    private int brightness;
+    private double humidity;
+    private double brightness;
 
     public Room(int id, RoomType type) {
         this.id = id;
@@ -28,10 +30,6 @@ public class Room implements EventDestination, Location {
         activeElectricity = true;
         activeWater = true;
         activeGas = true;
-
-        temperature = 0; // TODO Add default temperature value
-        humidity = 0; // TODO Add default humidity value
-        brightness = 0; // TODO Add default brightness value
     }
 
     public List<Event> getEvents() {
@@ -50,7 +48,7 @@ public class Room implements EventDestination, Location {
         this.temperature = temperature;
     }
 
-    public int getHumidity() {
+    public double getHumidity() {
         return humidity;
     }
 
@@ -58,7 +56,7 @@ public class Room implements EventDestination, Location {
         this.humidity = humidity;
     }
 
-    public int getBrightness() {
+    public double getBrightness() {
         return brightness;
     }
 
@@ -104,7 +102,7 @@ public class Room implements EventDestination, Location {
 
     @Override
     public String toString() {
-        return String.format("%s_%d (%s)", "Room_", id, getRoomType().toString());
+        return String.format("Room_%d (%s)", id, getRoomType().toString());
     }
 
     @Override
@@ -114,6 +112,23 @@ public class Room implements EventDestination, Location {
 
     @Override
     public void routine() {
-        // TODO Room routine - calculating info from street and device powers to set its own parameters
+        Street street = Street.getInstance();
+        temperature = street.getTemperature() * 0.6; // Room temperature is almost street one // TODO Move 0.6 to HOUSE constant
+        humidity = street.getHumidity() * 0.9; // Room humidity is almost street one // TODO Move 0.9 to HOUSE constant
+        brightness = street.getBrightness() * 0.8; // Room brightness is almost street one // TODO Move 0.8 to HOUSE constant
+
+        Simulation.getInstance().getDevices().stream()
+                .filter(device -> device.getRoom() == this)
+                .forEach(device -> {
+                        switch (device) {
+                            case Heater heater -> temperature += 0.0 * heater.getPower() / 100; // Consider working heater // TODO Make constant from Heater
+                            case AC ac -> temperature -= 0.0 * ac.getPower() / 100; // Consider working AC // TODO Make constant from AC
+                            case AirHumidifier airHumidifier -> humidity = HelpFunctions.adjustPercent(humidity + 0.0 * airHumidifier.getPower() / 100); // Consider working humidifier // TODO Make constant from AirHumidifier
+                            case AirDryer airDryer -> humidity = HelpFunctions.adjustPercent(humidity - 0.0 * airDryer.getPower() / 100); // Consider working dryer // TODO Make constant from AirDryer
+                            case Light light -> brightness = HelpFunctions.adjustPercent(brightness + 0.0 * light.getPower() / 100); // Consider working light // TODO Make constant from Light
+                            case Window window -> brightness = HelpFunctions.adjustPercent(brightness - 0.0 * window.getPower() / 100); // Consider working window // TODO Make constant from Window
+                            default -> HelpFunctions.ignore(); // Device doesn't affect room parameters
+                        }
+                });
     }
 }
