@@ -40,7 +40,7 @@ public class Feeder extends Device implements ElectricityConsumer {
         return HelpFunctions.countElectricityConsumption(status, Electricity.FEEDER);
     }
 
-    //---------- API for human -----------//
+    //---------- API for human/pet -----------//
 
     public void addFood() {
         setFoodFullness(FOOD_TANK_CAPACITY);

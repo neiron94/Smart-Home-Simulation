@@ -13,44 +13,57 @@ public class Fridge extends Device implements ElectricityConsumer {
 
     private static final double MIN_TEMPERATURE = 0;
     private static final double MAX_TEMPERATURE = 10;
+
     private double temperature; // 0-5 °C
     private int fullness;   // percent
 
     public Fridge(int id, Room startRoom) {
         super(DeviceType.FRIDGE, id, startRoom);
-        // TODO - set fullness, temperature?
+        fullness = 0;
+        temperature = 0;
     }
+
+    //--------- Main public functions ----------//
 
     @Override
     public double consumeElectricity() {
         return HelpFunctions.countElectricityConsumption(status, Electricity.FRIDGE / 2 + Electricity.FRIDGE / 2 * (MAX_TEMPERATURE - temperature) / MAX_TEMPERATURE);
     }
 
-    @Override
-    public void setStandby() {}
+    //---------- API for human -----------//
 
-    public void orderFood() {
-        // TODO - may last for some time?
-        fullness = 100;  // TODO - 100?
-    }
-
-    public void takeFood(int amount) {
-        // TODO - check amount?
-        fullness = HelpFunctions.adjustPercent(fullness - amount);
+    public int takeFood(int amount) {
+        int actualAmount = Math.min(amount, fullness);
+        setFullness(fullness - actualAmount);
+        if (fullness <= 0)  orderFood();
+        return actualAmount;
     }
 
     public void putFood(int amount) {
-        // TODO - check amount?
-        fullness = HelpFunctions.adjustPercent(fullness + amount);
+        setFullness(fullness + amount);
     }
 
-    // TODO - maybe delete some getters or setters
+    public void increaseTemperature() {
+        setTemperature(temperature + 1);
+    }
+
+    public void decreaseTemperature() {
+        setTemperature(temperature - 1);
+    }
+
+    //------------- Help functions -------------//
+
+    private void orderFood() {
+        setFullness(100);
+    }
+
+    //---------- Getters and Setters ----------//
 
     public double getTemperature() {
         return temperature;
     }
 
-    public void setTemperature(double temperature) {
+    private void setTemperature(double temperature) {
         this.temperature = HelpFunctions.adjustToRange(temperature, MIN_TEMPERATURE, MAX_TEMPERATURE);
     }
 
@@ -58,7 +71,7 @@ public class Fridge extends Device implements ElectricityConsumer {
         return fullness;
     }
 
-    public void setFullness(int fullness) {
+    private void setFullness(int fullness) {
         this.fullness = HelpFunctions.adjustPercent(fullness);
     }
 }
