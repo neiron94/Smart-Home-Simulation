@@ -9,18 +9,18 @@ public enum EventType {
     ALERT("Alert"),
     FILL("Fill");
 
-    private final String name;
+    private final String description;
 
-    EventType(String name) {
-        this.name = name;
+    EventType(String description) {
+        this.description = description;
     }
 
-    public String getName() {
-        return name;
+    public String getDescription() {
+        return description;
     }
 
     @Override
     public String toString() {
-        return String.format("%s Event", name);
+        return String.format("%s Event", description);
     }
 }
