@@ -1,23 +1,26 @@
 package consumer;
 
+import consumer.device.Device;
 import smarthome.Simulation;
 
 public class DeleteVisitor implements Visitor {
+    private final Simulation simulation = Simulation.getInstance();
+
     @Override
     public void visit(ElectricityConsumer consumer) {
-        Simulation.getInstance().getHome().getElectricitySupplySystem().deleteConsumer(consumer);
-        // TODO - also delete from simulation device array?
+        simulation.getHome().getElectricitySupplySystem().deleteConsumer(consumer);
+        simulation.getDevices().remove((Device)consumer);
     }
 
     @Override
     public void visit(GasConsumer consumer) {
-        Simulation.getInstance().getHome().getGasSupplySystem().deleteConsumer(consumer);
-        // TODO - also delete from simulation device array?
+        simulation.getHome().getGasSupplySystem().deleteConsumer(consumer);
+        simulation.getDevices().remove((Device)consumer);
     }
 
     @Override
     public void visit(WaterConsumer consumer) {
-        Simulation.getInstance().getHome().getWaterSupplySystem().deleteConsumer(consumer);
-        // TODO - also delete from simulation device array?
+        simulation.getHome().getWaterSupplySystem().deleteConsumer(consumer);
+        simulation.getDevices().remove((Device)consumer);
     }
 }
