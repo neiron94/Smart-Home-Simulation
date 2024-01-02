@@ -6,6 +6,7 @@ import smarthome.Simulation;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 
@@ -17,8 +18,9 @@ public class ReportCreator {
     }
 
     public static void createReports() {
-        createActivityReports();
-        createConsumptionReports();
+        String date = Simulation.getInstance().getCurrentTime().minusDays(1).format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+        createActivityReports(date);
+        createConsumptionReports(date);
         createEventReports();
     }
 
@@ -27,20 +29,18 @@ public class ReportCreator {
         writeFile(report.getReportType(), report.toString());
     }
 
-    private static void createActivityReports() {
-        writeFile(ReportType.ACTIVITY, Simulation.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+    private static void createActivityReports(String date) {
+        writeFile(ReportType.ACTIVITY, date);
 
-        Simulation.getInstance().getResidents().forEach(resident -> {
-            Report report = new ReportFactory(resident).makeReport(ReportType.ACTIVITY);
+        Simulation.getInstance().getCreatures().forEach(creature -> {
+            Report report = new ReportFactory(creature).makeReport(ReportType.ACTIVITY);
             writeFile(report.getReportType(), report.toString());
-            resident.getActivity().getActivities().clear(); // Clear reported activities
-            resident.getActivity().getUsage().clear(); // Clear reported usages
+            creature.getActivity().getActivities().clear(); // Clear reported activities
+            creature.getActivity().getUsage().clear(); // Clear reported usages
         });
     }
 
-    private static void createConsumptionReports() {
-        String date = Simulation.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-
+    private static void createConsumptionReports(String date) {
         Simulation.getInstance().getDevices().forEach(device -> {
             Report report = new ReportFactory(device).makeReport(ReportType.CONSUMPTION);
             writeFile(report.getReportType(), String.join("\t", date, report.toString()));
@@ -53,7 +53,7 @@ public class ReportCreator {
     }
 
     private static void createEventReports() {
-        Simulation.getInstance().getResidents().stream()
+        Simulation.getInstance().getCreatures().stream()
                 .filter(creature -> creature instanceof Person)
                 .map(creature -> (Person) creature)
                 .forEach(person -> {

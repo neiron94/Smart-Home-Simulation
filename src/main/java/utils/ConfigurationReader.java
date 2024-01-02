@@ -25,12 +25,12 @@ public class ConfigurationReader {
     private static final int GREEN = 1;
     private static final int BLUE = 2;
 
-    public static void readSimulationConfig() {
+    public static void readSimulationConfig(Simulation simulation) {
         String configPath = CONFIG_PATH + "Simulation.json";
         JsonNode config = openConfig(configPath);
 
-        Simulation.getInstance().setConfigurationName(config.path("config").asText());
-        Simulation.getInstance().setFinishTime(Simulation.getInstance().getCurrentTime().plusDays(config.path("duration").asLong()));
+        simulation.setConfigurationName(config.path("config").asText());
+        simulation.setFinishTime(Simulation.getInstance().getCurrentTime().plusDays(config.path("duration").asLong()));
     }
 
     public static JsonNode readHomeConfig(String configName) {
@@ -59,21 +59,20 @@ public class ConfigurationReader {
         JsonNode config = openConfig(configPath);
 
         CreatureFactory factory = new CreatureFactory();
-        Set<Creature> creatures = Simulation.getInstance().getResidents();
 
         for (int i = 0; i < config.path("PERSON").size(); ++i) {
             JsonNode person = config.path("PERSON").get(i);
             String name = person.path("name").asText();
             String gender = person.path("gender").asText();
             String familyStatus = person.path("status").asText();
-            creatures.add(factory.createPerson(name, gender, familyStatus));
+            factory.createPerson(name, gender, familyStatus);
         }
 
         for (int i = 0; i < config.path("PET").size(); ++i) {
             JsonNode pet = config.path("PET").get(i);
             String name = pet.path("name").asText();
             String petType = pet.path("type").asText();
-            creatures.add(factory.createPet(name, petType));
+            factory.createPet(name, petType);
         }
     }
 

@@ -65,11 +65,11 @@ public class ReportFactory {
                                 ).toList() // Convert hierarchies to list
                 ));
 
-        List<String> residents = simulation.getResidents().stream() // Get residents stream
+        List<String> creatures = simulation.getCreatures().stream() // Get residents stream
                 .map(Objects::toString) // Get resident string representation
                 .toList(); // Convert representations to list
 
-        return new HouseConfigurationReport(hierarchy, residents);
+        return new HouseConfigurationReport(hierarchy, creatures);
     }
 
     private ActivityAndUsageReport makeActivityReport() {

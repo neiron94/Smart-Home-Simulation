@@ -2,42 +2,40 @@ package creature;
 
 import java.util.Deque;
 import java.util.LinkedList;
-
+import place.Location;
 import smarthome.Simulation;
 import place.Room;
 
-
 public abstract class Creature {
     protected final String name;
-    protected Room room; // TODO What if null - Creature can be outside
-    protected int abundance; // TODO Sets in routine function
-    protected Activity activity; // TODO Sets in routine function
-    protected boolean isBusy; // TODO Sets in routine function
-    protected Deque<Deque<Action>> actions; // TODO Sets in routine function
+    protected Location location;
+    protected float hunger; // TODO Changes in routine function
+    protected float fullness; // TODO Changes in routine function
+    protected Activity activity; // TODO Changes in routine function
+    protected boolean isBusy; // TODO Changes in routine function
+    protected Deque<Deque<Action>> actions; // TODO Changes in routine function
 
-    public Creature(String name) {
+    public Creature(String name, Location startLocation) {
+        Simulation.getInstance().getCreatures().add(this);
         this.name = name;
-        this.room = null; // TODO Think of storing Optional or Location
-        this.abundance = 0;
-        this.activity = new Activity();
-        this.isBusy = false;
-        this.actions = new LinkedList<>();
+        this.location = startLocation;
+
+        hunger = 0;
+        fullness = 0;
+
+        actions = new LinkedList<>();
+        activity = new Activity();
+        isBusy = false;
     }
+
+    public abstract void routine();
 
     public String getName() {
         return name;
     }
 
-    public Room getRoom() {
-        return room;
-    }
-
-    public void setRoom(Room room) {
-        this.room = room;
-    }
-
-    public int getAbundance() {
-        return abundance;
+    public Location getLocation() {
+        return location;
     }
 
     public Activity getActivity() {
@@ -52,16 +50,18 @@ public abstract class Creature {
         return actions;
     }
 
-    public void delete() {
-        Simulation.getInstance().getResidents().remove(this);
+    public float getHunger() {
+        return hunger;
     }
 
-    public void routine() {
-        // TODO Routine function
+    public float getFullness() {
+        return fullness;
+    }
+
+    public void die() {
+        Simulation.getInstance().getCreatures().remove(this);
     }
 
     @Override
-    public String toString() {
-        return name;
-    }
+    public abstract String toString();
 }

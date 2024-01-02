@@ -2,54 +2,43 @@ package smarthome;
 
 import consumer.device.Device;
 import creature.Creature;
-import place.DeviceService;
-import place.Home;
-import place.HomeBuilder;
+import place.*;
 import report.ReportCreator;
 import utils.ConfigurationReader;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
+import java.time.LocalTime;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 public class Simulation {
+    private static final LocalTime REPORT_TIME = LocalTime.of(0, 0);
+
     private static Simulation INSTANCE;
-
-    private String configurationName;
-    private LocalDateTime finishTime;
-    private LocalDateTime currentTime; // TODO changes in simulate() function
-
-    private Home home;
-    private final Set<Creature> residents = new HashSet<>();
-    private final Set<Device> devices = new HashSet<>();
-    private final DeviceService service = new DeviceService();
-
-    private double streetTemperature; // TODO Changes in calculateSimulation() function
-    private int streetBrightness; // TODO Changes in calculateSimulation() function
-    private int streetHumidity; // TODO Changes in calculateSimulation() function
-
-    private Simulation() {
-        currentTime = LocalDateTime.now(); // TODO Cut of seconds
-        streetTemperature = 0; // TODO Initialize value of temperature - or maybe at first iteration ??
-        streetHumidity = 0; // TODO Initialize value of humidity - or maybe at first iteration ??
-        streetBrightness = 0; // TODO Initialize value of brightness - or maybe at first iteration ??
-    }
-
     public synchronized static Simulation getInstance() {
-        if (INSTANCE == null) {
-            INSTANCE = new Simulation();
-            readConfig(INSTANCE);
-        }
+        if (INSTANCE == null) INSTANCE = new Simulation();
         return INSTANCE;
     }
 
-    private static void readConfig(Simulation simulation) {
-        ConfigurationReader.readSimulationConfig();
-        String configurationName = Simulation.getInstance().configurationName;
-        simulation.home = new HomeBuilder(configurationName).getHome();
-        ConfigurationReader.readCreatureConfig(configurationName);
-        ConfigurationReader.readDeviceConfig(configurationName);
+    private String configurationName;
+    private LocalDateTime finishTime;
+    private LocalDateTime currentTime;
+
+    private final Home home;
+    private final DeviceService service;
+    private final Set<Creature> creatures = new HashSet<>();
+    private final Set<Device> devices = new HashSet<>();
+
+    private Simulation() {
+        ConfigurationReader.readSimulationConfig(this); // Read main configuration
+
+        home = new HomeBuilder(configurationName).getHome(); // Create home
+        ConfigurationReader.readCreatureConfig(configurationName); // Create creatures
+        ConfigurationReader.readDeviceConfig(configurationName); // Create devices
+
+        currentTime = LocalDateTime.now().withSecond(0).withNano(0);
+        service = new DeviceService();
+
+        ReportCreator.createConfigurationReport();
     }
 
     public void setConfigurationName(String configurationName) {
@@ -68,49 +57,31 @@ public class Simulation {
         return home;
     }
 
-    public Set<Creature> getResidents() {
-        return residents;
+    public Set<Creature> getCreatures() {
+        return creatures;
     }
 
     public Set<Device> getDevices() {
         return devices;
     }
 
-    public DeviceService getService() {
-        return service;
-    }
-
-    public double getStreetTemperature() {
-        return streetTemperature;
-    }
-
-    public int getStreetBrightness() {
-        return streetBrightness;
-    }
-
-    public int getStreetHumidity() {
-        return streetHumidity;
-    }
-
     public void simulate() {
-        ReportCreator.createConfigurationReport();
+        // TODO Log simulation start
 
-        while (true) { // TODO Change condition to compare currentTime and finishTime
-            calculateSimulation(); // Updates simulation parameters (temperature, humidity, brightness)
+        while (currentTime.isBefore(finishTime)) {
+            // TODO Log step of simulation (currentTime)
 
-            residents.forEach(Creature::routine); // Calls routine function in all creatures
-            devices.forEach(Device::routine); // Calls routine function in all devices
+            Street.getInstance().routine(); // Update street parameters (temperature, humidity, brightness)
+            home.getFloors().stream().flatMap(floor -> floor.getRooms().stream()).forEach(Room::routine); // Do rooms routine
+            service.routine(); // Do device service routine
 
-            if (false) ReportCreator.createReports(); // TODO Change condition (once in a day)
+            creatures.forEach(Creature::routine); // Do creatures routine
+            devices.forEach(Device::routine); // Do devices routine
+
+            currentTime = currentTime.plusMinutes(1);
+            if (currentTime.toLocalTime().equals(REPORT_TIME)) ReportCreator.createReports();
         }
 
         // TODO Log simulation finish
-    }
-
-    private void calculateSimulation() {
-        // TODO Actualize simulation parameters
-        // TODO streetTemperature depends on time and month
-        // TODO streetBrightness depends on time
-        // TODO streetHumidity depends on month
     }
 }
