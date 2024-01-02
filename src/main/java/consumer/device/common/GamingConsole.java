@@ -6,7 +6,11 @@ import consumer.device.DeviceStatus;
 import consumer.device.DeviceType;
 import consumer.device.common.entertainment.Game;
 import place.Room;
+import utils.Constants.Consumption.Electricity;
 import utils.HelpFunctions;
+import utils.exceptions.DeviceIsBrokenException;
+import utils.exceptions.ResourceNotAvailableException;
+import utils.exceptions.WrongDeviceStatusException;
 
 public class GamingConsole extends Device implements ElectricityConsumer {
 
@@ -14,33 +18,37 @@ public class GamingConsole extends Device implements ElectricityConsumer {
 
     public GamingConsole(int id, Room startRoom) {
         super(DeviceType.GAMING_CONSOLE, id, startRoom);
-        currentGame = null; // TODO - null?
+        currentGame = null;
     }
+
+    //--------- Main public functions ----------//
 
     @Override
     public double consumeElectricity() {
-        return HelpFunctions.countElectricityConsumption(status, 1);    // TODO - change 1 for Constant
+        return HelpFunctions.countElectricityConsumption(status, Electricity.GAMING_CONSOLE);
     }
 
-    public void play(Game game) {
+    //---------- API for human -----------//
+
+    public void turnOn() throws DeviceIsBrokenException, ResourceNotAvailableException {
+        setStandby();
+    }
+
+    public void play(Game game) throws WrongDeviceStatusException {
+        checkDeviceStandby();
+
         currentGame = game;
         status = DeviceStatus.ON;
-        // TODO - maybe add something
     }
 
     public void stop() {
-        // TODO - check this function
         currentGame = null;
-        status = DeviceStatus.OFF;
+        setOff();
     }
 
-    // TODO - maybe delete some getters or setters
+    //---------- Getters and Setters ----------//
 
     public Game getCurrentGame() {
         return currentGame;
-    }
-
-    public void setCurrentGame(Game currentGame) {
-        this.currentGame = currentGame;
     }
 }

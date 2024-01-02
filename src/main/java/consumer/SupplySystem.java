@@ -1,6 +1,9 @@
 package consumer;
 
+import consumer.device.Device;
+import consumer.device.DeviceStatus;
 import place.Room;
+import smarthome.Simulation;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -10,7 +13,6 @@ public class SupplySystem<T extends Consumer> {
     private boolean resourceAvailable;
 
     public SupplySystem() {
-        // TODO - should initialize map (add devices)
         consumedMap = new HashMap<>();
         resourceAvailable = true;
     }
@@ -22,11 +24,15 @@ public class SupplySystem<T extends Consumer> {
     }
 
     public void switchAll(boolean switchOn) {
-        // TODO - implement. For each room in home call switchRoom(room, switchOn)
+        Simulation.getInstance().getHome().getFloors().stream()
+                .flatMap(floor -> floor.getRooms().stream())
+                .forEach(room -> switchRoom(room, switchOn));
     }
 
     public void switchRoom(Room room, boolean switchOn) {
-        // TODO - implement. For each device from consumed map in this room set status to 1) OFF if switchOn is false 2) START_STATUS if true
+        consumedMap.keySet().stream()
+                .filter(consumer -> ((Device)consumer).getRoom() == room)
+                .forEach(consumer -> ((Device)consumer).setStatus(switchOn ? ((Device)consumer).getType().getStartStatus() : DeviceStatus.OFF));
     }
 
     public void addConsumption(T consumer, double consumed) {

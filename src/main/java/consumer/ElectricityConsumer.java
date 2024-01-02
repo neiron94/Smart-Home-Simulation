@@ -4,8 +4,6 @@ import consumer.device.Device;
 import event.FireEvent;
 
 public interface ElectricityConsumer extends Consumer {
-    int ELECTRICITY_COST = 0;   // cost for unit of electricity TODO - move to Constants and give value
-
     double consumeElectricity();
 
     default void fire() {

@@ -2,10 +2,10 @@ package consumer.device.sensored;
 
 import consumer.device.DeviceStatus;
 import consumer.device.DeviceType;
-import consumer.device.Manual;
 import consumer.device.sensored.sensor.EventSensor;
 import event.AlertEvent;
 import place.Room;
+import utils.Constants.Consumption.Electricity;
 import utils.HelpFunctions;
 
 public abstract class Alarm<T extends EventSensor> extends EventDevice<T> {
@@ -18,7 +18,7 @@ public abstract class Alarm<T extends EventSensor> extends EventDevice<T> {
 
     @Override
     public double consumeElectricity() {
-        return HelpFunctions.countElectricityConsumption(status, 1);    // TODO - change 1 for Constant
+        return HelpFunctions.countElectricityConsumption(status, Electricity.ALARM);
     }
 
     @Override
@@ -30,15 +30,17 @@ public abstract class Alarm<T extends EventSensor> extends EventDevice<T> {
         // Throws event if not alerting
         if (!isAlerting) {
             isAlerting = true;
+            status = DeviceStatus.ON;
             new AlertEvent(this, this.room).throwEvent();
         }
     }
 
-    public boolean isAlerting() {
-        return isAlerting;
+    public void stop() {
+        isAlerting = false;
+        status = DeviceStatus.STANDBY;
     }
 
-    public void setAlerting(boolean alerting) {
-        isAlerting = alerting;
+    public boolean isAlerting() {
+        return isAlerting;
     }
 }

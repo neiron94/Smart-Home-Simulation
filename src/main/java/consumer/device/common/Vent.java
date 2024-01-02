@@ -2,18 +2,37 @@ package consumer.device.common;
 
 import consumer.ElectricityConsumer;
 import consumer.device.Device;
+import consumer.device.DeviceStatus;
 import consumer.device.DeviceType;
 import place.Room;
+import utils.Constants;
 import utils.HelpFunctions;
+import utils.exceptions.DeviceIsBrokenException;
+import utils.exceptions.DirtyFilterException;
+import utils.exceptions.ResourceNotAvailableException;
 
 
 public class Vent extends Device implements ElectricityConsumer {
 
     private VentProgram program;
-    private int filterStatus;   // percent
+    private double filterStatus;   // percent
 
     public Vent(int id, Room startRoom) {
         super(DeviceType.VENT, id, startRoom);
+        program = VentProgram.SLOW;
+        setFilterStatus(100);
+    }
+
+    //--------- Main public functions ----------//
+
+    @Override
+    public boolean routine() {
+        if (!super.routine()) return false;
+
+        if (status == DeviceStatus.ON)
+            setFilterStatus(filterStatus - Constants.FILTER_DEGRADATION);
+
+        return true;
     }
 
     @Override
@@ -21,25 +40,37 @@ public class Vent extends Device implements ElectricityConsumer {
         return program != null ? HelpFunctions.countElectricityConsumption(status, program.getPower()) : 0;
     }
 
-    public void cleanFilter() {
-        filterStatus = 100;
+    //---------- API for human -----------//
+
+    public void startVent(VentProgram program) throws DeviceIsBrokenException, ResourceNotAvailableException, DirtyFilterException {
+        checkBeforeStatusSet();
+        if (filterStatus <= 0)
+            throw new DirtyFilterException();
+
+        this.program = program;
+        status = DeviceStatus.ON;
     }
 
-    // TODO - maybe delete some getters or setters
+    public void stop() {
+        setOff();
+    }
+
+    public void cleanFilter() {
+        setFilterStatus(100);
+    }
+
+
+    //---------- Getters and Setters ----------//
 
     public VentProgram getProgram() {
         return program;
     }
 
-    public void setProgram(VentProgram program) {
-        this.program = program;
-    }
-
-    public int getFilterStatus() {
+    public double getFilterStatus() {
         return filterStatus;
     }
 
-    public void setFilterStatus(int filterStatus) {
+    private void setFilterStatus(double filterStatus) {
         this.filterStatus = HelpFunctions.adjustPercent(filterStatus);
     }
 }

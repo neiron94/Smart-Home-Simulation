@@ -2,38 +2,70 @@ package consumer.device.common;
 
 import consumer.ElectricityConsumer;
 import consumer.device.Device;
+import consumer.device.DeviceStatus;
 import consumer.device.DeviceType;
 import place.Room;
+import smarthome.Simulation;
+import utils.Constants.Consumption.Electricity;
 import utils.HelpFunctions;
+import utils.exceptions.DeviceIsBrokenException;
+import utils.exceptions.EntryProblemException;
+import utils.exceptions.ResourceNotAvailableException;
+import utils.exceptions.WrongDeviceStatusException;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 public class Microwave extends Device implements ElectricityConsumer {
     private boolean isFoodInside;
     private int power;  // percent
-    private LocalTime timeToReady;
+    private LocalDateTime readyTime;
 
     public Microwave(int id, Room startRoom) {
         super(DeviceType.MICROWAVE, id, startRoom);
-        // TODO - set isFoodInside, power, timeToReady?
+        isFoodInside = false;
+        power = 0;
+        readyTime = Simulation.getInstance().getCurrentTime();
     }
+
+    //--------- Main public functions ----------//
 
     @Override
     public double consumeElectricity() {
-        return HelpFunctions.countElectricityConsumption(status, 1.0 * power / 100);    // TODO - change 1.0 for Constant (max microwave kW)
+        return HelpFunctions.countElectricityConsumption(status, Electricity.MICROWAVE * power / 100);
     }
 
     @Override
-    public void routine() {
-        super.routine();
-        // TODO - doAction(): timeToReady--, if == 0 -> set STANDBY
+    public boolean routine() {
+        if (!super.routine()) return false;
+
+        if (status == DeviceStatus.ON && Simulation.getInstance().getCurrentTime().isAfter(readyTime))
+            stop();
+
+        return true;
     }
 
-    public void heatFood(LocalTime heatTime, int heatPower) {
-        // TODO - check durability
-        timeToReady = heatTime;
-        power = HelpFunctions.adjustPercent(heatPower);
-        // TODO - smth else?
+    //---------- API for human -----------//
+
+    public void turnOn() throws DeviceIsBrokenException, ResourceNotAvailableException {
+        setStandby();
+    }
+
+    public void heatFood(Duration heatTime, int heatPower) throws WrongDeviceStatusException, EntryProblemException {
+        if (heatTime == null) return;
+        checkDeviceStandby();
+
+        if (!isFoodInside)
+            throw new EntryProblemException("No food inside.");
+
+        setReadyTime(heatTime);
+        setPower(heatPower);
+        status = DeviceStatus.ON;
+    }
+
+    public void stop() {
+        status = DeviceStatus.STANDBY;
     }
 
     public void putFood() {
@@ -44,29 +76,25 @@ public class Microwave extends Device implements ElectricityConsumer {
         isFoodInside = false;
     }
 
-    // TODO - maybe delete some getters or setters
+    //---------- Getters and Setters ----------//
 
     public boolean isFoodInside() {
         return isFoodInside;
-    }
-
-    public void setFoodInside(boolean foodInside) {
-        isFoodInside = foodInside;
     }
 
     public int getPower() {
         return power;
     }
 
-    public void setPower(int power) {
+    private void setPower(int power) {
         this.power = HelpFunctions.adjustPercent(power);
     }
 
-    public LocalTime getTimeToReady() {
-        return timeToReady;
+    public LocalDateTime getReadyTime() {
+        return readyTime;
     }
 
-    public void setTimeToReady(LocalTime timeToReady) {
-        this.timeToReady = timeToReady;
+    private void setReadyTime(Duration duration) {
+        readyTime = Simulation.getInstance().getCurrentTime().plus(duration);
     }
 }

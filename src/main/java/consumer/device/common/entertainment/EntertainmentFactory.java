@@ -1,5 +1,6 @@
 package consumer.device.common.entertainment;
 
+import java.time.Duration;
 import java.time.LocalTime;
 import java.util.NoSuchElementException;
 
@@ -13,7 +14,7 @@ public class EntertainmentFactory {
             throw new NoSuchElementException("Invalid Gender");
         }
 
-        return new Song(author, album, name, genre, LocalTime.of(0, duration));
+        return new Song(author, album, name, genre, Duration.ofMinutes(duration));
     }
 
     public Video createVideo(String name, String description, String videoPlatform, int duration) {

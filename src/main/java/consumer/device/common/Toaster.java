@@ -2,20 +2,32 @@ package consumer.device.common;
 
 import consumer.ElectricityConsumer;
 import consumer.device.Device;
+import consumer.device.DeviceStatus;
 import consumer.device.DeviceType;
 import place.Room;
+import smarthome.Simulation;
 import utils.HelpFunctions;
+import utils.exceptions.DeviceIsBrokenException;
+import utils.exceptions.EntryProblemException;
+import utils.exceptions.ResourceNotAvailableException;
+import utils.exceptions.WrongDeviceStatusException;
 
-import java.time.LocalTime;
+import java.time.Duration;
+import java.time.LocalDateTime;
 
 public class Toaster extends Device implements ElectricityConsumer {
     private boolean isToastInside;
     private ToastType program;
-    private LocalTime timeToReady;
+    private LocalDateTime readyTime;
 
     public Toaster(int id, Room startRoom) {
         super(DeviceType.TOASTER, id, startRoom);
+        isToastInside = false;
+        program = ToastType.SANDWICH;
+        setReadyTime(program.getCookTime());
     }
+
+    //--------- Main public functions ----------//
 
     @Override
     public double consumeElectricity() {
@@ -23,16 +35,33 @@ public class Toaster extends Device implements ElectricityConsumer {
     }
 
     @Override
-    public void routine() {
-        super.routine();
-        // TODO - doAction(): timeToReady--, if == 0 -> set STANDBY
+    public boolean routine() {
+        if (!super.routine()) return false;
+
+        if (status == DeviceStatus.ON && readyTime.isAfter(Simulation.getInstance().getCurrentTime()))
+            stop();
+
+        return true;
     }
 
-    public void makeToast(ToastType program) {
-        // TODO - check durability
-        this.timeToReady = program.getCookTime();
+    //---------- API for human -----------//
+
+    public void turnOn() throws DeviceIsBrokenException, ResourceNotAvailableException {
+        setStandby();
+    }
+
+    public void makeToast(ToastType program) throws EntryProblemException, WrongDeviceStatusException {
+        checkDeviceStandby();
+        if (!isToastInside)
+            throw new EntryProblemException("No toast inside.");
+
+        setReadyTime(program.getCookTime());
         this.program = program;
-        // TODO - smth else?
+        status = DeviceStatus.ON;
+    }
+
+    public void stop() {
+        status = DeviceStatus.STANDBY;
     }
 
     public void putToast() {
@@ -43,29 +72,21 @@ public class Toaster extends Device implements ElectricityConsumer {
         isToastInside = false;
     }
 
-    // TODO - maybe delete some getters or setters
+    //---------- Getters and Setters ----------//
 
     public boolean isToastInside() {
         return isToastInside;
-    }
-
-    public void setToastInside(boolean toastInside) {
-        isToastInside = toastInside;
     }
 
     public ToastType getProgram() {
         return program;
     }
 
-    public void setProgram(ToastType program) {
-        this.program = program;
+    public LocalDateTime getReadyTime() {
+        return readyTime;
     }
 
-    public LocalTime getTimeToReady() {
-        return timeToReady;
-    }
-
-    public void setTimeToReady(LocalTime timeToReady) {
-        this.timeToReady = timeToReady;
+    private void setReadyTime(Duration duration) {
+        readyTime = Simulation.getInstance().getCurrentTime().plus(duration);
     }
 }

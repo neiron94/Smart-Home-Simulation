@@ -1,15 +1,23 @@
 package consumer.device.common;
 
-public enum VentProgram {
-    SLOW(0),    // TODO - set values
-    NORMAL(0),
-    TURBO(0);
+import utils.Constants.Consumption.Electricity;
 
+public enum VentProgram {
+    SLOW("Slow", Electricity.VENT_SLOW),
+    NORMAL("Normal", Electricity.VENT_NORMAL),
+    TURBO("Turbo", Electricity.VENT_TURBO);
+
+    private final String description;
     private final double power;
 
 
-    VentProgram(double power) {
+    VentProgram(String description, double power) {
+        this.description = description;
         this.power = power;
+    }
+
+    public String getDescription() {
+        return description;
     }
 
     public double getPower() {

@@ -6,7 +6,11 @@ import consumer.device.DeviceStatus;
 import consumer.device.DeviceType;
 import consumer.device.common.entertainment.Video;
 import place.Room;
+import utils.Constants.Consumption.Electricity;
 import utils.HelpFunctions;
+import utils.exceptions.DeviceIsBrokenException;
+import utils.exceptions.ResourceNotAvailableException;
+import utils.exceptions.WrongDeviceStatusException;
 
 public class TV extends Device implements ElectricityConsumer {
 
@@ -17,27 +21,37 @@ public class TV extends Device implements ElectricityConsumer {
 
     public TV(int id, Room startRoom) {
         super(DeviceType.TV, id, startRoom);
-        currentVideo = null; // TODO - null?
+        setBrightness(50);
+        setVolume(50);
+        currentVideo = null;
     }
+
+    //--------- Main public functions ----------//
 
     @Override
     public double consumeElectricity() {
-        return HelpFunctions.countElectricityConsumption(status, 1.0 / 2 * brightness + 1.0 / 2 * volume);  // TODO - change 1.0 for Constant
+        return HelpFunctions.countElectricityConsumption(status, Electricity.TV / 2 * brightness + Electricity.TV / 2 * volume);
     }
 
-    public void show(Video video) {
+    //---------- API for human -----------//
+
+    public void turnOn() throws DeviceIsBrokenException, ResourceNotAvailableException {
+        setStandby();
+    }
+
+    public void show(Video video) throws WrongDeviceStatusException {
+        checkDeviceStandby();
+
         currentVideo = video;
         status = DeviceStatus.ON;
-        // TODO - maybe add something
     }
 
     public void stop() {
-        // TODO- check this function
         currentVideo = null;
         status = DeviceStatus.OFF;
     }
 
-    // TODO - maybe delete some getters or setters
+    //---------- Getters and Setters ----------//
 
     public int getBrightness() {
         return brightness;
@@ -57,9 +71,5 @@ public class TV extends Device implements ElectricityConsumer {
 
     public Video getCurrentVideo() {
         return currentVideo;
-    }
-
-    public void setCurrentVideo(Video currentVideo) {
-        this.currentVideo = currentVideo;
     }
 }
