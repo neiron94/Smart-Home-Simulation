@@ -42,8 +42,6 @@ public class ConfigurationReader {
         String configPath = CONFIG_PATH + configName + "/Device.json";
         JsonNode config = openConfig(configPath);
 
-        Set<Device> devices = Simulation.getInstance().getDevices();
-
         config.fields().forEachRemaining(device -> {
             for (int i = 0; i < device.getValue().size(); ++i) {
                 int roomId = device.getValue().get(i).asInt();
@@ -51,7 +49,7 @@ public class ConfigurationReader {
                         .flatMap(floor -> floor.getRooms().stream())
                         .filter(room -> room.getId() == roomId)
                         .findFirst().orElseThrow(NoSuchElementException::new);
-                devices.add(new DeviceFactory(device.getKey()).createDevice(i+1, startRoom));
+                new DeviceFactory(device.getKey()).createDevice(i+1, startRoom);
             }
         });
     }

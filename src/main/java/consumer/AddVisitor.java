@@ -1,23 +1,26 @@
 package consumer;
 
+import consumer.device.Device;
 import smarthome.Simulation;
 
 public class AddVisitor implements Visitor {
+    private final Simulation simulation = Simulation.getInstance();
+
     @Override
     public void visit(ElectricityConsumer consumer) {
-        Simulation.getInstance().getHome().getElectricitySupplySystem().addConsumer(consumer);
-        // TODO - also add to simulation device array?
+        simulation.getHome().getElectricitySupplySystem().addConsumer(consumer);
+        simulation.getDevices().add((Device)consumer);
     }
 
     @Override
     public void visit(GasConsumer consumer) {
-        Simulation.getInstance().getHome().getGasSupplySystem().addConsumer(consumer);
-        // TODO - also add to simulation device array?
+        simulation.getHome().getGasSupplySystem().addConsumer(consumer);
+        simulation.getDevices().add((Device)consumer);
     }
 
     @Override
     public void visit(WaterConsumer consumer) {
-        Simulation.getInstance().getHome().getWaterSupplySystem().addConsumer(consumer);
-        // TODO - also add to simulation device array?
+        simulation.getHome().getWaterSupplySystem().addConsumer(consumer);
+        simulation.getDevices().add((Device)consumer);
     }
 }
