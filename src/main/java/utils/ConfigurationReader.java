@@ -59,21 +59,20 @@ public class ConfigurationReader {
         JsonNode config = openConfig(configPath);
 
         CreatureFactory factory = new CreatureFactory();
-        Set<Creature> creatures = Simulation.getInstance().getResidents();
 
         for (int i = 0; i < config.path("PERSON").size(); ++i) {
             JsonNode person = config.path("PERSON").get(i);
             String name = person.path("name").asText();
             String gender = person.path("gender").asText();
             String familyStatus = person.path("status").asText();
-            creatures.add(factory.createPerson(name, gender, familyStatus));
+            factory.createPerson(name, gender, familyStatus);
         }
 
         for (int i = 0; i < config.path("PET").size(); ++i) {
             JsonNode pet = config.path("PET").get(i);
             String name = pet.path("name").asText();
             String petType = pet.path("type").asText();
-            creatures.add(factory.createPet(name, petType));
+            factory.createPet(name, petType);
         }
     }
 

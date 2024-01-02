@@ -2,9 +2,14 @@ package place;
 
 import consumer.device.Device;
 
-public class DeviceService {
+public class DeviceService implements Location {
     public void takeDevice(Device device, Room room) {
         device.repair();
         // TODO Implement after implementing Device.repair()
+    }
+
+    @Override
+    public void routine() {
+        // TODO Implement DeviceService routine - repairing devices
     }
 }

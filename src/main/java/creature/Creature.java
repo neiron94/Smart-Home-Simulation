@@ -2,38 +2,38 @@ package creature;
 
 import java.util.Deque;
 import java.util.LinkedList;
-
+import place.Location;
 import smarthome.Simulation;
 import place.Room;
 
-
 public abstract class Creature {
     protected final String name;
-    protected Room room; // TODO What if null - Creature can be outside
+    protected Location location;
     protected int abundance; // TODO Sets in routine function
     protected Activity activity; // TODO Sets in routine function
     protected boolean isBusy; // TODO Sets in routine function
     protected Deque<Deque<Action>> actions; // TODO Sets in routine function
 
-    public Creature(String name) {
+    public Creature(String name, Location startLocation) {
+        Simulation.getInstance().getResidents().add(this);
         this.name = name;
-        this.room = null; // TODO Think of storing Optional or Location
+        this.location = startLocation;
         this.abundance = 0;
         this.activity = new Activity();
         this.isBusy = false;
         this.actions = new LinkedList<>();
     }
 
+    public void routine() {
+        // TODO Routine function
+    }
+
     public String getName() {
         return name;
     }
 
-    public Room getRoom() {
-        return room;
-    }
-
-    public void setRoom(Room room) {
-        this.room = room;
+    public Location getLocation() {
+        return location;
     }
 
     public int getAbundance() {
@@ -56,12 +56,6 @@ public abstract class Creature {
         Simulation.getInstance().getResidents().remove(this);
     }
 
-    public void routine() {
-        // TODO Routine function
-    }
-
     @Override
-    public String toString() {
-        return name;
-    }
+    public abstract String toString();
 }

@@ -5,7 +5,7 @@ import event.Event;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Room implements EventDestination {
+public class Room implements EventDestination, Location {
     private final int id;
     private final RoomType type;
     private final ControlPanel controlPanel;
@@ -111,4 +111,9 @@ public class Room implements EventDestination {
     public void deleteEvent(Event event) {
         events.remove(event);
     } // TODO For use by event solver
+
+    @Override
+    public void routine() {
+        // TODO Room routine - calculating info from street and device powers to set its own parameters
+    }
 }
