@@ -25,12 +25,12 @@ public class ConfigurationReader {
     private static final int GREEN = 1;
     private static final int BLUE = 2;
 
-    public static void readSimulationConfig() {
+    public static void readSimulationConfig(Simulation simulation) {
         String configPath = CONFIG_PATH + "Simulation.json";
         JsonNode config = openConfig(configPath);
 
-        Simulation.getInstance().setConfigurationName(config.path("config").asText());
-        Simulation.getInstance().setFinishTime(Simulation.getInstance().getCurrentTime().plusDays(config.path("duration").asLong()));
+        simulation.setConfigurationName(config.path("config").asText());
+        simulation.setFinishTime(Simulation.getInstance().getCurrentTime().plusDays(config.path("duration").asLong()));
     }
 
     public static JsonNode readHomeConfig(String configName) {

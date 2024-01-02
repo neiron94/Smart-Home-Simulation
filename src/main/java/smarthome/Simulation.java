@@ -16,29 +16,25 @@ public class Simulation {
     private LocalDateTime finishTime;
     private LocalDateTime currentTime;
 
-    private Home home;
+    private final Home home;
     private final DeviceService service;
     private final Set<Creature> residents = new HashSet<>();
     private final Set<Device> devices = new HashSet<>();
 
     private Simulation() {
+        ConfigurationReader.readSimulationConfig(this); // Read main configuration
+
+        home = new HomeBuilder(configurationName).getHome(); // Create home
+        ConfigurationReader.readCreatureConfig(configurationName); // Create creatures
+        ConfigurationReader.readDeviceConfig(configurationName); // Create devices
+
         currentTime = LocalDateTime.now().withSecond(0).withNano(0);
         service = new DeviceService();
     }
 
     public synchronized static Simulation getInstance() {
-        if (INSTANCE == null) {
-            INSTANCE = new Simulation();
-            readConfig(INSTANCE);
-        }
+        if (INSTANCE == null) INSTANCE = new Simulation();
         return INSTANCE;
-    }
-
-    private static void readConfig(Simulation simulation) {
-        ConfigurationReader.readSimulationConfig();
-        simulation.home = new HomeBuilder(simulation.configurationName).getHome();
-        ConfigurationReader.readCreatureConfig(simulation.configurationName);
-        ConfigurationReader.readDeviceConfig(simulation.configurationName);
     }
 
     public void setConfigurationName(String configurationName) {
