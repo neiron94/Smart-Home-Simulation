@@ -17,7 +17,4 @@ public class GasOven extends Oven implements GasConsumer {
     public double consumeGas() {
         return HelpFunctions.countGasConsumption(status, Gas.OVEN * temperature / MAX_TEMPERATURE);
     }
-
-    @Override
-    public void setStandby() {}
 }

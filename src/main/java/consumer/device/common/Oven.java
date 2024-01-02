@@ -3,10 +3,15 @@ package consumer.device.common;
 import consumer.device.Device;
 import consumer.device.DeviceStatus;
 import consumer.device.DeviceType;
-import consumer.device.Manual;
 import place.Room;
+import smarthome.Simulation;
 import utils.HelpFunctions;
+import utils.exceptions.DeviceIsBrokenException;
+import utils.exceptions.EntryProblemException;
+import utils.exceptions.ResourceNotAvailableException;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 public abstract class Oven extends Device {
@@ -15,23 +20,41 @@ public abstract class Oven extends Device {
 
     protected boolean isFoodInside;
     protected double temperature;   // 0-250 °C
-    protected LocalTime timeToReady;
+    protected LocalDateTime readyTime;
 
     public Oven(DeviceType ovenType, int id, Room startRoom) {
         super(ovenType, id, startRoom);
+        isFoodInside = false;
+        setTemperature(MIN_TEMPERATURE);
+        readyTime = Simulation.getInstance().getCurrentTime();
     }
+
+    //--------- Main public functions ----------//
 
     @Override
     public boolean routine() {
-        super.routine();
-        // TODO - doAction(): timeToReady--, if == 0 -> set STANDBY
+        if (!super.routine()) return false;
+
+        if (status == DeviceStatus.ON && Simulation.getInstance().getCurrentTime().isAfter(readyTime))
+            stop();
+
         return true;
     }
 
-    public void makeFood(LocalTime cookTime, int cookTemperature) {
-        // TODO - check durability?, add smth?
-        temperature = cookTemperature;
-        timeToReady = cookTime;
+    //---------- API for human -----------//
+
+    public void makeFood(Duration cookTime, int cookTemperature) throws DeviceIsBrokenException, ResourceNotAvailableException, EntryProblemException {
+        checkBeforeStatusSet();
+        if (!isFoodInside)
+            throw new EntryProblemException("No food inside.");
+
+        setTemperature(cookTemperature);
+        setReadyTime(cookTime);
+        status = DeviceStatus.ON;
+    }
+
+    public void stop() {
+        setOff();
     }
 
     public void putFood() {
@@ -42,29 +65,25 @@ public abstract class Oven extends Device {
         isFoodInside = false;
     }
 
-    // TODO - maybe delete some getters or setters
+    //---------- Getters and Setters ----------//
 
     public boolean isFoodInside() {
         return isFoodInside;
-    }
-
-    public void setFoodInside(boolean foodInside) {
-        isFoodInside = foodInside;
     }
 
     public double getTemperature() {
         return temperature;
     }
 
-    public void setTemperature(double temperature) {
+    private void setTemperature(double temperature) {
         this.temperature = HelpFunctions.adjustToRange(temperature, MIN_TEMPERATURE, MAX_TEMPERATURE);
     }
 
-    public LocalTime getTimeToReady() {
-        return timeToReady;
+    public LocalDateTime getReadyTime() {
+        return readyTime;
     }
 
-    public void setTimeToReady(LocalTime timeToReady) {
-        this.timeToReady = timeToReady;
+    private void setReadyTime(Duration duration) {
+        readyTime = Simulation.getInstance().getCurrentTime().plus(duration);
     }
 }
