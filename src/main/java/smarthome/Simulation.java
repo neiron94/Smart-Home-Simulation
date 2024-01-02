@@ -6,11 +6,18 @@ import place.*;
 import report.ReportCreator;
 import utils.ConfigurationReader;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.HashSet;
 import java.util.Set;
 
 public class Simulation {
+    private static final LocalTime REPORT_TIME = LocalTime.of(0, 0);
+
     private static Simulation INSTANCE;
+    public synchronized static Simulation getInstance() {
+        if (INSTANCE == null) INSTANCE = new Simulation();
+        return INSTANCE;
+    }
 
     private String configurationName;
     private LocalDateTime finishTime;
@@ -30,11 +37,8 @@ public class Simulation {
 
         currentTime = LocalDateTime.now().withSecond(0).withNano(0);
         service = new DeviceService();
-    }
 
-    public synchronized static Simulation getInstance() {
-        if (INSTANCE == null) INSTANCE = new Simulation();
-        return INSTANCE;
+        ReportCreator.createConfigurationReport();
     }
 
     public void setConfigurationName(String configurationName) {
@@ -53,10 +57,6 @@ public class Simulation {
         return home;
     }
 
-    public DeviceService getService() {
-        return service;
-    }
-
     public Set<Creature> getCreatures() {
         return creatures;
     }
@@ -68,20 +68,18 @@ public class Simulation {
     public void simulate() {
         // TODO Log simulation start
 
-        ReportCreator.createConfigurationReport();
-
-        while (currentTime.equals(finishTime)) {
+        while (currentTime.isBefore(finishTime)) {
             // TODO Log step of simulation (currentTime)
 
             Street.getInstance().routine(); // Update street parameters (temperature, humidity, brightness)
-            service.routine(); // Do device service routine
             home.getFloors().stream().flatMap(floor -> floor.getRooms().stream()).forEach(Room::routine); // Do rooms routine
+            service.routine(); // Do device service routine
 
             creatures.forEach(Creature::routine); // Do creatures routine
             devices.forEach(Device::routine); // Do devices routine
 
             currentTime = currentTime.plusMinutes(1);
-            if (false) ReportCreator.createReports(); // TODO Change condition (once in a day)
+            if (currentTime.toLocalTime().equals(REPORT_TIME)) ReportCreator.createReports();
         }
 
         // TODO Log simulation finish

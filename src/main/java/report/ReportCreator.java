@@ -6,6 +6,7 @@ import smarthome.Simulation;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 
@@ -17,8 +18,9 @@ public class ReportCreator {
     }
 
     public static void createReports() {
-        createActivityReports();
-        createConsumptionReports();
+        String date = Simulation.getInstance().getCurrentTime().minusDays(1).format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+        createActivityReports(date);
+        createConsumptionReports(date);
         createEventReports();
     }
 
@@ -27,8 +29,8 @@ public class ReportCreator {
         writeFile(report.getReportType(), report.toString());
     }
 
-    private static void createActivityReports() {
-        writeFile(ReportType.ACTIVITY, Simulation.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+    private static void createActivityReports(String date) {
+        writeFile(ReportType.ACTIVITY, date);
 
         Simulation.getInstance().getCreatures().forEach(creature -> {
             Report report = new ReportFactory(creature).makeReport(ReportType.ACTIVITY);
@@ -38,9 +40,7 @@ public class ReportCreator {
         });
     }
 
-    private static void createConsumptionReports() {
-        String date = Simulation.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-
+    private static void createConsumptionReports(String date) {
         Simulation.getInstance().getDevices().forEach(device -> {
             Report report = new ReportFactory(device).makeReport(ReportType.CONSUMPTION);
             writeFile(report.getReportType(), String.join("\t", date, report.toString()));
