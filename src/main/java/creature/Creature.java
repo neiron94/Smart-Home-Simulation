@@ -58,7 +58,7 @@ public abstract class Creature {
         return fullness;
     }
 
-    public void die() {
+    private void die() {
         Simulation.getInstance().getCreatures().remove(this);
     }
 
