@@ -18,7 +18,7 @@ public class Simulation {
 
     private final Home home;
     private final DeviceService service;
-    private final Set<Creature> residents = new HashSet<>();
+    private final Set<Creature> creatures = new HashSet<>();
     private final Set<Device> devices = new HashSet<>();
 
     private Simulation() {
@@ -57,8 +57,8 @@ public class Simulation {
         return service;
     }
 
-    public Set<Creature> getResidents() {
-        return residents;
+    public Set<Creature> getCreatures() {
+        return creatures;
     }
 
     public Set<Device> getDevices() {
@@ -77,7 +77,7 @@ public class Simulation {
             service.routine(); // Do device service routine
             home.getFloors().stream().flatMap(floor -> floor.getRooms().stream()).forEach(Room::routine); // Do rooms routine
 
-            residents.forEach(Creature::routine); // Do creatures routine
+            creatures.forEach(Creature::routine); // Do creatures routine
             devices.forEach(Device::routine); // Do devices routine
 
             currentTime = currentTime.plusMinutes(1);

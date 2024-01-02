@@ -15,7 +15,7 @@ public abstract class Creature {
     protected Deque<Deque<Action>> actions; // TODO Sets in routine function
 
     public Creature(String name, Location startLocation) {
-        Simulation.getInstance().getResidents().add(this);
+        Simulation.getInstance().getCreatures().add(this);
         this.name = name;
         this.location = startLocation;
         this.abundance = 0;
@@ -53,7 +53,7 @@ public abstract class Creature {
     }
 
     public void delete() {
-        Simulation.getInstance().getResidents().remove(this);
+        Simulation.getInstance().getCreatures().remove(this);
     }
 
     @Override

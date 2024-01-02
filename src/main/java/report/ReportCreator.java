@@ -30,11 +30,11 @@ public class ReportCreator {
     private static void createActivityReports() {
         writeFile(ReportType.ACTIVITY, Simulation.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
 
-        Simulation.getInstance().getResidents().forEach(resident -> {
-            Report report = new ReportFactory(resident).makeReport(ReportType.ACTIVITY);
+        Simulation.getInstance().getCreatures().forEach(creature -> {
+            Report report = new ReportFactory(creature).makeReport(ReportType.ACTIVITY);
             writeFile(report.getReportType(), report.toString());
-            resident.getActivity().getActivities().clear(); // Clear reported activities
-            resident.getActivity().getUsage().clear(); // Clear reported usages
+            creature.getActivity().getActivities().clear(); // Clear reported activities
+            creature.getActivity().getUsage().clear(); // Clear reported usages
         });
     }
 
@@ -53,7 +53,7 @@ public class ReportCreator {
     }
 
     private static void createEventReports() {
-        Simulation.getInstance().getResidents().stream()
+        Simulation.getInstance().getCreatures().stream()
                 .filter(creature -> creature instanceof Person)
                 .map(creature -> (Person) creature)
                 .forEach(person -> {
