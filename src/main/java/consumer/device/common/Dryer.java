@@ -34,7 +34,7 @@ public class Dryer extends Device implements ElectricityConsumer {
 
     @Override
     public boolean routine() {
-        if (!super.routine())   return false;   // TODO - solve duplicate
+        if (!super.routine())   return false;
 
         if (status == DeviceStatus.ON) {
             setFilterStatus(filterStatus - Constants.FILTER_DEGRADATION);

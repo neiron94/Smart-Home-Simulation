@@ -9,6 +9,8 @@ import place.Room;
 import utils.Constants.Consumption.Water;
 import utils.Constants.Consumption.Electricity;
 import utils.HelpFunctions;
+import utils.exceptions.DeviceIsBrokenException;
+import utils.exceptions.ResourceNotAvailableException;
 
 
 public class WaterTap extends Device implements WaterConsumer, ElectricityConsumer {
@@ -20,8 +22,11 @@ public class WaterTap extends Device implements WaterConsumer, ElectricityConsum
 
     public WaterTap(int id, Room startRoom) {
         super(DeviceType.WATER_TAP, id, startRoom);
-        // TODO - set openness, temperature?
+        setOpenness(0);
+        setTemperature(0);
     }
+
+    //--------- Main public functions ----------//
 
     @Override
     public double consumeElectricity() {
@@ -33,30 +38,28 @@ public class WaterTap extends Device implements WaterConsumer, ElectricityConsum
         return HelpFunctions.countWaterConsumption(status, Water.WATER_TAP * openness / 100);
     }
 
-    public void open(int temperature, int openness) {
-        // TODO - check durability
-        this.temperature = temperature;
-        this.openness = HelpFunctions.adjustPercent(openness);
+    //---------- API for human -----------//
+
+    public void open(int temperature, int openness) throws DeviceIsBrokenException, ResourceNotAvailableException {
+        checkBeforeStatusSet();
+
+        setTemperature(temperature);
+        setOpenness(openness);
         this.status = DeviceStatus.ON;
-        // TODO - smth else?
     }
 
     public void close() {
-        this.status = DeviceStatus.OFF;
         openness = 0;
-        // TODO - smth else?
+        this.status = DeviceStatus.OFF;
     }
 
-    @Override
-    public void setStandby() {}
-
-    // TODO - maybe delete some getters or setters
+    //---------- Getters and Setters ----------//
 
     public double getTemperature() {
         return temperature;
     }
 
-    public void setTemperature(double temperature) {
+    private void setTemperature(double temperature) {
         this.temperature = HelpFunctions.adjustToRange(temperature, MIN_TEMPERATURE, MAX_TEMPERATURE);
     }
 
@@ -64,7 +67,7 @@ public class WaterTap extends Device implements WaterConsumer, ElectricityConsum
         return openness;
     }
 
-    public void setOpenness(int openness) {
+    private void setOpenness(int openness) {
         this.openness = HelpFunctions.adjustPercent(openness);
     }
 }

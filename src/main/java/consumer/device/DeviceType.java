@@ -12,7 +12,7 @@ public enum DeviceType {
     MICROWAVE("Microwave", Microwave.class, DeviceStatus.STANDBY, RepairDifficulty.MEDIUM, 18),
     ELECTRIC_OVEN("ElectricOven", ElectricOven.class, DeviceStatus.OFF, RepairDifficulty.HARD, 36),
     GAS_OVEN("GasOven", GasOven.class, DeviceStatus.OFF, RepairDifficulty.HARD, 36),
-    VENT("Vent", Vent.class, DeviceStatus.STANDBY, RepairDifficulty.EASY, 12),
+    VENT("Vent", Vent.class, DeviceStatus.OFF, RepairDifficulty.EASY, 12),
     FEEDER("Feeder", Feeder.class, DeviceStatus.ON, RepairDifficulty.EASY, 6),
     DISHWASHER("Dishwasher", Dishwasher.class, DeviceStatus.STANDBY, RepairDifficulty.MEDIUM, 24),
     WASHER("Washer", Washer.class, DeviceStatus.STANDBY, RepairDifficulty.MEDIUM, 24),

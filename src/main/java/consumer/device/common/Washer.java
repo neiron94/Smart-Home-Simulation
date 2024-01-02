@@ -35,7 +35,7 @@ public class Washer extends Device implements WaterConsumer, ElectricityConsumer
 
     @Override
     public boolean routine() {
-        if (!super.routine())   return false;   // TODO - solve duplicate
+        if (!super.routine())   return false;
 
         if (status == DeviceStatus.ON) {
             setFilterStatus(filterStatus - Constants.FILTER_DEGRADATION);
