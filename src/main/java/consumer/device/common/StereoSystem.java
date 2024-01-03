@@ -6,53 +6,89 @@ import consumer.device.DeviceStatus;
 import consumer.device.DeviceType;
 import consumer.device.common.entertainment.Song;
 import place.Room;
+import smarthome.Simulation;
+import utils.Constants;
+import utils.Constants.Consumption.Electricity;
 import utils.HelpFunctions;
+import utils.exceptions.DeviceIsBrokenException;
+import utils.exceptions.ResourceNotAvailableException;
+import utils.exceptions.WrongDeviceStatusException;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.ArrayDeque;
 import java.util.List;
+import java.util.Objects;
 import java.util.Queue;
 
 public class StereoSystem extends Device implements ElectricityConsumer {
 
     private int volume; // percent
-    private Queue<Song> queue;
+    private final Queue<Song> queue;
     private Song currentSong;
-    private LocalTime timeToReady;   // from song in queue
+    private LocalDateTime readyTime;   // from song in queue
 
     public StereoSystem(int id, Room startRoom) {
         super(DeviceType.STEREO_SYSTEM, id, startRoom);
-        currentSong = null; // TODO - null?
-        // TODO - set other? (volume, queue, timeToReady)
+        currentSong = null;
+        setVolume(50);
+        readyTime = Simulation.getInstance().getCurrentTime();
+        queue = new ArrayDeque<>();
     }
+
+    //--------- Main public functions ----------//
 
     @Override
     public double consumeElectricity() {
-        return HelpFunctions.countElectricityConsumption(status, 1.0 * volume / 100);       // TODO - change 1.0 for Constant (max microwave kW)
+        return HelpFunctions.countElectricityConsumption(status, Electricity.STEREO_SYSTEM * volume / 100);
     }
 
     @Override
-    public void routine() {
-        super.routine();
-        // TODO - doAction(): timeToReady--, check timeToReady, pop next song or stop playing
+    public boolean routine() {
+        if (!super.routine()) return false;
+
+        if (status == DeviceStatus.ON && Simulation.getInstance().getCurrentTime().isAfter(readyTime)) {
+            if (queue == null || queue.isEmpty())
+                stop();
+            else {
+                currentSong = queue.poll();
+                setReadyTime(currentSong.duration());
+            }
+
+        }
+
+        return true;
     }
 
-    public void play(List<Song> playlist) {
-        // TODO - implement
+    //---------- API for human -----------//
+
+    public void turnOn() throws DeviceIsBrokenException, ResourceNotAvailableException {
+        setStandby();
     }
 
-    public void play(Song song) {
+    public void play(List<Song> playlist) throws WrongDeviceStatusException {
+        if (playlist == null || playlist.isEmpty()) return;
+
+        queue.clear();
+        queue.addAll(playlist);
+        play(Objects.requireNonNull(queue.poll()));
+    }
+
+    public void play(Song song) throws WrongDeviceStatusException {
+        checkDeviceStandby();
+
         currentSong = song;
+        setReadyTime(song.duration());
         status = DeviceStatus.ON;
-        // TODO - something more
     }
 
     public void stop() {
-        // TODO - check this function
         currentSong = null;
         status = DeviceStatus.OFF;
     }
 
-    // TODO - maybe delete some getters or setters
+    //---------- Getters and Setters ----------//
 
     public int getVolume() {
         return volume;
@@ -62,27 +98,15 @@ public class StereoSystem extends Device implements ElectricityConsumer {
         this.volume = HelpFunctions.adjustPercent(volume);
     }
 
-    public Queue<Song> getQueue() {
-        return queue;
-    }
-
-    public void setQueue(Queue<Song> queue) {
-        this.queue = queue;
-    }
-
     public Song getCurrentSong() {
         return currentSong;
     }
 
-    public void setCurrentSong(Song currentSong) {
-        this.currentSong = currentSong;
+    public LocalDateTime getReadyTime() {
+        return readyTime;
     }
 
-    public LocalTime getTimeToReady() {
-        return timeToReady;
-    }
-
-    public void setTimeToReady(LocalTime timeToReady) {
-        this.timeToReady = timeToReady;
+    private void setReadyTime(Duration duration) {
+        readyTime = Simulation.getInstance().getCurrentTime().plus(duration);
     }
 }

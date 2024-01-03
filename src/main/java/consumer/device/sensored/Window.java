@@ -4,6 +4,7 @@ import consumer.device.DeviceStatus;
 import consumer.device.DeviceType;
 import consumer.device.sensored.sensor.LightSensor;
 import place.Room;
+import utils.Constants.Consumption.Electricity;
 import utils.HelpFunctions;
 
 public class Window extends ParameterDevice<LightSensor> {
@@ -16,16 +17,14 @@ public class Window extends ParameterDevice<LightSensor> {
 
     @Override
     public void react(Number parameter) {
-        // TODO - increment and decrement by 5?
         if (room.getBrightness() > room.getControlPanel().getBrightness())
-            power = HelpFunctions.adjustPercent(++power);
+            setPower(power + 1);
         else if (room.getBrightness() < room.getControlPanel().getBrightness())
-            power = HelpFunctions.adjustPercent(--power);
+            setPower(power - 1);
     }
 
     @Override
-    public void setStatus(DeviceStatus status) {
-        if (status != DeviceStatus.STANDBY)
-            this.status = status;
+    public double consumeElectricity() {
+        return HelpFunctions.countElectricityConsumption(status, Electricity.WINDOW * power);
     }
 }

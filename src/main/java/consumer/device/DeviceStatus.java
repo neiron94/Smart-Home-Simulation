@@ -1,9 +1,11 @@
 package consumer.device;
 
+import utils.Constants.Consumption;
+
 public enum DeviceStatus {
-    ON("ON", 1),
-    OFF("OFF", 0),
-    STANDBY("STANDBY", 0.01);
+    ON("ON", Consumption.ON_MULTIPLIER),
+    OFF("OFF", Consumption.OFF_MULTIPLIER),
+    STANDBY("STANDBY", Consumption.STANDBY_MULTIPLIER);
 
     private final String description;
     private final double consumeMultiplier;

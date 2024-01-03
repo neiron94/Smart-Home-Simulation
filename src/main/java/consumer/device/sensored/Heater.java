@@ -2,9 +2,9 @@ package consumer.device.sensored;
 
 import consumer.device.DeviceStatus;
 import consumer.device.DeviceType;
-import consumer.device.sensored.sensor.GasSensor;
 import consumer.device.sensored.sensor.TemperatureSensor;
 import place.Room;
+import utils.Constants.Consumption.Electricity;
 import utils.HelpFunctions;
 
 
@@ -18,16 +18,14 @@ public class Heater extends ParameterDevice<TemperatureSensor> {
 
     @Override
     public void react(Number parameter) {
-        // TODO - increment and decrement by 5?
-        if (room.getTemperature() < room.getControlPanel().getTemperature())
-            power = HelpFunctions.adjustPercent(++power);
-        else if (room.getTemperature() > room.getControlPanel().getTemperature())
-            power = HelpFunctions.adjustPercent(--power);
+        if (parameter.doubleValue() < room.getControlPanel().getTemperature())
+            setPower(power + 1);
+        else if (parameter.doubleValue() > room.getControlPanel().getTemperature())
+            setPower(power - 1);
     }
 
     @Override
-    public void setStatus(DeviceStatus status) {
-        if (status != DeviceStatus.STANDBY)
-            this.status = status;
+    public double consumeElectricity() {
+        return HelpFunctions.countElectricityConsumption(status, Electricity.HEATER * power);
     }
 }

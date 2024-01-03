@@ -1,11 +1,14 @@
 package consumer.device.common;
 
+import consumer.ConsumeVisitor;
 import consumer.WaterConsumer;
 import consumer.device.Device;
 import consumer.device.DeviceStatus;
 import consumer.device.DeviceType;
 import place.Room;
 import utils.HelpFunctions;
+import utils.exceptions.DeviceIsBrokenException;
+import utils.exceptions.ResourceNotAvailableException;
 
 public class WC extends Device implements WaterConsumer {
 
@@ -17,38 +20,32 @@ public class WC extends Device implements WaterConsumer {
         shouldBeFlushed = false;
     }
 
+    //--------- Main public functions ----------//
+
     @Override
     public double consumeWater() {
         return flushType != null ? HelpFunctions.countWaterConsumption(status, flushType.getWaterConsumption()) : 0;
     }
 
-    public void flush(FlushType flushType) {
-        // TODO - check durability
+    //---------- API for human -----------//
+
+    public void makeThings() {
+        shouldBeFlushed = true;
+    }
+
+    public void flush(FlushType flushType) throws DeviceIsBrokenException, ResourceNotAvailableException {
+        checkBeforeStatusSet();
+        status = DeviceStatus.ON;
+
+        this.flushType = flushType;
+        accept(new ConsumeVisitor());
         shouldBeFlushed = false;
-        // TODO - smth else
+        status = DeviceStatus.OFF;
     }
 
-    @Override
-    public void setStatus(DeviceStatus status) {
-        if (status != DeviceStatus.STANDBY)
-            this.status = status;
-    }
-
-    // TODO - maybe delete some getters or setters
+    //---------- Getters and Setters ----------//
 
     public boolean isShouldBeFlushed() {
         return shouldBeFlushed;
-    }
-
-    public void setShouldBeFlushed(boolean shouldBeFlushed) {
-        this.shouldBeFlushed = shouldBeFlushed;
-    }
-
-    public FlushType getFlushType() {
-        return flushType;
-    }
-
-    public void setFlushType(FlushType flushType) {
-        this.flushType = flushType;
     }
 }

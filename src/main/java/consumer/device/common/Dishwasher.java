@@ -6,27 +6,42 @@ import consumer.device.Device;
 import consumer.device.DeviceStatus;
 import consumer.device.DeviceType;
 import place.Room;
+import smarthome.Simulation;
+import utils.Constants;
 import utils.HelpFunctions;
+import utils.exceptions.*;
 
-import java.time.LocalTime;
+import java.time.Duration;
+import java.time.LocalDateTime;
 
 
 public class Dishwasher extends Device implements WaterConsumer, ElectricityConsumer {
 
     private DishwasherProgram program;
     private int fullness;   // percent
-    private int filterStatus;   // percent
-    private LocalTime timeToReady;
+    private double filterStatus;   // percent
+    private LocalDateTime readyTime;
 
     public Dishwasher(int id, Room startRoom) {
         super(DeviceType.DISHWASHER, id, startRoom);
-        // TODO - set fullness, program, timeToReady, filterStatus?
+        program = DishwasherProgram.LIGHT;
+        fullness = 0;
+        setFilterStatus(100);
+        setReadyTime(program.getDuration());
     }
 
+    //--------- Main public functions ----------//
+
     @Override
-    public void routine() {
-        super.routine();
-        // TODO - doAction(): timeToReady--, if == 0 -> set STANDBY
+    public boolean routine() {
+        if (!super.routine())   return false;
+
+        if (status == DeviceStatus.ON) {
+            setFilterStatus(filterStatus - Constants.FILTER_DEGRADATION);
+            if (readyTime.isAfter(Simulation.getInstance().getCurrentTime()))
+                status = DeviceStatus.STANDBY;
+        }
+        return true;
     }
 
     @Override
@@ -39,56 +54,70 @@ public class Dishwasher extends Device implements WaterConsumer, ElectricityCons
         return HelpFunctions.countWaterConsumption(status, program.getWaterConsumption());
     }
 
-    public void wash(DishwasherProgram program) {
-        // TODO - check durability
-        timeToReady = program.getDuration();
+    //---------- API for human -----------//
+
+    public void turnOn() throws DeviceIsBrokenException, ResourceNotAvailableException {
+        setStandby();
+    }
+
+    public void startWash(DishwasherProgram program) throws DirtyFilterException, EntryProblemException, WrongDeviceStatusException {
+        if (program == null || status == DeviceStatus.ON) return;
+        checkBeforeStart();
+
+        setReadyTime(program.getDuration());
         this.program = program;
-        // TODO - smth else?
+        status = DeviceStatus.ON;
     }
 
     public void putDishes(int amount) {
-        fullness = HelpFunctions.adjustPercent(fullness + amount);
+        setFullness(fullness + amount);
     }
 
     public void takeDishes() {
-        fullness = 0;
+        setFullness(0);
     }
 
     public void cleanFilter() {
-        filterStatus = 100;
+        setFilterStatus(100);
     }
 
-    // TODO - maybe delete some getters or setters
+    //------------- Help functions -------------//
+
+    private void checkBeforeStart() throws DirtyFilterException, EntryProblemException, WrongDeviceStatusException {
+        checkDeviceStandby();
+        if (filterStatus <= 0)
+            throw new DirtyFilterException("Filter is too dirty.");
+        if (fullness < 80)
+            throw new EntryProblemException("Too few dishes.");
+    }
+
+    //---------- Getters and Setters ----------//
 
     public DishwasherProgram getProgram() {
         return program;
-    }
-
-    public void setProgram(DishwasherProgram program) {
-        this.program = program;
     }
 
     public int getFullness() {
         return fullness;
     }
 
-    public void setFullness(int fullness) {
+    private void setFullness(int fullness) {
         this.fullness = HelpFunctions.adjustPercent(fullness);
     }
 
-    public int getFilterStatus() {
+    public double getFilterStatus() {
         return filterStatus;
     }
 
-    public void setFilterStatus(int filterStatus) {
+    private void setFilterStatus(double filterStatus) {
         this.filterStatus = HelpFunctions.adjustPercent(filterStatus);
     }
 
-    public LocalTime getTimeToReady() {
-        return timeToReady;
+    public LocalDateTime getReadyTime() {
+        return readyTime;
     }
 
-    public void setTimeToReady(LocalTime timeToReady) {
-        this.timeToReady = timeToReady;
+    private void setReadyTime(Duration duration) {
+        readyTime = Simulation.getInstance().getCurrentTime().plus(duration);
     }
 }

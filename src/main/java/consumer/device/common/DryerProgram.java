@@ -1,21 +1,31 @@
 package consumer.device.common;
 
+import utils.Constants.WorkTime;
+import utils.Constants.Consumption.Electricity;
+
+import java.time.Duration;
 import java.time.LocalTime;
 
 public enum DryerProgram {
-    COLD(LocalTime.of(0,0), 0), // TODO - set values
-    NORMAL(LocalTime.of(0,0), 0),
-    HOT(LocalTime.of(0,0), 0);
+    COLD("Cold", WorkTime.DRYER_COLD, Electricity.DRYER_COLD),
+    NORMAL("Normal", WorkTime.DRYER_NORMAL, Electricity.DRYER_NORMAL),
+    HOT("Hot", WorkTime.DRYER_HOT, Electricity.DRYER_HOT);
 
-    private final LocalTime duration;
+    private final String description;
+    private final Duration duration;
     private final double electricityConsumption;
 
-    DryerProgram(LocalTime duration, double electricityConsumption) {
+    DryerProgram(String description, Duration duration, double electricityConsumption) {
+        this.description = description;
         this.duration = duration;
         this.electricityConsumption = electricityConsumption;
     }
 
-    public LocalTime getDuration() {
+    public String getDescription() {
+        return description;
+    }
+
+    public Duration getDuration() {
         return duration;
     }
 
