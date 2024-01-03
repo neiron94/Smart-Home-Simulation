@@ -49,29 +49,31 @@ public class Street implements Location {
         return brightness;
     }
 
-    private void changeWeather() {
+    private void changeWeather(LocalDateTime time) {
         // TODO Maybe find better algorithm to choose next weather based on probabilities
         List<Weather> nextWeather = weather.getProbability().entrySet().stream()
                 .flatMap(entry -> Collections.nCopies((int) (entry.getValue() * 10), entry.getKey()).stream())
                 .toList();
 
         weather = nextWeather.get(new Random().nextInt(10));
-        weatherChange = Simulation.getInstance().getCurrentTime().plus(weather.getDuration());
+        changeParameters(time);
+        weatherChange = time.plus(weather.getDuration());
+    }
+    
+    private void changeParameters(LocalDateTime time) {
+        int month = time.getMonthValue() - 1;
+        int hour = time.getHour();
+
+        temperature = stats[TEMPERATURE][month][hour] + weather.getTemperatureEffect();
+        humidity = stats[HUMIDITY][month][hour] + weather.getHumidityEffect();
+        brightness = stats[BRIGHTNESS][month][hour] + weather.getBrightnessEffect();
     }
 
     @Override
     public void routine() {
         LocalDateTime currentTime = Simulation.getInstance().getCurrentTime();
 
-        if (currentTime.equals(weatherChange)) {
-            changeWeather();
-
-            int month = currentTime.getMonthValue() - 1;
-            int hour = currentTime.getHour();
-
-            temperature = stats[TEMPERATURE][month][hour] + weather.getTemperatureEffect();
-            humidity = stats[HUMIDITY][month][hour] + weather.getHumidityEffect();
-            brightness = stats[BRIGHTNESS][month][hour] + weather.getBrightnessEffect();
-        }
+        if (currentTime.equals(weatherChange)) changeWeather(currentTime);
+        if (currentTime.getMinute() == 0) changeParameters(currentTime);
     }
 }
