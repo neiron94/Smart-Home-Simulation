@@ -11,19 +11,15 @@ public enum ToastType {
     GOLDEN("Golden", WorkTime.TOASTER_GOLDEN, Electricity.TOASTER_GOLDEN),
     CRUST("Crust", WorkTime.TOASTER_CRUST, Electricity.TOASTER_CRUST);
 
-    private final String description;
+    private final String name;
     private final Duration cookTime;
     private final double power;
 
 
-    ToastType(String description, Duration cookTime, double power) {
-        this.description = description;
+    ToastType(String name, Duration cookTime, double power) {
+        this.name = name;
         this.cookTime = cookTime;
         this.power = power;
-    }
-
-    public String getDescription() {
-        return description;
     }
 
     public Duration getCookTime() {
@@ -32,5 +28,9 @@ public enum ToastType {
 
     public double getPower() {
         return power;
+    }
+
+    public String toString() {
+        return String.format("%s toast", name);
     }
 }

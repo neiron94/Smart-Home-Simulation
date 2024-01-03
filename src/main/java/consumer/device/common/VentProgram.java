@@ -7,20 +7,20 @@ public enum VentProgram {
     NORMAL("Normal", Electricity.VENT_NORMAL),
     TURBO("Turbo", Electricity.VENT_TURBO);
 
-    private final String description;
+    private final String name;
     private final double power;
 
 
-    VentProgram(String description, double power) {
-        this.description = description;
+    VentProgram(String name, double power) {
+        this.name = name;
         this.power = power;
-    }
-
-    public String getDescription() {
-        return description;
     }
 
     public double getPower() {
         return power;
+    }
+
+    public String toString() {
+        return String.format("Vent %s program", name);
     }
 }

@@ -12,20 +12,16 @@ public enum DishwasherProgram {
     MEDIUM("Medium", WorkTime.DISHWASHER_MEDIUM, Electricity.DISHWASHER_MEDIUM, Water.DISHWASHER_MEDIUM),
     HEAVY("Heavy", WorkTime.DISHWASHER_HEAVY, Electricity.DISHWASHER_HEAVY, Water.DISHWASHER_HEAVY);
 
-    private final String description;
+    private final String name;
     private final Duration duration;
     private final double electricityConsumption;
     private final double waterConsumption;
 
-    DishwasherProgram(String description, Duration duration, double electricityConsumption, double waterConsumption) {
-        this.description = description;
+    DishwasherProgram(String name, Duration duration, double electricityConsumption, double waterConsumption) {
+        this.name = name;
         this.duration = duration;
         this.electricityConsumption = electricityConsumption;
         this.waterConsumption = waterConsumption;
-    }
-
-    public String getDescription() {
-        return description;
     }
 
     public Duration getDuration() {
@@ -38,5 +34,9 @@ public enum DishwasherProgram {
 
     public double getWaterConsumption() {
         return waterConsumption;
+    }
+
+    public String toString() {
+        return String.format("Dishwasher %s program", name);
     }
 }
