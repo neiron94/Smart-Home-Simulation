@@ -12,20 +12,16 @@ public enum WasherProgram {
     NORMAL("Normal", WorkTime.WASHER_NORMAL, Electricity.WASHER_NORMAL, Water.WASHER_NORMAL),
     INTENSIVE("Intensive", WorkTime.WASHER_INTENSIVE, Electricity.WASHER_INTENSIVE, Water.WASHER_INTENSIVE);
 
-    private final String description;
+    private final String name;
     private final Duration duration;
     private final double power;
     private final double waterConsumption;
 
-    WasherProgram(String description, Duration duration, double power, double waterConsumption) {
-        this.description = description;
+    WasherProgram(String name, Duration duration, double power, double waterConsumption) {
+        this.name = name;
         this.duration = duration;
         this.power = power;
         this.waterConsumption = waterConsumption;
-    }
-
-    public String getDescription() {
-        return description;
     }
 
     public Duration getDuration() {
@@ -38,5 +34,9 @@ public enum WasherProgram {
 
     public double getWaterConsumption() {
         return waterConsumption;
+    }
+
+    public String toString() {
+        return String.format("Washer %s program", name);
     }
 }

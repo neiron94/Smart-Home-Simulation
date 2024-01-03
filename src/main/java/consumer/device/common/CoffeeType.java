@@ -11,7 +11,7 @@ public enum CoffeeType {
     IRISH_CREAM("Irish cream", Coffee.IRISH_CREAM_MILK, Coffee.IRISH_CREAM_WATER, Coffee.COFFEE),
     BLACK_COFFEE("Black coffee", Coffee.BLACK_COFFEE_MILK, Coffee.BLACK_COFFEE_WATER, Coffee.COFFEE);
 
-    private final String description;
+    private final String name;
     private final int milk;
     private final int water;
     private final int coffee;
@@ -21,10 +21,6 @@ public enum CoffeeType {
         this.milk = milk;
         this.water = water;
         this.coffee = coffee;
-    }
-
-    public String getDescription() {
-        return description;
     }
 
     public int getMilk() {
@@ -37,5 +33,9 @@ public enum CoffeeType {
 
     public int getCoffee() {
         return coffee;
+    }
+
+    public String toString() {
+        return name;
     }
 }

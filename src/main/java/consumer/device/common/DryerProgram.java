@@ -11,18 +11,14 @@ public enum DryerProgram {
     NORMAL("Normal", WorkTime.DRYER_NORMAL, Electricity.DRYER_NORMAL),
     HOT("Hot", WorkTime.DRYER_HOT, Electricity.DRYER_HOT);
 
-    private final String description;
+    private final String name;
     private final Duration duration;
     private final double electricityConsumption;
 
-    DryerProgram(String description, Duration duration, double electricityConsumption) {
-        this.description = description;
+    DryerProgram(String name, Duration duration, double electricityConsumption) {
+        this.name = name;
         this.duration = duration;
         this.electricityConsumption = electricityConsumption;
-    }
-
-    public String getDescription() {
-        return description;
     }
 
     public Duration getDuration() {
@@ -31,5 +27,9 @@ public enum DryerProgram {
 
     public double getElectricityConsumption() {
         return electricityConsumption;
+    }
+
+    public String toString() {
+        return String.format("Dryer %s program", name);
     }
 }
