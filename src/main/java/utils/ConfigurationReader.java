@@ -18,9 +18,12 @@ import java.util.NoSuchElementException;
 
 public class ConfigurationReader {
     private static final String CONFIG_PATH = System.getProperty("user.dir") + "/src/main/resources/config/"; // TODO Find out how to open configurations (not to use System.getProperty)
-    private static final int RED = 0;
-    private static final int GREEN = 1;
-    private static final int BLUE = 2;
+    private static final int TEMPERATURE = 0; // TODO Move to constants
+    private static final int HUMIDITY = 1; // TODO Move to constants
+    private final static int BRIGHTNESS = 2; // TODO Move to constants
+    private static final int RED = 0; // TODO Move to constants
+    private static final int GREEN = 1; // TODO Move to constants
+    private static final int BLUE = 2; // TODO Move to constants
 
     public static void readSimulationConfig(Simulation simulation) {
         String configPath = CONFIG_PATH + "Simulation.json";
@@ -134,9 +137,9 @@ public class ConfigurationReader {
 
         for (int i = 0; i < 12; ++i) {
             for (int j = 0; j < 24; ++j) {
-                Street.temperatureStats[i][j] = temperature.get(i).get(j).asDouble();
-                Street.humidityStats[i][j] = humidity.get(i).get(j).asInt();
-                Street.brightnessStats[i][j] = brightness.get(i).get(j).asInt();
+                Street.stats[TEMPERATURE][i][j] = temperature.get(i).get(j).asDouble();
+                Street.stats[HUMIDITY][i][j] = humidity.get(i).get(j).asDouble();
+                Street.stats[BRIGHTNESS][i][j] = brightness.get(i).get(j).asDouble();
             }
         }
     }

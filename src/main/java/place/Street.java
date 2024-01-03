@@ -2,13 +2,16 @@ package place;
 
 import smarthome.Simulation;
 import utils.ConfigurationReader;
-import utils.HelpFunctions;
-
 import java.time.LocalDateTime;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 public class Street implements Location {
-    private static final int OFFSET = 5;
+    private static final int TEMPERATURE = 0; // TODO Move to constants
+    private static final int HUMIDITY = 1; // TODO Move to constants
+    private final static int BRIGHTNESS = 2; // TODO Move to constants
 
     private static Street INSTANCE;
     public synchronized static Street getInstance() {
@@ -16,44 +19,59 @@ public class Street implements Location {
         return INSTANCE;
     }
 
-    public static final double[][] temperatureStats = new double[12][24]; // TODO Put MONTHS=12 and HOURS=24 to constants
-    public static final int[][] humidityStats = new int[12][24]; // TODO Put MONTHS=12 and HOURS=24 to constants
-    public static final int[][] brightnessStats = new int[12][24]; // TODO Put MONTHS=12 and HOURS=24 to constants
+    public static final double[][][] stats = new double[3][12][24]; // TODO Put MONTHS=12 and HOURS=24 to constants
 
+    private Weather weather;
+    private LocalDateTime weatherChange;
     private double temperature;
-    private int humidity;
-    private int brightness;
+    private double humidity;
+    private double brightness;
 
     public Street() {
         ConfigurationReader.readWeatherConfig();
-        // TODO Future feature - read city name from main configuration and load statistic weather data from internet
+        weatherChange = Simulation.getInstance().getCurrentTime();
+        weather = Weather.NORMAL;
+    }
+
+    public Weather getWeather() {
+        return weather;
     }
 
     public double getTemperature() {
         return temperature;
     }
 
-    public int getHumidity() {
+    public double getHumidity() {
         return humidity;
     }
 
-    public int getBrightness() {
+    public double getBrightness() {
         return brightness;
+    }
+
+    private void changeWeather() {
+        // TODO Maybe find better algorithm to choose next weather based on probabilities
+        List<Weather> nextWeather = weather.getProbability().entrySet().stream()
+                .flatMap(entry -> Collections.nCopies((int) (entry.getValue() * 10), entry.getKey()).stream())
+                .toList();
+
+        weather = nextWeather.get(new Random().nextInt(10));
+        weatherChange = Simulation.getInstance().getCurrentTime().plus(weather.getDuration());
     }
 
     @Override
     public void routine() {
         LocalDateTime currentTime = Simulation.getInstance().getCurrentTime();
-        int month = currentTime.getMonthValue() - 1;
-        int hour = currentTime.getHour();
 
-        temperature = temperatureStats[month][hour]; // Get normal statistic temperature
-        temperature = new Random().nextDouble(temperature - OFFSET, temperature + OFFSET); // Randomize temperature
+        if (currentTime.equals(weatherChange)) {
+            changeWeather();
 
-        humidity = humidityStats[month][hour]; // Get normal statistic humidity
-        humidity = HelpFunctions.adjustPercent(new Random().nextInt(humidity - OFFSET, humidity + OFFSET)); // Randomize humidity
+            int month = currentTime.getMonthValue() - 1;
+            int hour = currentTime.getHour();
 
-        brightness = brightnessStats[month][hour]; // Get normal statistic brightness
-        brightness = HelpFunctions.adjustPercent(new Random().nextInt(brightness - OFFSET, brightness + OFFSET)); // Randomize brightness
+            temperature = stats[TEMPERATURE][month][hour] + weather.getTemperatureEffect();
+            humidity = stats[HUMIDITY][month][hour] + weather.getHumidityEffect();
+            brightness = stats[BRIGHTNESS][month][hour] + weather.getBrightnessEffect();
+        }
     }
 }
