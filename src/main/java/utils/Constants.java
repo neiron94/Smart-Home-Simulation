@@ -1,5 +1,10 @@
 package utils;
 
+import consumer.device.DeviceStatus;
+import consumer.device.RepairDifficulty;
+import consumer.device.common.*;
+import consumer.device.sensored.*;
+
 import java.time.Duration;
 import java.time.LocalTime;
 
@@ -9,6 +14,36 @@ public final class Constants {
     public static final int TIME_DEGRADATION = 1;
     public static final int USE_DEGRADATION = 5;
     public static final double FILTER_DEGRADATION = 0.05;
+
+    public static final class Guarantee {
+        // All guarantee durations in months
+        public static final int FRIDGE = 24;
+        public static final int COFFEE_MACHINE = 12;
+        public static final int TOASTER = 12;
+        public static final int MICROWAVE = 18;
+        public static final int ELECTRIC_OVEN = 36;
+        public static final int GAS_OVEN = 36;
+        public static final int VENT = 12;
+        public static final int FEEDER = 6;
+        public static final int DISHWASHER = 24;
+        public static final int WASHER = 24;
+        public static final int DRYER = 24;
+        public static final int WATER_TAP = 12;
+        public static final int WC = 12;
+        public static final int ALARM_CLOCK = 6;
+        public static final int GAMING_CONSOLE = 36;
+        public static final int STEREO_SYSTEM = 36;
+        public static final int TV = 36;
+        public static final int AC = 36;
+        public static final int HEATER = 36;
+        public static final int AIR_DRYER = 24;
+        public static final int AIR_HUMIDIFIER = 24;
+        public static final int LIGHT = 6;
+        public static final int WINDOW = 24;
+        public static final int FIRE_ALARM = 24;
+        public static final int FLOOD_ALARM = 24;
+        public static final int GAS_ALARM = 24;
+    }
 
     public static final class Coffee {
         // Water in milliliters (mL), milk in milliliters (mL), coffee in grams (g)
