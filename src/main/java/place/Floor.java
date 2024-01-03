@@ -8,7 +8,7 @@ import java.util.List;
 public class Floor implements EventDestination {
     private final int id;
     private final List<Room> rooms;
-    private List<Event> events;
+    private final List<Event> events;
 
     public Floor(int id) {
         this.id = id;
@@ -34,7 +34,7 @@ public class Floor implements EventDestination {
 
     @Override
     public String toString() {
-        return String.format("%s_%d", "Floor_", id);
+        return String.format("Floor_%d", id);
     }
 
     @Override

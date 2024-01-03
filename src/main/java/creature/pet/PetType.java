@@ -3,9 +3,8 @@ package creature.pet;
 public enum PetType {
     CAT("Cat"),
     DOG("Dog"),
-    PARROT("Parrot"),
-    FISH("Fish"),
-    HAMSTER("Hamster");
+    RACOON("Racoon"),
+    MINI_PIG("Mini pig");
 
     private final String description;
 

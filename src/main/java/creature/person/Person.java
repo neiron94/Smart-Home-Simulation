@@ -5,17 +5,19 @@ import event.Event;
 import place.Location;
 import smarthome.Simulation;
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.Map;
 
 public class Person extends Creature {
     private final Gender gender;
     private final FamilyStatus status;
-    private Map<Event, LocalDateTime> solvedEvents;
+    private final Map<Event, LocalDateTime> solvedEvents;
 
     public Person(String name, Gender gender, FamilyStatus status, Location startLocation) {
         super(name, startLocation);
         this.gender = gender;
         this.status = status;
+        solvedEvents = new HashMap<>();
     }
 
     public Gender getGender() {
