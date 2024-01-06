@@ -8,33 +8,33 @@ import java.util.Random;
 public enum Weather {
     NORMAL("Normal",
             60,
-            0,
-            0,
-            0,
+            new int[]{0, 1},
+            new int[]{0, 1},
+            new int[]{0, 1},
             new double[]{0.3, 0.2, 0.2, 0.1, 0.2}),
     SUNNY("Sunny",
             120,
-            new Random().nextInt(3,6),
-            new Random().nextInt(-7,-3),
-            new Random().nextInt(5,12),
+            new int[]{3, 6},
+            new int[]{-7, -3},
+            new int[]{5, 12},
             new double[]{0.2, 0.5, 0.2, 0, 0.1}),
     CLOUDY("Cloudy",
             180,
-            0,
-            new Random().nextInt(3,6),
-            new Random().nextInt(-9,-4),
+            new int[]{0, 1},
+            new int[]{3, 6},
+            new int[]{-9, -4},
             new double[]{0.2, 0.2, 0.3, 0.3, 0}),
     RAINY("Rainy",
             90,
-            new Random().nextInt(-5,-2),
-            new Random().nextInt(7,13),
-            new Random().nextInt(-17,-12),
+            new int[]{-5, -2},
+            new int[]{7, 13},
+            new int[]{-17, -12},
             new double[]{0.1, 0.1, 0.3, 0.3, 0.2}),
     WINDY("Windy",
             60,
-            new Random().nextInt(-7,-4),
-            new Random().nextInt(-4,-1),
-            0,
+            new int[]{-7, -4},
+            new int[]{-4, -1},
+            new int[]{0, 1},
             new double[]{0.3, 0.1, 0.1, 0.2, 0.3});
 
     static {
@@ -47,14 +47,14 @@ public enum Weather {
 
     private final String description;
     private final Duration duration;
-    private final int temperatureEffect;
-    private final int humidityEffect;
-    private final int brightnessEffect;
+    private final int[] temperatureEffect;
+    private final int[] humidityEffect;
+    private final int[] brightnessEffect;
     private final double[] probabilities;
     private final Map<Weather, Double> probability;
 
 
-    Weather(String description, int duration, int temperatureEffect, int humidityEffect, int brightnessEffect, double[] probabilities) {
+    Weather(String description, int duration, int[] temperatureEffect, int[] humidityEffect, int[] brightnessEffect, double[] probabilities) {
         this.description = description;
         this.temperatureEffect = temperatureEffect;
         this.humidityEffect = humidityEffect;
@@ -73,15 +73,15 @@ public enum Weather {
     }
 
     public int getTemperatureEffect() {
-        return temperatureEffect;
+        return new Random().nextInt(temperatureEffect[0], temperatureEffect[1]);
     }
 
     public int getHumidityEffect() {
-        return humidityEffect;
+        return new Random().nextInt(humidityEffect[0], humidityEffect[1]);
     }
 
     public int getBrightnessEffect() {
-        return brightnessEffect;
+        return new Random().nextInt(brightnessEffect[0], brightnessEffect[1]);
     }
 
     @Override
