@@ -50,13 +50,18 @@ public class Street implements Location {
     }
 
     private void changeWeather(LocalDateTime time) {
-        List<Integer> nextWeather = weather.getProbability().entrySet().stream()
-                .flatMap(entry -> Collections.nCopies((int) (entry.getValue() * 100), entry.getKey()).stream())
-                .toList();
+        double choice = Math.random();
+        double accumulator = 0.0;
 
-        weather = Weather.values()[nextWeather.get(new Random().nextInt(nextWeather.size()))];
-        changeParameters(time);
-        weatherChange = time.plus(weather.getDuration());
+        for (Map.Entry<Weather, Double> entry : weather.getProbability().entrySet()) {
+            accumulator += entry.getValue();
+            if (choice <= accumulator) {
+                weather = entry.getKey();
+                changeParameters(time);
+                weatherChange = time.plus(weather.getDuration());
+                break;
+            }
+        }
     }
     
     private void changeParameters(LocalDateTime time) {
