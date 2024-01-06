@@ -2,17 +2,15 @@ package creature;
 
 import creature.person.*;
 import creature.pet.*;
-import place.Location;
-import place.Street;
+import place.Home;
+import place.Room;
 import smarthome.Simulation;
 import utils.HelpFunctions;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.stream.Stream;
 
 public class CreatureFactory {
-    private final Simulation simulation = Simulation.getInstance();
-    private final List<Location> locations = Stream.concat(simulation.getHome().getFloors().stream().flatMap(floor -> floor.getRooms().stream()), Stream.of(Street.getInstance())).toList();
+    private final List<Room> locations = Simulation.getInstance().getHome().getFloors().stream().flatMap(floor -> floor.getRooms().stream()).toList();;
 
     public Person createPerson(String name, String personGender, String personStatus) {
         Gender gender;

@@ -15,7 +15,10 @@ public class Simulation {
 
     private static Simulation INSTANCE;
     public synchronized static Simulation getInstance() {
-        if (INSTANCE == null) INSTANCE = new Simulation();
+        if (INSTANCE == null) {
+            INSTANCE = new Simulation();
+            readConfigurations(INSTANCE);
+        }
         return INSTANCE;
     }
 
@@ -23,20 +26,20 @@ public class Simulation {
     private LocalDateTime finishTime;
     private LocalDateTime currentTime;
 
-    private final Home home;
-    private final DeviceService service;
+    private Home home;
+    private final DeviceService service = new DeviceService();;
     private final Set<Creature> creatures = new HashSet<>();
     private final Set<Device> devices = new HashSet<>();
 
     private Simulation() {
-        ConfigurationReader.readSimulationConfig(this); // Read main configuration
-
-        home = new HomeBuilder(configurationName).getHome(); // Create home
-        ConfigurationReader.readCreatureConfig(configurationName); // Create creatures
-        ConfigurationReader.readDeviceConfig(configurationName); // Create devices
-
         currentTime = LocalDateTime.now().withSecond(0).withNano(0);
-        service = new DeviceService();
+    }
+
+    private static void readConfigurations(Simulation simulation) {
+        ConfigurationReader.readSimulationConfig(simulation); // Read main configuration
+        simulation.home = new HomeBuilder(simulation.configurationName).getHome(); // Create home
+        ConfigurationReader.readCreatureConfig(simulation.configurationName); // Create creatures
+        ConfigurationReader.readDeviceConfig(simulation.configurationName); // Create devices
 
         ReportCreator.createConfigurationReport();
     }
