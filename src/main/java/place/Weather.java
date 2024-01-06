@@ -40,7 +40,7 @@ public enum Weather {
     static {
         for (Weather weather : Weather.values()) {
             for (int i = 0; i < Weather.values().length; ++i) {
-                for (Weather next : Weather.values()) weather.probability.put(next, weather.probabilities[i]);
+                for (Weather next : Weather.values()) weather.probability.put(next.ordinal(), weather.probabilities[i]);
             }
         }
     }
@@ -51,7 +51,7 @@ public enum Weather {
     private final int[] humidityEffect;
     private final int[] brightnessEffect;
     private final double[] probabilities;
-    private final Map<Weather, Double> probability;
+    private final Map<Integer, Double> probability;
 
 
     Weather(String description, int duration, int[] temperatureEffect, int[] humidityEffect, int[] brightnessEffect, double[] probabilities) {
@@ -68,7 +68,7 @@ public enum Weather {
         return duration;
     }
 
-    public Map<Weather, Double> getProbability() {
+    public Map<Integer, Double> getProbability() {
         return probability;
     }
 

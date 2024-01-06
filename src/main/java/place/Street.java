@@ -50,12 +50,11 @@ public class Street implements Location {
     }
 
     private void changeWeather(LocalDateTime time) {
-        // TODO Maybe find better algorithm to choose next weather based on probabilities
-        List<Weather> nextWeather = weather.getProbability().entrySet().stream()
-                .flatMap(entry -> Collections.nCopies((int) (entry.getValue() * 10), entry.getKey()).stream())
+        List<Integer> nextWeather = weather.getProbability().entrySet().stream()
+                .flatMap(entry -> Collections.nCopies((int) (entry.getValue() * 100), entry.getKey()).stream())
                 .toList();
 
-        weather = nextWeather.get(new Random().nextInt(10));
+        weather = Weather.values()[nextWeather.get(new Random().nextInt(nextWeather.size()))];
         changeParameters(time);
         weatherChange = time.plus(weather.getDuration());
     }
