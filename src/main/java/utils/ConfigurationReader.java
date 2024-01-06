@@ -4,12 +4,9 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import consumer.device.DeviceFactory;
 import creature.CreatureFactory;
-import place.ControlPanel;
-import place.Room;
-import place.RoomConfiguration;
+import place.*;
 import consumer.device.common.entertainment.EntertainmentFactory;
 import consumer.device.common.entertainment.EntertainmentService;
-import place.Street;
 import smarthome.Simulation;
 import java.awt.*;
 import java.io.File;
@@ -30,7 +27,7 @@ public class ConfigurationReader {
         JsonNode config = openConfig(configPath);
 
         simulation.setConfigurationName(config.path("config").asText());
-        simulation.setFinishTime(Simulation.getInstance().getCurrentTime().toLocalDate().atStartOfDay().plusDays(config.path("duration").asLong()));
+        simulation.setFinishTime(simulation.getCurrentTime().toLocalDate().atStartOfDay().plusDays(config.path("duration").asLong()));
     }
 
     public static JsonNode readHomeConfig(String configName) {

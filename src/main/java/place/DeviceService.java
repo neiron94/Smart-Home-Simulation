@@ -4,7 +4,6 @@ import consumer.device.Device;
 
 public class DeviceService implements Location {
     public void takeDevice(Device device, Room room) {
-        device.repair();
         // TODO Implement after implementing Device.repair()
     }
 

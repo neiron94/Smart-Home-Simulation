@@ -1,6 +1,7 @@
 package place;
 
 import consumer.device.sensored.*;
+import consumer.device.sensored.sensor.ParameterSensor;
 import event.Event;
 import smarthome.Simulation;
 import utils.HelpFunctions;
@@ -118,17 +119,15 @@ public class Room implements EventDestination, Location {
         brightness = street.getBrightness() * 0.8; // Room brightness is almost street one // TODO Move 0.8 to HOUSE constant
 
         Simulation.getInstance().getDevices().stream()
-                .filter(device -> device.getRoom() == this)
+                .filter(device -> device.getRoom() == this && device instanceof ParameterDevice)
+                .map(device -> (ParameterDevice<? extends ParameterSensor>) device)
                 .forEach(device -> {
-                        switch (device) {
-                            case Heater heater -> temperature += 0.0 * heater.getPower() / 100; // Consider working heater // TODO Make constant from Heater
-                            case AC ac -> temperature -= 0.0 * ac.getPower() / 100; // Consider working AC // TODO Make constant from AC
-                            case AirHumidifier airHumidifier -> humidity = HelpFunctions.adjustPercent(humidity + 0.0 * airHumidifier.getPower() / 100); // Consider working humidifier // TODO Make constant from AirHumidifier
-                            case AirDryer airDryer -> humidity = HelpFunctions.adjustPercent(humidity - 0.0 * airDryer.getPower() / 100); // Consider working dryer // TODO Make constant from AirDryer
-                            case Light light -> brightness = HelpFunctions.adjustPercent(brightness + 0.0 * light.getPower() / 100); // Consider working light // TODO Make constant from Light
-                            case Window window -> brightness = HelpFunctions.adjustPercent(brightness - 0.0 * window.getPower() / 100); // Consider working window // TODO Make constant from Window
-                            default -> HelpFunctions.ignore(); // Device doesn't affect room parameters
-                        }
+                    if (device instanceof Heater) temperature += 0.0 * device.getPower() / 100; // Consider working heater // TODO Make constant from Heater
+                    else if (device instanceof AC) temperature -= 0.0 * device.getPower() / 100; // Consider working AC // TODO Make constant from AC
+                    else if (device instanceof AirHumidifier) humidity = HelpFunctions.adjustPercent(humidity + 0.0 * device.getPower() / 100); // Consider working humidifier // TODO Make constant from AirHumidifier
+                    else if (device instanceof AirDryer) humidity = HelpFunctions.adjustPercent(humidity - 0.0 * device.getPower() / 100); // Consider working dryer // TODO Make constant from AirDryer
+                    else if (device instanceof Light) brightness = HelpFunctions.adjustPercent(brightness + 0.0 * device.getPower() / 100); // Consider working light // TODO Make constant from Light
+                    else if (device instanceof Window) brightness = HelpFunctions.adjustPercent(brightness - 0.0 * device.getPower() / 100); // Consider working window // TODO Make constant from Window
                 });
     }
 }

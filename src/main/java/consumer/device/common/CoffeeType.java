@@ -16,8 +16,8 @@ public enum CoffeeType {
     private final int water;
     private final int coffee;
 
-    CoffeeType(String description, int milk, int water, int coffee) {
-        this.description = description;
+    CoffeeType(String name, int milk, int water, int coffee) {
+        this.name = name;
         this.milk = milk;
         this.water = water;
         this.coffee = coffee;

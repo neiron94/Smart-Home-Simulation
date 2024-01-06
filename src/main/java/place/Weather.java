@@ -37,22 +37,31 @@ public enum Weather {
             0,
             new double[]{0.3, 0.1, 0.1, 0.2, 0.3});
 
+    static {
+        for (Weather weather : Weather.values()) {
+            for (int i = 0; i < Weather.values().length; ++i) {
+                for (Weather next : Weather.values()) weather.probability.put(next, weather.probabilities[i]);
+            }
+        }
+    }
+
     private final String description;
     private final Duration duration;
     private final int temperatureEffect;
     private final int humidityEffect;
     private final int brightnessEffect;
-    private final Map<Weather, Double> probability = new HashMap<>();
+    private final double[] probabilities;
+    private final Map<Weather, Double> probability;
+
 
     Weather(String description, int duration, int temperatureEffect, int humidityEffect, int brightnessEffect, double[] probabilities) {
-        int i = 0;
-        for (Weather weather : Weather.values()) probability.put(weather, probabilities[i++]);
-
         this.description = description;
         this.temperatureEffect = temperatureEffect;
         this.humidityEffect = humidityEffect;
         this.brightnessEffect = brightnessEffect;
         this.duration = Duration.ofMinutes(duration);
+        this.probabilities = probabilities;
+        this.probability = new HashMap<>();
     }
 
     public Duration getDuration() {
