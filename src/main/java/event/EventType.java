@@ -1,21 +1,22 @@
 package event;
 
 import event.throwStrategy.*;
+import utils.Priority;
 
 public enum EventType {
-    FLOOD("Flood", EventPriority.HIGH, new RoomThrowStrategy()),
-    LEAK("Leak", EventPriority.HIGH, new RoomThrowStrategy()),
-    FIRE("Fire", EventPriority.HIGH, new RoomThrowStrategy()),
-    BREAK("Brake", EventPriority.LOW, new RoomThrowStrategy()),
-    WAKEUP("Wakeup", EventPriority.LOW, new RoomThrowStrategy()),
-    ALERT("Alert", EventPriority.MEDIUM, new HomeThrowStrategy()),
-    FILL("Fill", EventPriority.LOW, new HomeThrowStrategy());
+    FLOOD("Flood", Priority.EVENT_HIGH, new RoomThrowStrategy()),
+    LEAK("Leak", Priority.EVENT_HIGH, new RoomThrowStrategy()),
+    FIRE("Fire", Priority.EVENT_HIGH, new RoomThrowStrategy()),
+    BREAK("Brake", Priority.EVENT_LOW, new RoomThrowStrategy()),
+    WAKEUP("Wakeup", Priority.EVENT_LOW, new RoomThrowStrategy()),
+    ALERT("Alert", Priority.EVENT_MEDIUM, new HomeThrowStrategy()),
+    FILL("Fill", Priority.EVENT_LOW, new HomeThrowStrategy());
 
     private final String description;
-    private final EventPriority priority;
+    private final Priority priority;
     private final EventThrowStrategy throwStrategy;
 
-    EventType(String description, EventPriority priority, EventThrowStrategy throwStrategy) {
+    EventType(String description, Priority priority, EventThrowStrategy throwStrategy) {
         this.description = description;
         this.priority = priority;
         this.throwStrategy = throwStrategy;
@@ -25,7 +26,7 @@ public enum EventType {
         return description;
     }
 
-    public EventPriority getPriority() {
+    public Priority getPriority() {
         return priority;
     }
 

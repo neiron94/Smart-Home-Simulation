@@ -4,6 +4,7 @@ import consumer.device.Device;
 import event.throwStrategy.EventThrowStrategy;
 import place.Room;
 import smarthome.Simulation;
+import utils.Priority;
 
 import java.time.LocalDateTime;
 
@@ -32,7 +33,7 @@ public abstract class Event {
         return creator;
     }
 
-    public EventPriority getPriority() {
+    public Priority getPriority() {
         return eventType.getPriority();
     }
 
