@@ -56,12 +56,12 @@ public class ReportFactory {
                 .collect(Collectors.toMap( // Convert to map (K - Floor name, V - Room hierarchies)
                         Floor::toString, // Get floor name
                         floor -> floor.getRooms().stream() // Get rooms stream
-                                .sorted() // Sort rooms in alphabetical order
+                                .sorted(Comparator.comparing(Room::getId))
                                 .map(room -> Stream.concat( // Step into room
                                         Stream.of(room.toString()), // Get room name
                                         simulation.getDevices().stream() // Get devices stream
                                                 .filter(device -> room == device.getRoom()) // Filter only devices in this room
-                                                .sorted() // Sort devices in alphabetical order
+                                                .sorted(Comparator.comparing(Device::getId))
                                                 .map(device -> "\t\t\t" + device) // Get devices name
                                         ).collect(Collectors.joining("\n")) // Make result string
                                 ).toList() // Convert hierarchies to list
@@ -77,9 +77,7 @@ public class ReportFactory {
     private ActivityAndUsageReport makeActivityReport() {
         String name = creature.getName();
 
-        List<String> activities = creature.getActivity().getActivities().stream() // Get activities stream
-                .map(Action::getDescription) // Get activity string representation stream
-                .toList(); // Convert representations to list
+        List<String> activities = creature.getActivity().getActivities(); // Get activities stream
 
         List<String> usages = creature.getActivity().getUsage().entrySet().stream() // Get usage stream
                 .map(entry -> String.format("%s - %d", entry.getKey().toString(), entry.getValue())) // Get usage string representation stream

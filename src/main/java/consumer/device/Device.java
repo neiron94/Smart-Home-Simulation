@@ -10,23 +10,26 @@ import utils.exceptions.NotRepairableDeviceException;
 import utils.exceptions.ResourceNotAvailableException;
 
 
-public abstract class Device implements Consumer, Comparable<Device> {
-    protected final int deviceID;
+public abstract class Device implements Consumer {
+    protected final int id;
     protected  final DeviceType type;
     protected Room room;    // TODO - what if null?
     protected final Manual manual;
     protected DeviceStatus status;
     protected long durability;  // number of ticks before break
     private long maxDurability;
+    protected boolean isFunctional; // is not totally broken
 
     public Device(DeviceType type, int id, Room startRoom) {
         this.type = type;
-        deviceID = id;
+        this.id = id;
         this.room = startRoom;
 
         manual = new Manual(type);
         status = type.getStartStatus();
         durability = maxDurability = countDurability(type);
+
+        isFunctional = true;
 
         accept(new AddVisitor());   // add to consumption map in supply system
     }
@@ -52,8 +55,11 @@ public abstract class Device implements Consumer, Comparable<Device> {
         status = type.getStartStatus();
         maxDurability -= maxDurability * 0.05;
         durability = maxDurability;
-        if (maxDurability <= 0)
+        if (maxDurability <= 0) {
+            isFunctional = false;
             throw new NotRepairableDeviceException("Device " + this + " can't be repaired.");
+        }
+
     }
 
     //------------- Help functions -------------//
@@ -100,12 +106,7 @@ public abstract class Device implements Consumer, Comparable<Device> {
 
     @Override
     public String toString() {
-        return String.format("%s_%d", type.getName(), deviceID);
-    }
-
-    @Override
-    public int compareTo(Device device) {
-        return Integer.compare(this.deviceID, device.deviceID);
+        return String.format("%s_%d", type.getName(), id);
     }
 
     //---------- Getters and Setters ----------//
@@ -148,5 +149,13 @@ public abstract class Device implements Consumer, Comparable<Device> {
 
     public Manual getManual() {
         return manual;
+    }
+
+    public boolean isFunctional() {
+        return isFunctional;
+    }
+
+    public int getId() {
+        return id;
     }
 }

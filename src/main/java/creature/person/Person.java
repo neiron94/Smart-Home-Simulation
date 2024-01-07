@@ -37,8 +37,27 @@ public class Person extends Creature {
     }
 
     @Override
-    public void routine() {
-        // TODO Implement person routine
+    protected void decreaseHunger() {
+        // TODO Implement
+    }
+
+    @Override
+    protected void decreaseFullness() {
+        // TODO Implement
+    }
+
+    @Override
+    protected void chooseActivity() {
+        // TODO Implement
+    }
+
+    @Override
+    protected void reactMaxFullness() {
+        switch (gender) {
+            case MALE -> activity.addActivity("Shit himself");
+            case FEMALE -> activity.addActivity("Shit herself");
+        }
+        fullness = 0;
     }
 
     @Override

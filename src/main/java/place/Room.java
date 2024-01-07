@@ -8,7 +8,7 @@ import utils.HelpFunctions;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Room implements EventDestination, Comparable<Room> {
+public class Room implements EventDestination {
     private final int id;
     private final RoomType type;
     private final ControlPanel controlPanel;
@@ -128,10 +128,5 @@ public class Room implements EventDestination, Comparable<Room> {
                     else if (device instanceof Light) brightness = HelpFunctions.adjustPercent(brightness + 0.0 * device.getPower() / 100); // Consider working light // TODO Make constant from Light
                     else if (device instanceof Window) brightness = HelpFunctions.adjustPercent(brightness - 0.0 * device.getPower() / 100); // Consider working window // TODO Make constant from Window
                 });
-    }
-
-    @Override
-    public int compareTo(Room room) {
-        return Integer.compare(this.id, room.id);
     }
 }

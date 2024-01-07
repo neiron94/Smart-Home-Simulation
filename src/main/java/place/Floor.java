@@ -5,7 +5,7 @@ import event.Event;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Floor implements EventDestination, Comparable<Floor> {
+public class Floor implements EventDestination {
     private final int id;
     private final List<Room> rooms;
     private final List<Event> events;
@@ -18,6 +18,10 @@ public class Floor implements EventDestination, Comparable<Floor> {
 
     public List<Room> getRooms() {
         return rooms;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public void addRoom(Room room) {
@@ -40,10 +44,5 @@ public class Floor implements EventDestination, Comparable<Floor> {
     @Override
     public void deleteEvent(Event event) {
         events.remove(event); // TODO For use by event solver
-    }
-
-    @Override
-    public int compareTo(Floor floor) {
-        return Integer.compare(this.id, floor.id);
     }
 }
