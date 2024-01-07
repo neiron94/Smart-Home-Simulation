@@ -27,11 +27,13 @@ public class Simulation {
     private LocalDateTime currentTime;
 
     private Home home;
-    private final Set<Creature> creatures = new HashSet<>();
-    private final Set<Device> devices = new HashSet<>();
+    private final Set<Creature> creatures;
+    private final Set<Device> devices;
 
     private Simulation() {
         currentTime = LocalDateTime.now().withSecond(0).withNano(0);
+        creatures = new HashSet<>();
+        devices = new HashSet<>();
     }
 
     private static void readConfigurations(Simulation simulation) {
