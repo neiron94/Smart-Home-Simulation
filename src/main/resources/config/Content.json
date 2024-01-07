@@ -1,28 +1,28 @@
 {
   "SONG" : [
     {
-      "author" : "",
-      "album" : "",
-      "name" : "",
-      "genre" : "",
-      "duration" : 0
+      "author" : "Default",
+      "album" : "Default",
+      "name" : "Default",
+      "genre" : "ROCK",
+      "duration" : 1
     }
   ],
 
   "VIDEO" : [
     {
-      "name": "",
-      "description": "",
-      "platform": "",
-      "duration": 0
+      "name": "Default",
+      "description": "Default",
+      "platform": "YOUTUBE",
+      "duration": 1
     }
   ],
 
   "GAME" : [
     {
-      "name" : "",
-      "description" : "",
-      "genre" : ""
+      "name" : "Default",
+      "description" : "Default",
+      "genre" : "ACTION"
     }
   ]
 }
