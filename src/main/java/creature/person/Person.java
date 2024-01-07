@@ -2,7 +2,7 @@ package creature.person;
 
 import creature.Creature;
 import event.Event;
-import place.Location;
+import place.Room;
 import smarthome.Simulation;
 import java.time.LocalDateTime;
 import java.util.HashMap;
@@ -13,8 +13,8 @@ public class Person extends Creature {
     private final FamilyStatus status;
     private final Map<Event, LocalDateTime> solvedEvents;
 
-    public Person(String name, Gender gender, FamilyStatus status, Location startLocation) {
-        super(name, startLocation);
+    public Person(String name, Gender gender, FamilyStatus status, Room startRoom) {
+        super(name, startRoom);
         this.gender = gender;
         this.status = status;
         solvedEvents = new HashMap<>();

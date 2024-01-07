@@ -8,7 +8,7 @@ import utils.HelpFunctions;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Room implements EventDestination, Location {
+public class Room implements EventDestination {
     private final int id;
     private final RoomType type;
     private final ControlPanel controlPanel;
@@ -111,7 +111,6 @@ public class Room implements EventDestination, Location {
         events.remove(event);
     } // TODO For use by event solver
 
-    @Override
     public void routine() {
         Street street = Street.getInstance();
         temperature = street.getTemperature() * 0.6; // Room temperature is almost street one // TODO Move 0.6 to HOUSE constant

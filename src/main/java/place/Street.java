@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-public class Street implements Location {
+public class Street {
     private static final int TEMPERATURE = 0; // TODO Move to constants
     private static final int HUMIDITY = 1; // TODO Move to constants
     private final static int BRIGHTNESS = 2; // TODO Move to constants
@@ -73,7 +73,6 @@ public class Street implements Location {
         brightness = stats[BRIGHTNESS][month][hour] + weather.getBrightnessEffect();
     }
 
-    @Override
     public void routine() {
         LocalDateTime currentTime = Simulation.getInstance().getCurrentTime();
 

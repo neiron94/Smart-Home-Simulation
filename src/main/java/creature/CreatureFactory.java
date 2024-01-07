@@ -2,7 +2,6 @@ package creature;
 
 import creature.person.*;
 import creature.pet.*;
-import place.Home;
 import place.Room;
 import smarthome.Simulation;
 import utils.HelpFunctions;
@@ -10,7 +9,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 public class CreatureFactory {
-    private final List<Room> locations = Simulation.getInstance().getHome().getFloors().stream().flatMap(floor -> floor.getRooms().stream()).toList();;
+    private final List<Room> rooms = Simulation.getInstance().getHome().getFloors().stream().flatMap(floor -> floor.getRooms().stream()).toList();
 
     public Person createPerson(String name, String personGender, String personStatus) {
         Gender gender;
@@ -28,7 +27,7 @@ public class CreatureFactory {
             throw new NoSuchElementException("Invalid Family Status");
         }
 
-        return new Person(name, gender, status, HelpFunctions.getRandomObject(locations));
+        return new Person(name, gender, status, HelpFunctions.getRandomObject(rooms));
     }
 
     public Pet createPet(String name, String petType) {
@@ -40,6 +39,6 @@ public class CreatureFactory {
             throw new NoSuchElementException("Invalid Pet Type");
         }
 
-        return new Pet(name, type, HelpFunctions.getRandomObject(locations));
+        return new Pet(name, type, HelpFunctions.getRandomObject(rooms));
     }
 }
