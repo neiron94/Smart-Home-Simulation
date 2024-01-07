@@ -16,8 +16,24 @@ public class Pet extends Creature {
     }
 
     @Override
-    public void routine() {
-        // TODO Implement pet routine
+    protected void decreaseHunger() {
+        // TODO Implement
+    }
+
+    @Override
+    protected void decreaseFullness() {
+        // TODO Implement
+    }
+
+    @Override
+    protected void chooseActivity() {
+        // TODO Implement
+    }
+
+    @Override
+    protected void reactMaxFullness() {
+        activity.addActivity("Shitted");
+        fullness = 0;
     }
 
     @Override

@@ -13,8 +13,9 @@ public abstract class Creature {
     protected float fullness; // TODO Changes in routine function
 
     protected final Activity activity; // TODO Changes in routine function
-    protected final Deque<Deque<Action>> actions; // TODO Changes in routine function
+    protected final Deque<Deque<Action>> memory; // TODO Changes in routine function
     protected boolean isBusy; // TODO Changes in routine function
+    protected boolean isAlive;
 
     public Creature(String name, Room startRoom) {
         Simulation.getInstance().getCreatures().add(this);
@@ -24,12 +25,29 @@ public abstract class Creature {
         hunger = 0;
         fullness = 0;
 
-        actions = new LinkedList<>();
+        memory = new LinkedList<>();
         activity = new Activity();
         isBusy = false;
+        isAlive = true;
     }
 
-    public abstract void routine();
+    public void routine() {
+        if (hunger == 100) reactMaxHunger();
+        if (fullness == 100) reactMaxFullness();
+    }
+
+    protected abstract void decreaseHunger();
+
+    protected abstract void decreaseFullness();
+
+    protected abstract void chooseActivity();
+
+    protected abstract void reactMaxFullness();
+
+    private void reactMaxHunger() {
+        activity.addActivity("Die");
+        isAlive = false;
+    }
 
     public String getName() {
         return name;
@@ -43,14 +61,6 @@ public abstract class Creature {
         return activity;
     }
 
-    public boolean isBusy() {
-        return isBusy;
-    }
-
-    public Deque<Deque<Action>> getActions() {
-        return actions;
-    }
-
     public float getHunger() {
         return hunger;
     }
@@ -59,8 +69,8 @@ public abstract class Creature {
         return fullness;
     }
 
-    private void die() {
-        Simulation.getInstance().getCreatures().remove(this);
+    public boolean isAlive() {
+        return isAlive;
     }
 
     @Override

@@ -56,12 +56,12 @@ public class ReportFactory {
                 .collect(Collectors.toMap( // Convert to map (K - Floor name, V - Room hierarchies)
                         Floor::toString, // Get floor name
                         floor -> floor.getRooms().stream() // Get rooms stream
-                                .sorted() // Sort rooms in alphabetical order
+                                .sorted(Comparator.comparing(Room::getId))
                                 .map(room -> Stream.concat( // Step into room
                                         Stream.of(room.toString()), // Get room name
                                         simulation.getDevices().stream() // Get devices stream
                                                 .filter(device -> room == device.getRoom()) // Filter only devices in this room
-                                                .sorted() // Sort devices in alphabetical order
+                                                .sorted(Comparator.comparing(Device::getId))
                                                 .map(device -> "\t\t\t" + device) // Get devices name
                                         ).collect(Collectors.joining("\n")) // Make result string
                                 ).toList() // Convert hierarchies to list

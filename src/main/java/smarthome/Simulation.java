@@ -1,5 +1,7 @@
 package smarthome;
 
+import consumer.AddVisitor;
+import consumer.DeleteVisitor;
 import consumer.device.Device;
 import creature.Creature;
 import place.*;
@@ -73,16 +75,19 @@ public class Simulation {
         // TODO Log simulation start
 
         while (!currentTime.isAfter(finishTime)) {
-                // TODO Log step of simulation once a day (currentTime)
-
                 Street.getInstance().routine(); // Update street parameters (temperature, humidity, brightness)
                 home.getFloors().stream().flatMap(floor -> floor.getRooms().stream()).forEach(Room::routine); // Do rooms routine
 
-                devices.forEach(Device::routine); // Do devices routine
-                creatures.forEach(Creature::routine); // Do creatures routine
+                devices.stream().filter(Device::isFunctional).forEach(Device::routine); // Do devices routine
+                creatures.stream().filter(Creature::isAlive).forEach(Creature::routine); // Do creatures routine
 
                 currentTime = currentTime.plusMinutes(1);
-                if (currentTime.toLocalTime().equals(REPORT_TIME)) ReportCreator.createReports();
+                if (currentTime.toLocalTime().equals(REPORT_TIME)) {
+                    // TODO Log step of simulation (currentTime)
+                    ReportCreator.createReports();
+                    devices.stream().filter(device -> !device.isFunctional()).forEach(device -> device.accept(new DeleteVisitor())); // Delete non-functional devices
+                    creatures.stream().filter(creature -> !creature.isAlive()).forEach(creatures::remove); // Delete dead creatures
+                }
         }
 
         // TODO Log simulation finish
