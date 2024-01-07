@@ -35,51 +35,51 @@ public class ControlPanel {
         configurations.add(configuration.copy());
     }
 
-    public float getTemperature() {
+    public double getTemperature() {
         return currentConfiguration.getTemperature();
     }
 
-    public void setTemperature(float temperature) {
+    public void setTemperature(double temperature) {
         currentConfiguration.setTemperature(temperature);
     }
 
-    public void increaseTemperature(float value) {
+    public void increaseTemperature(double value) {
         currentConfiguration.setTemperature(currentConfiguration.getTemperature() + value);
     }
 
-    public void decreaseTemperature(float value) {
+    public void decreaseTemperature(double value) {
         currentConfiguration.setTemperature(currentConfiguration.getTemperature() - value);
     }
 
-    public float getHumidity() {
+    public double getHumidity() {
         return currentConfiguration.getHumidity();
     }
 
-    public void setHumidity(int humidity) {
+    public void setHumidity(double humidity) {
         currentConfiguration.setHumidity(humidity);
     }
 
-    public void increaseHumidity(int value) {
+    public void increaseHumidity(double value) {
         currentConfiguration.setHumidity(currentConfiguration.getHumidity() + value);
     }
 
-    public void decreaseHumidity(int value) {
+    public void decreaseHumidity(double value) {
         currentConfiguration.setHumidity(currentConfiguration.getHumidity() - value);
     }
 
-    public float getBrightness() {
+    public double getBrightness() {
         return currentConfiguration.getBrightness();
     }
 
-    public void setBrightness(int brightness) {
+    public void setBrightness(double brightness) {
         currentConfiguration.setBrightness(brightness);
     }
 
-    public void increaseBrightness(int value) {
+    public void increaseBrightness(double value) {
         currentConfiguration.setBrightness(currentConfiguration.getBrightness() + value);
     }
 
-    public void decreaseBrightness(int value) {
+    public void decreaseBrightness(double value) {
         currentConfiguration.setBrightness(currentConfiguration.getBrightness() - value);
     }
 

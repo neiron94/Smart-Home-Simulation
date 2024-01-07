@@ -80,9 +80,9 @@ public class ConfigurationReader {
         for (int i = 0; i < config.path("configurations").size(); ++i) {
             JsonNode configuration = config.path("configurations").get(i);
             String name = configuration.path("name").asText();
-            float temperature = configuration.path("temperature").floatValue();
-            int humidity = configuration.path("humidity").asInt();
-            int brightness = configuration.path("brightness").asInt();
+            double temperature = configuration.path("temperature").asDouble();
+            double humidity = configuration.path("humidity").asDouble();
+            double brightness = configuration.path("brightness").asDouble();
             int r = configuration.path("color").get(RED).asInt();
             int g = configuration.path("color").get(GREEN).asInt();
             int b = configuration.path("color").get(BLUE).asInt();
