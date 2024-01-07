@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 public class Activity {
-    private List<Action> activities;
+    private List<String> activities;
     private Map<Device, Integer> usage;
 
     public Activity() {
@@ -16,7 +16,7 @@ public class Activity {
         this.usage = new HashMap<>();
     }
 
-    public List<Action> getActivities() {
+    public List<String> getActivities() {
         return activities;
     }
 
@@ -24,8 +24,8 @@ public class Activity {
         return usage;
     }
 
-    public void addActivity(Action action) {
-        activities.add(action);
+    public void addActivity(String activity) {
+        activities.add(activity);
     }
 
     public void increaseUsage(Device device) {

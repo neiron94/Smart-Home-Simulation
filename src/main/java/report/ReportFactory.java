@@ -77,9 +77,7 @@ public class ReportFactory {
     private ActivityAndUsageReport makeActivityReport() {
         String name = creature.getName();
 
-        List<String> activities = creature.getActivity().getActivities().stream() // Get activities stream
-                .map(Action::getDescription) // Get activity string representation stream
-                .toList(); // Convert representations to list
+        List<String> activities = creature.getActivity().getActivities(); // Get activities stream
 
         List<String> usages = creature.getActivity().getUsage().entrySet().stream() // Get usage stream
                 .map(entry -> String.format("%s - %d", entry.getKey().toString(), entry.getValue())) // Get usage string representation stream
