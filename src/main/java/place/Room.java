@@ -11,6 +11,7 @@ import java.util.List;
 public class Room implements EventDestination {
     private final int id;
     private final RoomType type;
+    private final Floor floor;
     private final ControlPanel controlPanel;
     private final List<Event> events;
 
@@ -22,9 +23,10 @@ public class Room implements EventDestination {
     private double humidity;
     private double brightness;
 
-    public Room(int id, RoomType type) {
+    public Room(int id, RoomType type, Floor floor) {
         this.id = id;
         this.type = type;
+        this.floor = floor;
         controlPanel = new ControlPanel(this);
         events = new ArrayList<>();
 
@@ -99,6 +101,14 @@ public class Room implements EventDestination {
 
     public int getId() {
         return id;
+    }
+
+    public RoomType getType() {
+        return type;
+    }
+
+    public Floor getFloor() {
+        return floor;
     }
 
     @Override
