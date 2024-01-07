@@ -14,7 +14,7 @@ import java.io.IOException;
 import java.util.NoSuchElementException;
 
 public class ConfigurationReader {
-    private static final String CONFIG_PATH = System.getProperty("user.dir") + "/src/main/resources/config/"; // TODO Find out how to open configurations (not to use System.getProperty)
+    private static final String CONFIG_PATH = String.join(File.separator, System.getProperty("user.dir"), "src", "main", "resources", "config") + File.separator; // TODO Find out how to open configurations (not to use System.getProperty)
     private static final int TEMPERATURE = 0; // TODO Move to constants
     private static final int HUMIDITY = 1; // TODO Move to constants
     private final static int BRIGHTNESS = 2; // TODO Move to constants
@@ -31,12 +31,12 @@ public class ConfigurationReader {
     }
 
     public static JsonNode readHomeConfig(String configName) {
-        String configPath = CONFIG_PATH + configName + "/Home.json";
+        String configPath = CONFIG_PATH + configName + File.separator + "Home.json";
         return openConfig(configPath);
     }
 
     public static void readDeviceConfig(String configName) {
-        String configPath = CONFIG_PATH + configName + "/Device.json";
+        String configPath = CONFIG_PATH + configName + File.separator + "Device.json";
         JsonNode config = openConfig(configPath);
 
         config.fields().forEachRemaining(device -> {
@@ -52,7 +52,7 @@ public class ConfigurationReader {
     }
 
     public static void readCreatureConfig(String configName) {
-        String configPath = CONFIG_PATH + configName + "/Creature.json";
+        String configPath = CONFIG_PATH + configName + File.separator + "Creature.json";
         JsonNode config = openConfig(configPath);
 
         CreatureFactory factory = new CreatureFactory();

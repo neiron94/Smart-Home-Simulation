@@ -5,11 +5,13 @@ import creature.Action;
 import creature.Creature;
 import creature.person.Person;
 import event.Event;
+import place.Room;
 import place.Floor;
 import place.Home;
 import smarthome.Simulation;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -101,7 +103,7 @@ public class ReportFactory {
                 .filter(entry -> entry.getKey() == device) // Filter this device
                 .map(Map.Entry::getValue) // Get consumed electricity value
                 .findFirst().orElse(0.0);
-        int spentMoney = 0; // TODO Make formulae to count money + choose proper class to store Money
+        double spentMoney = 0; // TODO Make formulae to count money + choose proper class to store Money
 
         return new ConsumptionReport(device.toString(),
                 String.valueOf(usedGas),

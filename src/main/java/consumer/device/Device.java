@@ -10,7 +10,7 @@ import utils.exceptions.NotRepairableDeviceException;
 import utils.exceptions.ResourceNotAvailableException;
 
 
-public abstract class Device implements Consumer {
+public abstract class Device implements Consumer, Comparable<Device> {
     protected final int deviceID;
     protected  final DeviceType type;
     protected Room room;    // TODO - what if null?
@@ -101,6 +101,11 @@ public abstract class Device implements Consumer {
     @Override
     public String toString() {
         return String.format("%s_%d", type.getName(), deviceID);
+    }
+
+    @Override
+    public int compareTo(Device device) {
+        return Integer.compare(this.deviceID, device.deviceID);
     }
 
     //---------- Getters and Setters ----------//
