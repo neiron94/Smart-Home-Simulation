@@ -8,6 +8,6 @@ import place.Room;
 public class FloodEvent extends Event {
 
     public FloodEvent(Device creator, Room origin) {
-        super(EventType.FLOOD, EventPriority.HIGH, new RoomThrowStrategy(), creator, origin);
+        super(EventType.FLOOD, creator, origin);
     }
 }

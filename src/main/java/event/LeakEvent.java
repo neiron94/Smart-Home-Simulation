@@ -8,6 +8,6 @@ import place.Room;
 public class LeakEvent extends Event {
 
     public LeakEvent(Device creator, Room origin) {
-        super(EventType.LEAK, EventPriority.HIGH, new RoomThrowStrategy(), creator, origin);
+        super(EventType.LEAK, creator, origin);
     }
 }

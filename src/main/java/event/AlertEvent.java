@@ -7,6 +7,6 @@ import place.Room;
 
 public class AlertEvent extends Event {
     public AlertEvent(Device creator, Room origin) {
-        super(EventType.ALERT, EventPriority.MEDIUM, new HomeThrowStrategy(), creator, origin);
+        super(EventType.ALERT, creator, origin);
     }
 }
