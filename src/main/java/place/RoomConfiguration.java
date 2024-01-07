@@ -8,12 +8,12 @@ import java.awt.Color;
 
 public class RoomConfiguration implements Prototype {
     private String name;
-    private float temperature;
-    private int humidity;
-    private int brightness;
+    private double temperature;
+    private double humidity;
+    private double brightness;
     private Color color;
 
-    public RoomConfiguration(String name, float temperature, int humidity, int brightness, Color color) {
+    public RoomConfiguration(String name, double temperature, double humidity, double brightness, Color color) {
         this.name = name;
         this.temperature = temperature;
         this.humidity = HelpFunctions.adjustPercent(humidity);
@@ -25,15 +25,15 @@ public class RoomConfiguration implements Prototype {
         return name;
     }
 
-    public float getTemperature() {
+    public double getTemperature() {
         return temperature;
     }
 
-    public int getHumidity() {
+    public double getHumidity() {
         return humidity;
     }
 
-    public int getBrightness() {
+    public double getBrightness() {
         return brightness;
     }
 
@@ -45,15 +45,15 @@ public class RoomConfiguration implements Prototype {
         this.name = name;
     }
 
-    public void setTemperature(float temperature) {
+    public void setTemperature(double temperature) {
         this.temperature = temperature;
     }
 
-    public void setHumidity(int humidity) {
+    public void setHumidity(double humidity) {
         this.humidity = HelpFunctions.adjustPercent(humidity);
     }
 
-    public void setBrightness(int brightness) {
+    public void setBrightness(double brightness) {
         this.brightness = HelpFunctions.adjustPercent(brightness);
     }
 

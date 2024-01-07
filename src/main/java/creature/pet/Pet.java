@@ -1,13 +1,13 @@
 package creature.pet;
 
 import creature.Creature;
-import place.Location;
+import place.Room;
 
 public class Pet extends Creature {
     private final PetType type;
 
-    public Pet(String name, PetType type, Location startLocation) {
-        super(name, startLocation);
+    public Pet(String name, PetType type, Room startRoom) {
+        super(name, startRoom);
         this.type = type;
     }
 

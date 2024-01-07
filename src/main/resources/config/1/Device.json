@@ -1,5 +1,5 @@
 {
-  "FRIDGE" : [],
+  "FRIDGE" : [2],
   "COFFEE_MACHINE" : [],
   "TOASTER" : [],
   "MICROWAVE" : [],
@@ -15,7 +15,7 @@
   "ALARM_CLOCK" : [],
   "GAMING_CONSOLE" : [],
   "STEREO_SYSTEM" : [],
-  "TV" : [],
+  "TV" : [1],
   "AC" : [],
   "HEATER" : [],
   "AIR_DRYER" : [],

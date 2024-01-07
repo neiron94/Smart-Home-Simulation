@@ -2,13 +2,12 @@ package creature;
 
 import java.util.Deque;
 import java.util.LinkedList;
-import place.Location;
 import smarthome.Simulation;
 import place.Room;
 
 public abstract class Creature {
     protected final String name;
-    protected Location location;
+    protected Room room;
 
     protected float hunger; // TODO Changes in routine function
     protected float fullness; // TODO Changes in routine function
@@ -17,10 +16,10 @@ public abstract class Creature {
     protected final Deque<Deque<Action>> actions; // TODO Changes in routine function
     protected boolean isBusy; // TODO Changes in routine function
 
-    public Creature(String name, Location startLocation) {
+    public Creature(String name, Room startRoom) {
         Simulation.getInstance().getCreatures().add(this);
         this.name = name;
-        this.location = startLocation;
+        this.room = startRoom;
 
         hunger = 0;
         fullness = 0;
@@ -36,8 +35,8 @@ public abstract class Creature {
         return name;
     }
 
-    public Location getLocation() {
-        return location;
+    public Room getRoom() {
+        return room;
     }
 
     public Activity getActivity() {

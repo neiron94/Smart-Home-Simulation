@@ -1,16 +1,16 @@
 {
   "PERSON" : [
     {
-      "name" : "",
-      "gender" : "",
-      "status" : ""
+      "name" : "Default",
+      "gender" : "MALE",
+      "status" : "ADULT"
     }
   ],
 
   "PET" : [
     {
-      "name" : "",
-      "type" : ""
+      "name" : "Default",
+      "type" : "DOG"
     }
   ]
 }

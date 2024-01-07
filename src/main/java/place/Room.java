@@ -8,7 +8,7 @@ import utils.HelpFunctions;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Room implements EventDestination, Location {
+public class Room implements EventDestination, Comparable<Room> {
     private final int id;
     private final RoomType type;
     private final ControlPanel controlPanel;
@@ -111,7 +111,6 @@ public class Room implements EventDestination, Location {
         events.remove(event);
     } // TODO For use by event solver
 
-    @Override
     public void routine() {
         Street street = Street.getInstance();
         temperature = street.getTemperature() * 0.6; // Room temperature is almost street one // TODO Move 0.6 to HOUSE constant
@@ -129,5 +128,10 @@ public class Room implements EventDestination, Location {
                     else if (device instanceof Light) brightness = HelpFunctions.adjustPercent(brightness + 0.0 * device.getPower() / 100); // Consider working light // TODO Make constant from Light
                     else if (device instanceof Window) brightness = HelpFunctions.adjustPercent(brightness - 0.0 * device.getPower() / 100); // Consider working window // TODO Make constant from Window
                 });
+    }
+
+    @Override
+    public int compareTo(Room room) {
+        return Integer.compare(this.id, room.id);
     }
 }

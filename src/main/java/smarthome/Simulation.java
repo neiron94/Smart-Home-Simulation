@@ -27,7 +27,6 @@ public class Simulation {
     private LocalDateTime currentTime;
 
     private Home home;
-    private final DeviceService service = new DeviceService();;
     private final Set<Creature> creatures = new HashSet<>();
     private final Set<Device> devices = new HashSet<>();
 
@@ -72,14 +71,13 @@ public class Simulation {
         // TODO Log simulation start
 
         while (!currentTime.isAfter(finishTime)) {
-                // TODO Log step of simulation (currentTime)
+                // TODO Log step of simulation once a day (currentTime)
 
                 Street.getInstance().routine(); // Update street parameters (temperature, humidity, brightness)
                 home.getFloors().stream().flatMap(floor -> floor.getRooms().stream()).forEach(Room::routine); // Do rooms routine
-                service.routine(); // Do device service routine
 
-                creatures.forEach(Creature::routine); // Do creatures routine
                 devices.forEach(Device::routine); // Do devices routine
+                creatures.forEach(Creature::routine); // Do creatures routine
 
                 currentTime = currentTime.plusMinutes(1);
                 if (currentTime.toLocalTime().equals(REPORT_TIME)) ReportCreator.createReports();

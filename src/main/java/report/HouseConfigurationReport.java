@@ -26,7 +26,7 @@ public class HouseConfigurationReport extends Report {
         StringBuilder report = new StringBuilder();
 
         report.append("Home").append('\n');
-        hierarchy.forEach((key, value) -> report.append(value.stream().reduce('\t' + key, (result, room) -> result + ("\n\t\t" + room))).append('\n'));
+        hierarchy.keySet().stream().sorted().toList().forEach(key -> report.append(hierarchy.get(key).stream().reduce('\t' + key, (result, room) -> result + ("\n\t\t" + room))).append('\n'));
 
         report.append("Residents").append('\n');
         residents.forEach(resident -> report.append('\t').append(resident).append('\n'));

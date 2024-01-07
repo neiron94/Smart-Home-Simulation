@@ -11,7 +11,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 
 public class ReportCreator {
-    private static final String REPORT_PATH = System.getProperty("user.dir") + "/report/"; // TODO Find out where to save reports (not to use System.getProperty)
+    private static final String REPORT_PATH = String.join(File.separator, System.getProperty("user.dir"), "report") + File.separator; // TODO Find out where to save reports (not to use System.getProperty)
 
     static {
         Arrays.stream(ReportType.values()).forEach(ReportCreator::createFile); // Create files to write reports there later
@@ -67,6 +67,9 @@ public class ReportCreator {
 
     private static void createFile(ReportType type) {
         try {
+            File directory = new File(REPORT_PATH);
+            if (!directory.exists()) if (!directory.mkdirs()) return; // TODO Handle an error + log info about error of directory making
+
             File file = new File(REPORT_PATH + type.getFileName()); // Delete previous simulation report
             if (file.exists()) if (!file.delete()) return; // TODO Handle an error + log info about error of old report file deletion
 
@@ -87,7 +90,7 @@ public class ReportCreator {
 
     private static void writeFile(ReportType type, String data) {
         try {
-            FileWriter writer = new FileWriter(REPORT_PATH + type.getFileName());
+            FileWriter writer = new FileWriter(REPORT_PATH + type.getFileName(), true);
             writer.write(data + '\n');
             writer.close();
         } catch (IOException e) {
