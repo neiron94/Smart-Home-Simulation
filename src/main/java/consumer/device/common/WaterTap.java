@@ -42,7 +42,7 @@ public class WaterTap extends Device implements WaterConsumer, ElectricityConsum
 
     //---------- API for human -----------//
 
-    public void open(int temperature, int openness) throws DeviceIsOccupiedException, WrongDeviceStatusException {
+    public void open(double temperature, int openness) throws DeviceIsOccupiedException, WrongDeviceStatusException {
         checkDeviceInStartStatus();
         checkDeviceNotOccupied();
 

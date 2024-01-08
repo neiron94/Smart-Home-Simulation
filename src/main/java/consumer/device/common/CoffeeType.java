@@ -2,6 +2,8 @@ package consumer.device.common;
 
 import utils.Constants.Coffee;
 
+import java.util.Random;
+
 public enum CoffeeType {
     ESPRESSO("Espresso", Coffee.ESPRESSO_MILK, Coffee.ESPRESSO_WATER, Coffee.COFFEE),
     AMERICANO("Americano", Coffee.AMERICANO_MILK, Coffee.AMERICANO_WATER, Coffee.COFFEE),
@@ -21,6 +23,10 @@ public enum CoffeeType {
         this.milk = milk;
         this.water = water;
         this.coffee = coffee;
+    }
+
+    public static CoffeeType getRandomType() {
+        return CoffeeType.values()[new Random().nextInt(0, CoffeeType.values().length)];
     }
 
     public int getMilk() {

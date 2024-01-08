@@ -63,8 +63,6 @@ public abstract class Creature {
             if (queue.peek().getDuration().equals(Duration.ZERO) && !isBusy && canDoAction) {
                 Action action = queue.poll();
                 if (action.perform()) {
-                    activity.addActivity(action.getDescription()); // Write performed activity
-                    activity.increaseUsage(action.getDevice()); // Write device usage
                     isBusy = queue.peek().isBusy();
                 } else {
                     memory.remove(queue);

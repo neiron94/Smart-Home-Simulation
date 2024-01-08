@@ -5,6 +5,7 @@ import utils.Constants.Consumption.Electricity;
 
 import java.time.Duration;
 import java.time.LocalTime;
+import java.util.Random;
 
 public enum ToastType {
     SANDWICH("Sandwich", WorkTime.TOASTER_SANDWICH, Electricity.TOASTER_SANDWICH),
@@ -20,6 +21,10 @@ public enum ToastType {
         this.name = name;
         this.cookTime = cookTime;
         this.power = power;
+    }
+
+    public static ToastType getRandomType() {
+        return ToastType.values()[new Random().nextInt(0, ToastType.values().length)];
     }
 
     public Duration getCookTime() {

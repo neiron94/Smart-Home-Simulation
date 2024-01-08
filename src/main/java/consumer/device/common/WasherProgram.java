@@ -6,6 +6,7 @@ import utils.Constants.Consumption.Water;
 
 import java.time.Duration;
 import java.time.LocalTime;
+import java.util.Random;
 
 public enum WasherProgram {
     DELICATE("Delicate", WorkTime.WASHER_DELICATE, Electricity.WASHER_DELICATE, Water.WASHER_DELICATE),
@@ -22,6 +23,10 @@ public enum WasherProgram {
         this.duration = duration;
         this.power = power;
         this.waterConsumption = waterConsumption;
+    }
+
+    public static WasherProgram getRandomProgram() {
+        return WasherProgram.values()[new Random().nextInt(0, WasherProgram.values().length)];
     }
 
     public Duration getDuration() {

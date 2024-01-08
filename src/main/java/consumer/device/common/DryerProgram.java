@@ -5,6 +5,7 @@ import utils.Constants.Consumption.Electricity;
 
 import java.time.Duration;
 import java.time.LocalTime;
+import java.util.Random;
 
 public enum DryerProgram {
     COLD("Cold", WorkTime.DRYER_COLD, Electricity.DRYER_COLD),
@@ -19,6 +20,10 @@ public enum DryerProgram {
         this.name = name;
         this.duration = duration;
         this.electricityConsumption = electricityConsumption;
+    }
+
+    public static DryerProgram getRandomProgram() {
+        return DryerProgram.values()[new Random().nextInt(0, DryerProgram.values().length)];
     }
 
     public Duration getDuration() {

@@ -2,7 +2,6 @@ package consumer.device.common;
 
 import consumer.ElectricityConsumer;
 import consumer.WaterConsumer;
-import consumer.device.Device;
 import consumer.device.DeviceStatus;
 import consumer.device.DeviceType;
 import place.Room;
@@ -13,37 +12,20 @@ import utils.exceptions.*;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 
 
-public class Washer extends Device implements WaterConsumer, ElectricityConsumer {
+public class Washer extends CleaningDevice implements WaterConsumer, ElectricityConsumer {
 
-    private LocalDateTime readyTime;
     private WasherProgram program;
     private boolean areClothesInside;
-    private double filterStatus;   // percent
 
     public Washer(int id, Room startRoom) {
         super(DeviceType.WASHER, id, startRoom);
         program = WasherProgram.DELICATE;
         areClothesInside = false;
-        setFilterStatus(100);
-        setReadyTime(program.getDuration());
     }
 
     //--------- Main public functions ----------//
-
-    @Override
-    public boolean routine() {
-        if (!super.routine())   return false;
-
-        if (status == DeviceStatus.ON) {
-            setFilterStatus(filterStatus - Constants.FILTER_DEGRADATION);
-            if (readyTime.isAfter(Simulation.getInstance().getCurrentTime()))
-                restoreStatus();
-        }
-        return true;
-    }
 
     @Override
     public double consumeElectricity() {
@@ -76,30 +58,16 @@ public class Washer extends Device implements WaterConsumer, ElectricityConsumer
         areClothesInside = false;
     }
 
-    public void cleanFilter() {
-        setFilterStatus(100);
-    }
-
     //------------- Help functions -------------//
 
-    private void checkBeforeStart() throws DirtyFilterException, EntryProblemException, WrongDeviceStatusException, DeviceIsOccupiedException {
-        checkDeviceInStartStatus();
-        checkDeviceNotOccupied();
-        if (filterStatus <= 0)
-            throw new DirtyFilterException("Filter is too dirty.");
+    @Override
+    protected void checkBeforeStart() throws DirtyFilterException, EntryProblemException, WrongDeviceStatusException, DeviceIsOccupiedException {
+        super.checkBeforeStart();
         if (!areClothesInside)
             throw new EntryProblemException("No clothes inside.");
     }
 
     //---------- Getters and Setters ----------//
-
-    public LocalDateTime getReadyTime() {
-        return readyTime;
-    }
-
-    private void setReadyTime(Duration duration) {
-        readyTime = Simulation.getInstance().getCurrentTime().plus(duration);
-    }
 
     public WasherProgram getProgram() {
         return program;
@@ -107,13 +75,5 @@ public class Washer extends Device implements WaterConsumer, ElectricityConsumer
 
     public boolean AreClothesInside() {
         return areClothesInside;
-    }
-
-    public double getFilterStatus() {
-        return filterStatus;
-    }
-
-    private void setFilterStatus(double filterStatus) {
-        this.filterStatus = HelpFunctions.adjustPercent(filterStatus);
     }
 }

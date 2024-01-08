@@ -40,7 +40,7 @@ public abstract class Oven extends Device {
 
     //---------- API for human -----------//
 
-    public void makeFood(Duration cookTime, int cookTemperature) throws EntryProblemException, DeviceIsOccupiedException, WrongDeviceStatusException {
+    public void cookFood(Duration cookTime, int cookTemperature) throws EntryProblemException, DeviceIsOccupiedException, WrongDeviceStatusException {
         checkDeviceInStartStatus();
         checkDeviceNotOccupied();
         if (!isFoodInside)
