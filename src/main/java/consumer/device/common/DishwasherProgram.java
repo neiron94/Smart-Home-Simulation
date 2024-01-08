@@ -6,6 +6,7 @@ import utils.Constants.Consumption.Water;
 
 import java.time.Duration;
 import java.time.LocalTime;
+import java.util.Random;
 
 public enum DishwasherProgram {
     LIGHT("Light", WorkTime.DISHWASHER_LIGHT, Electricity.DISHWASHER_LIGHT, Water.DISHWASHER_LIGHT),
@@ -22,6 +23,10 @@ public enum DishwasherProgram {
         this.duration = duration;
         this.electricityConsumption = electricityConsumption;
         this.waterConsumption = waterConsumption;
+    }
+
+    public static DishwasherProgram getRandomProgram() {
+        return DishwasherProgram.values()[new Random().nextInt(0, DishwasherProgram.values().length)];
     }
 
     public Duration getDuration() {

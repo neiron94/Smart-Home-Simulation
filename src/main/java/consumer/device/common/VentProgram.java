@@ -2,6 +2,8 @@ package consumer.device.common;
 
 import utils.Constants.Consumption.Electricity;
 
+import java.util.Random;
+
 public enum VentProgram {
     SLOW("Slow", Electricity.VENT_SLOW),
     NORMAL("Normal", Electricity.VENT_NORMAL),
@@ -14,6 +16,10 @@ public enum VentProgram {
     VentProgram(String name, double power) {
         this.name = name;
         this.power = power;
+    }
+
+    public static VentProgram getRandomProgram() {
+        return VentProgram.values()[new Random().nextInt(0, VentProgram.values().length)];
     }
 
     public double getPower() {
