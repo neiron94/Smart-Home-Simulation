@@ -4,28 +4,25 @@ import consumer.device.Device;
 import event.throwStrategy.EventThrowStrategy;
 import place.Room;
 import smarthome.Simulation;
+import utils.Priority;
 
 import java.time.LocalDateTime;
 
 public abstract class Event {
     private final EventType eventType;
     private final Device creator;
-    private final EventPriority priority;
     private final Room origin;
-    private final EventThrowStrategy throwStrategy;
     private final LocalDateTime eventDate;
 
-    protected Event(EventType eventType, EventPriority priority, EventThrowStrategy throwStrategy, Device creator, Room origin) {
+    protected Event(EventType eventType, Device creator, Room origin) {
         this.eventType = eventType;
         this.creator = creator;
-        this.priority = priority;
-        this.throwStrategy = throwStrategy;
         this.origin = origin;
         eventDate = Simulation.getInstance().getCurrentTime();
     }
 
     public void throwEvent() {
-        throwStrategy.throwEvent(this);
+        eventType.getThrowStrategy().throwEvent(this);
     }
 
     public EventType getEventType() {
@@ -36,8 +33,8 @@ public abstract class Event {
         return creator;
     }
 
-    public EventPriority getPriority() {
-        return priority;
+    public Priority getPriority() {
+        return eventType.getPriority();
     }
 
     public Room getOrigin() {
@@ -45,7 +42,7 @@ public abstract class Event {
     }
 
     public EventThrowStrategy getThrowStrategy() {
-        return throwStrategy;
+        return eventType.getThrowStrategy();
     }
 
     public LocalDateTime getEventDate() {

@@ -7,6 +7,6 @@ import place.Room;
 
 public class FillEvent extends Event {
     public FillEvent(Device creator, Room origin) {
-        super(EventType.FILL, EventPriority.LOW, new HomeThrowStrategy(), creator, origin);
+        super(EventType.FILL, creator, origin);
     }
 }
