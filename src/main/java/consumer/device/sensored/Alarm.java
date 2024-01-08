@@ -26,7 +26,7 @@ public abstract class Alarm<T extends EventSensor> extends EventDevice<T> {
         alert();
     }
 
-    public void alert() {
+    private void alert() {
         // Throws event if not alerting
         if (!isAlerting) {
             isAlerting = true;
@@ -37,7 +37,7 @@ public abstract class Alarm<T extends EventSensor> extends EventDevice<T> {
 
     public void stop() {
         isAlerting = false;
-        status = DeviceStatus.STANDBY;
+        restoreStatus();
     }
 
     public boolean isAlerting() {

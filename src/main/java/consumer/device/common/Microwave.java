@@ -8,10 +8,7 @@ import place.Room;
 import smarthome.Simulation;
 import utils.Constants.Consumption.Electricity;
 import utils.HelpFunctions;
-import utils.exceptions.DeviceIsBrokenException;
-import utils.exceptions.EntryProblemException;
-import utils.exceptions.ResourceNotAvailableException;
-import utils.exceptions.WrongDeviceStatusException;
+import utils.exceptions.*;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -41,31 +38,24 @@ public class Microwave extends Device implements ElectricityConsumer {
         if (!super.routine()) return false;
 
         if (status == DeviceStatus.ON && Simulation.getInstance().getCurrentTime().isAfter(readyTime))
-            stop();
+            restoreStatus();
 
         return true;
     }
 
     //---------- API for human -----------//
 
-    public void turnOn() throws DeviceIsBrokenException, ResourceNotAvailableException {
-        setStandby();
-    }
-
-    public void heatFood(Duration heatTime, int heatPower) throws WrongDeviceStatusException, EntryProblemException {
+    public void heatFood(Duration heatTime, int heatPower) throws WrongDeviceStatusException, EntryProblemException, DeviceIsOccupiedException {
         if (heatTime == null) return;
-        checkDeviceStandby();
-
+        checkDeviceInStartStatus();
+        checkDeviceNotOccupied();
         if (!isFoodInside)
             throw new EntryProblemException("No food inside.");
 
         setReadyTime(heatTime);
         setPower(heatPower);
         status = DeviceStatus.ON;
-    }
-
-    public void stop() {
-        status = DeviceStatus.STANDBY;
+        isOccupied = true;
     }
 
     public void putFood() {
@@ -73,6 +63,7 @@ public class Microwave extends Device implements ElectricityConsumer {
     }
 
     public void takeFood() {
+        restoreStatus();
         isFoodInside = false;
     }
 

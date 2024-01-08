@@ -22,6 +22,10 @@ public class HelpFunctions {
         return value < min ? min : Math.min(value, max);
     }
 
+    public static long adjustToRange(long value, long min, long max) {
+        return value < min ? min : Math.min(value, max);
+    }
+
     public static <T> T getRandomObject(List<T> array) {
         Random random = new Random();
         try {

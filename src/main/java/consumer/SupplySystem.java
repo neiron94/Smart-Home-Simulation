@@ -1,9 +1,10 @@
 package consumer;
 
 import consumer.device.Device;
-import consumer.device.DeviceStatus;
 import place.Room;
 import smarthome.Simulation;
+import utils.exceptions.DeviceIsBrokenException;
+import utils.exceptions.ResourceNotAvailableException;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -31,8 +32,14 @@ public class SupplySystem<T extends Consumer> {
 
     public void switchRoom(Room room, boolean switchOn) {
         consumedMap.keySet().stream()
-                .filter(consumer -> ((Device)consumer).getRoom() == room)
-                .forEach(consumer -> ((Device)consumer).setStatus(switchOn ? ((Device)consumer).getType().getStartStatus() : DeviceStatus.OFF));
+                .filter(consumer -> ((Device) consumer).getRoom() == room)
+                .forEach(consumer -> {
+                    if (switchOn) {
+                        try {
+                            ((Device) consumer).turnOn();
+                        } catch (DeviceIsBrokenException | ResourceNotAvailableException ignored) {}
+                    } else ((Device) consumer).turnOff();
+                });
     }
 
     public void addConsumption(T consumer, double consumed) {

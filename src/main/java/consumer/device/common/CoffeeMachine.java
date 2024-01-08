@@ -36,10 +36,6 @@ public class CoffeeMachine extends Device implements ElectricityConsumer {
 
     //---------- API for human -----------//
 
-    public void turnOn() throws DeviceIsBrokenException, ResourceNotAvailableException {
-        setStandby();
-    }
-
     public void makeCoffee(CoffeeType program) throws EntryProblemException, WrongDeviceStatusException {
         checkBeforeStart(program);
 
@@ -47,14 +43,21 @@ public class CoffeeMachine extends Device implements ElectricityConsumer {
         coffeeFullness -= program.getCoffee();
         milkFullness -= program.getMilk();
         decreaseDurability(Constants.USE_DEGRADATION);
+        status = DeviceStatus.ON;
         accept(new ConsumeVisitor());
-        status = DeviceStatus.STANDBY;
+        status = type.getStartStatus();
+    }
+
+    public void fillAll() {
+        setCoffee(COFFEE_CAPACITY);
+        setWater(WATER_CAPACITY);
+        setMilk(MILK_CAPACITY);
     }
 
     //------------- Help functions -------------//
 
     private void checkBeforeStart(CoffeeType program) throws EntryProblemException, WrongDeviceStatusException {
-        checkDeviceStandby();
+        checkDeviceInStartStatus();
         checkIsEnough(program);
     }
 
@@ -69,7 +72,7 @@ public class CoffeeMachine extends Device implements ElectricityConsumer {
         return waterFullness;
     }
 
-    public void fillWater(int amount) {
+    private void setWater(int amount) {
         waterFullness = HelpFunctions.adjustToRange(waterFullness + amount, 0, WATER_CAPACITY);
     }
 
@@ -77,7 +80,7 @@ public class CoffeeMachine extends Device implements ElectricityConsumer {
         return coffeeFullness;
     }
 
-    public void fillCoffee(int amount) {
+    private void setCoffee(int amount) {
         coffeeFullness = HelpFunctions.adjustToRange(coffeeFullness + amount, 0, COFFEE_CAPACITY);
     }
 
@@ -85,7 +88,7 @@ public class CoffeeMachine extends Device implements ElectricityConsumer {
         return milkFullness;
     }
 
-    public void fillMilk(int amount) {
+    private void setMilk(int amount) {
         milkFullness = HelpFunctions.adjustToRange(milkFullness + amount, 0, MILK_CAPACITY);
     }
 }

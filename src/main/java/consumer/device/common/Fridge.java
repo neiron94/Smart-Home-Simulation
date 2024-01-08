@@ -7,6 +7,9 @@ import consumer.device.DeviceType;
 import place.Room;
 import utils.Constants.Consumption.Electricity;
 import utils.HelpFunctions;
+import utils.exceptions.DeviceIsBrokenException;
+import utils.exceptions.ResourceNotAvailableException;
+import utils.exceptions.WrongDeviceStatusException;
 
 
 public class Fridge extends Device implements ElectricityConsumer {
@@ -32,11 +35,14 @@ public class Fridge extends Device implements ElectricityConsumer {
 
     //---------- API for human -----------//
 
-    public int takeFood(int amount) {
-        int actualAmount = Math.min(amount, fullness);
-        setFullness(fullness - actualAmount);
-        if (fullness <= 0)  orderFood();
-        return actualAmount;
+    public void takeFood(int amount) throws WrongDeviceStatusException {
+        setFullness(fullness - amount);
+        if (fullness <= 0) {
+            try {
+                orderFood();
+            } catch (DeviceIsBrokenException | ResourceNotAvailableException ignored) {
+            }
+        }
     }
 
     public void putFood(int amount) {
@@ -53,7 +59,10 @@ public class Fridge extends Device implements ElectricityConsumer {
 
     //------------- Help functions -------------//
 
-    private void orderFood() {
+    private void orderFood() throws DeviceIsBrokenException, ResourceNotAvailableException, WrongDeviceStatusException {
+        checkBeforeTurnOn();
+        checkDeviceInStartStatus();
+
         setFullness(100);
     }
 

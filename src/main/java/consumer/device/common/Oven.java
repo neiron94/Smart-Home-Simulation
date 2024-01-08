@@ -6,13 +6,10 @@ import consumer.device.DeviceType;
 import place.Room;
 import smarthome.Simulation;
 import utils.HelpFunctions;
-import utils.exceptions.DeviceIsBrokenException;
-import utils.exceptions.EntryProblemException;
-import utils.exceptions.ResourceNotAvailableException;
+import utils.exceptions.*;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 
 public abstract class Oven extends Device {
     protected static final double MAX_TEMPERATURE = 250;
@@ -36,25 +33,23 @@ public abstract class Oven extends Device {
         if (!super.routine()) return false;
 
         if (status == DeviceStatus.ON && Simulation.getInstance().getCurrentTime().isAfter(readyTime))
-            stop();
+            restoreStatus();
 
         return true;
     }
 
     //---------- API for human -----------//
 
-    public void makeFood(Duration cookTime, int cookTemperature) throws DeviceIsBrokenException, ResourceNotAvailableException, EntryProblemException {
-        checkBeforeStatusSet();
+    public void makeFood(Duration cookTime, int cookTemperature) throws EntryProblemException, DeviceIsOccupiedException, WrongDeviceStatusException {
+        checkDeviceInStartStatus();
+        checkDeviceNotOccupied();
         if (!isFoodInside)
             throw new EntryProblemException("No food inside.");
 
         setTemperature(cookTemperature);
         setReadyTime(cookTime);
         status = DeviceStatus.ON;
-    }
-
-    public void stop() {
-        setOff();
+        isOccupied = true;
     }
 
     public void putFood() {
