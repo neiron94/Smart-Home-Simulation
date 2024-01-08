@@ -39,7 +39,7 @@ public class Dryer extends Device implements ElectricityConsumer {
         if (status == DeviceStatus.ON) {
             setFilterStatus(filterStatus - Constants.FILTER_DEGRADATION);
             if (readyTime.isAfter(Simulation.getInstance().getCurrentTime()))
-                status = DeviceStatus.STANDBY;
+                restoreStatus();
         }
         return true;
     }
@@ -51,17 +51,14 @@ public class Dryer extends Device implements ElectricityConsumer {
 
     //---------- API for human -----------//
 
-    public void turnOn() throws DeviceIsBrokenException, ResourceNotAvailableException {
-        setStandby();
-    }
-
-    public void startDry(DryerProgram program) throws WrongDeviceStatusException, DirtyFilterException, EntryProblemException {
-        if (program == null || status == DeviceStatus.ON) return;
+    public void startDry(DryerProgram program) throws WrongDeviceStatusException, DirtyFilterException, EntryProblemException, DeviceIsOccupiedException {
+        if (program == null) return;
         checkBeforeStart();
 
         setReadyTime(program.getDuration());
         this.program = program;
         status = DeviceStatus.ON;
+        isOccupied = true;
     }
 
     public void putClothes() {
@@ -69,6 +66,7 @@ public class Dryer extends Device implements ElectricityConsumer {
     }
 
     public void takeClothes() {
+        restoreStatus();
         areClothesInside = false;
     }
 
@@ -78,8 +76,9 @@ public class Dryer extends Device implements ElectricityConsumer {
 
     //------------- Help functions -------------//
 
-    private void checkBeforeStart() throws DirtyFilterException, EntryProblemException, WrongDeviceStatusException {
-        checkDeviceStandby();
+    private void checkBeforeStart() throws DirtyFilterException, EntryProblemException, WrongDeviceStatusException, DeviceIsOccupiedException {
+        checkDeviceInStartStatus();
+        checkDeviceNotOccupied();
         if (filterStatus <= 0)
             throw new DirtyFilterException("Filter is too dirty.");
         if (!areClothesInside)

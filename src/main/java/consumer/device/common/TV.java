@@ -9,6 +9,7 @@ import place.Room;
 import utils.Constants.Consumption.Electricity;
 import utils.HelpFunctions;
 import utils.exceptions.DeviceIsBrokenException;
+import utils.exceptions.DeviceIsOccupiedException;
 import utils.exceptions.ResourceNotAvailableException;
 import utils.exceptions.WrongDeviceStatusException;
 
@@ -35,20 +36,26 @@ public class TV extends Device implements ElectricityConsumer {
 
     //---------- API for human -----------//
 
-    public void turnOn() throws DeviceIsBrokenException, ResourceNotAvailableException {
-        setStandby();
-    }
-
-    public void show(Video video) throws WrongDeviceStatusException {
-        checkDeviceStandby();
+    public void show(Video video) throws WrongDeviceStatusException, DeviceIsOccupiedException {
+        checkDeviceInStartStatus();
+        checkDeviceNotOccupied();
 
         currentVideo = video;
         status = DeviceStatus.ON;
+        isOccupied = true;
     }
 
     public void stop() {
         currentVideo = null;
-        status = DeviceStatus.OFF;
+        restoreStatus();
+    }
+
+    public void setBrightness(int brightness) {
+        this.brightness = HelpFunctions.adjustPercent(brightness);
+    }
+
+    public void setVolume(int volume) {
+        this.volume = HelpFunctions.adjustPercent(volume);
     }
 
     //---------- Getters and Setters ----------//
@@ -57,16 +64,8 @@ public class TV extends Device implements ElectricityConsumer {
         return brightness;
     }
 
-    public void setBrightness(int brightness) {
-        this.brightness = HelpFunctions.adjustPercent(brightness);
-    }
-
     public int getVolume() {
         return volume;
-    }
-
-    public void setVolume(int volume) {
-        this.volume = HelpFunctions.adjustPercent(volume);
     }
 
     public Video getCurrentVideo() {

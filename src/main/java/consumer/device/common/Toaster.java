@@ -7,10 +7,7 @@ import consumer.device.DeviceType;
 import place.Room;
 import smarthome.Simulation;
 import utils.HelpFunctions;
-import utils.exceptions.DeviceIsBrokenException;
-import utils.exceptions.EntryProblemException;
-import utils.exceptions.ResourceNotAvailableException;
-import utils.exceptions.WrongDeviceStatusException;
+import utils.exceptions.*;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -39,29 +36,23 @@ public class Toaster extends Device implements ElectricityConsumer {
         if (!super.routine()) return false;
 
         if (status == DeviceStatus.ON && readyTime.isAfter(Simulation.getInstance().getCurrentTime()))
-            stop();
+            restoreStatus();
 
         return true;
     }
 
     //---------- API for human -----------//
 
-    public void turnOn() throws DeviceIsBrokenException, ResourceNotAvailableException {
-        setStandby();
-    }
-
-    public void makeToast(ToastType program) throws EntryProblemException, WrongDeviceStatusException {
-        checkDeviceStandby();
+    public void makeToast(ToastType program) throws EntryProblemException, WrongDeviceStatusException, DeviceIsOccupiedException {
+        checkDeviceInStartStatus();
+        checkDeviceNotOccupied();
         if (!isToastInside)
             throw new EntryProblemException("No toast inside.");
 
         setReadyTime(program.getCookTime());
         this.program = program;
         status = DeviceStatus.ON;
-    }
-
-    public void stop() {
-        status = DeviceStatus.STANDBY;
+        isOccupied = true;
     }
 
     public void putToast() {
@@ -69,6 +60,7 @@ public class Toaster extends Device implements ElectricityConsumer {
     }
 
     public void takeToast() {
+        restoreStatus();
         isToastInside = false;
     }
 

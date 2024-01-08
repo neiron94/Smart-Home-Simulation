@@ -50,29 +50,22 @@ public class Feeder extends Device implements ElectricityConsumer {
         setWaterFullness(WATER_TANK_CAPACITY);
     }
 
-    public int drinkWater(int amount) throws WrongDeviceStatusException, DeviceIsBrokenException, ResourceNotAvailableException {
-        int actualAmount = Math.min(waterLevel, amount);
-        setWaterLevel(waterLevel - actualAmount);
+    public void drinkWater(int amount) throws WrongDeviceStatusException {
+        setWaterLevel(waterLevel - amount);
         if (waterLevel == 0)
             fillWater();
-
-        return actualAmount;
     }
 
-    public int eatFood(int amount) throws WrongDeviceStatusException, DeviceIsBrokenException, ResourceNotAvailableException {
-        int actualAmount = Math.min(foodLevel, amount);
-        setFoodLevel(foodLevel - actualAmount);
+    public void eatFood(int amount) throws WrongDeviceStatusException {
+        setFoodLevel(foodLevel - amount);
         if (foodLevel == 0)
             fillFood();
-
-        return actualAmount;
     }
 
     //------------- Help functions -------------//
 
-    private void fillFood() throws WrongDeviceStatusException, DeviceIsBrokenException, ResourceNotAvailableException {
-        checkDeviceOn();
-        checkBeforeStatusSet();
+    private void fillFood() throws WrongDeviceStatusException {
+        checkDeviceInStartStatus();
 
         int fillAmount = Math.min(FOOD_DISH_CAPACITY, foodFullness);
         setFoodLevel(fillAmount);
@@ -80,9 +73,8 @@ public class Feeder extends Device implements ElectricityConsumer {
         if (foodFullness <= 0) requestFill();
     }
 
-    private void fillWater() throws WrongDeviceStatusException, DeviceIsBrokenException, ResourceNotAvailableException {
-        checkDeviceOn();
-        checkBeforeStatusSet();
+    private void fillWater() throws WrongDeviceStatusException {
+        checkDeviceInStartStatus();
 
         int fillAmount = Math.min(WATER_DISH_CAPACITY, waterFullness);
         setWaterLevel(fillAmount);

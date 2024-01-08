@@ -39,7 +39,7 @@ public class Dishwasher extends Device implements WaterConsumer, ElectricityCons
         if (status == DeviceStatus.ON) {
             setFilterStatus(filterStatus - Constants.FILTER_DEGRADATION);
             if (readyTime.isAfter(Simulation.getInstance().getCurrentTime()))
-                status = DeviceStatus.STANDBY;
+                restoreStatus();
         }
         return true;
     }
@@ -56,17 +56,14 @@ public class Dishwasher extends Device implements WaterConsumer, ElectricityCons
 
     //---------- API for human -----------//
 
-    public void turnOn() throws DeviceIsBrokenException, ResourceNotAvailableException {
-        setStandby();
-    }
-
-    public void startWash(DishwasherProgram program) throws DirtyFilterException, EntryProblemException, WrongDeviceStatusException {
-        if (program == null || status == DeviceStatus.ON) return;
+    public void startWash(DishwasherProgram program) throws DirtyFilterException, EntryProblemException, WrongDeviceStatusException, DeviceIsOccupiedException {
+        if (program == null) return;
         checkBeforeStart();
 
         setReadyTime(program.getDuration());
         this.program = program;
         status = DeviceStatus.ON;
+        isOccupied = true;
     }
 
     public void putDishes(int amount) {
@@ -74,6 +71,7 @@ public class Dishwasher extends Device implements WaterConsumer, ElectricityCons
     }
 
     public void takeDishes() {
+        restoreStatus();
         setFullness(0);
     }
 
@@ -83,8 +81,9 @@ public class Dishwasher extends Device implements WaterConsumer, ElectricityCons
 
     //------------- Help functions -------------//
 
-    private void checkBeforeStart() throws DirtyFilterException, EntryProblemException, WrongDeviceStatusException {
-        checkDeviceStandby();
+    private void checkBeforeStart() throws DirtyFilterException, EntryProblemException, WrongDeviceStatusException, DeviceIsOccupiedException {
+        checkDeviceInStartStatus();
+        checkDeviceNotOccupied();
         if (filterStatus <= 0)
             throw new DirtyFilterException("Filter is too dirty.");
         if (fullness < 80)

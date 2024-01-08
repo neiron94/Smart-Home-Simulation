@@ -1,12 +1,6 @@
 package utils;
 
-import consumer.device.DeviceStatus;
-import consumer.device.RepairDifficulty;
-import consumer.device.common.*;
-import consumer.device.sensored.*;
-
 import java.time.Duration;
-import java.time.LocalTime;
 
 public final class Constants {
     public static final double TICK_DURATION = 1.0 * 1 / 60; // 1 minute in hours
@@ -14,6 +8,8 @@ public final class Constants {
     public static final int TIME_DEGRADATION = 1;
     public static final int USE_DEGRADATION = 5;
     public static final double FILTER_DEGRADATION = 0.05;
+    public static final double DEVICE_EVENT_PROBABILITY = 0.0001;
+    public static final double EVENT_DURABILITY_DEPENDENCY = 50;
 
     public static final class Guarantee {
         // All guarantee durations in months

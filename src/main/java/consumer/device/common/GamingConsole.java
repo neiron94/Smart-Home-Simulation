@@ -9,6 +9,7 @@ import place.Room;
 import utils.Constants.Consumption.Electricity;
 import utils.HelpFunctions;
 import utils.exceptions.DeviceIsBrokenException;
+import utils.exceptions.DeviceIsOccupiedException;
 import utils.exceptions.ResourceNotAvailableException;
 import utils.exceptions.WrongDeviceStatusException;
 
@@ -30,20 +31,18 @@ public class GamingConsole extends Device implements ElectricityConsumer {
 
     //---------- API for human -----------//
 
-    public void turnOn() throws DeviceIsBrokenException, ResourceNotAvailableException {
-        setStandby();
-    }
-
-    public void play(Game game) throws WrongDeviceStatusException {
-        checkDeviceStandby();
+    public void play(Game game) throws WrongDeviceStatusException, DeviceIsOccupiedException {
+        checkDeviceInStartStatus();
+        checkDeviceNotOccupied();
 
         currentGame = game;
         status = DeviceStatus.ON;
+        isOccupied = true;
     }
 
     public void stop() {
         currentGame = null;
-        setOff();
+        restoreStatus();
     }
 
     //---------- Getters and Setters ----------//
