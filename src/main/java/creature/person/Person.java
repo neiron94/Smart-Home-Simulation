@@ -1,6 +1,9 @@
 package creature.person;
 
 import creature.Creature;
+import creature.strategy.ChildStrategy;
+import creature.strategy.ManStrategy;
+import creature.strategy.WomanStrategy;
 import event.Event;
 import place.Room;
 import smarthome.Simulation;
@@ -18,6 +21,9 @@ public class Person extends Creature {
         this.gender = gender;
         this.status = status;
         solvedEvents = new HashMap<>();
+
+        if (status == FamilyStatus.KID) strategy = new ChildStrategy(this);
+        else strategy = gender == Gender.MALE ? new ManStrategy(this) : new WomanStrategy(this);
     }
 
     public Gender getGender() {

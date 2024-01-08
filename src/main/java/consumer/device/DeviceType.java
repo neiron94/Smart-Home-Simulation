@@ -34,12 +34,12 @@ public enum DeviceType {
     GAS_ALARM("GasAlarm", GasAlarm.class, DeviceStatus.STANDBY, RepairDifficulty.MEDIUM, Guarantee.GAS_ALARM);
 
     private final String name;
-    private final Class<?> deviceClass;
+    private final Class<? extends Device> deviceClass;
     private final DeviceStatus startStatus;
     private final RepairDifficulty difficulty;
     private final Period guarantee;
 
-    DeviceType(String name, Class<?> deviceClass, DeviceStatus status, RepairDifficulty difficulty, int guarantee) {
+    DeviceType(String name, Class<? extends Device> deviceClass, DeviceStatus status, RepairDifficulty difficulty, int guarantee) {
         this.name = name;
         this.deviceClass = deviceClass;
         this.startStatus = status;
@@ -51,7 +51,7 @@ public enum DeviceType {
         return name;
     }
 
-    public Class<?> getDeviceClass() {
+    public Class<? extends Device> getDeviceClass() {
         return deviceClass;
     }
 

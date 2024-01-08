@@ -1,6 +1,7 @@
 package creature.pet;
 
 import creature.Creature;
+import creature.strategy.PetStrategy;
 import place.Room;
 
 public class Pet extends Creature {
@@ -9,6 +10,7 @@ public class Pet extends Creature {
     public Pet(String name, PetType type, Room startRoom) {
         super(name, startRoom);
         this.type = type;
+        strategy = new PetStrategy(this);
     }
 
     public PetType getType() {

@@ -3,8 +3,7 @@ package creature;
 import java.time.Duration;
 import java.util.*;
 import java.util.stream.Stream;
-
-import event.Event;
+import creature.strategy.Strategy;
 import smarthome.Simulation;
 import place.Room;
 import utils.Priority;
@@ -16,6 +15,7 @@ public abstract class Creature {
 
     protected final Activity activity;
     protected final TreeSet<RankedQueue<Action>> memory;
+    protected Strategy strategy;
 
     protected boolean atHome;
     protected boolean isBusy;
@@ -46,7 +46,7 @@ public abstract class Creature {
                             Stream.concat(room.getFloor().getEvents().stream(), room.getEvents().stream()))
                     .forEach(event -> { // Find event to solve // TODO Make event solving strategy + add strategy attribute
                         if (memory.isEmpty() || memory.first().getPriority() < event.getPriority().getValue()) {
-                            strategy.solve(event);
+                            strategy.react(event);
                             isBusy = true;
                         }
                     });
@@ -122,8 +122,16 @@ public abstract class Creature {
         return fullness;
     }
 
+    public Strategy getStrategy() {
+        return strategy;
+    }
+
     public boolean isAlive() {
         return isAlive;
+    }
+
+    public void setStrategy(Strategy strategy) {
+        this.strategy = strategy;
     }
 
     @Override
