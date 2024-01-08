@@ -43,7 +43,8 @@ public class SupplySystem<T extends Consumer> {
     }
 
     public void addConsumption(T consumer, double consumed) {
-        consumedMap.put(consumer, consumed + consumedMap.get(consumer));
+        if (consumedMap.containsKey(consumer)) consumedMap.put(consumer, consumedMap.get(consumer) + consumed);
+        else consumedMap.put(consumer, consumed);
     }
 
     public void addConsumer(T consumer) {
