@@ -8,12 +8,12 @@ import java.util.function.BiFunction;
 public class Action {
     private Duration duration;
     private final boolean busy;
-    private final BiFunction<Creature, Device, Integer> function;
+    private final BiFunction<Creature, Device, Boolean> function;
     private final Device device;
     private final Creature creature;
     private final String description;
 
-    public Action(int duration, boolean busy, BiFunction<Creature, Device, Integer> function, Device device, Creature creature, String description) {
+    public Action(int duration, boolean busy, BiFunction<Creature, Device, Boolean> function, Device device, Creature creature, String description) {
         this.duration = Duration.ofMinutes(duration);
         this.busy = busy;
         this.function = function;
@@ -30,7 +30,7 @@ public class Action {
         return busy;
     }
 
-    public BiFunction<Creature, Device, Integer> getFunction() {
+    public BiFunction<Creature, Device, Boolean> getFunction() {
         return function;
     }
 
@@ -52,5 +52,9 @@ public class Action {
 
     public void decreaseDuration(int value) {
         duration = duration.minus(Duration.ofMinutes(value));
+    }
+
+    public boolean perform() {
+        return function.apply(creature, device);
     }
 }

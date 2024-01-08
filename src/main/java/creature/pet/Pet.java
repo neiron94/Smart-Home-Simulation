@@ -18,16 +18,19 @@ public class Pet extends Creature {
     @Override
     protected void decreaseHunger() {
         // TODO Implement
+        // TODO After successfully actions planning set isBusy to true
     }
 
     @Override
     protected void decreaseFullness() {
         // TODO Implement
+        // TODO After successfully actions planning set isBusy to true
     }
 
     @Override
     protected void chooseActivity() {
         // TODO Implement
+        // TODO After successfully actions planning set isBusy to first action busy (memory.first().peek().isBusy();)
     }
 
     @Override
