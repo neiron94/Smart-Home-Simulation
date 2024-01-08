@@ -31,16 +31,17 @@ public class WC extends Device implements WaterConsumer {
 
     public void makeThings() {
         shouldBeFlushed = true;
+        isOccupied = true;
     }
 
     public void flush(FlushType flushType) throws DeviceIsBrokenException, ResourceNotAvailableException {
-        checkBeforeStatusSet();
-        status = DeviceStatus.ON;
+        checkBeforeTurnOn();
 
+        status = DeviceStatus.ON;
         this.flushType = flushType;
         accept(new ConsumeVisitor());
         shouldBeFlushed = false;
-        status = DeviceStatus.OFF;
+        restoreStatus();
     }
 
     //---------- Getters and Setters ----------//

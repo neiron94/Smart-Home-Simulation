@@ -7,9 +7,7 @@ import consumer.device.DeviceType;
 import place.Room;
 import utils.Constants;
 import utils.HelpFunctions;
-import utils.exceptions.DeviceIsBrokenException;
-import utils.exceptions.DirtyFilterException;
-import utils.exceptions.ResourceNotAvailableException;
+import utils.exceptions.*;
 
 
 public class Vent extends Device implements ElectricityConsumer {
@@ -42,17 +40,19 @@ public class Vent extends Device implements ElectricityConsumer {
 
     //---------- API for human -----------//
 
-    public void startVent(VentProgram program) throws DeviceIsBrokenException, ResourceNotAvailableException, DirtyFilterException {
-        checkBeforeStatusSet();
+    public void startVent(VentProgram program) throws DirtyFilterException, DeviceIsOccupiedException, WrongDeviceStatusException {
+        checkDeviceInStartStatus();
+        checkDeviceNotOccupied();
         if (filterStatus <= 0)
             throw new DirtyFilterException();
 
         this.program = program;
         status = DeviceStatus.ON;
+        isOccupied = true;
     }
 
     public void stop() {
-        setOff();
+        restoreStatus();
     }
 
     public void cleanFilter() {

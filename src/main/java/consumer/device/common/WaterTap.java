@@ -10,7 +10,9 @@ import utils.Constants.Consumption.Water;
 import utils.Constants.Consumption.Electricity;
 import utils.HelpFunctions;
 import utils.exceptions.DeviceIsBrokenException;
+import utils.exceptions.DeviceIsOccupiedException;
 import utils.exceptions.ResourceNotAvailableException;
+import utils.exceptions.WrongDeviceStatusException;
 
 
 public class WaterTap extends Device implements WaterConsumer, ElectricityConsumer {
@@ -40,17 +42,19 @@ public class WaterTap extends Device implements WaterConsumer, ElectricityConsum
 
     //---------- API for human -----------//
 
-    public void open(int temperature, int openness) throws DeviceIsBrokenException, ResourceNotAvailableException {
-        checkBeforeStatusSet();
+    public void open(int temperature, int openness) throws DeviceIsOccupiedException, WrongDeviceStatusException {
+        checkDeviceInStartStatus();
+        checkDeviceNotOccupied();
 
         setTemperature(temperature);
         setOpenness(openness);
         this.status = DeviceStatus.ON;
+        isOccupied = true;
     }
 
     public void close() {
         openness = 0;
-        this.status = DeviceStatus.OFF;
+        restoreStatus();
     }
 
     //---------- Getters and Setters ----------//

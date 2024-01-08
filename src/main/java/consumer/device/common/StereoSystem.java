@@ -63,10 +63,6 @@ public class StereoSystem extends Device implements ElectricityConsumer {
 
     //---------- API for human -----------//
 
-    public void turnOn() throws DeviceIsBrokenException, ResourceNotAvailableException {
-        setStandby();
-    }
-
     public void play(List<Song> playlist) throws WrongDeviceStatusException {
         if (playlist == null || playlist.isEmpty()) return;
 
@@ -76,7 +72,7 @@ public class StereoSystem extends Device implements ElectricityConsumer {
     }
 
     public void play(Song song) throws WrongDeviceStatusException {
-        checkDeviceStandby();
+        checkDeviceInStartStatus();
 
         currentSong = song;
         setReadyTime(song.duration());
@@ -85,17 +81,17 @@ public class StereoSystem extends Device implements ElectricityConsumer {
 
     public void stop() {
         currentSong = null;
-        status = DeviceStatus.OFF;
+        restoreStatus();
+    }
+
+    public void setVolume(int volume) {
+        this.volume = HelpFunctions.adjustPercent(volume);
     }
 
     //---------- Getters and Setters ----------//
 
     public int getVolume() {
         return volume;
-    }
-
-    public void setVolume(int volume) {
-        this.volume = HelpFunctions.adjustPercent(volume);
     }
 
     public Song getCurrentSong() {

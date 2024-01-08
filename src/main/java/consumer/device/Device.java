@@ -4,21 +4,20 @@ import consumer.*;
 import event.BreakEvent;
 import place.Room;
 import utils.Constants;
-import utils.exceptions.DeviceIsBrokenException;
-import utils.exceptions.WrongDeviceStatusException;
-import utils.exceptions.NotRepairableDeviceException;
-import utils.exceptions.ResourceNotAvailableException;
+import utils.HelpFunctions;
+import utils.exceptions.*;
 
 
 public abstract class Device implements Consumer {
     protected final int id;
     protected  final DeviceType type;
-    protected Room room;    // TODO - what if null?
+    protected Room room;
     protected final Manual manual;
     protected DeviceStatus status;
     protected long durability;  // number of ticks before break
     private long maxDurability;
     protected boolean isFunctional; // is not totally broken
+    protected boolean isOccupied;
 
     public Device(DeviceType type, int id, Room startRoom) {
         this.type = type;
@@ -30,23 +29,29 @@ public abstract class Device implements Consumer {
         durability = maxDurability = countDurability(type);
 
         isFunctional = true;
+        isOccupied = false;
 
         accept(new AddVisitor());   // add to consumption map in supply system
     }
 
     //--------- Main public functions ----------//
 
-    public void setStatus(DeviceStatus status) {
-        this.status = status;
-    }
+    public boolean routine() { // Is called every tick
+        this.accept(new EventVisitor());
 
-    public boolean routine() { // Is called every tick  // TODO - implement random brake, fire, flood, leak
         if (status == DeviceStatus.ON) decreaseDurability(Constants.USE_DEGRADATION);
         else decreaseDurability(Constants.TIME_DEGRADATION);
 
         if (durability <= 0 || status == DeviceStatus.OFF)    return false;
         accept(new ConsumeVisitor());
         return true;
+    }
+
+    public void decreaseDurability(long degradation) {
+        if (durability > 0) {
+            setDurability(durability - degradation);
+            if (durability == 0) brake();
+        }
     }
 
     //---------- API for human -----------//
@@ -59,49 +64,54 @@ public abstract class Device implements Consumer {
             isFunctional = false;
             throw new NotRepairableDeviceException("Device " + this + " can't be repaired.");
         }
+    }
 
+    public void turnOn() throws DeviceIsBrokenException, ResourceNotAvailableException {
+        checkBeforeTurnOn();
+        status = type.getStartStatus();
+    }
+
+    public void turnOff() {
+        this.status = DeviceStatus.OFF;
+        this.isOccupied = false;
     }
 
     //------------- Help functions -------------//
 
-    protected void checkDeviceOn() throws WrongDeviceStatusException {  // TODO - move to help functions?
-        if (status != DeviceStatus.ON)
-            throw new WrongDeviceStatusException(this + " should be on.");
+    protected void restoreStatus() {
+        status = type.getStartStatus();
+        isOccupied = false;
     }
 
-    protected void checkDeviceStandby() throws WrongDeviceStatusException {
-        if (status != DeviceStatus.STANDBY)
-            throw new WrongDeviceStatusException(this + " should be standby.");
+    protected void checkDeviceInStartStatus() throws WrongDeviceStatusException {
+        if (status != type.getStartStatus())
+            throw new WrongDeviceStatusException(this + " should be " + type.getStartStatus());
+    }
+
+    protected void checkDeviceNotOccupied() throws DeviceIsOccupiedException {
+        if (isOccupied)
+            throw new DeviceIsOccupiedException(this + " is occupied.");
+    }
+
+    protected void checkBeforeTurnOn() throws DeviceIsBrokenException, ResourceNotAvailableException {
+        if (durability <= 0)
+            throw new DeviceIsBrokenException(this + " is broken.");
+        if (this instanceof ElectricityConsumer && !room.isActiveElectricity())
+            throw new ResourceNotAvailableException("Electricity in " + room + " is not available.");
+        if (this instanceof WaterConsumer && !room.isActiveWater())
+            throw new ResourceNotAvailableException("Water in " + room + " is not available.");
+        if (this instanceof GasConsumer && !room.isActiveGas())
+            throw new ResourceNotAvailableException("Gas in " + room + " is not available.");
     }
 
     private void brake() {
-        durability = 0;
+        turnOff();
         new BreakEvent(this, this.room).throwEvent();
     }
 
     private long countDurability(DeviceType type) {
         long hours = type.getGuarantee().getDays() * 24L * 4 / 3;
         return (long)(hours / Constants.TICK_DURATION);
-    }
-
-    protected void checkBeforeStatusSet() throws DeviceIsBrokenException, ResourceNotAvailableException {
-        if (durability <= 0)
-            throw new DeviceIsBrokenException(this + " is broken.");
-        if (room != null) {
-            if (this instanceof ElectricityConsumer && !room.isActiveElectricity())    // TODO - remove room != null?
-                throw new ResourceNotAvailableException("Electricity in " + room + " is not available.");
-            if (this instanceof WaterConsumer && !room.isActiveWater())    // TODO - remove room != null?
-                throw new ResourceNotAvailableException("Water in " + room + " is not available.");
-            if (this instanceof GasConsumer && !room.isActiveGas())    // TODO - remove room != null?
-                throw new ResourceNotAvailableException("Gas in " + room + " is not available.");
-        }
-    }
-
-    public void decreaseDurability(long degradation) {
-        this.durability -= degradation;
-        if (durability <= 0) {
-            brake();
-        }
     }
 
     @Override
@@ -115,24 +125,16 @@ public abstract class Device implements Consumer {
         return status;
     }
 
-    protected void setOn() throws DeviceIsBrokenException, ResourceNotAvailableException {
-        if (status == DeviceStatus.ON)  return;
-        checkBeforeStatusSet();
-        this.status = DeviceStatus.ON;
-    }
-
-    protected void setStandby() throws DeviceIsBrokenException, ResourceNotAvailableException {
-        if (status == DeviceStatus.STANDBY) return;
-        checkBeforeStatusSet();
-        this.status = DeviceStatus.STANDBY;
-    }
-
-    protected void setOff() {
-        this.status = DeviceStatus.OFF;
+    private void setDurability(long durability) {
+        this.durability = HelpFunctions.adjustToRange(durability, 0, maxDurability);
     }
 
     public long getDurability() {
         return durability;
+    }
+
+    public long getMaxDurability() {
+        return maxDurability;
     }
 
     public Room getRoom() {

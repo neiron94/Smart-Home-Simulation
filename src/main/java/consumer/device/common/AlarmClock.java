@@ -7,7 +7,6 @@ import consumer.device.DeviceType;
 import event.WakeUpEvent;
 import place.Room;
 import smarthome.Simulation;
-import utils.Constants;
 import utils.Constants.Consumption.Electricity;
 import utils.HelpFunctions;
 import utils.exceptions.DeviceIsBrokenException;
@@ -48,20 +47,17 @@ public class AlarmClock extends Device implements ElectricityConsumer {
     }
 
     //---------- API for human -----------//
-    public void turnOn() throws DeviceIsBrokenException, ResourceNotAvailableException {
-        setStandby();
-    }
 
     public void setAlarm(LocalTime ringTime) throws WrongDeviceStatusException {
         if (ringTime == null)   return;
-        checkDeviceStandby();
+        checkDeviceInStartStatus();
 
         this.ringTime = ringTime;
         rangToday = ringTime.isAfter(Simulation.getInstance().getCurrentTime().toLocalTime());
     }
 
     public void stopAlarm() {
-        setOff();
+        restoreStatus();
     }
 
     //------------- Help functions -------------//
@@ -75,7 +71,7 @@ public class AlarmClock extends Device implements ElectricityConsumer {
     }
 
     private boolean shouldRing() {
-        return !rangToday && status == DeviceStatus.STANDBY && ringTime.isAfter(Simulation.getInstance().getCurrentTime().toLocalTime());
+        return !rangToday && status == type.getStartStatus() && ringTime.isAfter(Simulation.getInstance().getCurrentTime().toLocalTime());
     }
 
     private void ring() {
