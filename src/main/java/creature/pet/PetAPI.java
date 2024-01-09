@@ -90,7 +90,7 @@ public class PetAPI {
     private static final Function<Action<Pet, Feeder>, Boolean> drinkWaterFeeder = action -> {
         try {
             action.getSubject().drinkWater(0); // TODO - depends on hunger?
-            action.getExecutor().setHunger();
+            action.getExecutor().setHunger(0);  // TODO - set value
         } catch (WrongDeviceStatusException e) {
             return false;
         }
@@ -102,7 +102,7 @@ public class PetAPI {
     private static final Function<Action<Pet, Feeder>, Boolean> eatFoodFeeder = action -> {
         try {
             action.getSubject().eatFood(0); // TODO - depends on hunger?
-            action.getExecutor().setHunger();
+            action.getExecutor().setHunger(0);  // TODO - set value
         } catch (WrongDeviceStatusException e) {
             return false;
         }

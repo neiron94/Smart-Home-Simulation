@@ -1,6 +1,6 @@
 package consumer;
 
-public interface Visitor {  // TODO - rename class?
+public interface Visitor {
 
     default void visit(Consumer consumer) {
         if (consumer instanceof ElectricityConsumer)

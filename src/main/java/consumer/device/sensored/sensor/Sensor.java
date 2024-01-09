@@ -11,6 +11,6 @@ public abstract class Sensor<T extends SensoredDevice<?>> {
         if (this.device == null)
             this.device = device;
         else
-            throw new IllegalArgumentException("Device is already attached");   // TODO - throw different exception?
+            throw new IllegalArgumentException("Device is already attached");
     }
 }

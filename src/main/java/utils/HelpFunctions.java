@@ -46,15 +46,15 @@ public class HelpFunctions {
     }
 
     public static double countElectricityConsumption(DeviceStatus status, double power) {
-        return status.getMultiplier() * power * Constants.TICK_DURATION;   // TODO - take TICK_DURATION from Constants
+        return status.getMultiplier() * power * Constants.TICK_DURATION;
     }
 
     public static double countWaterConsumption(DeviceStatus status, double power) {
-        return status == DeviceStatus.ON ? power * Constants.TICK_DURATION : 0;   // TODO - take TICK_DURATION from Constants
+        return status == DeviceStatus.ON ? power * Constants.TICK_DURATION : 0;
     }
 
     public static double countGasConsumption(DeviceStatus status, double power) {
-        return status == DeviceStatus.ON ? power * Constants.TICK_DURATION : 0;   // TODO - take TICK_DURATION from Constants
+        return status == DeviceStatus.ON ? power * Constants.TICK_DURATION : 0;
     }
 
     public static void ignore(){}

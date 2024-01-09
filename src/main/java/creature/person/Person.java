@@ -69,7 +69,7 @@ public class Person extends Creature {
             case MALE -> activity.addActivity("Shit himself");
             case FEMALE -> activity.addActivity("Shit herself");
         }
-        // TODO Take shower
+        PersonAPI.takeShower.apply(this);
         fullness = 0;
     }
 
