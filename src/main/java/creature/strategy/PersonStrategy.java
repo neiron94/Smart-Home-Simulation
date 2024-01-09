@@ -12,8 +12,11 @@ import event.*;
 import event.throwStrategy.*;
 import place.Room;
 import smarthome.Simulation;
+import utils.HelpFunctions;
 import utils.RankedQueue;
 import utils.exceptions.NotRepairableDeviceException;
+
+import java.util.List;
 import java.util.function.Function;
 
 public interface PersonStrategy extends Strategy {
@@ -48,19 +51,23 @@ public interface PersonStrategy extends Strategy {
                             .map(person -> (Person) person)
                             .filter(Creature::isAlive)
                             .filter(Creature::isAtHome)
-                            .filter(person -> person.getStatus() != FamilyStatus.KID)
+                            .filter(person -> person.getStatus() != FamilyStatus.KID && !person.isBusy())
                             .findFirst()
                             .orElse(null);
 
             if (adult != null) {
                 adult.setRoom(action.getSubject().getOrigin());
-                Strategy.makeRecord(action.getExecutor(), String.format("Call %s to solve %s in %s", adult.getName(), action.getSubject(), action.getSubject().getOrigin()));
+                HelpFunctions.makeRecord(action.getExecutor(), String.format("Call %s to solve %s in %s", adult.getName(), action.getSubject(), action.getSubject().getOrigin()));
                 return true;
-            } else return false;
+            } else {
+                action.getExecutor().setRoom(HelpFunctions.getRandomRoom());
+                HelpFunctions.makeRecord(action.getExecutor(), String.format("Search an adult to tell about %s", action.getSubject()));
+                return false;
+            }
         };
 
         Function<Action<Person, Void>, Boolean> panic = action -> {
-            Strategy.makeRecord(action.getExecutor(), "Panic");
+            HelpFunctions.makeRecord(action.getExecutor(), "Panic");
             return true;
         };
 
@@ -69,7 +76,7 @@ public interface PersonStrategy extends Strategy {
         Function<Action<Person, Room>, Boolean> goToRoom = action -> {
             if (action.getExecutor().getRoom() != action.getSubject()) {
                 action.getExecutor().setRoom(action.getSubject());
-                Strategy.makeRecord(action.getExecutor(), String.format("Go to %s", action.getSubject()));
+                HelpFunctions.makeRecord(action.getExecutor(), String.format("Go to %s", action.getSubject()));
             }
             return true;
         };
@@ -81,14 +88,14 @@ public interface PersonStrategy extends Strategy {
             else if (action.getSubject().getThrowStrategy() instanceof RoomThrowStrategy) deleteResult = action.getSubject().getOrigin().deleteEvent(action.getSubject());
 
             if (deleteResult) {
-                Strategy.makeRecord(action.getExecutor(), String.format("Take %s", action.getSubject().getEventType()));
+                HelpFunctions.makeRecord(action.getExecutor(), String.format("Take %s", action.getSubject().getEventType()));
                 return true;
             } else return false;
         };
 
         Function<Action<Person, Event>, Boolean> recordEvent = action -> {
             action.getExecutor().addSolvedEvent(action.getSubject());
-            Strategy.makeRecord(action.getExecutor(), String.format("Solve %s", action.getSubject().getEventType()));
+            HelpFunctions.makeRecord(action.getExecutor(), String.format("Solve %s", action.getSubject().getEventType()));
             return true;
         };
 
@@ -96,72 +103,72 @@ public interface PersonStrategy extends Strategy {
 
         Function<Action<Person, Room>, Boolean> turnOnElectricity = action -> {
             Simulation.getInstance().getHome().getElectricitySupplySystem().switchRoom(action.getSubject(), true);
-            Strategy.makeRecord(action.getExecutor(), String.format("Turn on electricity in %s", action.getSubject()));
+            HelpFunctions.makeRecord(action.getExecutor(), String.format("Turn on electricity in %s", action.getSubject()));
             return true;
         };
 
         Function<Action<Person, Room>, Boolean> turnOffElectricity = action -> {
             Simulation.getInstance().getHome().getElectricitySupplySystem().switchRoom(action.getSubject(), false);
-            Strategy.makeRecord(action.getExecutor(), String.format("Turn off electricity in %s", action.getSubject()));
+            HelpFunctions.makeRecord(action.getExecutor(), String.format("Turn off electricity in %s", action.getSubject()));
             return true;
         };
 
         Function<Action<Person, Room>, Boolean> turnOnGas = action -> {
             Simulation.getInstance().getHome().getGasSupplySystem().switchRoom(action.getSubject(), true);
-            Strategy.makeRecord(action.getExecutor(), String.format("Turn on gas in %s", action.getSubject()));
+            HelpFunctions.makeRecord(action.getExecutor(), String.format("Turn on gas in %s", action.getSubject()));
             return true;
         };
 
         Function<Action<Person, Room>, Boolean> turnOffGas = action -> {
             Simulation.getInstance().getHome().getGasSupplySystem().switchRoom(action.getSubject(), false);
-            Strategy.makeRecord(action.getExecutor(), String.format("Turn off gas in %s", action.getSubject()));
+            HelpFunctions.makeRecord(action.getExecutor(), String.format("Turn off gas in %s", action.getSubject()));
             return true;
         };
 
         Function<Action<Person, Room>, Boolean> turnOnWater = action -> {
             Simulation.getInstance().getHome().getWaterSupplySystem().switchRoom(action.getSubject(), true);
-            Strategy.makeRecord(action.getExecutor(), String.format("Turn on water in %s", action.getSubject()));
+            HelpFunctions.makeRecord(action.getExecutor(), String.format("Turn on water in %s", action.getSubject()));
             return true;
         };
 
         Function<Action<Person, Room>, Boolean> turnOffWater = action -> {
             Simulation.getInstance().getHome().getWaterSupplySystem().switchRoom(action.getSubject(), false);
-            Strategy.makeRecord(action.getExecutor(), String.format("Turn off water in %s", action.getSubject()));
+            HelpFunctions.makeRecord(action.getExecutor(), String.format("Turn off water in %s", action.getSubject()));
             return true;
         };
 
         Function<Action<Person, Room>, Boolean> cleanFloor = action -> {
-            Strategy.makeRecord(action.getExecutor(), String.format("Clean floor in %s", action.getSubject()));
+            HelpFunctions.makeRecord(action.getExecutor(), String.format("Clean floor in %s", action.getSubject()));
             return true;
         };
 
         Function<Action<Person, Room>, Boolean> callFireman = action -> {
-            Strategy.makeRecord(action.getExecutor(), String.format("Call Fire Department to solve fire in %s", action.getSubject()));
+            HelpFunctions.makeRecord(action.getExecutor(), String.format("Call Fire Department to solve fire in %s", action.getSubject()));
             return true;
         };
 
         Function<Action<Person, Room>, Boolean> callWaterService = action -> {
-            Strategy.makeRecord(action.getExecutor(), String.format("Call Water Service Company to solve flood in %s", action.getSubject()));
+            HelpFunctions.makeRecord(action.getExecutor(), String.format("Call Water Service Company to solve flood in %s", action.getSubject()));
             return true;
         };
 
         Function<Action<Person, Room>, Boolean> callGasService = action -> {
-            Strategy.makeRecord(action.getExecutor(), String.format("Call Gas Service Company to solve leak in %s", action.getSubject()));
+            HelpFunctions.makeRecord(action.getExecutor(), String.format("Call Gas Service Company to solve leak in %s", action.getSubject()));
             return true;
         };
 
         Function<Action<Person, Room>, Boolean> putOutFire = action -> {
-            Strategy.makeRecord(action.getExecutor(), String.format("Put out fire in %s", action.getSubject()));
+            HelpFunctions.makeRecord(action.getExecutor(), String.format("Put out fire in %s", action.getSubject()));
             return true;
         };
 
         Function<Action<Person, Room>, Boolean> repairWaterSystem = action -> {
-            Strategy.makeRecord(action.getExecutor(), String.format("Solve problem with water system in %s", action.getSubject()));
+            HelpFunctions.makeRecord(action.getExecutor(), String.format("Solve problem with water system in %s", action.getSubject()));
             return true;
         };
 
         Function<Action<Person, Room>, Boolean> repairGasSystem = action -> {
-            Strategy.makeRecord(action.getExecutor(), String.format("Solve problem with gas system in %s", action.getSubject()));
+            HelpFunctions.makeRecord(action.getExecutor(), String.format("Solve problem with gas system in %s", action.getSubject()));
             return true;
         };
 
@@ -169,7 +176,7 @@ public interface PersonStrategy extends Strategy {
 
         Function<Action<Person, Alarm<?>>, Boolean> stopAlarm = action -> {
             action.getSubject().stop();
-            Strategy.makeRecord(action.getExecutor(), action.getSubject(), String.format("Stop %s", action.getSubject()));
+            HelpFunctions.makeRecord(action.getExecutor(), action.getSubject(), String.format("Stop %s", action.getSubject()));
             return true;
         };
 
@@ -178,7 +185,7 @@ public interface PersonStrategy extends Strategy {
         Function<Action<Person, Feeder>, Boolean> addFoodFeeder = action -> {
             if (action.getSubject().getFoodLevel() == 0) {
                 action.getSubject().addFood();
-                Strategy.makeRecord(action.getExecutor(), action.getSubject(), String.format("Add food to %s", action.getSubject()));
+                HelpFunctions.makeRecord(action.getExecutor(), action.getSubject(), String.format("Add food to %s", action.getSubject()));
             }
             return true;
         };
@@ -186,7 +193,7 @@ public interface PersonStrategy extends Strategy {
         Function<Action<Person, Feeder>, Boolean> addWaterFeeder = action -> {
             if (action.getSubject().getWaterLevel() == 0) {
                 action.getSubject().addWater();
-                Strategy.makeRecord(action.getExecutor(), action.getSubject(), String.format("Add water to %s", action.getSubject()));
+                HelpFunctions.makeRecord(action.getExecutor(), action.getSubject(), String.format("Add water to %s", action.getSubject()));
             }
             return true;
         };
@@ -196,41 +203,41 @@ public interface PersonStrategy extends Strategy {
         Function<Action<Person, AlarmClock>, Boolean> stopAlarmClock = action -> {
             action.getSubject().stopAlarm();
 
-            Strategy.makeRecord(action.getExecutor(), action.getSubject(), String.format("Stop %s", action.getSubject()));
+            HelpFunctions.makeRecord(action.getExecutor(), action.getSubject(), String.format("Stop %s", action.getSubject()));
             return true;
         };
 
         //------------ Brake event ------------//
 
         Function<Action<Person, Device>, Boolean> findManual = action -> {
-            Strategy.makeRecord(action.getExecutor(), String.format("Find manual of %s", action.getSubject()));
+            HelpFunctions.makeRecord(action.getExecutor(), String.format("Find manual of %s", action.getSubject()));
             return true;
         };
 
         Function<Action<Person, Device>, Boolean> readManual = action -> {
             action.getSubject().getManual().read();
-            Strategy.makeRecord(action.getExecutor(), String.format("Read manual of %s", action.getSubject()));
+            HelpFunctions.makeRecord(action.getExecutor(), String.format("Read manual of %s", action.getSubject()));
             return true;
         };
 
         Function<Action<Person, Device>, Boolean> checkWarranty = action -> {
-            Strategy.makeRecord(action.getExecutor(), String.format("Check warranty of %s", action.getSubject()));
+            HelpFunctions.makeRecord(action.getExecutor(), String.format("Check warranty of %s", action.getSubject()));
             return action.getSubject().getManual().getGuaranteeExpirationDate().isBefore(Simulation.getInstance().getCurrentTime());
         };
 
         Function<Action<Person, Device>, Boolean> bringDeviceToService = action -> {
-            Strategy.makeRecord(action.getExecutor(), String.format("Bring %s to Service Center", action.getSubject()));
+            HelpFunctions.makeRecord(action.getExecutor(), String.format("Bring %s to Service Center", action.getSubject()));
             return action.getSubject().getManual().getGuaranteeExpirationDate().isBefore(Simulation.getInstance().getCurrentTime());
         };
 
         Function<Action<Person, Device>, Boolean> takeDeviceFromService = action -> {
             try {
                 action.getSubject().repair();
-                Strategy.makeRecord(action.getExecutor(), String.format("Take repaired %s from Service Center", action.getSubject()));
+                HelpFunctions.makeRecord(action.getExecutor(), String.format("Take repaired %s from Service Center", action.getSubject()));
             } catch (NotRepairableDeviceException e) {
                 action.getSubject().copy();
                 action.getSubject().setFunctional(false);
-                Strategy.makeRecord(action.getExecutor(), String.format("Take new %s from Service Center", action.getSubject()));
+                HelpFunctions.makeRecord(action.getExecutor(), String.format("Take new %s from Service Center", action.getSubject()));
             }
             return true;
         };
@@ -238,21 +245,21 @@ public interface PersonStrategy extends Strategy {
         Function<Action<Person, Device>, Boolean> repairDevice = action -> {
             try {
                 action.getSubject().repair();
-                Strategy.makeRecord(action.getExecutor(), String.format("Repair %s", action.getSubject()));
+                HelpFunctions.makeRecord(action.getExecutor(), String.format("Repair %s", action.getSubject()));
             } catch (NotRepairableDeviceException e) {
                 action.getSubject().setFunctional(false);
-                Strategy.makeRecord(action.getExecutor(), String.format("Throw old %s", action.getSubject()));
+                HelpFunctions.makeRecord(action.getExecutor(), String.format("Throw old %s", action.getSubject()));
                 action.getSubject().copy();
-                Strategy.makeRecord(action.getExecutor(), String.format("Buy new %s", action.getSubject()));
+                HelpFunctions.makeRecord(action.getExecutor(), String.format("Buy new %s", action.getSubject()));
             }
             return true;
         };
 
         Function<Action<Person, Device>, Boolean> buyNewDevice = action -> {
             action.getSubject().setFunctional(false);
-            Strategy.makeRecord(action.getExecutor(), String.format("Throw old %s", action.getSubject()));
+            HelpFunctions.makeRecord(action.getExecutor(), String.format("Throw old %s", action.getSubject()));
             action.getSubject().copy();
-            Strategy.makeRecord(action.getExecutor(), String.format("Buy new %s", action.getSubject()));
+            HelpFunctions.makeRecord(action.getExecutor(), String.format("Buy new %s", action.getSubject()));
             return true;
         };
     }
