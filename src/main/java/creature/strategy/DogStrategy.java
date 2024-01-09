@@ -4,7 +4,6 @@ import creature.Action;
 import creature.pet.Pet;
 import event.Event;
 import place.Room;
-
 import java.util.ArrayList;
 import java.util.List;
 
