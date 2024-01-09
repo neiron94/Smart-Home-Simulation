@@ -7,6 +7,7 @@ import creature.CreatureFactory;
 import place.*;
 import consumer.device.common.entertainment.EntertainmentFactory;
 import consumer.device.common.entertainment.EntertainmentService;
+import place.weather.Weather;
 import smarthome.Simulation;
 import java.awt.*;
 import java.io.File;
@@ -125,7 +126,7 @@ public class ConfigurationReader {
     }
 
     public static void readWeatherConfig() {
-        String configPath = CONFIG_PATH + "Weather.json";
+        String configPath = CONFIG_PATH + "WeatherEnum.json";
         JsonNode config = openConfig(configPath);
 
         JsonNode temperature = config.path("temperature");
@@ -134,9 +135,9 @@ public class ConfigurationReader {
 
         for (int i = 0; i < 12; ++i) {
             for (int j = 0; j < 24; ++j) {
-                Street.stats[TEMPERATURE][i][j] = temperature.get(i).get(j).asDouble();
-                Street.stats[HUMIDITY][i][j] = humidity.get(i).get(j).asDouble();
-                Street.stats[BRIGHTNESS][i][j] = brightness.get(i).get(j).asDouble();
+                Weather.stats[TEMPERATURE][i][j] = temperature.get(i).get(j).asDouble();
+                Weather.stats[HUMIDITY][i][j] = humidity.get(i).get(j).asDouble();
+                Weather.stats[BRIGHTNESS][i][j] = brightness.get(i).get(j).asDouble();
             }
         }
     }
