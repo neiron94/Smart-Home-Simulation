@@ -3,7 +3,6 @@ package consumer.device;
 import consumer.*;
 import event.BreakEvent;
 import place.Room;
-import place.RoomConfiguration;
 import utils.Constants;
 import utils.HelpFunctions;
 import utils.Prototype;
@@ -166,4 +165,7 @@ public abstract class Device implements Consumer, Prototype {
     public int getId() {
         return id;
     }
+
+    @Override
+    public abstract Device copy();
 }

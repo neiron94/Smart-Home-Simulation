@@ -1,12 +1,8 @@
 package creature.strategy;
 
 import consumer.device.Device;
-import creature.Action;
 import creature.Creature;
-import creature.person.Person;
 import event.*;
-
-import java.util.function.Function;
 
 public interface Strategy {
     default void react (Event event) {

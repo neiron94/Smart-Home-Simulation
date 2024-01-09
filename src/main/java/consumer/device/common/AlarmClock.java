@@ -10,7 +10,6 @@ import smarthome.Simulation;
 import utils.Constants.Consumption.Electricity;
 import utils.HelpFunctions;
 import utils.exceptions.WrongDeviceStatusException;
-
 import java.time.LocalDate;
 import java.time.LocalTime;
 
