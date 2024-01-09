@@ -1,10 +1,16 @@
 package creature.person;
 
 import consumer.device.Device;
+import consumer.device.DeviceType;
 import consumer.device.common.*;
 import consumer.device.common.entertainment.*;
-import consumer.device.sensored.Alarm;
 import creature.Action;
+import place.Room;
+import place.RoomConfiguration;
+import place.RoomType;
+import utils.HelpFunctions;
+import utils.Priority;
+import utils.RankedQueue;
 import utils.exceptions.*;
 import java.time.Duration;
 import java.time.LocalTime;
@@ -12,29 +18,159 @@ import java.util.List;
 import java.util.Random;
 import java.util.function.Function;
 
-public class PersonAPI {
+import static utils.HelpFunctions.makeRecord;
 
-    // TODO - solve "go to room before use" problem
-    // TODO - write complex functions
+public final class PersonAPI {
+
     // TODO - change numbers for constants?
-    // TODO - create simple functions which does not use devices
+    // TODO - work with hunger and fullness
 
-    private static void makeRecord(Person person, String description) {
-        person.getActivity().addActivity(description);
-    }
+    //*********************************************** Simple functions ***********************************************//
 
-    private static void makeRecord(Person person, Device device, String description) {
-        person.getActivity().addActivity(description);
-        person.getActivity().increaseUsage(device);
-    }
+    //################################# Room functions ##################################//
 
-    //---------------------------- Complex functions ----------------------------//
-    
-    
+    private static final Function<Action<Person, Room>, Boolean> goToRoom = action -> {
+        if (action.getExecutor().getRoom() != action.getSubject()) {
+            action.getExecutor().setRoom(action.getSubject());
+            makeRecord(action.getExecutor(), String.format("Go to %s", action.getSubject()));
+        }
+        return true;
+    };
 
-    //---------------------------- Simple functions ----------------------------//
+    private static final Function<Action<Person, Room>, Boolean> changeHumidityRoom = action -> {
+        action.getSubject().getControlPanel().changeHumidity(new Random().nextDouble(-5, 5));
 
-    //------------ Common for all devices ------------//
+        makeRecord(action.getExecutor(), String.format("Change preferred humidity in %s to %.1f%%", action.getSubject(), action.getSubject().getControlPanel().getHumidity()));
+        return true;
+    };
+
+    private static final Function<Action<Person, Room>, Boolean> changeTemperatureRoom = action -> {
+        action.getSubject().getControlPanel().changeTemperature(new Random().nextDouble(-3, 3));
+
+        makeRecord(action.getExecutor(), String.format("Change preferred temperature in %s to %.1f°C", action.getSubject(), action.getSubject().getControlPanel().getTemperature()));
+        return true;
+    };
+
+    private static final Function<Action<Person, Room>, Boolean> changeBrightnessRoom = action -> {
+        action.getSubject().getControlPanel().changeBrightness(new Random().nextDouble(-10, 10));
+
+        makeRecord(action.getExecutor(), String.format("Change preferred brightness in %s to %.1f%%", action.getSubject(), action.getSubject().getControlPanel().getBrightness()));
+        return true;
+    };
+
+    private static final Function<Action<Person, Room>, Boolean> saveConfigRoom = action -> {
+        action.getSubject().getControlPanel().saveConfiguration(action.getExecutor().getName());
+
+        makeRecord(action.getExecutor(), "Save new room configuration");
+        return true;
+    };
+
+    private static final Function<Action<Person, Room>, Boolean> downloadConfigRoom = action -> {
+        RoomConfiguration configuration = action.getSubject().getControlPanel().getRandomConfiguration();
+        action.getSubject().getControlPanel().loadConfiguration(configuration);
+
+        makeRecord(action.getExecutor(), String.format("Change configuration of %s to %s", action.getSubject(), configuration.getName()));
+        return true;
+    };
+
+
+    //################################# Void functions ##################################//
+
+    //------------ Common home functions ------------//
+
+    public static final Function<Action<Person, Void>, Boolean> cleanAfterPet = action -> {
+        makeRecord(action.getExecutor(), "Clean floor after pet");
+        return true;
+    };
+
+    public static final Function<Action<Person, Void>, Boolean> wakeUp = action -> {
+        makeRecord(action.getExecutor(), "Woke up");
+        return true;
+    };
+
+    private static final Function<Action<Person, Void>, Boolean> goSleep = action -> {
+        makeRecord(action.getExecutor(), "Go to bed");
+        return true;
+    };
+
+    private static final Function<Action<Person, Void>, Boolean> sweepFloor = action -> {
+        makeRecord(action.getExecutor(), "Swept the floor");
+        return true;
+    };
+
+    private static final Function<Action<Person, Void>, Boolean> washFloor = action -> {
+        makeRecord(action.getExecutor(), "Washed the floor");
+        return true;
+    };
+
+    private static final Function<Action<Person, Void>, Boolean> cleanFurniture = action -> {
+        makeRecord(action.getExecutor(), "Cleaned the furniture");
+        return true;
+    };
+
+
+    //---------------- Street functions ----------------//
+
+    private static final Function<Action<Person, Void>, Boolean> goForWalk = action -> {
+        action.getExecutor().setAtHome(false);
+        makeRecord(action.getExecutor(), "Go for a walk");
+        return true;
+    };
+
+    private static final Function<Action<Person, Void>, Boolean> doSport = action -> {
+        action.getExecutor().setAtHome(false);
+        String sportDescription = HelpFunctions.getRandomObject(List.of("Go to gym", "Go jogging", "Ride bike", "Go skiing"));
+        makeRecord(action.getExecutor(), sportDescription);
+        return true;
+    };
+
+    private static final Function<Action<Person, Void>, Boolean> leaveHome = action -> {
+        action.getExecutor().setAtHome(false);
+        makeRecord(action.getExecutor(), "Leave home");
+        return true;
+    };
+
+    private static final Function<Action<Person, Void>, Boolean> returnHome = action -> {
+        action.getExecutor().setAtHome(true);
+        makeRecord(action.getExecutor(), "Return home");
+        return true;
+    };
+
+
+    //------------------ Food functions ------------------//
+
+    private static final Function<Action<Person, Void>, Boolean> eatBreakfast = action -> {
+        action.getExecutor().setHunger();   // TODO - set value
+        action.getExecutor().setFullness();   // TODO - set value
+        makeRecord(action.getExecutor(), "Ate breakfast");
+        return true;
+    };
+
+    private static final Function<Action<Person, Void>, Boolean> eatLunch = action -> {
+        action.getExecutor().setHunger();   // TODO - set value
+        action.getExecutor().setFullness();   // TODO - set value
+        makeRecord(action.getExecutor(), "Ate lunch");
+        return true;
+    };
+
+    private static final Function<Action<Person, Void>, Boolean> eatDinner = action -> {
+        action.getExecutor().setHunger();   // TODO - set value
+        action.getExecutor().setFullness();   // TODO - set value
+        makeRecord(action.getExecutor(), "Ate dinner");
+        return true;
+    };
+
+    private static final Function<Action<Person, Void>, Boolean> drinkCoffee = action -> {
+        action.getExecutor().setHunger();   // TODO - set value
+        action.getExecutor().setFullness();   // TODO - set value
+        makeRecord(action.getExecutor(), "Drank coffee");
+        return true;
+    };
+
+
+    //################################ Device functions #################################//
+
+    //--------------- Common device functions ---------------//
 
     private static final Function<Action<Person, Device>, Boolean> turnOnDevice = action -> {
         try {
@@ -42,7 +178,7 @@ public class PersonAPI {
         } catch (DeviceIsBrokenException | ResourceNotAvailableException e) {
             return false;
         }
-        
+
         makeRecord(action.getExecutor(), action.getSubject(), String.format("Turn on %s", action.getSubject()));
         return true;
     };
@@ -54,7 +190,8 @@ public class PersonAPI {
         return true;
     };
 
-    //------------ Common for cleaning devices ------------//
+
+    //------------ Common cleaning device functions ------------//
 
     private static final Function<Action<Person, CleaningDevice>, Boolean> cleanFilter = action -> {
         action.getSubject().cleanFilter();
@@ -63,17 +200,18 @@ public class PersonAPI {
         return true;
     };
 
-    //------------ Alarm clock ------------//
+    //----------------------- Alarm clock -----------------------//
 
     private static final Function<Action<Person, AlarmClock>, Boolean> setAlarmClock = action -> {
         Random random = new Random();
-        LocalTime ringTime = LocalTime.of(random.nextInt(6, 11), random.nextInt(0, 60));
+        LocalTime ringTime = LocalTime.of(random.nextInt(7, 9), 0);
         while (true) {
             try {
                 action.getSubject().setAlarm(ringTime);
                 break;
             } catch (WrongDeviceStatusException e) {
-                if (!new Action<>(0, true, action.getExecutor(), action.getSubject(), turnOnDevice).perform()) return false;
+                if (!new Action<>(0, true, action.getExecutor(), action.getSubject(), turnOnDevice).perform())
+                    return false;
             }
         }
 
@@ -81,7 +219,7 @@ public class PersonAPI {
         return true;
     };
 
-    //------------ Coffee machine ------------//
+    //----------------------- Coffee machine -----------------------//
 
     private static final Function<Action<Person, CoffeeMachine>, Boolean> fillCoffeeMachine = action -> {
         action.getSubject().fillAll();
@@ -99,7 +237,8 @@ public class PersonAPI {
             } catch (EntryProblemException e) {
                 new Action<>(0, true, action.getExecutor(), action.getSubject(), fillCoffeeMachine).perform();
             } catch (WrongDeviceStatusException e) {
-                if (!new Action<>(0, true, action.getExecutor(), action.getSubject(), turnOnDevice).perform()) return false;
+                if (!new Action<>(0, true, action.getExecutor(), action.getSubject(), turnOnDevice).perform())
+                    return false;
             }
         }
 
@@ -108,7 +247,7 @@ public class PersonAPI {
     };
 
 
-    //------------ Dishwasher ------------//
+    //----------------------- Dishwasher -----------------------//
 
     private static final Function<Action<Person, Dishwasher>, Boolean> putDishesDishwasher = action -> {
         int amount = new Random().nextInt(40, 70);
@@ -136,7 +275,8 @@ public class PersonAPI {
             } catch (EntryProblemException e) {
                 new Action<>(0, true, action.getExecutor(), action.getSubject(), putDishesDishwasher).perform();
             } catch (WrongDeviceStatusException e) {
-                if (!new Action<>(0, true, action.getExecutor(), action.getSubject(), turnOnDevice).perform()) return false;
+                if (!new Action<>(0, true, action.getExecutor(), action.getSubject(), turnOnDevice).perform())
+                    return false;
             } catch (DeviceIsOccupiedException e) {
                 return false;
             }
@@ -147,7 +287,7 @@ public class PersonAPI {
     };
 
 
-    //------------ Dryer ------------//
+    //----------------------- Dryer -----------------------//
 
     private static final Function<Action<Person, Dryer>, Boolean> putClothesDryer = action -> {
         action.getSubject().putClothes();
@@ -174,7 +314,8 @@ public class PersonAPI {
             } catch (EntryProblemException e) {
                 new Action<>(0, true, action.getExecutor(), action.getSubject(), putClothesDryer).perform();
             } catch (WrongDeviceStatusException e) {
-                if (!new Action<>(0, true, action.getExecutor(), action.getSubject(), turnOnDevice).perform()) return false;
+                if (!new Action<>(0, true, action.getExecutor(), action.getSubject(), turnOnDevice).perform())
+                    return false;
             } catch (DeviceIsOccupiedException e) {
                 return false;
             }
@@ -184,7 +325,7 @@ public class PersonAPI {
         return true;
     };
 
-    //------------ Fridge ------------//
+    //----------------------- Fridge -----------------------//
 
     private static final Function<Action<Person, Fridge>, Boolean> takeFoodFridge = action -> {
         int amount = 0;  // TODO - depends on hunger?
@@ -221,16 +362,17 @@ public class PersonAPI {
     };
 
 
-    //------------ Gaming console ------------//
+    //----------------------- Gaming console -----------------------//
 
-    private static final Function<Action<Person, GamingConsole>, Boolean> playConsole = action -> {
+    private static final Function<Action<Person, GamingConsole>, Boolean> startConsole = action -> {
         Game game = EntertainmentService.GameService.getRandomGame();
         while (true) {
             try {
                 action.getSubject().play(game);
                 break;
             } catch (WrongDeviceStatusException e) {
-                if (!new Action<>(0, true, action.getExecutor(), action.getSubject(), turnOnDevice).perform()) return false;
+                if (!new Action<>(0, true, action.getExecutor(), action.getSubject(), turnOnDevice).perform())
+                    return false;
             } catch (DeviceIsOccupiedException e) {
                 return false;
             }
@@ -248,7 +390,7 @@ public class PersonAPI {
     };
 
 
-    //------------ Microwave ------------//
+    //----------------------- Microwave -----------------------//
 
     private static final Function<Action<Person, Microwave>, Boolean> putFoodMicrowave = action -> {
         action.getSubject().putFood();
@@ -273,7 +415,8 @@ public class PersonAPI {
                 action.getSubject().heatFood(duration, power);
                 break;
             } catch (WrongDeviceStatusException e) {
-                if (!new Action<>(0, true, action.getExecutor(), action.getSubject(), turnOnDevice).perform()) return false;
+                if (!new Action<>(0, true, action.getExecutor(), action.getSubject(), turnOnDevice).perform())
+                    return false;
             } catch (EntryProblemException e) {
                 new Action<>(0, true, action.getExecutor(), action.getSubject(), putFoodMicrowave).perform();
             } catch (DeviceIsOccupiedException e) {
@@ -286,7 +429,7 @@ public class PersonAPI {
     };
 
 
-    //------------ Oven ------------//
+    //----------------------- Oven -----------------------//
 
     private static final Function<Action<Person, Oven>, Boolean> putFoodOven = action -> {
         action.getSubject().putFood();
@@ -315,7 +458,8 @@ public class PersonAPI {
             } catch (DeviceIsOccupiedException e) {
                 return false;
             } catch (WrongDeviceStatusException e) {
-                if (!new Action<>(0, true, action.getExecutor(), action.getSubject(), turnOnDevice).perform()) return false;
+                if (!new Action<>(0, true, action.getExecutor(), action.getSubject(), turnOnDevice).perform())
+                    return false;
             }
         }
 
@@ -324,7 +468,7 @@ public class PersonAPI {
     };
 
 
-    //------------ Stereo system ------------//
+    //----------------------- Stereo system -----------------------//
 
     private static final Function<Action<Person, StereoSystem>, Boolean> setVolumeStereoSystem = action -> {
         action.getSubject().setVolume(new Random().nextInt(10, 100));
@@ -347,7 +491,8 @@ public class PersonAPI {
                 action.getSubject().play(song);
                 break;
             } catch (WrongDeviceStatusException e) {
-                if (!new Action<>(0, true, action.getExecutor(), action.getSubject(), turnOnDevice).perform()) return false;
+                if (!new Action<>(0, true, action.getExecutor(), action.getSubject(), turnOnDevice).perform())
+                    return false;
             }
         }
 
@@ -362,7 +507,8 @@ public class PersonAPI {
                 action.getSubject().play(playlist);
                 break;
             } catch (WrongDeviceStatusException e) {
-                if (!new Action<>(0, true, action.getExecutor(), action.getSubject(), turnOnDevice).perform()) return false;
+                if (!new Action<>(0, true, action.getExecutor(), action.getSubject(), turnOnDevice).perform())
+                    return false;
             }
         }
 
@@ -371,7 +517,7 @@ public class PersonAPI {
     };
 
 
-    //------------ Toaster ------------//
+    //----------------------- Toaster -----------------------//
 
     private static final Function<Action<Person, Toaster>, Boolean> putToast = action -> {
         action.getSubject().putToast();
@@ -396,7 +542,8 @@ public class PersonAPI {
             } catch (EntryProblemException e) {
                 new Action<>(0, true, action.getExecutor(), action.getSubject(), putToast).perform();
             } catch (WrongDeviceStatusException e) {
-                if (!new Action<>(0, true, action.getExecutor(), action.getSubject(), turnOnDevice).perform()) return false;
+                if (!new Action<>(0, true, action.getExecutor(), action.getSubject(), turnOnDevice).perform())
+                    return false;
             } catch (DeviceIsOccupiedException e) {
                 return false;
             }
@@ -407,7 +554,7 @@ public class PersonAPI {
     };
 
 
-    //------------ TV ------------//
+    //----------------------- TV -----------------------//
 
     private static final Function<Action<Person, TV>, Boolean> stopTV = action -> {
         action.getSubject().stop();
@@ -432,14 +579,15 @@ public class PersonAPI {
         return true;
     };
 
-    private static final Function<Action<Person, TV>, Boolean> watchTV = action -> {
+    private static final Function<Action<Person, TV>, Boolean> startTV = action -> {
         Video video = EntertainmentService.VideoService.getRandomVideo();
         while (true) {
             try {
                 action.getSubject().show(video);
                 break;
             } catch (WrongDeviceStatusException e) {
-                if (!new Action<>(0, true, action.getExecutor(), action.getSubject(), turnOnDevice).perform()) return false;
+                if (!new Action<>(0, true, action.getExecutor(), action.getSubject(), turnOnDevice).perform())
+                    return false;
             } catch (DeviceIsOccupiedException e) {
                 return false;
             }
@@ -450,7 +598,7 @@ public class PersonAPI {
     };
 
 
-    //------------ Vent ------------//
+    //----------------------- Vent -----------------------//
 
     private static final Function<Action<Person, Vent>, Boolean> cleanFilterVent = action -> {
         action.getSubject().cleanFilter();
@@ -477,7 +625,8 @@ public class PersonAPI {
             } catch (DeviceIsOccupiedException e) {
                 return false;
             } catch (WrongDeviceStatusException e) {
-                if (!new Action<>(0, true, action.getExecutor(), action.getSubject(), turnOnDevice).perform()) return false;
+                if (!new Action<>(0, true, action.getExecutor(), action.getSubject(), turnOnDevice).perform())
+                    return false;
             }
         }
 
@@ -486,7 +635,7 @@ public class PersonAPI {
     };
 
 
-    //------------ Washer ------------//
+    //----------------------- Washer -----------------------//
 
     private static final Function<Action<Person, Washer>, Boolean> putClothesWasher = action -> {
         action.getSubject().putClothes();
@@ -509,7 +658,8 @@ public class PersonAPI {
                 action.getSubject().startWash(program);
                 break;
             } catch (WrongDeviceStatusException e) {
-                if (!new Action<>(0, true, action.getExecutor(), action.getSubject(), turnOnDevice).perform()) return false;
+                if (!new Action<>(0, true, action.getExecutor(), action.getSubject(), turnOnDevice).perform())
+                    return false;
             } catch (DirtyFilterException e) {
                 new Action<>(0, true, action.getExecutor(), action.getSubject(), cleanFilter).perform();
             } catch (EntryProblemException e) {
@@ -524,7 +674,7 @@ public class PersonAPI {
     };
 
 
-    //------------ Water tap ------------//
+    //----------------------- Water tap -----------------------//
 
     private static final Function<Action<Person, WaterTap>, Boolean> openWaterTap = action -> {
         Random random = new Random();
@@ -537,7 +687,8 @@ public class PersonAPI {
             } catch (DeviceIsOccupiedException e) {
                 return false;
             } catch (WrongDeviceStatusException e) {
-                if (!new Action<>(0, true, action.getExecutor(), action.getSubject(), turnOnDevice).perform()) return false;
+                if (!new Action<>(0, true, action.getExecutor(), action.getSubject(), turnOnDevice).perform())
+                    return false;
             }
         }
 
@@ -553,9 +704,10 @@ public class PersonAPI {
     };
 
 
-    //------------ WC ------------//
+    //----------------------- WC -----------------------//
 
     private static final Function<Action<Person, WC>, Boolean> makeToiletThings = action -> {
+        action.getExecutor().setFullness();   // TODO - set value
         action.getSubject().makeThings();
 
         makeRecord(action.getExecutor(), action.getSubject(), String.format("Use %s", action.getSubject()));
@@ -573,14 +725,363 @@ public class PersonAPI {
         return true;
     };
 
-    private static final Function<Action<Person, WC>, Boolean> flushAfterPoop = action -> {
+    private static final Function<Action<Person, WC>, Boolean> flushAfterPoo = action -> {
         try {
             action.getSubject().flush(FlushType.BIG);
         } catch (DeviceIsBrokenException | ResourceNotAvailableException e) {
             return false;
         }
 
-        makeRecord(action.getExecutor(), action.getSubject(), String.format("Flush %s after poop", action.getSubject()));
+        makeRecord(action.getExecutor(), action.getSubject(), String.format("Flush %s after poo", action.getSubject()));
         return true;
+    };
+
+
+    //*********************************************** Complex functions ***********************************************//
+
+    //################################# Relax functions ##################################//
+
+    public static final Function<Person, RankedQueue<Action<Person, ?>>> playConsole = person -> {
+        RankedQueue<Action<Person, ?>> queue = new RankedQueue<>(Priority.COMMON);
+
+        try {
+            GamingConsole console = (GamingConsole) HelpFunctions.findDevice(DeviceType.GAMING_CONSOLE);
+            queue.add(new Action<>(1, true, person, console.getRoom(), goToRoom));
+            queue.add(new Action<>(1, true, person, console, startConsole));
+            queue.add(new Action<>(new Random().nextInt(40, 180), true, person, console, stopConsole));
+        } catch (DeviceNotFoundException ignored) {
+        }
+
+        return queue;
+    };
+
+    public static final Function<Person, RankedQueue<Action<Person, ?>>> watchTV = person -> {
+        RankedQueue<Action<Person, ?>> queue = new RankedQueue<>(Priority.COMMON);
+
+        try {
+            TV tv = (TV) HelpFunctions.findDevice(DeviceType.TV);
+            queue.add(new Action<>(1, true, person, tv.getRoom(), goToRoom));
+            queue.add(new Action<>(1, true, person, tv, setBrightnessTV));
+            queue.add(new Action<>(1, true, person, tv, setVolumeTV));
+            queue.add(new Action<>(1, true, person, tv, startTV));
+            queue.add(new Action<>(new Random().nextInt(40, 180), true, person, tv, stopTV));
+        } catch (DeviceNotFoundException ignored) {
+        }
+
+        return queue;
+    };
+
+    public static final Function<Person, RankedQueue<Action<Person, ?>>> listenMusic = person -> {
+        RankedQueue<Action<Person, ?>> queue = new RankedQueue<>(Priority.COMMON);
+
+        try {
+            StereoSystem stereoSystem = (StereoSystem) HelpFunctions.findDevice(DeviceType.STEREO_SYSTEM);
+            queue.add(new Action<>(1, true, person, stereoSystem.getRoom(), goToRoom));
+            queue.add(new Action<>(1, true, person, stereoSystem, setVolumeStereoSystem));
+            queue.add(new Action<>(1, true, person, stereoSystem, playPlaylist));
+            queue.add(new Action<>(new Random().nextInt(20, 60), true, person, stereoSystem, stopStereoSystem));
+        } catch (DeviceNotFoundException ignored) {
+        }
+
+        return queue;
+    };
+
+    public static final Function<Person, RankedQueue<Action<Person, ?>>> takeShower = person -> {
+        RankedQueue<Action<Person, ?>> queue = new RankedQueue<>(Priority.COMMON);
+
+        try {
+            WaterTap shower = (WaterTap) findDevice(DeviceType.WATER_TAP, RoomType.SHOWER);
+            queue.add(new Action<>(1, true, person, shower.getRoom(), goToRoom));
+            queue.add(new Action<>(1, true, person, shower, openWaterTap));
+            queue.add(new Action<>(new Random().nextInt(15, 80), true, person, shower, closeWaterTap));
+        } catch (DeviceNotFoundException ignored) {
+        }
+
+        return queue;
+    };
+
+
+    //################################# Clean functions ##################################//
+
+    public static final Function<Person, RankedQueue<Action<Person, ?>>> washClothes = person -> {
+        RankedQueue<Action<Person, ?>> queue = new RankedQueue<>(Priority.COMMON);
+
+        try {
+            Washer washer = (Washer) HelpFunctions.findDevice(DeviceType.WASHER);
+            queue.add(new Action<>(1, true, person, washer.getRoom(), goToRoom));
+            queue.add(new Action<>(1, true, person, washer, startWasher));
+            queue.add(new Action<>(new Random().nextInt(90, 180), false, person, washer, takeClothesWasher));
+
+            Dryer dryer = (Dryer) HelpFunctions.findDevice(DeviceType.DRYER);
+            queue.add(new Action<>(1, true, person, dryer.getRoom(), goToRoom));
+            queue.add(new Action<>(1, true, person, dryer, startDryer));
+            queue.add(new Action<>(new Random().nextInt(90, 180), false, person, dryer, takeClothesDryer));
+        } catch (DeviceNotFoundException ignored) {
+        }
+
+        return queue;
+    };
+
+    public static final Function<Person, RankedQueue<Action<Person, ?>>> washDishes = person -> {
+        RankedQueue<Action<Person, ?>> queue = new RankedQueue<>(Priority.COMMON);
+
+        try {
+            Dishwasher dishwasher = (Dishwasher) HelpFunctions.findDevice(DeviceType.DISHWASHER);
+            queue.add(new Action<>(1, true, person, dishwasher.getRoom(), goToRoom));
+            queue.add(new Action<>(1, true, person, dishwasher, startDishwasher));
+            queue.add(new Action<>(new Random().nextInt(120, 180), false, person, dishwasher, takeDishesDishwasher));
+        } catch (DeviceNotFoundException ignored) {
+        }
+
+        return queue;
+    };
+
+    public static final Function<Person, RankedQueue<Action<Person, ?>>> cleanHome = person -> {
+        RankedQueue<Action<Person, ?>> queue = new RankedQueue<>(Priority.COMMON);
+
+        queue.add(new Action<>(new Random().nextInt(30, 50), true, person, null, sweepFloor));
+        queue.add(new Action<>(new Random().nextInt(40, 90), true, person, null, washFloor));
+        queue.add(new Action<>(new Random().nextInt(50, 100), true, person, null, cleanFurniture));
+
+        return queue;
+    };
+
+
+    //################################# Food functions ##################################//
+
+    public static final Function<Person, RankedQueue<Action<Person, ?>>> takeLunch = person -> {
+        RankedQueue<Action<Person, ?>> queue = new RankedQueue<>(Priority.EAT);
+
+        Oven oven;
+        Fridge fridge;
+        try {
+            oven = (Oven) HelpFunctions.findDevice(DeviceType.GAS_OVEN, DeviceType.ELECTRIC_OVEN);
+            fridge = (Fridge) HelpFunctions.findDevice(DeviceType.FRIDGE);
+        } catch (DeviceNotFoundException e) {
+            return queue;
+        }
+
+        Vent vent = null;
+        WaterTap waterTap = null;
+        try {
+            vent = (Vent) HelpFunctions.findDevice(DeviceType.VENT, oven.getRoom());
+            waterTap = (WaterTap) HelpFunctions.findDevice(DeviceType.WATER_TAP);
+        } catch (DeviceNotFoundException ignored) {
+        }
+
+        queue.add(new Action<>(1, true, person, fridge.getRoom(), goToRoom));
+        queue.add(new Action<>(1, true, person, fridge, takeFoodFridge));
+
+        // Wash food
+        if (waterTap != null) {
+            queue.add(new Action<>(1, true, person, waterTap.getRoom(), goToRoom));
+            queue.add(new Action<>(1, true, person, waterTap, openWaterTap));
+            queue.add(new Action<>(new Random().nextInt(5, 15), true, person, waterTap, closeWaterTap));
+        }
+
+        queue.add(new Action<>(1, true, person, oven.getRoom(), goToRoom));
+        if (vent != null) queue.add(new Action<>(1, true, person, vent, startVent));
+        queue.add(new Action<>(1, true, person, oven, cookFoodOven));
+        queue.add(new Action<>(new Random().nextInt(60, 120), false, person, oven, takeFoodOven));
+        if (vent != null) queue.add(new Action<>(1, true, person, vent, stopVent));
+        queue.add(new Action<>(new Random().nextInt(20, 40), true, person, null, eatLunch));
+
+        // Put remains food
+        queue.add(new Action<>(1, true, person, fridge.getRoom(), goToRoom));
+        queue.add(new Action<>(1, true, person, fridge, putFoodFridge));
+
+        return queue;
+    };
+
+    public static final Function<Person, RankedQueue<Action<Person, ?>>> takeBreakfast = person -> {
+        RankedQueue<Action<Person, ?>> queue = new RankedQueue<>(Priority.EAT);
+
+        Fridge fridge;
+        try {
+            fridge = (Fridge) HelpFunctions.findDevice(DeviceType.FRIDGE);
+        } catch (DeviceNotFoundException e) {
+            return queue;
+        }
+
+        queue.add(new Action<>(1, true, person, fridge.getRoom(), goToRoom));
+        queue.add(new Action<>(1, true, person, fridge, takeFoodFridge));
+
+        try {
+            Toaster toaster = (Toaster) HelpFunctions.findDevice(DeviceType.TOASTER);
+            queue.add(new Action<>(1, true, person, toaster.getRoom(), goToRoom));
+            queue.add(new Action<>(1, true, person, toaster, makeToast));
+            queue.add(new Action<>(new Random().nextInt(5, 10), false, person, toaster, takeToast));
+
+            CoffeeMachine coffeeMachine = (CoffeeMachine) HelpFunctions.findDevice(DeviceType.COFFEE_MACHINE);
+            queue.add(new Action<>(1, true, person, coffeeMachine.getRoom(), goToRoom));
+            queue.add(new Action<>(1, true, person, coffeeMachine, makeCoffee));
+            queue.add(new Action<>(new Random().nextInt(5, 10), true, person, null, drinkCoffee));
+        } catch (DeviceNotFoundException ignored) {
+        }
+
+        queue.add(new Action<>(new Random().nextInt(15, 30), true, person, null, eatBreakfast));
+        queue.add(new Action<>(1, true, person, fridge.getRoom(), goToRoom));
+        queue.add(new Action<>(1, true, person, fridge, putFoodFridge));
+
+        return queue;
+    };
+
+    public static final Function<Person, RankedQueue<Action<Person, ?>>> takeDinner = person -> {
+        RankedQueue<Action<Person, ?>> queue = new RankedQueue<>(Priority.EAT);
+
+        Fridge fridge;
+        try {
+            fridge = (Fridge) HelpFunctions.findDevice(DeviceType.FRIDGE);
+        } catch (DeviceNotFoundException e) {
+            return queue;
+        }
+
+        queue.add(new Action<>(1, true, person, fridge.getRoom(), goToRoom));
+        queue.add(new Action<>(1, true, person, fridge, takeFoodFridge));
+
+        try {
+            Microwave microwave = (Microwave) HelpFunctions.findDevice(DeviceType.MICROWAVE);
+            queue.add(new Action<>(1, true, person, microwave.getRoom(), goToRoom));
+            queue.add(new Action<>(1, true, person, microwave, heatFoodMicrowave));
+            queue.add(new Action<>(new Random().nextInt(10, 15), false, person, microwave, takeFoodMicrowave));
+        } catch (DeviceNotFoundException ignored) {
+        }
+
+        queue.add(new Action<>(new Random().nextInt(20, 40), true, person, null, eatDinner));
+
+        queue.add(new Action<>(1, true, person, fridge.getRoom(), goToRoom));
+        queue.add(new Action<>(1, true, person, fridge, putFoodFridge));
+
+        return queue;
+    };
+
+
+    //################################# Toilet functions ##################################//
+
+    public static final Function<Person, RankedQueue<Action<Person, ?>>> pee = person -> {
+        RankedQueue<Action<Person, ?>> queue = new RankedQueue<>(Priority.EMPTY);
+
+        try {
+            WC wc = (WC) HelpFunctions.findDevice(DeviceType.WC);
+            queue.add(new Action<>(1, true, person, wc.getRoom(), goToRoom));
+            queue.add(new Action<>(1, true, person, wc, makeToiletThings));
+            queue.add(new Action<>(new Random().nextInt(3, 5), true, person, wc, flushAfterPee));
+        } catch (DeviceNotFoundException ignored) {
+        }
+
+        return queue;
+    };
+
+    public static final Function<Person, RankedQueue<Action<Person, ?>>> poo = person -> {
+        RankedQueue<Action<Person, ?>> queue = new RankedQueue<>(Priority.EMPTY);
+
+        WC wc;
+        try {
+            wc = (WC) HelpFunctions.findDevice(DeviceType.WC);
+        } catch (DeviceNotFoundException e) {
+            return queue;
+        }
+
+        Vent vent = null;
+        try {
+            vent = (Vent) HelpFunctions.findDevice(DeviceType.VENT, wc.getRoom());
+        }
+        catch (DeviceNotFoundException ignored) {
+        }
+
+        queue.add(new Action<>(1, true, person, wc.getRoom(), goToRoom));
+        if (vent != null) queue.add(new Action<>(1, true, person, vent, startVent));
+        queue.add(new Action<>(1, true, person, wc, makeToiletThings));
+        queue.add(new Action<>(new Random().nextInt(5, 15), true, person, wc, flushAfterPoo));
+        if (vent != null) queue.add(new Action<>(1, true, person, vent, stopVent));
+
+        return queue;
+    };
+
+
+    //################################# Other functions ##################################//
+
+    public static final Function<Person, RankedQueue<Action<Person, ?>>> nap = person -> {
+        RankedQueue<Action<Person, ?>> queue = new RankedQueue<>(Priority.SLEEP);
+
+        queue.add(new Action<>(1, true, person, null, goSleep));
+        queue.add(new Action<>(new Random().nextInt(20, 100), true, person, null, wakeUp));
+
+        return queue;
+    };
+
+    public static final Function<Person, RankedQueue<Action<Person, ?>>> sleep = person -> {
+        RankedQueue<Action<Person, ?>> queue = new RankedQueue<>(Priority.SLEEP);
+
+        try {
+            AlarmClock alarmClock = (AlarmClock) HelpFunctions.findDevice(DeviceType.ALARM_CLOCK);
+            queue.add(new Action<>(1, true, person, alarmClock.getRoom(), goToRoom));
+            queue.add(new Action<>(1, true, person, alarmClock, setAlarmClock));
+        } catch (DeviceNotFoundException ignored) {
+        }
+
+        queue.add(new Action<>(1, true, person, null, goSleep));
+        queue.add(new Action<>(new Random().nextInt(400, 600), true, person, null, wakeUp));
+
+        return queue;
+    };
+
+
+    //################################# Street functions ##################################//
+
+    public static final Function<Person, RankedQueue<Action<Person, ?>>> goWalk = person -> {
+        RankedQueue<Action<Person, ?>> queue = new RankedQueue<>(Priority.COMMON);
+
+        queue.add(new Action<>(1, true, person, null, goForWalk));
+        queue.add(new Action<>(new Random().nextInt(120, 360), true, person, null, returnHome));
+
+        return queue;
+    };
+
+    public static final Function<Person, RankedQueue<Action<Person, ?>>> goSport = person -> {
+        RankedQueue<Action<Person, ?>> queue = new RankedQueue<>(Priority.COMMON);
+
+        queue.add(new Action<>(1, true, person, null, doSport));
+        queue.add(new Action<>(new Random().nextInt(60, 180), true, person, null, returnHome));
+
+        return queue;
+    };
+
+    public static final Function<Person, RankedQueue<Action<Person, ?>>> goAway = person -> {
+        RankedQueue<Action<Person, ?>> queue = new RankedQueue<>(Priority.COMMON);
+
+        queue.add(new Action<>(1, true, person, null, leaveHome));
+        queue.add(new Action<>(new Random().nextInt(1440, 4320), true, person, null, returnHome));
+
+        return queue;
+    };
+
+
+    //################################# Control panel functions ##################################//
+
+    public static final Function<Person, RankedQueue<Action<Person, ?>>> changeRoomParameters = person -> {
+        RankedQueue<Action<Person, ?>> queue = new RankedQueue<>(Priority.COMMON);
+
+        queue.add(new Action<>(1, true, person, person.getRoom(), changeTemperatureRoom));
+        queue.add(new Action<>(1, true, person, person.getRoom(), changeHumidityRoom));
+        queue.add(new Action<>(1, true, person, person.getRoom(), changeBrightnessRoom));
+
+        return queue;
+    };
+
+    public static final Function<Person, RankedQueue<Action<Person, ?>>> saveRoomConfiguration = person -> {
+        RankedQueue<Action<Person, ?>> queue = new RankedQueue<>(Priority.COMMON);
+
+        queue.add(new Action<>(1, true, person, person.getRoom(), saveConfigRoom));
+
+        return queue;
+    };
+
+    public static final Function<Person, RankedQueue<Action<Person, ?>>> changeRoomConfiguration = person -> {
+        RankedQueue<Action<Person, ?>> queue = new RankedQueue<>(Priority.COMMON);
+
+        queue.add(new Action<>(1, true, person, person.getRoom(), downloadConfigRoom));
+
+        return queue;
     };
 }
