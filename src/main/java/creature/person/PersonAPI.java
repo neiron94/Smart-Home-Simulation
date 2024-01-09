@@ -2,18 +2,15 @@ package creature.person;
 
 import consumer.device.Device;
 import consumer.device.common.*;
-import consumer.device.common.entertainment.EntertainmentService;
-import consumer.device.common.entertainment.Game;
-import consumer.device.common.entertainment.Song;
-import consumer.device.common.entertainment.Video;
+import consumer.device.common.entertainment.*;
 import consumer.device.sensored.Alarm;
+import creature.Action;
 import utils.exceptions.*;
-
 import java.time.Duration;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.Random;
-import java.util.function.BiFunction;
+import java.util.function.Function;
 
 public class PersonAPI {
 
@@ -22,616 +19,622 @@ public class PersonAPI {
     // TODO - change numbers for constants?
     // TODO - create simple functions which does not use devices
 
-    private static void addActivity(Person person, Device device, String description) {
+    private static void makeRecord(Person person, String description) {
+        person.getActivity().addActivity(description);
+    }
+
+    private static void makeRecord(Person person, Device device, String description) {
         person.getActivity().addActivity(description);
         person.getActivity().increaseUsage(device);
     }
 
     //---------------------------- Complex functions ----------------------------//
+    
+    
 
     //---------------------------- Simple functions ----------------------------//
 
     //------------ Common for all devices ------------//
 
-    private static final BiFunction<Person, Device, Boolean> turnOnDevice = ((person, device) -> {
+    private static final Function<Action<Person, Device>, Boolean> turnOnDevice = action -> {
         try {
-            device.turnOn();
+            action.getSubject().turnOn();
         } catch (DeviceIsBrokenException | ResourceNotAvailableException e) {
             return false;
         }
-
-        addActivity(person, device, String.format("Turn on %s", device));
+        
+        makeRecord(action.getExecutor(), action.getSubject(), String.format("Turn on %s", action.getSubject()));
         return true;
-    });
+    };
 
-    private static final BiFunction<Person, Device, Boolean> turnOffDevice = ((person, device) -> {
-        device.turnOff();
+    private static final Function<Action<Person, Device>, Boolean> turnOffDevice = action -> {
+        action.getSubject().turnOff();
 
-        addActivity(person, device, String.format("Turn off %s", device));
+        makeRecord(action.getExecutor(), action.getSubject(), String.format("Turn off %s", action.getSubject()));
         return true;
-    });
+    };
 
     // TODO - move to event solving?
-    private static final BiFunction<Person, Device, Boolean> repairDevice = ((person, device) -> {
+    private static final Function<Action<Person, Device>, Boolean> repairDevice = action -> {
         try {
-            device.repair();
+            action.getSubject().repair();
         } catch (NotRepairableDeviceException e) {
 
             // TODO
         }
 
-        addActivity(person, device, String.format("Repair %s", device));
+        makeRecord(action.getExecutor(), action.getSubject(), String.format("Repair %s", action.getSubject()));
         return true;
-    });
+    };
 
 
     //------------ Common for cleaning devices ------------//
 
-    private static final BiFunction<Person, CleaningDevice, Boolean> cleanFilter = ((person, cleaningDevice) -> {
-        cleaningDevice.cleanFilter();
+    private static final Function<Action<Person, CleaningDevice>, Boolean> cleanFilter = action -> {
+        action.getSubject().cleanFilter();
 
-        addActivity(person, cleaningDevice, String.format("Clean filter of %s", cleaningDevice));
+        makeRecord(action.getExecutor(), action.getSubject(), String.format("Clean filter of %s", action.getSubject()));
         return true;
-    });
+    };
 
     //------------ Alarm clock ------------//
 
-    private static final BiFunction<Person, AlarmClock, Boolean> setAlarmClock = ((person, alarmClock) -> {
+    private static final Function<Action<Person, AlarmClock>, Boolean> setAlarmClock = action -> {
         Random random = new Random();
         LocalTime ringTime = LocalTime.of(random.nextInt(6, 11), random.nextInt(0, 60));
         while (true) {
             try {
-                alarmClock.setAlarm(ringTime);
+                action.getSubject().setAlarm(ringTime);
                 break;
             } catch (WrongDeviceStatusException e) {
-                if (!turnOnDevice.apply(person, alarmClock)) return false;
+                if (!new Action<>(0, true, action.getExecutor(), action.getSubject(), turnOnDevice).perform()) return false;
             }
         }
 
-        addActivity(person, alarmClock, String.format("Set %s to %s", alarmClock, alarmClock.getRingTime()));
+        makeRecord(action.getExecutor(), action.getSubject(), String.format("Set %s to %s", action.getSubject(), action.getSubject().getRingTime()));
         return true;
-    });
+    };
 
     // TODO - move to event solving?
-    private static final BiFunction<Person, AlarmClock, Boolean> stopAlarmClock = ((person, alarmClock) -> {
-        alarmClock.stopAlarm();
+    private static final Function<Action<Person, AlarmClock>, Boolean> stopAlarmClock = action -> {
+        action.getSubject().stopAlarm();
 
-        addActivity(person, alarmClock, String.format("Stop %s", alarmClock));
+        makeRecord(action.getExecutor(), action.getSubject(), String.format("Stop %s", action.getSubject()));
         return true;
-    });
+    };
 
 
     //------------ Coffee machine ------------//
 
-    private static final BiFunction<Person, CoffeeMachine, Boolean> fillCoffeeMachine = ((person, coffeeMachine) -> {
-        coffeeMachine.fillAll();
+    private static final Function<Action<Person, CoffeeMachine>, Boolean> fillCoffeeMachine = action -> {
+        action.getSubject().fillAll();
 
-        addActivity(person, coffeeMachine, String.format("Fill %s", coffeeMachine));
+        makeRecord(action.getExecutor(), action.getSubject(), String.format("Fill %s", action.getSubject()));
         return true;
-    });
+    };
 
-    private static final BiFunction<Person, CoffeeMachine, Boolean> makeCoffee = ((person, coffeeMachine) -> {
+    private static final Function<Action<Person, CoffeeMachine>, Boolean> makeCoffee = action -> {
         CoffeeType coffeeType = CoffeeType.getRandomType();
         while (true) {
             try {
-                coffeeMachine.makeCoffee(coffeeType);
+                action.getSubject().makeCoffee(coffeeType);
                 break;
             } catch (EntryProblemException e) {
-                fillCoffeeMachine.apply(person, coffeeMachine);
+                new Action<>(0, true, action.getExecutor(), action.getSubject(), fillCoffeeMachine).perform();
             } catch (WrongDeviceStatusException e) {
-                if (!turnOnDevice.apply(person, coffeeMachine)) return false;
+                if (!new Action<>(0, true, action.getExecutor(), action.getSubject(), turnOnDevice).perform()) return false;
             }
         }
 
-        addActivity(person, coffeeMachine, String.format("Make %s in %s", coffeeType, coffeeMachine));
+        makeRecord(action.getExecutor(), action.getSubject(), String.format("Make %s in %s", coffeeType, action.getSubject()));
         return true;
-    });
+    };
 
 
     //------------ Dishwasher ------------//
 
-    private static final BiFunction<Person, Dishwasher, Boolean> putDishesDishwasher = ((person, dishwasher) -> {
+    private static final Function<Action<Person, Dishwasher>, Boolean> putDishesDishwasher = action -> {
         int amount = new Random().nextInt(40, 70);
-        dishwasher.putDishes(amount);
+        action.getSubject().putDishes(amount);
 
-        addActivity(person, dishwasher, String.format("Put dishes to %s, fullness: %d%%", dishwasher, dishwasher.getFullness()));
+        makeRecord(action.getExecutor(), action.getSubject(), String.format("Put dishes to %s, fullness: %d%%", action.getSubject(), action.getSubject().getFullness()));
         return true;
-    });
+    };
 
-    private static final BiFunction<Person, Dishwasher, Boolean> takeDishesDishwasher = ((person, dishwasher) -> {
-        dishwasher.takeDishes();
+    private static final Function<Action<Person, Dishwasher>, Boolean> takeDishesDishwasher = action -> {
+        action.getSubject().takeDishes();
 
-        addActivity(person, dishwasher, String.format("Take dishes from %s, fullness: %d%%", dishwasher, dishwasher.getFullness()));
+        makeRecord(action.getExecutor(), action.getSubject(), String.format("Take dishes from %s, fullness: %d%%", action.getSubject(), action.getSubject().getFullness()));
         return true;
-    });
+    };
 
-    private static final BiFunction<Person, Dishwasher, Boolean> startDishwasher = ((person, dishwasher) -> {
+    private static final Function<Action<Person, Dishwasher>, Boolean> startDishwasher = action -> {
         DishwasherProgram program = DishwasherProgram.getRandomProgram();
         while (true) {
             try {
-                dishwasher.startWash(program);
+                action.getSubject().startWash(program);
                 break;
             } catch (DirtyFilterException e) {
-                cleanFilter.apply(person, dishwasher);
+                new Action<>(0, true, action.getExecutor(), action.getSubject(), cleanFilter).perform();
             } catch (EntryProblemException e) {
-                putDishesDishwasher.apply(person, dishwasher);
+                new Action<>(0, true, action.getExecutor(), action.getSubject(), putDishesDishwasher).perform();
             } catch (WrongDeviceStatusException e) {
-                if (!turnOnDevice.apply(person, dishwasher)) return false;
+                if (!new Action<>(0, true, action.getExecutor(), action.getSubject(), turnOnDevice).perform()) return false;
             } catch (DeviceIsOccupiedException e) {
                 return false;
             }
         }
 
-        addActivity(person, dishwasher, String.format("Start %s on program %s", dishwasher, program));
+        makeRecord(action.getExecutor(), action.getSubject(), String.format("Start %s on program %s", action.getSubject(), program));
         return true;
-    });
+    };
 
 
     //------------ Dryer ------------//
 
-    private static final BiFunction<Person, Dryer, Boolean> putClothesDryer = ((person, dryer) -> {
-        dryer.putClothes();
+    private static final Function<Action<Person, Dryer>, Boolean> putClothesDryer = action -> {
+        action.getSubject().putClothes();
 
-        addActivity(person, dryer, String.format("Put clothes to %s", dryer));
+        makeRecord(action.getExecutor(), action.getSubject(), String.format("Put clothes to %s", action.getSubject()));
         return true;
-    });
+    };
 
-    private static final BiFunction<Person, Dryer, Boolean> takeClothesDryer = ((person, dryer) -> {
-        dryer.takeClothes();
+    private static final Function<Action<Person, Dryer>, Boolean> takeClothesDryer = action -> {
+        action.getSubject().takeClothes();
 
-        addActivity(person, dryer, String.format("Take clothes from %s", dryer));
+        makeRecord(action.getExecutor(), action.getSubject(), String.format("Take clothes from %s", action.getSubject()));
         return true;
-    });
+    };
 
-    private static final BiFunction<Person, Dryer, Boolean> startDryer = ((person, dryer) -> {
+    private static final Function<Action<Person, Dryer>, Boolean> startDryer = action -> {
         DryerProgram program = DryerProgram.getRandomProgram();
         while (true) {
             try {
-                dryer.startDry(program);
+                action.getSubject().startDry(program);
                 break;
             } catch (DirtyFilterException e) {
-                cleanFilter.apply(person, dryer);
+                new Action<>(0, true, action.getExecutor(), action.getSubject(), cleanFilter).perform();
             } catch (EntryProblemException e) {
-                putClothesDryer.apply(person, dryer);
+                new Action<>(0, true, action.getExecutor(), action.getSubject(), putClothesDryer).perform();
             } catch (WrongDeviceStatusException e) {
-                if (!turnOnDevice.apply(person, dryer)) return false;
+                if (!new Action<>(0, true, action.getExecutor(), action.getSubject(), turnOnDevice).perform()) return false;
             } catch (DeviceIsOccupiedException e) {
                 return false;
             }
         }
 
-        addActivity(person, dryer, String.format("Start %s on program %s", dryer, program));
+        makeRecord(action.getExecutor(), action.getSubject(), String.format("Start %s on program %s", action.getSubject(), program));
         return true;
-    });
+    };
 
 
     //------------ Feeder ------------//
 
     // TODO - move to event solving?
-    private static final BiFunction<Person, Feeder, Boolean> addFoodFeeder = ((person, feeder) -> {
-        feeder.addFood();
+    private static final Function<Action<Person, Feeder>, Boolean> addFoodFeeder = action -> {
+        action.getSubject().addFood();
 
-        addActivity(person, feeder, String.format("Add food to %s", feeder));
+        makeRecord(action.getExecutor(), action.getSubject(), String.format("Add food to %s", action.getSubject()));
         return true;
-    });
+    };
 
     // TODO - move to event solving?
-    private static final BiFunction<Person, Feeder, Boolean> addWaterFeeder = ((person, feeder) -> {
-        feeder.addWater();
+    private static final Function<Action<Person, Feeder>, Boolean> addWaterFeeder = action -> {
+        action.getSubject().addWater();
 
-        addActivity(person, feeder, String.format("Add water to %s", feeder));
+        makeRecord(action.getExecutor(), action.getSubject(), String.format("Add water to %s", action.getSubject()));
         return true;
-    });
+    };
 
 
     //------------ Fridge ------------//
 
-    private static final BiFunction<Person, Fridge, Boolean> takeFoodFridge = ((person, fridge) -> {
+    private static final Function<Action<Person, Fridge>, Boolean> takeFoodFridge = action -> {
         int amount = 0;  // TODO - depends on hunger?
         try {
-            fridge.takeFood(amount);
+            action.getSubject().takeFood(amount);
         } catch (WrongDeviceStatusException e) {
-            turnOnDevice.apply(person, fridge);
+            new Action<>(0, true, action.getExecutor(), action.getSubject(), turnOnDevice).perform();
         }
 
-        addActivity(person, fridge, String.format("Take food from %s, fullness: %d%%", fridge, fridge.getFullness()));
+        makeRecord(action.getExecutor(), action.getSubject(), String.format("Take food from %s, fullness: %d%%", action.getSubject(), action.getSubject().getFullness()));
         return true;
-    });
+    };
 
-    private static final BiFunction<Person, Fridge, Boolean> putFoodFridge = ((person, fridge) -> {
+    private static final Function<Action<Person, Fridge>, Boolean> putFoodFridge = action -> {
         int amount = 0;   // TODO - how much?
-        fridge.putFood(amount);
+        action.getSubject().putFood(amount);
 
-        addActivity(person, fridge, String.format("Put food to %s, fullness: %d%%", fridge, fridge.getFullness()));
+        makeRecord(action.getExecutor(), action.getSubject(), String.format("Put food to %s, fullness: %d%%", action.getSubject(), action.getSubject().getFullness()));
         return true;
-    });
+    };
 
-    private static final BiFunction<Person, Fridge, Boolean> increaseTemperatureFridge = ((person, fridge) -> {
-        fridge.increaseTemperature();
+    private static final Function<Action<Person, Fridge>, Boolean> increaseTemperatureFridge = action -> {
+        action.getSubject().increaseTemperature();
 
-        addActivity(person, fridge, String.format("Increase temperature of %s, current temperature: %.1f°C", fridge, fridge.getTemperature()));
+        makeRecord(action.getExecutor(), action.getSubject(), String.format("Increase temperature of %s, current temperature: %.1f°C", action.getSubject(), action.getSubject().getTemperature()));
         return true;
-    });
+    };
 
-    private static final BiFunction<Person, Fridge, Boolean> decreaseTemperatureFridge = ((person, fridge) -> {
-        fridge.decreaseTemperature();
+    private static final Function<Action<Person, Fridge>, Boolean> decreaseTemperatureFridge = action -> {
+        action.getSubject().decreaseTemperature();
 
-        addActivity(person, fridge, String.format("Decrease temperature of %s, current temperature: %.1f°C", fridge, fridge.getTemperature()));
+        makeRecord(action.getExecutor(), action.getSubject(), String.format("Decrease temperature of %s, current temperature: %.1f°C", action.getSubject(), action.getSubject().getTemperature()));
         return true;
-    });
+    };
 
 
     //------------ Gaming console ------------//
 
-    private static final BiFunction<Person, GamingConsole, Boolean> playConsole = ((person, console) -> {
+    private static final Function<Action<Person, GamingConsole>, Boolean> playConsole = action -> {
         Game game = EntertainmentService.GameService.getRandomGame();
         while (true) {
             try {
-                console.play(game);
+                action.getSubject().play(game);
                 break;
             } catch (WrongDeviceStatusException e) {
-                if (!turnOnDevice.apply(person, console)) return false;
+                if (!new Action<>(0, true, action.getExecutor(), action.getSubject(), turnOnDevice).perform()) return false;
             } catch (DeviceIsOccupiedException e) {
                 return false;
             }
         }
 
-        addActivity(person, console, String.format("Play %s on %s", console.getCurrentGame(), console));
+        makeRecord(action.getExecutor(), action.getSubject(), String.format("Play %s on %s", action.getSubject().getCurrentGame(), action.getSubject()));
         return true;
-    });
+    };
 
-    private static final BiFunction<Person, GamingConsole, Boolean> stopConsole = ((person, console) -> {
-        console.stop();
+    private static final Function<Action<Person, GamingConsole>, Boolean> stopConsole = action -> {
+        action.getSubject().stop();
 
-        addActivity(person, console, String.format("Stop %s", console));
+        makeRecord(action.getExecutor(), action.getSubject(), String.format("Stop %s", action.getSubject()));
         return true;
-    });
+    };
 
 
     //------------ Microwave ------------//
 
-    private static final BiFunction<Person, Microwave, Boolean> putFoodMicrowave = ((person, microwave) -> {
-        microwave.putFood();
+    private static final Function<Action<Person, Microwave>, Boolean> putFoodMicrowave = action -> {
+        action.getSubject().putFood();
 
-        addActivity(person, microwave, String.format("Put food to %s", microwave));
+        makeRecord(action.getExecutor(), action.getSubject(), String.format("Put food to %s", action.getSubject()));
         return true;
-    });
+    };
 
-    private static final BiFunction<Person, Microwave, Boolean> takeFoodMicrowave = ((person, microwave) -> {
-        microwave.takeFood();
+    private static final Function<Action<Person, Microwave>, Boolean> takeFoodMicrowave = action -> {
+        action.getSubject().takeFood();
 
-        addActivity(person, microwave, String.format("Take food from %s", microwave));
+        makeRecord(action.getExecutor(), action.getSubject(), String.format("Take food from %s", action.getSubject()));
         return true;
-    });
+    };
 
-    private static final BiFunction<Person, Microwave, Boolean> heatFoodMicrowave = ((person, microwave) -> {
+    private static final Function<Action<Person, Microwave>, Boolean> heatFoodMicrowave = action -> {
         Random random = new Random();
         Duration duration = Duration.ofMinutes(random.nextInt(0, 10));
         int power = random.nextInt(10, 100);
         while (true) {
             try {
-                microwave.heatFood(duration, power);
+                action.getSubject().heatFood(duration, power);
                 break;
             } catch (WrongDeviceStatusException e) {
-                if (!turnOnDevice.apply(person, microwave)) return false;
+                if (!new Action<>(0, true, action.getExecutor(), action.getSubject(), turnOnDevice).perform()) return false;
             } catch (EntryProblemException e) {
-                putFoodMicrowave.apply(person, microwave);
+                new Action<>(0, true, action.getExecutor(), action.getSubject(), putFoodMicrowave).perform();
             } catch (DeviceIsOccupiedException e) {
                 return false;
             }
         }
 
-        addActivity(person, microwave, String.format("Heat food in %s, power: %d%%, duration: %s", microwave, microwave.getPower(), duration));
+        makeRecord(action.getExecutor(), action.getSubject(), String.format("Heat food in %s, power: %d%%, duration: %s", action.getSubject(), action.getSubject().getPower(), duration));
         return true;
-    });
+    };
 
 
     //------------ Oven ------------//
 
-    private static final BiFunction<Person, Oven, Boolean> putFoodOven = ((person, oven) -> {
-        oven.putFood();
+    private static final Function<Action<Person, Oven>, Boolean> putFoodOven = action -> {
+        action.getSubject().putFood();
 
-        addActivity(person, oven, String.format("Put food to %s", oven));
+        makeRecord(action.getExecutor(), action.getSubject(), String.format("Put food to %s", action.getSubject()));
         return true;
-    });
+    };
 
-    private static final BiFunction<Person, Oven, Boolean> takeFoodOven = ((person, oven) -> {
-        oven.takeFood();
+    private static final Function<Action<Person, Oven>, Boolean> takeFoodOven = action -> {
+        action.getSubject().takeFood();
 
-        addActivity(person, oven, String.format("Take food from %s", oven));
+        makeRecord(action.getExecutor(), action.getSubject(), String.format("Take food from %s", action.getSubject()));
         return true;
-    });
+    };
 
-    private static final BiFunction<Person, Oven, Boolean> cookFoodOven = ((person, oven) -> {
+    private static final Function<Action<Person, Oven>, Boolean> cookFoodOven = action -> {
         Random random = new Random();
         Duration duration = Duration.ofMinutes(random.nextInt(20, 120));
         int temperature = random.nextInt(50, 200);
         while (true) {
             try {
-                oven.cookFood(duration, temperature);
+                action.getSubject().cookFood(duration, temperature);
                 break;
             } catch (EntryProblemException e) {
-                putFoodOven.apply(person, oven);
+                new Action<>(0, true, action.getExecutor(), action.getSubject(), putFoodOven).perform();
             } catch (DeviceIsOccupiedException e) {
                 return false;
             } catch (WrongDeviceStatusException e) {
-                if (!turnOnDevice.apply(person, oven)) return false;
+                if (!new Action<>(0, true, action.getExecutor(), action.getSubject(), turnOnDevice).perform()) return false;
             }
         }
 
-        addActivity(person, oven, String.format("Cook food in %s, temperature: %.1f°C, duration: %s", oven, oven.getTemperature(), duration));
+        makeRecord(action.getExecutor(), action.getSubject(), String.format("Cook food in %s, temperature: %.1f°C, duration: %s", action.getSubject(), action.getSubject().getTemperature(), duration));
         return true;
-    });
+    };
 
 
     //------------ Stereo system ------------//
 
-    private static final BiFunction<Person, StereoSystem, Boolean> setVolumeStereoSystem = ((person, stereoSystem) -> {
-        stereoSystem.setVolume(new Random().nextInt(10, 100));
+    private static final Function<Action<Person, StereoSystem>, Boolean> setVolumeStereoSystem = action -> {
+        action.getSubject().setVolume(new Random().nextInt(10, 100));
 
-        addActivity(person, stereoSystem, String.format("Set volume of %s to %d%%", stereoSystem, stereoSystem.getVolume()));
+        makeRecord(action.getExecutor(), action.getSubject(), String.format("Set volume of %s to %d%%", action.getSubject(), action.getSubject().getVolume()));
         return true;
-    });
+    };
 
-    private static final BiFunction<Person, StereoSystem, Boolean> stopStereoSystem = ((person, stereoSystem) -> {
-        stereoSystem.stop();
+    private static final Function<Action<Person, StereoSystem>, Boolean> stopStereoSystem = action -> {
+        action.getSubject().stop();
 
-        addActivity(person, stereoSystem, String.format("Stop %s", stereoSystem));
+        makeRecord(action.getExecutor(), action.getSubject(), String.format("Stop %s", action.getSubject()));
         return true;
-    });
+    };
 
-    private static final BiFunction<Person, StereoSystem, Boolean> playSong = ((person, stereoSystem) -> {
+    private static final Function<Action<Person, StereoSystem>, Boolean> playSong = action -> {
         Song song = EntertainmentService.AudioService.getRandomSong();
         while (true) {
             try {
-                stereoSystem.play(song);
+                action.getSubject().play(song);
                 break;
             } catch (WrongDeviceStatusException e) {
-                if (!turnOnDevice.apply(person, stereoSystem)) return false;
+                if (!new Action<>(0, true, action.getExecutor(), action.getSubject(), turnOnDevice).perform()) return false;
             }
         }
 
-        addActivity(person, stereoSystem, String.format("Play song %s on %s", stereoSystem.getCurrentSong().name(), stereoSystem));
+        makeRecord(action.getExecutor(), action.getSubject(), String.format("Play song %s on %s", action.getSubject().getCurrentSong().name(), action.getSubject()));
         return true;
-    });
+    };
 
-    private static final BiFunction<Person, StereoSystem, Boolean> playPlaylist = ((person, stereoSystem) -> {
+    private static final Function<Action<Person, StereoSystem>, Boolean> playPlaylist = action -> {
         List<Song> playlist = EntertainmentService.AudioService.getRandomPlaylist();
         while (true) {
             try {
-                stereoSystem.play(playlist);
+                action.getSubject().play(playlist);
                 break;
             } catch (WrongDeviceStatusException e) {
-                if (!turnOnDevice.apply(person, stereoSystem)) return false;
+                if (!new Action<>(0, true, action.getExecutor(), action.getSubject(), turnOnDevice).perform()) return false;
             }
         }
 
-        addActivity(person, stereoSystem, String.format("Play playlist on %s", stereoSystem));
+        makeRecord(action.getExecutor(), action.getSubject(), String.format("Play playlist on %s", action.getSubject()));
         return true;
-    });
+    };
 
 
     //------------ Toaster ------------//
 
-    private static final BiFunction<Person, Toaster, Boolean> putToast = ((person, toaster) -> {
-        toaster.putToast();
+    private static final Function<Action<Person, Toaster>, Boolean> putToast = action -> {
+        action.getSubject().putToast();
 
-        addActivity(person, toaster, String.format("Put toast to %s", toaster));
+        makeRecord(action.getExecutor(), action.getSubject(), String.format("Put toast to %s", action.getSubject()));
         return true;
-    });
+    };
 
-    private static final BiFunction<Person, Toaster, Boolean> takeToast = ((person, toaster) -> {
-        toaster.takeToast();
+    private static final Function<Action<Person, Toaster>, Boolean> takeToast = action -> {
+        action.getSubject().takeToast();
 
-        addActivity(person, toaster, String.format("Take toast from %s", toaster));
+        makeRecord(action.getExecutor(), action.getSubject(), String.format("Take toast from %s", action.getSubject()));
         return true;
-    });
+    };
 
-    private static final BiFunction<Person, Toaster, Boolean> makeToast = ((person, toaster) -> {
+    private static final Function<Action<Person, Toaster>, Boolean> makeToast = action -> {
         ToastType toastType = ToastType.getRandomType();
         while (true) {
             try {
-                toaster.makeToast(toastType);
+                action.getSubject().makeToast(toastType);
                 break;
             } catch (EntryProblemException e) {
-                putToast.apply(person, toaster);
+                new Action<>(0, true, action.getExecutor(), action.getSubject(), putToast).perform();
             } catch (WrongDeviceStatusException e) {
-                if (!turnOnDevice.apply(person, toaster)) return false;
+                if (!new Action<>(0, true, action.getExecutor(), action.getSubject(), turnOnDevice).perform()) return false;
             } catch (DeviceIsOccupiedException e) {
                 return false;
             }
         }
 
-        addActivity(person, toaster, String.format("Make %s in %s", toastType, toaster));
+        makeRecord(action.getExecutor(), action.getSubject(), String.format("Make %s in %s", toastType, action.getSubject()));
         return true;
-    });
+    };
 
 
     //------------ TV ------------//
 
-    private static final BiFunction<Person, TV, Boolean> stopTV = ((person, tv) -> {
-        tv.stop();
+    private static final Function<Action<Person, TV>, Boolean> stopTV = action -> {
+        action.getSubject().stop();
 
-        addActivity(person, tv, String.format("Stop %s", tv));
+        makeRecord(action.getExecutor(), action.getSubject(), String.format("Stop %s", action.getSubject()));
         return true;
-    });
+    };
 
-    private static final BiFunction<Person, TV, Boolean> setBrightnessTV = ((person, tv) -> {
+    private static final Function<Action<Person, TV>, Boolean> setBrightnessTV = action -> {
         int brightness = new Random().nextInt(10, 100);
-        tv.setBrightness(brightness);
+        action.getSubject().setBrightness(brightness);
 
-        addActivity(person, tv, String.format("Set brightness of %s to %d%%", tv, tv.getBrightness()));
+        makeRecord(action.getExecutor(), action.getSubject(), String.format("Set brightness of %s to %d%%", action.getSubject(), action.getSubject().getBrightness()));
         return true;
-    });
+    };
 
-    private static final BiFunction<Person, TV, Boolean> setVolumeTV = ((person, tv) -> {
+    private static final Function<Action<Person, TV>, Boolean> setVolumeTV = action -> {
         int volume = new Random().nextInt(5, 100);
-        tv.setVolume(volume);
+        action.getSubject().setVolume(volume);
 
-        addActivity(person, tv, String.format("Set volume of %s to %d%%", tv, tv.getVolume()));
+        makeRecord(action.getExecutor(), action.getSubject(), String.format("Set volume of %s to %d%%", action.getSubject(), action.getSubject().getVolume()));
         return true;
-    });
+    };
 
-    private static final BiFunction<Person, TV, Boolean> watchTV = ((person, tv) -> {
+    private static final Function<Action<Person, TV>, Boolean> watchTV = action -> {
         Video video = EntertainmentService.VideoService.getRandomVideo();
         while (true) {
             try {
-                tv.show(video);
+                action.getSubject().show(video);
                 break;
             } catch (WrongDeviceStatusException e) {
-                if (!turnOnDevice.apply(person, tv)) return false;
+                if (!new Action<>(0, true, action.getExecutor(), action.getSubject(), turnOnDevice).perform()) return false;
             } catch (DeviceIsOccupiedException e) {
                 return false;
             }
         }
 
-        addActivity(person, tv, String.format("Watch %s on %s", tv.getCurrentVideo().name(), tv));
+        makeRecord(action.getExecutor(), action.getSubject(), String.format("Watch %s on %s", action.getSubject().getCurrentVideo().name(), action.getSubject()));
         return true;
-    });
+    };
 
 
     //------------ Vent ------------//
 
-    private static final BiFunction<Person, Vent, Boolean> cleanFilterVent = ((person, vent) -> {
-        vent.cleanFilter();
+    private static final Function<Action<Person, Vent>, Boolean> cleanFilterVent = action -> {
+        action.getSubject().cleanFilter();
 
-        addActivity(person, vent, String.format("Clean filter of %s", vent));
+        makeRecord(action.getExecutor(), action.getSubject(), String.format("Clean filter of %s", action.getSubject()));
         return true;
-    });
+    };
 
-    private static final BiFunction<Person, Vent, Boolean> stopVent = ((person, vent) -> {
-        vent.stop();
+    private static final Function<Action<Person, Vent>, Boolean> stopVent = action -> {
+        action.getSubject().stop();
 
-        addActivity(person, vent, String.format("Stop %s", vent));
+        makeRecord(action.getExecutor(), action.getSubject(), String.format("Stop %s", action.getSubject()));
         return true;
-    });
+    };
 
-    private static final BiFunction<Person, Vent, Boolean> startVent = ((person, vent) -> {
+    private static final Function<Action<Person, Vent>, Boolean> startVent = action -> {
         VentProgram program = VentProgram.getRandomProgram();
         while (true) {
             try {
-                vent.startVent(program);
+                action.getSubject().startVent(program);
                 break;
             } catch (DirtyFilterException e) {
-                cleanFilterVent.apply(person, vent);
+                new Action<>(0, true, action.getExecutor(), action.getSubject(), cleanFilterVent).perform();
             } catch (DeviceIsOccupiedException e) {
                 return false;
             } catch (WrongDeviceStatusException e) {
-                if (!turnOnDevice.apply(person, vent)) return false;
+                if (!new Action<>(0, true, action.getExecutor(), action.getSubject(), turnOnDevice).perform()) return false;
             }
         }
 
-        addActivity(person, vent, String.format("Start %s with program %s", vent, program));
+        makeRecord(action.getExecutor(), action.getSubject(), String.format("Start %s with program %s", action.getSubject(), program));
         return true;
-    });
+    };
 
 
     //------------ Washer ------------//
 
-    private static final BiFunction<Person, Washer, Boolean> putClothesWasher = ((person, washer) -> {
-        washer.putClothes();
+    private static final Function<Action<Person, Washer>, Boolean> putClothesWasher = action -> {
+        action.getSubject().putClothes();
 
-        addActivity(person, washer, String.format("Put clothes to %s", washer));
+        makeRecord(action.getExecutor(), action.getSubject(), String.format("Put clothes to %s", action.getSubject()));
         return true;
-    });
+    };
 
-    private static final BiFunction<Person, Washer, Boolean> takeClothesWasher = ((person, washer) -> {
-        washer.takeClothes();
+    private static final Function<Action<Person, Washer>, Boolean> takeClothesWasher = action -> {
+        action.getSubject().takeClothes();
 
-        addActivity(person, washer, String.format("Take clothes from %s", washer));
+        makeRecord(action.getExecutor(), action.getSubject(), String.format("Take clothes from %s", action.getSubject()));
         return true;
-    });
+    };
 
-    private static final BiFunction<Person, Washer, Boolean> startWasher = ((person, washer) -> {
+    private static final Function<Action<Person, Washer>, Boolean> startWasher = action -> {
         WasherProgram program = WasherProgram.getRandomProgram();
         while (true) {
             try {
-                washer.startWash(program);
+                action.getSubject().startWash(program);
                 break;
             } catch (WrongDeviceStatusException e) {
-                if (!turnOnDevice.apply(person, washer)) return false;
+                if (!new Action<>(0, true, action.getExecutor(), action.getSubject(), turnOnDevice).perform()) return false;
             } catch (DirtyFilterException e) {
-                cleanFilter.apply(person, washer);
+                new Action<>(0, true, action.getExecutor(), action.getSubject(), cleanFilter).perform();
             } catch (EntryProblemException e) {
-                putClothesWasher.apply(person, washer);
+                new Action<>(0, true, action.getExecutor(), action.getSubject(), putClothesWasher).perform();
             } catch (DeviceIsOccupiedException e) {
                 return false;
             }
         }
 
-        addActivity(person, washer, String.format("Start %s with program %s", washer, program));
+        makeRecord(action.getExecutor(), action.getSubject(), String.format("Start %s with program %s", action.getSubject(), program));
         return true;
-    });
+    };
 
 
     //------------ Water tap ------------//
 
-    private static final BiFunction<Person, WaterTap, Boolean> openWaterTap = ((person, waterTap) -> {
+    private static final Function<Action<Person, WaterTap>, Boolean> openWaterTap = action -> {
         Random random = new Random();
         int temperature = random.nextInt(10, 60);
         int openness = random.nextInt(10, 100);
         while (true) {
             try {
-                waterTap.open(temperature, openness);
+                action.getSubject().open(temperature, openness);
                 break;
             } catch (DeviceIsOccupiedException e) {
                 return false;
             } catch (WrongDeviceStatusException e) {
-                if (!turnOnDevice.apply(person, waterTap)) return false;
+                if (!new Action<>(0, true, action.getExecutor(), action.getSubject(), turnOnDevice).perform()) return false;
             }
         }
 
-        addActivity(person, waterTap, String.format("Open %s, openness:%d%%, temperature: %.1f°C", waterTap, waterTap.getOpenness(), waterTap.getTemperature()));
+        makeRecord(action.getExecutor(), action.getSubject(), String.format("Open %s, openness:%d%%, temperature: %.1f°C", action.getSubject(), action.getSubject().getOpenness(), action.getSubject().getTemperature()));
         return true;
-    });
+    };
 
-    private static final BiFunction<Person, WaterTap, Boolean> closeWaterTap = ((person, waterTap) -> {
-        waterTap.close();
+    private static final Function<Action<Person, WaterTap>, Boolean> closeWaterTap = action -> {
+        action.getSubject().close();
 
-        addActivity(person, waterTap, String.format("Close %s", waterTap));
+        makeRecord(action.getExecutor(), action.getSubject(), String.format("Close %s", action.getSubject()));
         return true;
-    });
+    };
 
 
     //------------ WC ------------//
 
-    private static final BiFunction<Person, WC, Boolean> makeToiletThings = ((person, wc) -> {
-        wc.makeThings();
+    private static final Function<Action<Person, WC>, Boolean> makeToiletThings = action -> {
+        action.getSubject().makeThings();
 
-        addActivity(person, wc, String.format("Use %s", wc));
+        makeRecord(action.getExecutor(), action.getSubject(), String.format("Use %s", action.getSubject()));
         return true;
-    });
+    };
 
-    private static final BiFunction<Person, WC, Boolean> flushAfterPee = ((person, wc) -> {
+    private static final Function<Action<Person, WC>, Boolean> flushAfterPee = action -> {
         try {
-            wc.flush(FlushType.SMALL);
+            action.getSubject().flush(FlushType.SMALL);
         } catch (DeviceIsBrokenException | ResourceNotAvailableException e) {
             return false;
         }
 
-        addActivity(person, wc, String.format("Flush %s after pee", wc));
+        makeRecord(action.getExecutor(), action.getSubject(), String.format("Flush %s after pee", action.getSubject()));
         return true;
-    });
+    };
 
-    private static final BiFunction<Person, WC, Boolean> flushAfterPoop = ((person, wc) -> {
+    private static final Function<Action<Person, WC>, Boolean> flushAfterPoop = action -> {
         try {
-            wc.flush(FlushType.BIG);
+            action.getSubject().flush(FlushType.BIG);
         } catch (DeviceIsBrokenException | ResourceNotAvailableException e) {
             return false;
         }
 
-        addActivity(person, wc, String.format("Flush %s after poop", wc));
+        makeRecord(action.getExecutor(), action.getSubject(), String.format("Flush %s after poop", action.getSubject()));
         return true;
-    });
+    };
 
 
     //------------ Alarm ------------//
 
     // TODO - move to event solving?
-    private static final BiFunction<Person, Alarm<?>, Boolean> stopAlarm = ((person, alarm) -> {
-        alarm.stop();
+    private static final Function<Action<Person, Alarm<?>>, Boolean> stopAlarm = action -> {
+        action.getSubject().stop();
 
-        addActivity(person, alarm, String.format("Stop %s", alarm));
+        makeRecord(action.getExecutor(), action.getSubject(), String.format("Stop %s", action.getSubject()));
         return true;
-    });
+    };
 }

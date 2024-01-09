@@ -14,7 +14,7 @@ public abstract class Creature {
     protected Room room;
 
     protected final Activity activity;
-    protected final TreeSet<RankedQueue<Action>> memory;
+    protected final TreeSet<RankedQueue<Action<Creature, ?>>> memory; // TODO Second class ???
     protected Strategy strategy;
 
     protected boolean atHome;
@@ -58,10 +58,10 @@ public abstract class Creature {
         if (!isBusy) chooseActivity(); // Nothing important is doing - take new activity
 
         boolean canDoAction = true;
-        for (RankedQueue<Action> queue : memory) {
+        for (RankedQueue<Action<Creature, ?>> queue : memory) { // TODO Second class ???
             queue.peek().decreaseDuration(1); // Decrease duration of action start
             if (queue.peek().getDuration().equals(Duration.ZERO) && !isBusy && canDoAction) {
-                Action action = queue.poll();
+                Action<Creature, ?> action = queue.poll(); // TODO Second class ???
                 if (action.perform()) {
                     isBusy = queue.peek().isBusy();
                 } else {
@@ -81,7 +81,7 @@ public abstract class Creature {
     }
 
     private boolean notPlanned(Priority activity) {
-        for (RankedQueue<Action> queue : memory) {
+        for (RankedQueue<Action<Creature, ?>> queue : memory) { // TODO Second class ???
             if (queue.getPriority() == activity.getValue()) return false;
             if (queue.getPriority() < activity.getValue()) break;
         }
