@@ -3,12 +3,14 @@ package consumer.device;
 import consumer.*;
 import event.BreakEvent;
 import place.Room;
+import place.RoomConfiguration;
 import utils.Constants;
 import utils.HelpFunctions;
+import utils.Prototype;
 import utils.exceptions.*;
 
 
-public abstract class Device implements Consumer {
+public abstract class Device implements Consumer, Prototype {
     protected final int id;
     protected  final DeviceType type;
     protected Room room;
@@ -155,6 +157,10 @@ public abstract class Device implements Consumer {
 
     public boolean isFunctional() {
         return isFunctional;
+    }
+
+    public void setFunctional(boolean functional) {
+        isFunctional = functional;
     }
 
     public int getId() {

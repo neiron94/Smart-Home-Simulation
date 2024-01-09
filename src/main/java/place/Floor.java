@@ -42,7 +42,7 @@ public class Floor implements EventDestination {
     }
 
     @Override
-    public void deleteEvent(Event event) {
-        events.remove(event); // TODO For use by event solver
+    public boolean deleteEvent(Event event) {
+        return events.remove(event);
     }
 }

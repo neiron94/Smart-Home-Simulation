@@ -1,12 +1,10 @@
 package consumer.device.sensored;
 
-import consumer.device.DeviceStatus;
 import consumer.device.DeviceType;
 import consumer.device.sensored.sensor.HumiditySensor;;
 import place.Room;
 import utils.Constants.Consumption.Electricity;
 import utils.HelpFunctions;
-
 
 public class AirDryer extends ParameterDevice<HumiditySensor> {
     public AirDryer(int id, Room startRoom) {
@@ -26,5 +24,10 @@ public class AirDryer extends ParameterDevice<HumiditySensor> {
     @Override
     public double consumeElectricity() {
         return HelpFunctions.countElectricityConsumption(status, Electricity.AIR_DRYER * power);
+    }
+
+    @Override
+    public AirDryer copy() {
+        return new AirDryer(id, room);
     }
 }

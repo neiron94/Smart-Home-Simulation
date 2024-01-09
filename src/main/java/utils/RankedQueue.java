@@ -2,6 +2,7 @@ package utils;
 
 import java.util.Deque;
 import java.util.LinkedList;
+import java.util.List;
 
 public class RankedQueue<T> implements Comparable<RankedQueue<T>> {
     private final Deque<T> queue;
@@ -19,6 +20,10 @@ public class RankedQueue<T> implements Comparable<RankedQueue<T>> {
     public void add(T elem) {
         queue.add(elem);
     } // Add to tail
+
+    public void addAll(List<? extends T> elems) {
+        queue.addAll(elems);
+    }
 
     public T poll() {
         return queue.poll();

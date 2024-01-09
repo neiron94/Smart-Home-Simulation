@@ -2,7 +2,6 @@ package consumer.device.sensored;
 
 import consumer.device.DeviceType;
 import consumer.device.sensored.sensor.FloodSensor;
-import consumer.device.sensored.sensor.SmokeSensor;
 import place.Room;
 
 public class FloodAlarm extends Alarm<FloodSensor> {
@@ -10,5 +9,10 @@ public class FloodAlarm extends Alarm<FloodSensor> {
         super(DeviceType.FLOOD_ALARM, id, startRoom);
         this.sensor = new FloodSensor();
         this.sensor.attachDevice(this);
+    }
+
+    @Override
+    public FloodAlarm copy() {
+        return new FloodAlarm(id, room);
     }
 }

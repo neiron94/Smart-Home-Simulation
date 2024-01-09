@@ -1,12 +1,10 @@
 package consumer.device.sensored;
 
-import consumer.device.DeviceStatus;
 import consumer.device.DeviceType;
 import consumer.device.sensored.sensor.TemperatureSensor;
 import place.Room;
 import utils.Constants.Consumption.Electricity;
 import utils.HelpFunctions;
-
 
 public class Heater extends ParameterDevice<TemperatureSensor> {
 
@@ -27,5 +25,10 @@ public class Heater extends ParameterDevice<TemperatureSensor> {
     @Override
     public double consumeElectricity() {
         return HelpFunctions.countElectricityConsumption(status, Electricity.HEATER * power);
+    }
+
+    @Override
+    public Heater copy() {
+        return new Heater(id, room);
     }
 }

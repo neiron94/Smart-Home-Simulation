@@ -1,6 +1,12 @@
 package creature.strategy;
 
+import consumer.device.Device;
+import creature.Action;
+import creature.Creature;
+import creature.person.Person;
 import event.*;
+
+import java.util.function.Function;
 
 public interface Strategy {
     default void react (Event event) {
@@ -28,4 +34,13 @@ public interface Strategy {
     void react(FloodEvent event);
 
     void react(LeakEvent event);
+
+    static void makeRecord(Creature creature, String description) {
+        creature.getActivity().addActivity(description);
+    }
+
+    static void makeRecord(Creature creature, Device device, String description) {
+        creature.getActivity().addActivity(description);
+        creature.getActivity().increaseUsage(device);
+    }
 }

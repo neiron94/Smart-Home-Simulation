@@ -34,6 +34,11 @@ public class CoffeeMachine extends Device implements ElectricityConsumer {
         return HelpFunctions.countElectricityConsumption(status, Electricity.COFFEE_MACHINE);
     }
 
+    @Override
+    public CoffeeMachine copy() {
+        return new CoffeeMachine(id, room);
+    }
+
     //---------- API for human -----------//
 
     public void makeCoffee(CoffeeType program) throws EntryProblemException, WrongDeviceStatusException {

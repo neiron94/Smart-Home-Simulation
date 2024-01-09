@@ -16,4 +16,9 @@ public class ElectricOven extends Oven implements ElectricityConsumer {
     public double consumeElectricity() {
         return HelpFunctions.countElectricityConsumption(status, Electricity.OVEN * temperature / MAX_TEMPERATURE);
     }
+
+    @Override
+    public ElectricOven copy() {
+        return new ElectricOven(id, room);
+    }
 }

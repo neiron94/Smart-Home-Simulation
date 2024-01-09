@@ -27,6 +27,11 @@ public class WC extends Device implements WaterConsumer {
         return flushType != null ? HelpFunctions.countWaterConsumption(status, flushType.getWaterConsumption()) : 0;
     }
 
+    @Override
+    public WC copy() {
+        return new WC(id, room);
+    }
+
     //---------- API for human -----------//
 
     public void makeThings() {

@@ -34,6 +34,11 @@ public class Vent extends Device implements ElectricityConsumer {
     }
 
     @Override
+    public Vent copy() {
+        return new Vent(id, room);
+    }
+
+    @Override
     public double consumeElectricity() {
         return program != null ? HelpFunctions.countElectricityConsumption(status, program.getPower()) : 0;
     }

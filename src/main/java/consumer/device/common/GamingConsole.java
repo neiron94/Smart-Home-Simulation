@@ -8,9 +8,7 @@ import consumer.device.common.entertainment.Game;
 import place.Room;
 import utils.Constants.Consumption.Electricity;
 import utils.HelpFunctions;
-import utils.exceptions.DeviceIsBrokenException;
 import utils.exceptions.DeviceIsOccupiedException;
-import utils.exceptions.ResourceNotAvailableException;
 import utils.exceptions.WrongDeviceStatusException;
 
 public class GamingConsole extends Device implements ElectricityConsumer {
@@ -27,6 +25,11 @@ public class GamingConsole extends Device implements ElectricityConsumer {
     @Override
     public double consumeElectricity() {
         return HelpFunctions.countElectricityConsumption(status, Electricity.GAMING_CONSOLE);
+    }
+
+    @Override
+    public GamingConsole copy() {
+        return new GamingConsole(id, room);
     }
 
     //---------- API for human -----------//

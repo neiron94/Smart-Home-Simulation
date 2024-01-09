@@ -108,6 +108,10 @@ public abstract class Creature {
         return room;
     }
 
+    public void setRoom(Room room) {
+        this.room = room;
+    }
+
     public Activity getActivity() {
         return activity;
     }
@@ -126,6 +130,10 @@ public abstract class Creature {
 
     public boolean isAlive() {
         return isAlive;
+    }
+
+    public boolean isAtHome() {
+        return atHome;
     }
 
     public void setStrategy(Strategy strategy) {

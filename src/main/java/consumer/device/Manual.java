@@ -26,7 +26,5 @@ public class Manual {
         return difficulty;
     }
 
-    public void read() {
-        // TODO - return text?, should take some time depending on repair difficulty
-    }
+    public void read() {}
 }
