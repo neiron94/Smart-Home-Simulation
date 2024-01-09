@@ -142,6 +142,10 @@ public abstract class Creature {
         return isAlive;
     }
 
+    public boolean isBusy() {
+        return isBusy;
+    }
+
     public void setAtHome(boolean atHome) {
         this.atHome = atHome;
     }

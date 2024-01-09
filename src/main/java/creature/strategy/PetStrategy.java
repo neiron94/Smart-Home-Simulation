@@ -4,6 +4,7 @@ import creature.Action;
 import creature.pet.Pet;
 import event.*;
 import place.Room;
+import utils.HelpFunctions;
 import utils.RankedQueue;
 import java.util.List;
 import java.util.function.Function;
@@ -61,32 +62,32 @@ public interface PetStrategy extends Strategy {
 
     interface PetActions {
         Function<Action<Pet, Room>, Boolean> wakeMasterUp = action -> {
-            Strategy.makeRecord(action.getExecutor(), String.format("Wake up master in %s", action.getSubject()));
+            HelpFunctions.makeRecord(action.getExecutor(), String.format("Wake up master in %s", action.getSubject()));
             return true;
         };
 
         Function<Action<Pet, Room>, Boolean> drink = action -> {
-            Strategy.makeRecord(action.getExecutor(), String.format("Drink from flood puddle in %s", action.getSubject()));
+            HelpFunctions.makeRecord(action.getExecutor(), String.format("Drink from flood puddle in %s", action.getSubject()));
             return true;
         };
 
         Function<Action<Pet, Void>, Boolean> panic = action -> {
-            Strategy.makeRecord(action.getExecutor(), "Panic");
+            HelpFunctions.makeRecord(action.getExecutor(), "Panic");
             return true;
         };
 
         Function<Action<Pet, Room>, Boolean> bark = action -> {
-            Strategy.makeRecord(action.getExecutor(), String.format("Loudly bark in %s", action.getSubject()));
+            HelpFunctions.makeRecord(action.getExecutor(), String.format("Loudly bark in %s", action.getSubject()));
             return true;
         };
 
         Function<Action<Pet, Room>, Boolean> meow = action -> {
-            Strategy.makeRecord(action.getExecutor(), String.format("Loudly meow in %s", action.getSubject()));
+            HelpFunctions.makeRecord(action.getExecutor(), String.format("Loudly meow in %s", action.getSubject()));
             return true;
         };
 
         Function<Action<Pet, Room>, Boolean> noise = action -> {
-            Strategy.makeRecord(action.getExecutor(), String.format("Make loud nose in %s", action.getSubject()));
+            HelpFunctions.makeRecord(action.getExecutor(), String.format("Make loud nose in %s", action.getSubject()));
             return true;
         };
     }

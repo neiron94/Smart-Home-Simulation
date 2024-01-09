@@ -30,13 +30,4 @@ public interface Strategy {
     void react(FloodEvent event);
 
     void react(LeakEvent event);
-
-    static void makeRecord(Creature creature, String description) {
-        creature.getActivity().addActivity(description);
-    }
-
-    static void makeRecord(Creature creature, Device device, String description) {
-        creature.getActivity().addActivity(description);
-        creature.getActivity().increaseUsage(device);
-    }
 }
