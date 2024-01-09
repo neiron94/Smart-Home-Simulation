@@ -1,5 +1,6 @@
 package creature.person;
 
+import creature.Action;
 import creature.Creature;
 import creature.strategy.ChildStrategy;
 import creature.strategy.ManStrategy;
@@ -7,6 +8,8 @@ import creature.strategy.WomanStrategy;
 import event.Event;
 import place.Room;
 import smarthome.Simulation;
+import utils.RankedQueue;
+
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
@@ -66,6 +69,7 @@ public class Person extends Creature {
             case MALE -> activity.addActivity("Shit himself");
             case FEMALE -> activity.addActivity("Shit herself");
         }
+        // TODO Take shower
         fullness = 0;
     }
 

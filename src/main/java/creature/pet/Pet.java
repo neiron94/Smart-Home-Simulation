@@ -1,8 +1,10 @@
 package creature.pet;
 
+import creature.Action;
 import creature.Creature;
 import creature.strategy.PetStrategy;
 import place.Room;
+import utils.RankedQueue;
 
 public class Pet extends Creature {
     private final PetType type;
@@ -38,6 +40,7 @@ public class Pet extends Creature {
     @Override
     protected void reactMaxFullness() {
         activity.addActivity("Shitted");
+        // TODO Clean after pet
         fullness = 0;
     }
 

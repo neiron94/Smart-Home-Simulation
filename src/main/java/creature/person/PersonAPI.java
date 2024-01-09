@@ -54,20 +54,6 @@ public class PersonAPI {
         return true;
     };
 
-    // TODO - move to event solving?
-    private static final Function<Action<Person, Device>, Boolean> repairDevice = action -> {
-        try {
-            action.getSubject().repair();
-        } catch (NotRepairableDeviceException e) {
-
-            // TODO
-        }
-
-        makeRecord(action.getExecutor(), action.getSubject(), String.format("Repair %s", action.getSubject()));
-        return true;
-    };
-
-
     //------------ Common for cleaning devices ------------//
 
     private static final Function<Action<Person, CleaningDevice>, Boolean> cleanFilter = action -> {
@@ -94,15 +80,6 @@ public class PersonAPI {
         makeRecord(action.getExecutor(), action.getSubject(), String.format("Set %s to %s", action.getSubject(), action.getSubject().getRingTime()));
         return true;
     };
-
-    // TODO - move to event solving?
-    private static final Function<Action<Person, AlarmClock>, Boolean> stopAlarmClock = action -> {
-        action.getSubject().stopAlarm();
-
-        makeRecord(action.getExecutor(), action.getSubject(), String.format("Stop %s", action.getSubject()));
-        return true;
-    };
-
 
     //------------ Coffee machine ------------//
 
@@ -206,26 +183,6 @@ public class PersonAPI {
         makeRecord(action.getExecutor(), action.getSubject(), String.format("Start %s on program %s", action.getSubject(), program));
         return true;
     };
-
-
-    //------------ Feeder ------------//
-
-    // TODO - move to event solving?
-    private static final Function<Action<Person, Feeder>, Boolean> addFoodFeeder = action -> {
-        action.getSubject().addFood();
-
-        makeRecord(action.getExecutor(), action.getSubject(), String.format("Add food to %s", action.getSubject()));
-        return true;
-    };
-
-    // TODO - move to event solving?
-    private static final Function<Action<Person, Feeder>, Boolean> addWaterFeeder = action -> {
-        action.getSubject().addWater();
-
-        makeRecord(action.getExecutor(), action.getSubject(), String.format("Add water to %s", action.getSubject()));
-        return true;
-    };
-
 
     //------------ Fridge ------------//
 
@@ -624,17 +581,6 @@ public class PersonAPI {
         }
 
         makeRecord(action.getExecutor(), action.getSubject(), String.format("Flush %s after poop", action.getSubject()));
-        return true;
-    };
-
-
-    //------------ Alarm ------------//
-
-    // TODO - move to event solving?
-    private static final Function<Action<Person, Alarm<?>>, Boolean> stopAlarm = action -> {
-        action.getSubject().stop();
-
-        makeRecord(action.getExecutor(), action.getSubject(), String.format("Stop %s", action.getSubject()));
         return true;
     };
 }
