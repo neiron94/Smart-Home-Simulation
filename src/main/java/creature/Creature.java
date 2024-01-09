@@ -3,9 +3,12 @@ package creature;
 import java.time.Duration;
 import java.util.*;
 import java.util.stream.Stream;
+
+import creature.person.PersonAPI;
 import creature.strategy.Strategy;
 import smarthome.Simulation;
 import place.Room;
+import utils.HelpFunctions;
 import utils.Priority;
 import utils.RankedQueue;
 
@@ -14,15 +17,15 @@ public abstract class Creature {
     protected Room room;
 
     protected final Activity activity;
-    protected final TreeSet<RankedQueue<? extends Action<? extends Creature, ?>>> memory; // TODO Second class ???
+    protected final TreeSet<RankedQueue<? extends Action<? extends Creature, ?>>> memory;
     protected Strategy strategy;
 
     protected boolean atHome;
     protected boolean isBusy;
     protected boolean isAlive;
 
-    protected float hunger;
-    protected float fullness;
+    protected double hunger;
+    protected double fullness;
 
     public Creature(String name, Room startRoom) {
         Simulation.getInstance().getCreatures().add(this);
@@ -45,9 +48,10 @@ public abstract class Creature {
             Stream.concat(Simulation.getInstance().getHome().getEvents().stream(),
                             Stream.concat(room.getFloor().getEvents().stream(), room.getEvents().stream()))
                     .forEach(event -> { // Find event to solve
-                        if (memory.isEmpty() || memory.first().getPriority() < event.getPriority().getValue()) {
-                            strategy.react(event);
-                            isBusy = true;
+                        strategy.react(event); // Need to solve event
+                        if (event.getPriority().getValue() > Priority.SLEEP.getValue()) { // Need to wake up
+                            memory.removeIf(queue -> queue.getPriority() == Priority.SLEEP);
+                            new Action<>(0, true, this, null, PersonAPI.wakeUp).perform();
                         }
                     });
         }
@@ -56,15 +60,13 @@ public abstract class Creature {
         if (!isBusy) chooseActivity(); // Nothing important is doing - take new activity
 
         boolean canDoAction = true;
-        for (RankedQueue<? extends Action<? extends Creature, ?>> queue : memory) { // TODO Second class ???
+        for (RankedQueue<? extends Action<? extends Creature, ?>> queue : memory) {
             queue.peek().decreaseDuration(1); // Decrease duration of action start
             if (queue.peek().getDuration().equals(Duration.ZERO) && !isBusy && canDoAction) {
-                Action<? extends Creature, ?> action = queue.poll(); // TODO Second class ???
-                if (action.perform()) {
-                    isBusy = queue.peek().isBusy();
+                if (queue.poll().perform()) {
                     canDoAction = false; // Can do only one action per simulation tick
-                }
-                else {
+                    isBusy = queue.peek().isBusy();
+                } else {
                     memory.remove(queue);
                     isBusy = false;
                 }
@@ -79,18 +81,18 @@ public abstract class Creature {
     }
 
     private boolean notPlanned(Priority activity) {
-        for (RankedQueue<? extends Action<? extends Creature, ?>> queue : memory) { // TODO Second class ???
-            if (queue.getPriority() == activity.getValue()) return false;
-            if (queue.getPriority() < activity.getValue()) break;
+        for (RankedQueue<? extends Action<? extends Creature, ?>> queue : memory) {
+            if (queue.getPriority().getValue() == activity.getValue()) return false;
+            if (queue.getPriority().getValue() < activity.getValue()) break;
         }
         return true;
     }
 
-    protected abstract void decreaseHunger(); // TODO Second class ???
+    protected abstract void decreaseHunger();
 
-    protected abstract void decreaseFullness(); // TODO Second class ???
+    protected abstract void decreaseFullness();
 
-    protected abstract void chooseActivity(); // TODO Second class ???
+    protected abstract void chooseActivity();
 
     protected abstract void reactMaxFullness();
 
@@ -116,12 +118,20 @@ public abstract class Creature {
         return activity;
     }
 
-    public float getHunger() {
+    public double getHunger() {
         return hunger;
     }
 
-    public float getFullness() {
+    public double getFullness() {
         return fullness;
+    }
+
+    public void setHunger(double hunger) {
+        this.hunger = HelpFunctions.adjustPercent(hunger);
+    }
+
+    public void setFullness(double fullness) {
+        this.fullness = HelpFunctions.adjustPercent(fullness);
     }
 
     public Strategy getStrategy() {
@@ -130,6 +140,10 @@ public abstract class Creature {
 
     public boolean isAlive() {
         return isAlive;
+    }
+
+    public void setAtHome(boolean atHome) {
+        this.atHome = atHome;
     }
 
     public boolean isAtHome() {

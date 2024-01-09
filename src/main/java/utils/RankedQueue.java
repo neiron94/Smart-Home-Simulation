@@ -6,11 +6,11 @@ import java.util.List;
 
 public class RankedQueue<T> implements Comparable<RankedQueue<T>> {
     private final Deque<T> queue;
-    private final int priority;
+    private final Priority priority;
 
     public RankedQueue(Priority priority) {
         this.queue = new LinkedList<>();
-        this.priority = priority.getValue();
+        this.priority = priority;
     }
 
     public void push(T elem) {
@@ -33,12 +33,12 @@ public class RankedQueue<T> implements Comparable<RankedQueue<T>> {
         return queue.peek();
     } // Look from front
 
-    public int getPriority() {
+    public Priority getPriority() {
         return priority;
     }
 
     @Override
     public int compareTo(RankedQueue<T> queue) {
-        return queue.priority - this.priority;
+        return queue.priority.getValue() - this.priority.getValue();
     }
 }

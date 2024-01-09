@@ -5,6 +5,7 @@ public enum RoomType {
     HALL("Hall"),
     BEDROOM("Bedroom"),
     TOILET("Toilet"),
+    SHOWER("Shower"),
     STORAGE("Storage");
 
     private final String description;

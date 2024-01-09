@@ -1,7 +1,6 @@
 package creature.strategy;
 
 import creature.Action;
-import creature.person.Person;
 import creature.pet.Pet;
 import event.*;
 import place.Room;
@@ -19,12 +18,7 @@ public interface PetStrategy extends Strategy {
     @Override
     default void react(WakeUpEvent event) {
         RankedQueue<Action<Pet, ?>> sequence = new RankedQueue<>(event.getPriority());
-
-        // TODO CHECK IF SLEEPING
-        if (pet()) sequence.add(new Action<>(1, true, pet(), null, PetActions.wakeUp));
-
-        sequence.add(new Action<>(1, true, pet(), event.getCreator().getRoom(), PetActions.wakeMasterUp));
-
+        sequence.add(new Action<>(5, true, pet(), event.getCreator().getRoom(), PetActions.wakeMasterUp));
         pet().addToMemory(sequence);
     }
 
@@ -66,11 +60,6 @@ public interface PetStrategy extends Strategy {
     }
 
     interface PetActions {
-        Function<Action<Pet, Void>, Boolean> wakeUp = action -> {
-            Strategy.makeRecord(action.getExecutor(), "Wake up");
-            return true;
-        };
-
         Function<Action<Pet, Room>, Boolean> wakeMasterUp = action -> {
             Strategy.makeRecord(action.getExecutor(), String.format("Wake up master in %s", action.getSubject()));
             return true;

@@ -1,12 +1,13 @@
 package utils;
 
 public enum Priority {
-    COMMON("Default", 0),
-    EMPTY("Emptying", 1),
-    EAT("Eating", 2),
-    EVENT_LOW("Low event", 3),
-    EVENT_MEDIUM("Medium event", 4),
-    EVENT_HIGH("High event", 5);
+    COMMON("Default", 1),
+    EMPTY("Emptying", 2),
+    EAT("Eating", 3),
+    EVENT_LOW("Low event", 4),
+    SLEEP("Sleeping", 5),
+    EVENT_MEDIUM("Medium event", 6),
+    EVENT_HIGH("High event", 7);
 
     private final String description;
     private final int value;
