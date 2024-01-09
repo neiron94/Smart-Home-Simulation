@@ -9,9 +9,7 @@ import place.Room;
 import utils.Constants.Consumption.Water;
 import utils.Constants.Consumption.Electricity;
 import utils.HelpFunctions;
-import utils.exceptions.DeviceIsBrokenException;
 import utils.exceptions.DeviceIsOccupiedException;
-import utils.exceptions.ResourceNotAvailableException;
 import utils.exceptions.WrongDeviceStatusException;
 
 
@@ -38,6 +36,11 @@ public class WaterTap extends Device implements WaterConsumer, ElectricityConsum
     @Override
     public double consumeWater() {
         return HelpFunctions.countWaterConsumption(status, Water.WATER_TAP * openness / 100);
+    }
+
+    @Override
+    public WaterTap copy() {
+        return new WaterTap(id, room);
     }
 
     //---------- API for human -----------//

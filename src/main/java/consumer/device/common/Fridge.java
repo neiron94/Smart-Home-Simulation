@@ -2,7 +2,6 @@ package consumer.device.common;
 
 import consumer.ElectricityConsumer;
 import consumer.device.Device;
-import consumer.device.DeviceStatus;
 import consumer.device.DeviceType;
 import place.Room;
 import utils.Constants.Consumption.Electricity;
@@ -31,6 +30,11 @@ public class Fridge extends Device implements ElectricityConsumer {
     @Override
     public double consumeElectricity() {
         return HelpFunctions.countElectricityConsumption(status, Electricity.FRIDGE / 2 + Electricity.FRIDGE / 2 * (MAX_TEMPERATURE - temperature) / MAX_TEMPERATURE);
+    }
+
+    @Override
+    public Fridge copy() {
+        return new Fridge(id, room);
     }
 
     //---------- API for human -----------//

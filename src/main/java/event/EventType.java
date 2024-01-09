@@ -8,7 +8,7 @@ public enum EventType {
     LEAK("Leak", LeakEvent.class, Priority.EVENT_HIGH, new RoomThrowStrategy()),
     FIRE("Fire", FireEvent.class, Priority.EVENT_HIGH, new RoomThrowStrategy()),
     BREAK("Brake", BreakEvent.class, Priority.EVENT_LOW, new RoomThrowStrategy()),
-    WAKEUP("Wakeup", WakeUpEvent.class, Priority.EVENT_LOW, new RoomThrowStrategy()),
+    WAKEUP("Wakeup", WakeUpEvent.class, Priority.EVENT_MEDIUM, new RoomThrowStrategy()),
     ALERT("Alert", AlertEvent.class, Priority.EVENT_MEDIUM, new HomeThrowStrategy()),
     FILL("Fill", FillEvent.class, Priority.EVENT_LOW, new HomeThrowStrategy());
 

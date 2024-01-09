@@ -9,10 +9,8 @@ import smarthome.Simulation;
 import utils.Constants.Consumption.Electricity;
 import utils.HelpFunctions;
 import utils.exceptions.*;
-
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 
 public class Microwave extends Device implements ElectricityConsumer {
     private boolean isFoodInside;
@@ -41,6 +39,11 @@ public class Microwave extends Device implements ElectricityConsumer {
             restoreStatus();
 
         return true;
+    }
+
+    @Override
+    public Microwave copy() {
+        return new Microwave(id, room);
     }
 
     //---------- API for human -----------//

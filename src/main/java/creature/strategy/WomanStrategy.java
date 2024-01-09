@@ -1,34 +1,39 @@
 package creature.strategy;
 
+import consumer.device.Device;
 import creature.Action;
 import creature.person.Person;
 import event.*;
 import place.Room;
+import java.util.ArrayList;
+import java.util.List;
 
-public class WomanStrategy implements AdultStrategy { // TODO Check conversion to record after implementation
-    private final Person person;
-
-    public WomanStrategy(Person person) {
-        this.person = person;
+public record WomanStrategy(Person person) implements AdultStrategy {
+    @Override
+    public List<Action<Person, Room>> solveFlood(Event event) {
+        List<Action<Person, Room>> sequence = new ArrayList<>();
+        sequence.add(new Action<>(180, false, person, event.getOrigin(), PersonActions.callWaterService));
+        return sequence;
     }
 
     @Override
-    public Person getPerson() {
-        return person;
+    public List<Action<Person, Room>> solveLeak(Event event) {
+        List<Action<Person, Room>> sequence = new ArrayList<>();
+        sequence.add(new Action<>(180, false, person, event.getOrigin(), PersonActions.callGasService));
+        return sequence;
     }
 
     @Override
-    public Action<Person, Room> solveFlood(Event event) {
-        return new Action<>(180, false, getPerson(), event.getOrigin(), Actions.callWaterService);
+    public List<Action<Person, Room>> solveFire(Event event) {
+        List<Action<Person, Room>> sequence = new ArrayList<>();
+        sequence.add(new Action<>(10, false, person, event.getOrigin(), PersonActions.callFireman));
+        return sequence;
     }
 
     @Override
-    public Action<Person, Room> solveLeak(Event event) {
-        return new Action<>(180, false, getPerson(), event.getOrigin(), Actions.callGasService);
-    }
-
-    @Override
-    public Action<Person, Room> solveFire(Event event) {
-        return new Action<>(10, false, getPerson(), event.getOrigin(), Actions.callFireman);
+    public List<Action<Person, Device>> solveBreak(Device device) {
+        List<Action<Person, Device>> sequence = new ArrayList<>();
+        sequence.add(new Action<>(5, true, person, device, PersonActions.buyNewDevice));
+        return sequence;
     }
 }

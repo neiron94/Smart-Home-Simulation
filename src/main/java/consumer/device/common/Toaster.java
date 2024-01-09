@@ -8,7 +8,6 @@ import place.Room;
 import smarthome.Simulation;
 import utils.HelpFunctions;
 import utils.exceptions.*;
-
 import java.time.Duration;
 import java.time.LocalDateTime;
 
@@ -39,6 +38,11 @@ public class Toaster extends Device implements ElectricityConsumer {
             restoreStatus();
 
         return true;
+    }
+
+    @Override
+    public Toaster copy() {
+        return new Toaster(id, room);
     }
 
     //---------- API for human -----------//

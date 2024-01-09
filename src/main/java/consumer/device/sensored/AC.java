@@ -1,12 +1,10 @@
 package consumer.device.sensored;
 
-import consumer.device.DeviceStatus;
 import consumer.device.DeviceType;
 import consumer.device.sensored.sensor.TemperatureSensor;
 import place.Room;
 import utils.Constants.Consumption.Electricity;
 import utils.HelpFunctions;
-
 
 public class AC extends ParameterDevice<TemperatureSensor> {
     public AC(int id, Room startRoom) {
@@ -26,5 +24,10 @@ public class AC extends ParameterDevice<TemperatureSensor> {
     @Override
     public double consumeElectricity() {
         return HelpFunctions.countElectricityConsumption(status, Electricity.AC * power / 100);
+    }
+
+    @Override
+    public AC copy() {
+        return new AC(id, room);
     }
 }

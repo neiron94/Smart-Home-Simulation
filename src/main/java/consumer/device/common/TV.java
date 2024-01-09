@@ -8,9 +8,7 @@ import consumer.device.common.entertainment.Video;
 import place.Room;
 import utils.Constants.Consumption.Electricity;
 import utils.HelpFunctions;
-import utils.exceptions.DeviceIsBrokenException;
 import utils.exceptions.DeviceIsOccupiedException;
-import utils.exceptions.ResourceNotAvailableException;
 import utils.exceptions.WrongDeviceStatusException;
 
 public class TV extends Device implements ElectricityConsumer {
@@ -32,6 +30,11 @@ public class TV extends Device implements ElectricityConsumer {
     @Override
     public double consumeElectricity() {
         return HelpFunctions.countElectricityConsumption(status, Electricity.TV / 2 * brightness + Electricity.TV / 2 * volume);
+    }
+
+    @Override
+    public TV copy() {
+        return new TV(id, room);
     }
 
     //---------- API for human -----------//

@@ -5,13 +5,8 @@ import consumer.WaterConsumer;
 import consumer.device.DeviceStatus;
 import consumer.device.DeviceType;
 import place.Room;
-import smarthome.Simulation;
-import utils.Constants;
 import utils.HelpFunctions;
 import utils.exceptions.*;
-
-import java.time.Duration;
-import java.time.LocalDateTime;
 
 
 public class Dishwasher extends CleaningDevice implements WaterConsumer, ElectricityConsumer {
@@ -35,6 +30,11 @@ public class Dishwasher extends CleaningDevice implements WaterConsumer, Electri
     @Override
     public double consumeWater() {
         return HelpFunctions.countWaterConsumption(status, program.getWaterConsumption());
+    }
+
+    @Override
+    public Dishwasher copy() {
+        return new Dishwasher(id, room);
     }
 
     //---------- API for human -----------//

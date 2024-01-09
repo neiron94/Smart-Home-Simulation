@@ -7,16 +7,11 @@ import consumer.device.DeviceType;
 import consumer.device.common.entertainment.Song;
 import place.Room;
 import smarthome.Simulation;
-import utils.Constants;
 import utils.Constants.Consumption.Electricity;
 import utils.HelpFunctions;
-import utils.exceptions.DeviceIsBrokenException;
-import utils.exceptions.ResourceNotAvailableException;
 import utils.exceptions.WrongDeviceStatusException;
-
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.ArrayDeque;
 import java.util.List;
 import java.util.Objects;
@@ -59,6 +54,11 @@ public class StereoSystem extends Device implements ElectricityConsumer {
         }
 
         return true;
+    }
+
+    @Override
+    public StereoSystem copy() {
+        return new StereoSystem(id, room);
     }
 
     //---------- API for human -----------//

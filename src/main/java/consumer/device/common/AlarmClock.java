@@ -9,8 +9,6 @@ import place.Room;
 import smarthome.Simulation;
 import utils.Constants.Consumption.Electricity;
 import utils.HelpFunctions;
-import utils.exceptions.DeviceIsBrokenException;
-import utils.exceptions.ResourceNotAvailableException;
 import utils.exceptions.WrongDeviceStatusException;
 
 import java.time.LocalDate;
@@ -44,6 +42,11 @@ public class AlarmClock extends Device implements ElectricityConsumer {
         if (shouldRing())   ring();
 
         return true;
+    }
+
+    @Override
+    public AlarmClock copy() {
+        return new AlarmClock(id, room);
     }
 
     //---------- API for human -----------//

@@ -3,75 +3,91 @@ package creature.strategy;
 import creature.Action;
 import creature.pet.Pet;
 import event.*;
+import place.Room;
 import utils.RankedQueue;
+import java.util.List;
+import java.util.function.Function;
 
-public class PetStrategy implements Strategy {
-    private final Pet pet;
+public interface PetStrategy extends Strategy {
+    Pet pet();
 
-    public PetStrategy(Pet pet) {
-        this.pet = pet;
+    List<Action<Pet, Room>> solveAlert(Event event);
+    List<Action<Pet, Room>> solveLeak(Event event);
+    List<Action<Pet, Room>> solveFire(Event event);
+
+    @Override
+    default void react(WakeUpEvent event) {
+        RankedQueue<Action<Pet, ?>> sequence = new RankedQueue<>(event.getPriority());
+        sequence.add(new Action<>(5, true, pet(), event.getCreator().getRoom(), PetActions.wakeMasterUp));
+        pet().addToMemory(sequence);
     }
 
     @Override
-    public void react(WakeUpEvent event) {
+    default void react(FillEvent event) {}
+
+    @Override
+    default void react(BreakEvent event) {}
+
+    @Override
+    default void react(AlertEvent event) {
         RankedQueue<Action<Pet, ?>> sequence = new RankedQueue<>(event.getPriority());
-
-        // TODO Implement
-
-        pet.addToMemory(sequence);
+        sequence.addAll(solveAlert(event));
+        sequence.add(new Action<>(1, true, pet(), null, PetActions.panic));
+        pet().addToMemory(sequence);
     }
 
     @Override
-    public void react(FillEvent event) {
+    default void react(FireEvent event) {
         RankedQueue<Action<Pet, ?>> sequence = new RankedQueue<>(event.getPriority());
-
-        // TODO Implement
-
-        pet.addToMemory(sequence);
+        sequence.addAll(solveFire(event));
+        sequence.add(new Action<>(1, true, pet(), null, PetActions.panic));
+        pet().addToMemory(sequence);
     }
 
     @Override
-    public void react(BreakEvent event) {
+    default void react(FloodEvent event) {
         RankedQueue<Action<Pet, ?>> sequence = new RankedQueue<>(event.getPriority());
-
-        // TODO Implement
-
-        pet.addToMemory(sequence);
+        sequence.add(new Action<>(1, true, pet(), event.getOrigin(), PetActions.drink));
+        pet().addToMemory(sequence);
     }
 
     @Override
-    public void react(AlertEvent event) {
+    default void react(LeakEvent event) {
         RankedQueue<Action<Pet, ?>> sequence = new RankedQueue<>(event.getPriority());
-
-        // TODO Implement
-
-        pet.addToMemory(sequence);
+        sequence.addAll(solveLeak(event));
+        sequence.add(new Action<>(1, true, pet(), null, PetActions.panic));
+        pet().addToMemory(sequence);
     }
 
-    @Override
-    public void react(FireEvent event) {
-        RankedQueue<Action<Pet, ?>> sequence = new RankedQueue<>(event.getPriority());
+    interface PetActions {
+        Function<Action<Pet, Room>, Boolean> wakeMasterUp = action -> {
+            Strategy.makeRecord(action.getExecutor(), String.format("Wake up master in %s", action.getSubject()));
+            return true;
+        };
 
-        // TODO Implement
+        Function<Action<Pet, Room>, Boolean> drink = action -> {
+            Strategy.makeRecord(action.getExecutor(), String.format("Drink from flood puddle in %s", action.getSubject()));
+            return true;
+        };
 
-        pet.addToMemory(sequence);
-    }
+        Function<Action<Pet, Void>, Boolean> panic = action -> {
+            Strategy.makeRecord(action.getExecutor(), "Panic");
+            return true;
+        };
 
-    @Override
-    public void react(FloodEvent event) {
-        RankedQueue<Action<Pet, ?>> sequence = new RankedQueue<>(event.getPriority());
+        Function<Action<Pet, Room>, Boolean> bark = action -> {
+            Strategy.makeRecord(action.getExecutor(), String.format("Loudly bark in %s", action.getSubject()));
+            return true;
+        };
 
-        // TODO Implement
+        Function<Action<Pet, Room>, Boolean> meow = action -> {
+            Strategy.makeRecord(action.getExecutor(), String.format("Loudly meow in %s", action.getSubject()));
+            return true;
+        };
 
-        pet.addToMemory(sequence);
-    }
-
-    @Override
-    public void react(LeakEvent event) {
-        RankedQueue<Action<Pet, ?>> sequence = new RankedQueue<>(event.getPriority());
-
-        // TODO Implement
-
-        pet.addToMemory(sequence);
+        Function<Action<Pet, Room>, Boolean> noise = action -> {
+            Strategy.makeRecord(action.getExecutor(), String.format("Make loud nose in %s", action.getSubject()));
+            return true;
+        };
     }
 }

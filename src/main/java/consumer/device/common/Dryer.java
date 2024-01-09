@@ -4,13 +4,8 @@ import consumer.ElectricityConsumer;
 import consumer.device.DeviceStatus;
 import consumer.device.DeviceType;
 import place.Room;
-import smarthome.Simulation;
-import utils.Constants;
 import utils.HelpFunctions;
 import utils.exceptions.*;
-
-import java.time.Duration;
-import java.time.LocalDateTime;
 
 
 public class Dryer extends CleaningDevice implements ElectricityConsumer {
@@ -29,6 +24,11 @@ public class Dryer extends CleaningDevice implements ElectricityConsumer {
     @Override
     public double consumeElectricity() {
         return program != null ? HelpFunctions.countElectricityConsumption(status, program.getElectricityConsumption()) : 0;
+    }
+
+    @Override
+    public Dryer copy() {
+        return new Dryer(id, room);
     }
 
     //---------- API for human -----------//

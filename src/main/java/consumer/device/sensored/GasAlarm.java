@@ -1,7 +1,6 @@
 package consumer.device.sensored;
 
 import consumer.device.DeviceType;
-import consumer.device.sensored.sensor.FloodSensor;
 import consumer.device.sensored.sensor.GasSensor;
 import place.Room;
 
@@ -10,5 +9,10 @@ public class GasAlarm extends Alarm<GasSensor> {
         super(DeviceType.GAS_ALARM, id, startRoom);
         this.sensor = new GasSensor();
         this.sensor.attachDevice(this);
+    }
+
+    @Override
+    public GasAlarm copy() {
+        return new GasAlarm(id, room);
     }
 }

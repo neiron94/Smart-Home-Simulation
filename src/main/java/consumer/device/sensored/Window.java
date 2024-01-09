@@ -1,6 +1,5 @@
 package consumer.device.sensored;
 
-import consumer.device.DeviceStatus;
 import consumer.device.DeviceType;
 import consumer.device.sensored.sensor.LightSensor;
 import place.Room;
@@ -26,5 +25,10 @@ public class Window extends ParameterDevice<LightSensor> {
     @Override
     public double consumeElectricity() {
         return HelpFunctions.countElectricityConsumption(status, Electricity.WINDOW * power);
+    }
+
+    @Override
+    public Window copy() {
+        return new Window(id, room);
     }
 }

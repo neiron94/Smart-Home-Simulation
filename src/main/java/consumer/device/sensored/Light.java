@@ -1,12 +1,10 @@
 package consumer.device.sensored;
 
-import consumer.device.DeviceStatus;
 import consumer.device.DeviceType;
 import consumer.device.sensored.sensor.LightSensor;
 import place.Room;
 import utils.Constants.Consumption.Electricity;
 import utils.HelpFunctions;
-
 
 import java.awt.*;
 
@@ -38,5 +36,10 @@ public class Light extends ParameterDevice<LightSensor> {
 
     public Color getColor() {
         return color;
+    }
+
+    @Override
+    public Light copy() {
+        return new Light(id, room);
     }
 }
