@@ -8,7 +8,6 @@ import creature.Action;
 import place.Room;
 import place.RoomConfiguration;
 import place.RoomType;
-import smarthome.Simulation;
 import utils.HelpFunctions;
 import utils.Priority;
 import utils.RankedQueue;
@@ -19,50 +18,12 @@ import java.util.List;
 import java.util.Random;
 import java.util.function.Function;
 
+import static utils.HelpFunctions.makeRecord;
+
 public final class PersonAPI {
 
     // TODO - change numbers for constants?
     // TODO - work with hunger and fullness
-
-    //************************************************ Help functions ************************************************//
-
-    private static Device findDevice(DeviceType type) throws DeviceNotFoundException {
-        return Simulation.getInstance().getDevices().stream()
-                .filter(device -> device.getType() == type)
-                .findFirst()
-                .orElseThrow(DeviceNotFoundException::new);
-    }
-
-    private static Device findDevice(DeviceType type1, DeviceType type2) throws DeviceNotFoundException {
-        return Simulation.getInstance().getDevices().stream()
-                .filter(device -> device.getType() == type1 || device.getType() == type2)
-                .findFirst()
-                .orElseThrow(DeviceNotFoundException::new);
-    }
-
-    private static Device findDevice(DeviceType type, Room room) throws DeviceNotFoundException {
-        return Simulation.getInstance().getDevices().stream()
-                .filter(device -> device.getType() == type && device.getRoom() == room)
-                .findFirst()
-                .orElseThrow(DeviceNotFoundException::new);
-    }
-
-    private static Device findDevice(DeviceType type, RoomType roomType) throws DeviceNotFoundException {
-        return Simulation.getInstance().getDevices().stream()
-                .filter(device -> device.getType() == type && device.getRoom().getType() == roomType)
-                .findFirst()
-                .orElseThrow(DeviceNotFoundException::new);
-    }
-
-    private static void makeRecord(Person person, String description) {
-        person.getActivity().addActivity(description);
-    }
-
-    private static void makeRecord(Person person, Device device, String description) {
-        person.getActivity().addActivity(description);
-        person.getActivity().increaseUsage(device);
-    }
-
 
     //*********************************************** Simple functions ***********************************************//
 
@@ -116,6 +77,11 @@ public final class PersonAPI {
     //################################# Void functions ##################################//
 
     //------------ Common home functions ------------//
+
+    public static final Function<Action<Person, Void>, Boolean> cleanAfterPet = action -> {
+        makeRecord(action.getExecutor(), "Clean floor after pet");
+        return true;
+    };
 
     public static final Function<Action<Person, Void>, Boolean> wakeUp = action -> {
         makeRecord(action.getExecutor(), "Woke up");
@@ -779,7 +745,7 @@ public final class PersonAPI {
         RankedQueue<Action<Person, ?>> queue = new RankedQueue<>(Priority.COMMON);
 
         try {
-            GamingConsole console = (GamingConsole) findDevice(DeviceType.GAMING_CONSOLE);
+            GamingConsole console = (GamingConsole) HelpFunctions.findDevice(DeviceType.GAMING_CONSOLE);
             queue.add(new Action<>(1, true, person, console.getRoom(), goToRoom));
             queue.add(new Action<>(1, true, person, console, startConsole));
             queue.add(new Action<>(new Random().nextInt(40, 180), true, person, console, stopConsole));
@@ -793,7 +759,7 @@ public final class PersonAPI {
         RankedQueue<Action<Person, ?>> queue = new RankedQueue<>(Priority.COMMON);
 
         try {
-            TV tv = (TV) findDevice(DeviceType.TV);
+            TV tv = (TV) HelpFunctions.findDevice(DeviceType.TV);
             queue.add(new Action<>(1, true, person, tv.getRoom(), goToRoom));
             queue.add(new Action<>(1, true, person, tv, setBrightnessTV));
             queue.add(new Action<>(1, true, person, tv, setVolumeTV));
@@ -809,7 +775,7 @@ public final class PersonAPI {
         RankedQueue<Action<Person, ?>> queue = new RankedQueue<>(Priority.COMMON);
 
         try {
-            StereoSystem stereoSystem = (StereoSystem) findDevice(DeviceType.STEREO_SYSTEM);
+            StereoSystem stereoSystem = (StereoSystem) HelpFunctions.findDevice(DeviceType.STEREO_SYSTEM);
             queue.add(new Action<>(1, true, person, stereoSystem.getRoom(), goToRoom));
             queue.add(new Action<>(1, true, person, stereoSystem, setVolumeStereoSystem));
             queue.add(new Action<>(1, true, person, stereoSystem, playPlaylist));
@@ -841,12 +807,12 @@ public final class PersonAPI {
         RankedQueue<Action<Person, ?>> queue = new RankedQueue<>(Priority.COMMON);
 
         try {
-            Washer washer = (Washer) findDevice(DeviceType.WASHER);
+            Washer washer = (Washer) HelpFunctions.findDevice(DeviceType.WASHER);
             queue.add(new Action<>(1, true, person, washer.getRoom(), goToRoom));
             queue.add(new Action<>(1, true, person, washer, startWasher));
             queue.add(new Action<>(new Random().nextInt(90, 180), false, person, washer, takeClothesWasher));
 
-            Dryer dryer = (Dryer) findDevice(DeviceType.DRYER);
+            Dryer dryer = (Dryer) HelpFunctions.findDevice(DeviceType.DRYER);
             queue.add(new Action<>(1, true, person, dryer.getRoom(), goToRoom));
             queue.add(new Action<>(1, true, person, dryer, startDryer));
             queue.add(new Action<>(new Random().nextInt(90, 180), false, person, dryer, takeClothesDryer));
@@ -860,7 +826,7 @@ public final class PersonAPI {
         RankedQueue<Action<Person, ?>> queue = new RankedQueue<>(Priority.COMMON);
 
         try {
-            Dishwasher dishwasher = (Dishwasher) findDevice(DeviceType.DISHWASHER);
+            Dishwasher dishwasher = (Dishwasher) HelpFunctions.findDevice(DeviceType.DISHWASHER);
             queue.add(new Action<>(1, true, person, dishwasher.getRoom(), goToRoom));
             queue.add(new Action<>(1, true, person, dishwasher, startDishwasher));
             queue.add(new Action<>(new Random().nextInt(120, 180), false, person, dishwasher, takeDishesDishwasher));
@@ -889,8 +855,8 @@ public final class PersonAPI {
         Oven oven;
         Fridge fridge;
         try {
-            oven = (Oven) findDevice(DeviceType.GAS_OVEN, DeviceType.ELECTRIC_OVEN);
-            fridge = (Fridge) findDevice(DeviceType.FRIDGE);
+            oven = (Oven) HelpFunctions.findDevice(DeviceType.GAS_OVEN, DeviceType.ELECTRIC_OVEN);
+            fridge = (Fridge) HelpFunctions.findDevice(DeviceType.FRIDGE);
         } catch (DeviceNotFoundException e) {
             return queue;
         }
@@ -898,8 +864,8 @@ public final class PersonAPI {
         Vent vent = null;
         WaterTap waterTap = null;
         try {
-            vent = (Vent) findDevice(DeviceType.VENT, oven.getRoom());
-            waterTap = (WaterTap) findDevice(DeviceType.WATER_TAP);
+            vent = (Vent) HelpFunctions.findDevice(DeviceType.VENT, oven.getRoom());
+            waterTap = (WaterTap) HelpFunctions.findDevice(DeviceType.WATER_TAP);
         } catch (DeviceNotFoundException ignored) {
         }
 
@@ -932,7 +898,7 @@ public final class PersonAPI {
 
         Fridge fridge;
         try {
-            fridge = (Fridge) findDevice(DeviceType.FRIDGE);
+            fridge = (Fridge) HelpFunctions.findDevice(DeviceType.FRIDGE);
         } catch (DeviceNotFoundException e) {
             return queue;
         }
@@ -941,12 +907,12 @@ public final class PersonAPI {
         queue.add(new Action<>(1, true, person, fridge, takeFoodFridge));
 
         try {
-            Toaster toaster = (Toaster) findDevice(DeviceType.TOASTER);
+            Toaster toaster = (Toaster) HelpFunctions.findDevice(DeviceType.TOASTER);
             queue.add(new Action<>(1, true, person, toaster.getRoom(), goToRoom));
             queue.add(new Action<>(1, true, person, toaster, makeToast));
             queue.add(new Action<>(new Random().nextInt(5, 10), false, person, toaster, takeToast));
 
-            CoffeeMachine coffeeMachine = (CoffeeMachine) findDevice(DeviceType.COFFEE_MACHINE);
+            CoffeeMachine coffeeMachine = (CoffeeMachine) HelpFunctions.findDevice(DeviceType.COFFEE_MACHINE);
             queue.add(new Action<>(1, true, person, coffeeMachine.getRoom(), goToRoom));
             queue.add(new Action<>(1, true, person, coffeeMachine, makeCoffee));
             queue.add(new Action<>(new Random().nextInt(5, 10), true, person, null, drinkCoffee));
@@ -965,7 +931,7 @@ public final class PersonAPI {
 
         Fridge fridge;
         try {
-            fridge = (Fridge) findDevice(DeviceType.FRIDGE);
+            fridge = (Fridge) HelpFunctions.findDevice(DeviceType.FRIDGE);
         } catch (DeviceNotFoundException e) {
             return queue;
         }
@@ -974,7 +940,7 @@ public final class PersonAPI {
         queue.add(new Action<>(1, true, person, fridge, takeFoodFridge));
 
         try {
-            Microwave microwave = (Microwave) findDevice(DeviceType.MICROWAVE);
+            Microwave microwave = (Microwave) HelpFunctions.findDevice(DeviceType.MICROWAVE);
             queue.add(new Action<>(1, true, person, microwave.getRoom(), goToRoom));
             queue.add(new Action<>(1, true, person, microwave, heatFoodMicrowave));
             queue.add(new Action<>(new Random().nextInt(10, 15), false, person, microwave, takeFoodMicrowave));
@@ -996,7 +962,7 @@ public final class PersonAPI {
         RankedQueue<Action<Person, ?>> queue = new RankedQueue<>(Priority.EMPTY);
 
         try {
-            WC wc = (WC) findDevice(DeviceType.WC);
+            WC wc = (WC) HelpFunctions.findDevice(DeviceType.WC);
             queue.add(new Action<>(1, true, person, wc.getRoom(), goToRoom));
             queue.add(new Action<>(1, true, person, wc, makeToiletThings));
             queue.add(new Action<>(new Random().nextInt(3, 5), true, person, wc, flushAfterPee));
@@ -1011,14 +977,14 @@ public final class PersonAPI {
 
         WC wc;
         try {
-            wc = (WC) findDevice(DeviceType.WC);
+            wc = (WC) HelpFunctions.findDevice(DeviceType.WC);
         } catch (DeviceNotFoundException e) {
             return queue;
         }
 
         Vent vent = null;
         try {
-            vent = (Vent) findDevice(DeviceType.VENT, wc.getRoom());
+            vent = (Vent) HelpFunctions.findDevice(DeviceType.VENT, wc.getRoom());
         }
         catch (DeviceNotFoundException ignored) {
         }
@@ -1048,7 +1014,7 @@ public final class PersonAPI {
         RankedQueue<Action<Person, ?>> queue = new RankedQueue<>(Priority.SLEEP);
 
         try {
-            AlarmClock alarmClock = (AlarmClock) findDevice(DeviceType.ALARM_CLOCK);
+            AlarmClock alarmClock = (AlarmClock) HelpFunctions.findDevice(DeviceType.ALARM_CLOCK);
             queue.add(new Action<>(1, true, person, alarmClock.getRoom(), goToRoom));
             queue.add(new Action<>(1, true, person, alarmClock, setAlarmClock));
         } catch (DeviceNotFoundException ignored) {

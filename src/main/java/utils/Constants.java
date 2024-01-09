@@ -7,6 +7,7 @@ public final class Constants {
     public static final Duration TICK = Duration.ofMinutes(1);  // 1 minute
     public static final int TIME_DEGRADATION = 1;
     public static final int USE_DEGRADATION = 5;
+    public static final int DAMAGE_DEGRADATION = 20;
     public static final double FILTER_DEGRADATION = 0.05;
     public static final double DEVICE_EVENT_PROBABILITY = 0.0001;
     public static final double EVENT_DURABILITY_DEPENDENCY = 50;
