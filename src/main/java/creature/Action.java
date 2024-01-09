@@ -1,23 +1,21 @@
 package creature;
 
-import consumer.device.Device;
-
 import java.time.Duration;
-import java.util.function.BiFunction;
+import java.util.function.Function;
 
-public class Action {
+public class Action<T1,T2> {
     private Duration duration;
     private final boolean busy;
-    private final BiFunction<Creature, Device, Boolean> function;
-    private final Device device;
-    private final Creature creature;
+    private final T1 executor;
+    private final T2 subject;
+    private final Function<Action<T1,T2>, Boolean> function;
 
-    public Action(int duration, boolean busy, BiFunction<Creature, Device, Boolean> function, Device device, Creature creature) {
+    public Action(int duration, boolean busy, T1 executor, T2 subject, Function<Action<T1,T2>, Boolean> function) {
         this.duration = Duration.ofMinutes(duration);
         this.busy = busy;
+        this.executor = executor;
+        this.subject = subject;
         this.function = function;
-        this.device = device;
-        this.creature = creature;
     }
 
     public Duration getDuration() {
@@ -28,16 +26,12 @@ public class Action {
         return busy;
     }
 
-    public BiFunction<Creature, Device, Boolean> getFunction() {
-        return function;
+    public T1 getExecutor() {
+        return executor;
     }
 
-    public Device getDevice() {
-        return device;
-    }
-
-    public Creature getCreature() {
-        return creature;
+    public T2 getSubject() {
+        return subject;
     }
 
     public void decreaseDuration(int value) {
@@ -45,6 +39,6 @@ public class Action {
     }
 
     public boolean perform() {
-        return function.apply(creature, device);
+        return function.apply(this);
     }
 }
