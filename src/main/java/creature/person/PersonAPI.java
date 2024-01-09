@@ -6,6 +6,7 @@ import consumer.device.common.*;
 import consumer.device.common.entertainment.*;
 import creature.Action;
 import place.Room;
+import place.RoomConfiguration;
 import place.RoomType;
 import smarthome.Simulation;
 import utils.HelpFunctions;
@@ -22,8 +23,6 @@ public final class PersonAPI {
 
     // TODO - change numbers for constants?
     // TODO - work with hunger and fullness
-    // TODO - control panel functions
-
 
     //************************************************ Help functions ************************************************//
 
@@ -74,6 +73,42 @@ public final class PersonAPI {
             action.getExecutor().setRoom(action.getSubject());
             makeRecord(action.getExecutor(), String.format("Go to %s", action.getSubject()));
         }
+        return true;
+    };
+
+    private static final Function<Action<Person, Room>, Boolean> changeHumidityRoom = action -> {
+        action.getSubject().getControlPanel().changeHumidity(new Random().nextDouble(-5, 5));
+
+        makeRecord(action.getExecutor(), String.format("Change preferred humidity in %s to %.1f%%", action.getSubject(), action.getSubject().getControlPanel().getHumidity()));
+        return true;
+    };
+
+    private static final Function<Action<Person, Room>, Boolean> changeTemperatureRoom = action -> {
+        action.getSubject().getControlPanel().changeTemperature(new Random().nextDouble(-3, 3));
+
+        makeRecord(action.getExecutor(), String.format("Change preferred temperature in %s to %.1f°C", action.getSubject(), action.getSubject().getControlPanel().getTemperature()));
+        return true;
+    };
+
+    private static final Function<Action<Person, Room>, Boolean> changeBrightnessRoom = action -> {
+        action.getSubject().getControlPanel().changeBrightness(new Random().nextDouble(-10, 10));
+
+        makeRecord(action.getExecutor(), String.format("Change preferred brightness in %s to %.1f%%", action.getSubject(), action.getSubject().getControlPanel().getBrightness()));
+        return true;
+    };
+
+    private static final Function<Action<Person, Room>, Boolean> saveConfigRoom = action -> {
+        action.getSubject().getControlPanel().saveConfiguration(action.getExecutor().getName());
+
+        makeRecord(action.getExecutor(), "Save new room configuration");
+        return true;
+    };
+
+    private static final Function<Action<Person, Room>, Boolean> downloadConfigRoom = action -> {
+        RoomConfiguration configuration = action.getSubject().getControlPanel().getRandomConfiguration();
+        action.getSubject().getControlPanel().loadConfiguration(configuration);
+
+        makeRecord(action.getExecutor(), String.format("Change configuration of %s to %s", action.getSubject(), configuration.getName()));
         return true;
     };
 
@@ -138,13 +173,31 @@ public final class PersonAPI {
 
     //------------------ Food functions ------------------//
 
-    private static final Function<Action<Person, Void>, Boolean> eat = action -> {
-        makeRecord(action.getExecutor(), "Ate food");   // TODO - food
+    private static final Function<Action<Person, Void>, Boolean> eatBreakfast = action -> {
+        action.getExecutor().setHunger();   // TODO - set value
+        action.getExecutor().setFullness();   // TODO - set value
+        makeRecord(action.getExecutor(), "Ate breakfast");
+        return true;
+    };
+
+    private static final Function<Action<Person, Void>, Boolean> eatLunch = action -> {
+        action.getExecutor().setHunger();   // TODO - set value
+        action.getExecutor().setFullness();   // TODO - set value
+        makeRecord(action.getExecutor(), "Ate lunch");
+        return true;
+    };
+
+    private static final Function<Action<Person, Void>, Boolean> eatDinner = action -> {
+        action.getExecutor().setHunger();   // TODO - set value
+        action.getExecutor().setFullness();   // TODO - set value
+        makeRecord(action.getExecutor(), "Ate dinner");
         return true;
     };
 
     private static final Function<Action<Person, Void>, Boolean> drinkCoffee = action -> {
-        makeRecord(action.getExecutor(), "Drank coffee");   // TODO - food
+        action.getExecutor().setHunger();   // TODO - set value
+        action.getExecutor().setFullness();   // TODO - set value
+        makeRecord(action.getExecutor(), "Drank coffee");
         return true;
     };
 
@@ -687,7 +740,8 @@ public final class PersonAPI {
 
     //----------------------- WC -----------------------//
 
-    private static final Function<Action<Person, WC>, Boolean> makeToiletThings = action -> {  // TODO - food
+    private static final Function<Action<Person, WC>, Boolean> makeToiletThings = action -> {
+        action.getExecutor().setFullness();   // TODO - set value
         action.getSubject().makeThings();
 
         makeRecord(action.getExecutor(), action.getSubject(), String.format("Use %s", action.getSubject()));
@@ -829,7 +883,7 @@ public final class PersonAPI {
 
     //################################# Food functions ##################################//
 
-    public static final Function<Person, RankedQueue<Action<Person, ?>>> takeLunch = person -> {   // TODO - food
+    public static final Function<Person, RankedQueue<Action<Person, ?>>> takeLunch = person -> {
         RankedQueue<Action<Person, ?>> queue = new RankedQueue<>(Priority.EAT);
 
         Oven oven;
@@ -864,7 +918,7 @@ public final class PersonAPI {
         queue.add(new Action<>(1, true, person, oven, cookFoodOven));
         queue.add(new Action<>(new Random().nextInt(60, 120), false, person, oven, takeFoodOven));
         if (vent != null) queue.add(new Action<>(1, true, person, vent, stopVent));
-        queue.add(new Action<>(new Random().nextInt(20, 40), true, person, null, eat));
+        queue.add(new Action<>(new Random().nextInt(20, 40), true, person, null, eatLunch));
 
         // Put remains food
         queue.add(new Action<>(1, true, person, fridge.getRoom(), goToRoom));
@@ -873,15 +927,24 @@ public final class PersonAPI {
         return queue;
     };
 
-    public static final Function<Person, RankedQueue<Action<Person, ?>>> takeBreakfast = person -> {  // TODO - food
+    public static final Function<Person, RankedQueue<Action<Person, ?>>> takeBreakfast = person -> {
         RankedQueue<Action<Person, ?>> queue = new RankedQueue<>(Priority.EAT);
+
+        Fridge fridge;
+        try {
+            fridge = (Fridge) findDevice(DeviceType.FRIDGE);
+        } catch (DeviceNotFoundException e) {
+            return queue;
+        }
+
+        queue.add(new Action<>(1, true, person, fridge.getRoom(), goToRoom));
+        queue.add(new Action<>(1, true, person, fridge, takeFoodFridge));
 
         try {
             Toaster toaster = (Toaster) findDevice(DeviceType.TOASTER);
             queue.add(new Action<>(1, true, person, toaster.getRoom(), goToRoom));
             queue.add(new Action<>(1, true, person, toaster, makeToast));
             queue.add(new Action<>(new Random().nextInt(5, 10), false, person, toaster, takeToast));
-            queue.add(new Action<>(new Random().nextInt(15, 30), true, person, null, eat));
 
             CoffeeMachine coffeeMachine = (CoffeeMachine) findDevice(DeviceType.COFFEE_MACHINE);
             queue.add(new Action<>(1, true, person, coffeeMachine.getRoom(), goToRoom));
@@ -890,20 +953,38 @@ public final class PersonAPI {
         } catch (DeviceNotFoundException ignored) {
         }
 
+        queue.add(new Action<>(new Random().nextInt(15, 30), true, person, null, eatBreakfast));
+        queue.add(new Action<>(1, true, person, fridge.getRoom(), goToRoom));
+        queue.add(new Action<>(1, true, person, fridge, putFoodFridge));
+
         return queue;
     };
 
-    public static final Function<Person, RankedQueue<Action<Person, ?>>> takeDinner = person -> {  // TODO - food
+    public static final Function<Person, RankedQueue<Action<Person, ?>>> takeDinner = person -> {
         RankedQueue<Action<Person, ?>> queue = new RankedQueue<>(Priority.EAT);
+
+        Fridge fridge;
+        try {
+            fridge = (Fridge) findDevice(DeviceType.FRIDGE);
+        } catch (DeviceNotFoundException e) {
+            return queue;
+        }
+
+        queue.add(new Action<>(1, true, person, fridge.getRoom(), goToRoom));
+        queue.add(new Action<>(1, true, person, fridge, takeFoodFridge));
 
         try {
             Microwave microwave = (Microwave) findDevice(DeviceType.MICROWAVE);
             queue.add(new Action<>(1, true, person, microwave.getRoom(), goToRoom));
             queue.add(new Action<>(1, true, person, microwave, heatFoodMicrowave));
             queue.add(new Action<>(new Random().nextInt(10, 15), false, person, microwave, takeFoodMicrowave));
-            queue.add(new Action<>(new Random().nextInt(20, 40), true, person, null, eat));
         } catch (DeviceNotFoundException ignored) {
         }
+
+        queue.add(new Action<>(new Random().nextInt(20, 40), true, person, null, eatDinner));
+
+        queue.add(new Action<>(1, true, person, fridge.getRoom(), goToRoom));
+        queue.add(new Action<>(1, true, person, fridge, putFoodFridge));
 
         return queue;
     };
@@ -911,7 +992,7 @@ public final class PersonAPI {
 
     //################################# Toilet functions ##################################//
 
-    public static final Function<Person, RankedQueue<Action<Person, ?>>> pee = person -> {  // TODO - food
+    public static final Function<Person, RankedQueue<Action<Person, ?>>> pee = person -> {
         RankedQueue<Action<Person, ?>> queue = new RankedQueue<>(Priority.EMPTY);
 
         try {
@@ -925,7 +1006,7 @@ public final class PersonAPI {
         return queue;
     };
 
-    public static final Function<Person, RankedQueue<Action<Person, ?>>> poo = person -> {  // TODO - food
+    public static final Function<Person, RankedQueue<Action<Person, ?>>> poo = person -> {
         RankedQueue<Action<Person, ?>> queue = new RankedQueue<>(Priority.EMPTY);
 
         WC wc;
@@ -1005,6 +1086,35 @@ public final class PersonAPI {
 
         queue.add(new Action<>(1, true, person, null, leaveHome));
         queue.add(new Action<>(new Random().nextInt(1440, 4320), true, person, null, returnHome));
+
+        return queue;
+    };
+
+
+    //################################# Control panel functions ##################################//
+
+    public static final Function<Person, RankedQueue<Action<Person, ?>>> changeRoomParameters = person -> {
+        RankedQueue<Action<Person, ?>> queue = new RankedQueue<>(Priority.COMMON);
+
+        queue.add(new Action<>(1, true, person, person.getRoom(), changeTemperatureRoom));
+        queue.add(new Action<>(1, true, person, person.getRoom(), changeHumidityRoom));
+        queue.add(new Action<>(1, true, person, person.getRoom(), changeBrightnessRoom));
+
+        return queue;
+    };
+
+    public static final Function<Person, RankedQueue<Action<Person, ?>>> saveRoomConfiguration = person -> {
+        RankedQueue<Action<Person, ?>> queue = new RankedQueue<>(Priority.COMMON);
+
+        queue.add(new Action<>(1, true, person, person.getRoom(), saveConfigRoom));
+
+        return queue;
+    };
+
+    public static final Function<Person, RankedQueue<Action<Person, ?>>> changeRoomConfiguration = person -> {
+        RankedQueue<Action<Person, ?>> queue = new RankedQueue<>(Priority.COMMON);
+
+        queue.add(new Action<>(1, true, person, person.getRoom(), downloadConfigRoom));
 
         return queue;
     };

@@ -7,6 +7,9 @@ import utils.Prototype;
 import java.awt.Color;
 
 public class RoomConfiguration implements Prototype {
+    private static final double MIN_TEMPERATURE = 5;
+    private static final double MAX_TEMPERATURE = 30;
+
     private String name;
     private double temperature;
     private double humidity;
@@ -45,16 +48,16 @@ public class RoomConfiguration implements Prototype {
         this.name = name;
     }
 
-    public void setTemperature(double temperature) {
-        this.temperature = temperature;
+    public void changeTemperature(double delta) {
+        this.temperature = HelpFunctions.adjustToRange(this.temperature + delta, MIN_TEMPERATURE, MAX_TEMPERATURE);
     }
 
-    public void setHumidity(double humidity) {
-        this.humidity = HelpFunctions.adjustPercent(humidity);
+    public void changeHumidity(double delta) {
+        this.humidity = HelpFunctions.adjustPercent(this.humidity + delta);
     }
 
-    public void setBrightness(double brightness) {
-        this.brightness = HelpFunctions.adjustPercent(brightness);
+    public void changeBrightness(double delta) {
+        this.brightness = HelpFunctions.adjustPercent(this.brightness + delta);
     }
 
     public void setColor(Color color) {
