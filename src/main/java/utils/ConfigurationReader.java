@@ -2,7 +2,6 @@ package utils;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import consumer.device.Device;
 import consumer.device.DeviceFactory;
 import creature.CreatureFactory;
 import place.*;
@@ -14,8 +13,8 @@ import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.util.NoSuchElementException;
-
 import static utils.Constants.ConfigurationReaderConstants.*;
+import static utils.Constants.Time.*;
 
 public class ConfigurationReader {
     private static final String CONFIG_PATH = String.join(File.separator, System.getProperty("user.dir"), "src", "main", "resources", "config") + File.separator; // TODO Find out how to open configurations (not to use System.getProperty)
@@ -127,11 +126,11 @@ public class ConfigurationReader {
         JsonNode config = openConfig(configPath);
 
         JsonNode temperature = config.path("temperature");
-        JsonNode humidity = config.path("temperature");
-        JsonNode brightness = config.path("temperature");
+        JsonNode humidity = config.path("humidity");
+        JsonNode brightness = config.path("brightness");
 
-        for (int i = 0; i < 12; ++i) {
-            for (int j = 0; j < 24; ++j) {
+        for (int i = 0; i < MONTHS; ++i) {
+            for (int j = 0; j < HOURS; ++j) {
                 Weather.stats[TEMPERATURE][i][j] = temperature.get(i).get(j).asDouble();
                 Weather.stats[HUMIDITY][i][j] = humidity.get(i).get(j).asDouble();
                 Weather.stats[BRIGHTNESS][i][j] = brightness.get(i).get(j).asDouble();
