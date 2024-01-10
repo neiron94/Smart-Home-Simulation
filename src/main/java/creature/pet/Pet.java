@@ -1,8 +1,12 @@
 package creature.pet;
 
+import creature.Action;
 import creature.Creature;
+import creature.person.Person;
+import creature.person.PersonAPI;
 import creature.strategy.*;
 import place.Room;
+import smarthome.Simulation;
 
 public class Pet extends Creature {
     private final PetType type;
@@ -24,26 +28,27 @@ public class Pet extends Creature {
 
     @Override
     protected void decreaseHunger() {
-        // TODO Implement
-        // TODO After successfully actions planning set isBusy to true
+        memory.add(PetAPI.feed.apply(this));
     }
 
     @Override
     protected void decreaseFullness() {
-        // TODO Implement
-        // TODO After successfully actions planning set isBusy to true
+        memory.add(PetAPI.goToToilet.apply(this));
     }
 
     @Override
     protected void chooseActivity() {
         // TODO Implement
-        // TODO After successfully actions planning set isBusy to first action busy (memory.first().peek().isBusy();)
     }
 
     @Override
     protected void reactMaxFullness() {
         activity.addActivity("Shitted");
-        // TODO Clean after pet
+        Simulation.getInstance().getCreatures().stream()
+                .filter(creature -> creature instanceof Person)
+                .map(person -> (Person) person)
+                .filter(person -> !person.isBusy() && person.isAlive())
+                .findFirst().ifPresent(human -> new Action<>(0, true, human, null, PersonAPI.cleanAfterPet).perform());
         fullness = 0;
     }
 

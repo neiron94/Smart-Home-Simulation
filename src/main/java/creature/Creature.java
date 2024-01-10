@@ -4,6 +4,7 @@ import java.time.Duration;
 import java.util.*;
 import java.util.stream.Stream;
 
+import creature.person.Person;
 import creature.person.PersonAPI;
 import creature.strategy.Strategy;
 import smarthome.Simulation;
@@ -11,6 +12,8 @@ import place.Room;
 import utils.HelpFunctions;
 import utils.Priority;
 import utils.RankedQueue;
+
+import static utils.HelpFunctions.makeRecord;
 
 public abstract class Creature {
     protected final String name;
@@ -51,7 +54,10 @@ public abstract class Creature {
                         strategy.react(event); // Need to solve event
                         if (event.getPriority().getValue() > Priority.SLEEP.getValue()) { // Need to wake up
                             memory.removeIf(queue -> queue.getPriority() == Priority.SLEEP);
-                            new Action<>(0, true, this, null, PersonAPI.wakeUp).perform();
+                            new Action<>(0, true, this, null, action -> {
+                                makeRecord(action.getExecutor(), "Wake up");
+                                return true;
+                            }).perform();
                         }
                     });
         }

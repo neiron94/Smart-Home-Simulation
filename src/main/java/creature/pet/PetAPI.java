@@ -13,10 +13,8 @@ import utils.RankedQueue;
 import utils.exceptions.DeviceNotFoundException;
 import utils.exceptions.RoomNotFoundException;
 import utils.exceptions.WrongDeviceStatusException;
-
 import java.util.Random;
 import java.util.function.Function;
-
 import static utils.HelpFunctions.*;
 
 public class PetAPI {

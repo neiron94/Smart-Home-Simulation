@@ -8,11 +8,15 @@ import creature.strategy.WomanStrategy;
 import event.Event;
 import place.Room;
 import smarthome.Simulation;
+import utils.DayPeriod;
+import utils.HelpFunctions;
 import utils.RankedQueue;
-
 import java.time.LocalDateTime;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+import java.util.function.Function;
 
 public class Person extends Creature {
     private final Gender gender;
@@ -47,20 +51,24 @@ public class Person extends Creature {
 
     @Override
     protected void decreaseHunger() {
-        // TODO Implement
-        // TODO After successfully actions planning set isBusy to true
+        DayPeriod period = HelpFunctions.getDayPeriod(Simulation.getInstance().getCurrentTime());
+        switch (period) {
+            case MORNING -> memory.add(PersonAPI.takeBreakfast.apply(this));
+            case DAY -> memory.add(PersonAPI.takeLunch.apply(this));
+            case EVENING -> memory.add(PersonAPI.takeDinner.apply(this));
+        }
     }
 
     @Override
     protected void decreaseFullness() {
-        // TODO Implement
-        // TODO After successfully actions planning set isBusy to true
+        List<Function<Person, RankedQueue<Action<Person, ?>>>> functions = List.of(PersonAPI.pee, PersonAPI.poo);
+        if (fullness > 0) memory.add(PersonAPI.poo.apply(this)); // TODO Constant
+        else memory.add(Objects.requireNonNull(HelpFunctions.getRandomObject(functions)).apply(this));
     }
 
     @Override
     protected void chooseActivity() {
         // TODO Implement
-        // TODO After successfully actions planning set isBusy to first action busy (memory.first().peek().isBusy();)
     }
 
     @Override
@@ -69,7 +77,7 @@ public class Person extends Creature {
             case MALE -> activity.addActivity("Shit himself");
             case FEMALE -> activity.addActivity("Shit herself");
         }
-        PersonAPI.takeShower.apply(this);
+        memory.add(PersonAPI.takeShower.apply(this));
         fullness = 0;
     }
 
