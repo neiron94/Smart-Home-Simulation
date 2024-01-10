@@ -8,7 +8,9 @@ import place.Room;
 import utils.HelpFunctions;
 import utils.exceptions.*;
 
-
+/**
+ * Washer for washing clothes.
+ */
 public class Washer extends CleaningDevice implements WaterConsumer, ElectricityConsumer {
 
     private WasherProgram program;
@@ -39,6 +41,14 @@ public class Washer extends CleaningDevice implements WaterConsumer, Electricity
 
     //---------- API for human -----------//
 
+    /**
+     * Start washing with given program.
+     * @param program Program to start.
+     * @throws WrongDeviceStatusException Device is not in start status.
+     * @throws DirtyFilterException Filter is too dirty.
+     * @throws EntryProblemException No clothes inside washer.
+     * @throws DeviceIsOccupiedException Device is occupied by someone else.
+     */
     public void startWash(WasherProgram program) throws WrongDeviceStatusException, DirtyFilterException, EntryProblemException, DeviceIsOccupiedException {
         if (program == null) return;
         checkBeforeStart();
@@ -49,10 +59,16 @@ public class Washer extends CleaningDevice implements WaterConsumer, Electricity
         isOccupied = true;
     }
 
+    /**
+     * Put clothes to washer.
+     */
     public void putClothes() {
         areClothesInside = true;
     }
 
+    /**
+     * Take clothes from washer.
+     */
     public void takeClothes() {
         restoreStatus();
         areClothesInside = false;

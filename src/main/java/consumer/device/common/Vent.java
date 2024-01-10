@@ -9,7 +9,9 @@ import utils.Constants;
 import utils.HelpFunctions;
 import utils.exceptions.*;
 
-
+/**
+ * Vent for kitchen or toilet.
+ */
 public class Vent extends Device implements ElectricityConsumer {
 
     private VentProgram program;
@@ -23,6 +25,10 @@ public class Vent extends Device implements ElectricityConsumer {
 
     //--------- Main public functions ----------//
 
+    /**
+     * Every tick make filter dirtier.
+     * @return Can be ignored.
+     */
     @Override
     public boolean routine() {
         if (!super.routine()) return false;
@@ -45,6 +51,13 @@ public class Vent extends Device implements ElectricityConsumer {
 
     //---------- API for human -----------//
 
+    /**
+     * Start vent with given program.
+     * @param program Chosen program.
+     * @throws DirtyFilterException Filter is too dirty.
+     * @throws DeviceIsOccupiedException Device is occupied by someone else.
+     * @throws WrongDeviceStatusException Device is not in start status.
+     */
     public void startVent(VentProgram program) throws DirtyFilterException, DeviceIsOccupiedException, WrongDeviceStatusException {
         checkDeviceInStartStatus();
         checkDeviceNotOccupied();
@@ -56,10 +69,16 @@ public class Vent extends Device implements ElectricityConsumer {
         isOccupied = true;
     }
 
+    /**
+     * Stop vent.
+     */
     public void stop() {
         restoreStatus();
     }
 
+    /**
+     * Clean filter.
+     */
     public void cleanFilter() {
         setFilterStatus(100);
     }

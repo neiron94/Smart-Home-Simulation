@@ -4,6 +4,9 @@ import utils.Constants.Coffee;
 
 import java.util.Random;
 
+/**
+ * Types of coffee. Stores information of required amount of coffee, milk and water.
+ */
 public enum CoffeeType {
     ESPRESSO("Espresso", Coffee.ESPRESSO_MILK, Coffee.ESPRESSO_WATER, Coffee.COFFEE),
     AMERICANO("Americano", Coffee.AMERICANO_MILK, Coffee.AMERICANO_WATER, Coffee.COFFEE),

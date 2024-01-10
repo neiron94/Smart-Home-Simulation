@@ -10,6 +10,9 @@ import utils.HelpFunctions;
 import utils.exceptions.DeviceIsBrokenException;
 import utils.exceptions.ResourceNotAvailableException;
 
+/**
+ * Common stupid WC, which can be flushed.
+ */
 public class WC extends Device implements WaterConsumer {
 
     private boolean shouldBeFlushed;
@@ -34,11 +37,20 @@ public class WC extends Device implements WaterConsumer {
 
     //---------- API for human -----------//
 
+    /**
+     * Seat on the toilet (or stand near).
+     */
     public void makeThings() {
         shouldBeFlushed = true;
         isOccupied = true;
     }
 
+    /**
+     * Flush WC after use.
+     * @param flushType Type of flushing.
+     * @throws DeviceIsBrokenException WC is broken.
+     * @throws ResourceNotAvailableException No water available in this room.
+     */
     public void flush(FlushType flushType) throws DeviceIsBrokenException, ResourceNotAvailableException {
         checkBeforeTurnOn();
 

@@ -10,7 +10,9 @@ import utils.exceptions.DeviceIsBrokenException;
 import utils.exceptions.ResourceNotAvailableException;
 import utils.exceptions.WrongDeviceStatusException;
 
-
+/**
+ * Fridge for storing food. Can automatically order food.
+ */
 public class Fridge extends Device implements ElectricityConsumer {
 
     private static final double MIN_TEMPERATURE = 0;
@@ -39,6 +41,11 @@ public class Fridge extends Device implements ElectricityConsumer {
 
     //---------- API for human -----------//
 
+    /**
+     * Take food from fridge. Fridge automatically orders food if fullness equals zero.
+     * @param amount Amount of taken food.
+     * @throws WrongDeviceStatusException Device is not in start status.
+     */
     public void takeFood(int amount) throws WrongDeviceStatusException {
         setFullness(fullness - amount);
         if (fullness <= 0) {
@@ -49,14 +56,24 @@ public class Fridge extends Device implements ElectricityConsumer {
         }
     }
 
+    /**
+     * Put food to fridge.
+     * @param amount Amount of food to put.
+     */
     public void putFood(int amount) {
         setFullness(fullness + amount);
     }
 
+    /**
+     * Increase temperature of fridge.
+     */
     public void increaseTemperature() {
         setTemperature(temperature + 1);
     }
 
+    /**
+     * Decrease temperature of fridge.
+     */
     public void decreaseTemperature() {
         setTemperature(temperature - 1);
     }

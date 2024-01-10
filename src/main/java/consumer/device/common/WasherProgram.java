@@ -8,6 +8,9 @@ import java.time.Duration;
 import java.time.LocalTime;
 import java.util.Random;
 
+/**
+ * Washer programs. Stores information about programs' duration and consumption.
+ */
 public enum WasherProgram {
     DELICATE("Delicate", WorkTime.WASHER_DELICATE, Electricity.WASHER_DELICATE, Water.WASHER_DELICATE),
     NORMAL("Normal", WorkTime.WASHER_NORMAL, Electricity.WASHER_NORMAL, Water.WASHER_NORMAL),
