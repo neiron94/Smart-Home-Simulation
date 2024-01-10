@@ -39,48 +39,24 @@ public class ControlPanel {
         return currentConfiguration.getTemperature();
     }
 
-    public void setTemperature(double temperature) {
-        currentConfiguration.setTemperature(temperature);
-    }
-
-    public void increaseTemperature(double value) {
-        currentConfiguration.setTemperature(currentConfiguration.getTemperature() + value);
-    }
-
-    public void decreaseTemperature(double value) {
-        currentConfiguration.setTemperature(currentConfiguration.getTemperature() - value);
+    public void changeTemperature(double delta) {
+        currentConfiguration.changeTemperature(delta);
     }
 
     public double getHumidity() {
         return currentConfiguration.getHumidity();
     }
 
-    public void setHumidity(double humidity) {
-        currentConfiguration.setHumidity(humidity);
-    }
-
-    public void increaseHumidity(double value) {
-        currentConfiguration.setHumidity(currentConfiguration.getHumidity() + value);
-    }
-
-    public void decreaseHumidity(double value) {
-        currentConfiguration.setHumidity(currentConfiguration.getHumidity() - value);
+    public void changeHumidity(double delta) {
+        currentConfiguration.changeHumidity(delta);
     }
 
     public double getBrightness() {
         return currentConfiguration.getBrightness();
     }
 
-    public void setBrightness(double brightness) {
-        currentConfiguration.setBrightness(brightness);
-    }
-
-    public void increaseBrightness(double value) {
-        currentConfiguration.setBrightness(currentConfiguration.getBrightness() + value);
-    }
-
-    public void decreaseBrightness(double value) {
-        currentConfiguration.setBrightness(currentConfiguration.getBrightness() - value);
+    public void changeBrightness(double delta) {
+        currentConfiguration.changeBrightness(delta);
     }
 
     public Color getColor() {
@@ -91,9 +67,14 @@ public class ControlPanel {
         currentConfiguration.setColor(color);
     }
 
-    public void saveConfiguration(String name) {
+    public void saveConfiguration(String creatorName) {
+        int id = 1;
+        for (RoomConfiguration configuration : configurations)
+            if (configuration.getName().startsWith(creatorName + "_"))
+              id++;
+
         RoomConfiguration copy = currentConfiguration.copy();
-        copy.setName(name);
+        copy.setName(creatorName + "_" + id);
         configurations.add(copy);
     }
 
