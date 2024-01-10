@@ -7,7 +7,8 @@ public enum GameGenre {
     QUEST("Quest"),
     HORROR("Horror"),
     SPORT("Sport"),
-    RACING("Racing");
+    RACING("Racing"),
+    PUZZLE("Puzzle");
 
     private final String name;
 

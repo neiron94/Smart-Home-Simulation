@@ -1,16 +1,71 @@
 {
   "PERSON" : [
     {
-      "name" : "Default",
+      "name" : "Jonathan",
       "gender" : "MALE",
       "status" : "ADULT"
+    },
+    {
+      "name" : "Maria",
+      "gender" : "FEMALE",
+      "status" : "ADULT"
+    },
+    {
+      "name" : "Jack",
+      "gender" : "MALE",
+      "status" : "KID"
+    },
+    {
+      "name" : "Mike",
+      "gender" : "MALE",
+      "status" : "KID"
+    },
+    {
+      "name" : "Mia",
+      "gender" : "FEMALE",
+      "status" : "KID"
+    },
+    {
+      "name" : "Benedict",
+      "gender" : "MALE",
+      "status" : "ELDER"
+    },
+    {
+      "name" : "Lora",
+      "gender" : "FEMALE",
+      "status" : "ELDER"
+    },
+    {
+      "name" : "Pamela",
+      "gender" : "FEMALE",
+      "status" : "ELDER"
     }
   ],
 
   "PET" : [
     {
-      "name" : "Default",
+      "name" : "Bark",
       "type" : "DOG"
+    },
+    {
+      "name" : "Tail",
+      "type" : "DOG"
+    },
+    {
+      "name" : "Mew",
+      "type" : "CAT"
+    },
+    {
+      "name" : "Maw",
+      "type" : "CAT"
+    },
+    {
+      "name" : "Boston",
+      "type" : "RACOON"
+    },
+    {
+      "name" : "Fluffy",
+      "type" : "MINI_PIG"
     }
   ]
 }
