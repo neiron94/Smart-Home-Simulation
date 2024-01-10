@@ -2,6 +2,7 @@ package creature.person;
 
 import creature.Action;
 import creature.Creature;
+import creature.pet.Pet;
 import creature.strategy.ChildStrategy;
 import creature.strategy.ManStrategy;
 import creature.strategy.WomanStrategy;
@@ -51,7 +52,7 @@ public class Person extends Creature {
 
     @Override
     protected void decreaseHunger() {
-        DayPeriod period = HelpFunctions.getDayPeriod(Simulation.getInstance().getCurrentTime());
+        DayPeriod period = HelpFunctions.getDayPeriod(Simulation.getInstance().getCurrentTime()).orElse(DayPeriod.NIGHT);
         switch (period) {
             case MORNING -> memory.add(PersonAPI.takeBreakfast.apply(this));
             case DAY -> memory.add(PersonAPI.takeLunch.apply(this));
@@ -68,7 +69,12 @@ public class Person extends Creature {
 
     @Override
     protected void chooseActivity() {
-        // TODO Implement
+        DayPeriod period = HelpFunctions.getDayPeriod(Simulation.getInstance().getCurrentTime()).orElse(DayPeriod.NIGHT);
+        if (period == DayPeriod.NIGHT) memory.add(PersonAPI.sleep.apply(this));
+        else {
+            List<Function<Person, RankedQueue<Action<Person, ?>>>> functions = Math.random() < 0.5 ? PersonAPI.streetFunctions : PersonAPI.otherFunctions;
+            memory.add(Objects.requireNonNull(HelpFunctions.getRandomObject(functions)).apply(this));
+        }
     }
 
     @Override

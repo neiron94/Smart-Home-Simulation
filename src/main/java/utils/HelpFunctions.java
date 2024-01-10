@@ -9,8 +9,10 @@ import place.RoomType;
 import smarthome.Simulation;
 import utils.exceptions.DeviceNotFoundException;
 import utils.exceptions.RoomNotFoundException;
-
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.Random;
 
 public class HelpFunctions {
@@ -111,5 +113,13 @@ public class HelpFunctions {
 
     public static Device getRandomDevice() {
         return getRandomObject(Simulation.getInstance().getDevices().stream().toList());
+    }
+
+    public static Optional<DayPeriod> getDayPeriod(LocalDateTime date) {
+        LocalTime time = date.toLocalTime();
+        for (DayPeriod period : DayPeriod.values()) {
+            if (!time.isBefore(period.getStart()) && !time.isAfter(period.getEnd())) return Optional.of(period);
+        }
+        return Optional.empty();
     }
 }

@@ -7,6 +7,13 @@ import creature.person.PersonAPI;
 import creature.strategy.*;
 import place.Room;
 import smarthome.Simulation;
+import utils.HelpFunctions;
+import utils.RankedQueue;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.function.Function;
 
 public class Pet extends Creature {
     private final PetType type;
@@ -38,7 +45,8 @@ public class Pet extends Creature {
 
     @Override
     protected void chooseActivity() {
-        // TODO Implement
+        List<Function<Pet, RankedQueue<Action<Pet, ?>>>> functions = List.of(PetAPI.sleep, PetAPI.play, PetAPI.goToBackyard, PetAPI.goToBackyard);
+        memory.add(Objects.requireNonNull(HelpFunctions.getRandomObject(functions)).apply(this));
     }
 
     @Override
