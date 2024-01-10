@@ -12,6 +12,9 @@ import utils.exceptions.*;
 import java.time.Duration;
 import java.time.LocalDateTime;
 
+/**
+ * Microwave for heating food.
+ */
 public class Microwave extends Device implements ElectricityConsumer {
     private boolean isFoodInside;
     private int power;  // percent
@@ -31,6 +34,10 @@ public class Microwave extends Device implements ElectricityConsumer {
         return HelpFunctions.countElectricityConsumption(status, Electricity.MICROWAVE * power / 100);
     }
 
+    /**
+     * Every tick checks if should stop.
+     * @return Can be ignored.
+     */
     @Override
     public boolean routine() {
         if (!super.routine()) return false;
@@ -48,6 +55,14 @@ public class Microwave extends Device implements ElectricityConsumer {
 
     //---------- API for human -----------//
 
+    /**
+     * Heat food.
+     * @param heatTime Duration of heating.
+     * @param heatPower Power of heating.
+     * @throws WrongDeviceStatusException Device is not in start status.
+     * @throws EntryProblemException No food inside microwave.
+     * @throws DeviceIsOccupiedException Device is occupied by someone else.
+     */
     public void heatFood(Duration heatTime, int heatPower) throws WrongDeviceStatusException, EntryProblemException, DeviceIsOccupiedException {
         if (heatTime == null) return;
         checkDeviceInStartStatus();
@@ -61,10 +76,16 @@ public class Microwave extends Device implements ElectricityConsumer {
         isOccupied = true;
     }
 
+    /**
+     * Put food to microwave.
+     */
     public void putFood() {
         isFoodInside = true;
     }
 
+    /**
+     * Take food from microwave.
+     */
     public void takeFood() {
         restoreStatus();
         isFoodInside = false;

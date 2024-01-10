@@ -64,7 +64,7 @@ public class RoomConfiguration implements Prototype {
         this.color = new Color(color.getRGB());
     }
 
-    @Override
+
     public RoomConfiguration copy() {
         return new RoomConfiguration(name, temperature, humidity, brightness, color);
     }

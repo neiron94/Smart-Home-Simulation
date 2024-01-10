@@ -7,7 +7,9 @@ import place.Room;
 import utils.HelpFunctions;
 import utils.exceptions.*;
 
-
+/**
+ * Dryer for drying clothes.
+ */
 public class Dryer extends CleaningDevice implements ElectricityConsumer {
 
     private DryerProgram program;
@@ -33,6 +35,14 @@ public class Dryer extends CleaningDevice implements ElectricityConsumer {
 
     //---------- API for human -----------//
 
+    /**
+     * Start drying clothes. Duration and consumption depends on chosen program.
+     * @param program Chosen program.
+     * @throws WrongDeviceStatusException Device is not in start status.
+     * @throws DirtyFilterException Filter is too dirty.
+     * @throws EntryProblemException No clothes inside dryer.
+     * @throws DeviceIsOccupiedException Device is occupied by someone else.
+     */
     public void startDry(DryerProgram program) throws WrongDeviceStatusException, DirtyFilterException, EntryProblemException, DeviceIsOccupiedException {
         if (program == null) return;
         checkBeforeStart();
@@ -43,10 +53,16 @@ public class Dryer extends CleaningDevice implements ElectricityConsumer {
         isOccupied = true;
     }
 
+    /**
+     * Put clothes to dryer.
+     */
     public void putClothes() {
         areClothesInside = true;
     }
 
+    /**
+     * Take clothes from dryer.
+     */
     public void takeClothes() {
         restoreStatus();
         areClothesInside = false;

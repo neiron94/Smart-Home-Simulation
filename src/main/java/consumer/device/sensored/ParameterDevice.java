@@ -7,7 +7,10 @@ import consumer.device.sensored.sensor.ParameterSensor;
 import place.Room;
 import utils.HelpFunctions;
 
-
+/**
+ * Sensored device which works with parameters of the room (temperature/humidity/brightness).
+ * @param <T> sensor, which works with parameters of the room.
+ */
 public abstract class ParameterDevice<T extends ParameterSensor> extends SensoredDevice<T> {
     protected int power;    // percent
 
@@ -16,6 +19,10 @@ public abstract class ParameterDevice<T extends ParameterSensor> extends Sensore
         this.power = 0;
     }
 
+    /**
+     * React to change of room parameter.
+     * @param parameter Changed room parameter.
+     */
     public abstract void react(Number parameter);
 
     public int getPower() {

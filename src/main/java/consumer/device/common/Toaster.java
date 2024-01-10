@@ -11,6 +11,9 @@ import utils.exceptions.*;
 import java.time.Duration;
 import java.time.LocalDateTime;
 
+/**
+ * Toaster for making toasts.
+ */
 public class Toaster extends Device implements ElectricityConsumer {
     private boolean isToastInside;
     private ToastType program;
@@ -30,6 +33,10 @@ public class Toaster extends Device implements ElectricityConsumer {
         return program != null ? HelpFunctions.countElectricityConsumption(status, program.getPower()) : 0;
     }
 
+    /**
+     * Every tick check if should stop.
+     * @return Can be ignored.
+     */
     @Override
     public boolean routine() {
         if (!super.routine()) return false;
@@ -47,6 +54,13 @@ public class Toaster extends Device implements ElectricityConsumer {
 
     //---------- API for human -----------//
 
+    /**
+     * Start making toast.
+     * @param program Type of toast to make.
+     * @throws EntryProblemException No toast inside toaster.
+     * @throws WrongDeviceStatusException Device is not in start status.
+     * @throws DeviceIsOccupiedException Device is occupied by someone else.
+     */
     public void makeToast(ToastType program) throws EntryProblemException, WrongDeviceStatusException, DeviceIsOccupiedException {
         checkDeviceInStartStatus();
         checkDeviceNotOccupied();
@@ -59,10 +73,16 @@ public class Toaster extends Device implements ElectricityConsumer {
         isOccupied = true;
     }
 
+    /**
+     * Put toast to toaster.
+     */
     public void putToast() {
         isToastInside = true;
     }
 
+    /**
+     * Take toaster from toaster.
+     */
     public void takeToast() {
         restoreStatus();
         isToastInside = false;

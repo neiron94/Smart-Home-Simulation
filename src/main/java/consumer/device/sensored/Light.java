@@ -8,6 +8,9 @@ import utils.HelpFunctions;
 
 import java.awt.*;
 
+/**
+ * Light for increasing room's brightness.
+ */
 public class Light extends ParameterDevice<LightSensor> {
     private Color color;
 
@@ -18,6 +21,11 @@ public class Light extends ParameterDevice<LightSensor> {
         this.sensor.attachDevice(this);
     }
 
+    /**
+     * Increase or decrease power depending on given parameter ond preferred parameter
+     * in Control Panel of the room. Also changes color.
+     * @param parameter Changed room parameter.
+     */
     @Override
     public void react(Number parameter) {
         if (parameter.doubleValue() < room.getControlPanel().getBrightness())

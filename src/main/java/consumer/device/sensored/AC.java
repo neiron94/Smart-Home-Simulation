@@ -6,13 +6,22 @@ import place.Room;
 import utils.Constants.Consumption.Electricity;
 import utils.HelpFunctions;
 
+/**
+ * AC for decreasing room's temperature.
+ */
 public class AC extends ParameterDevice<TemperatureSensor> {
+
     public AC(int id, Room startRoom) {
         super(DeviceType.AC, id, startRoom);
         this.sensor = new TemperatureSensor();
         this.sensor.attachDevice(this);
     }
 
+    /**
+     * Increase or decrease power depending on given parameter ond preferred parameter
+     * in Control Panel of the room.
+     * @param parameter Changed room parameter.
+     */
     @Override
     public void react(Number parameter) {
         if (parameter.doubleValue() > room.getControlPanel().getTemperature())

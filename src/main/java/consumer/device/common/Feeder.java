@@ -9,14 +9,16 @@ import utils.Constants.Consumption.Electricity;
 import utils.HelpFunctions;
 import utils.exceptions.WrongDeviceStatusException;
 
-
+/**
+ * Feeder for animals. Automatically adds water and food, notifies people
+ * that it should be filled.
+ */
 public class Feeder extends Device implements ElectricityConsumer {
 
     private static final int WATER_TANK_CAPACITY = 1500; // in milliliters
     private static final int FOOD_TANK_CAPACITY = 1800;  // in grams
     private static final int WATER_DISH_CAPACITY = 300; // in milliliters
     private static final int FOOD_DISH_CAPACITY = 200;  // in grams
-    
 
     private int foodFullness; // in grams, inner fullness
     private int waterFullness;  // in milliliters, inner fullness
@@ -45,20 +47,36 @@ public class Feeder extends Device implements ElectricityConsumer {
 
     //---------- API for human/pet -----------//
 
+    /**
+     * Add food to tank. Should be used by person solving FillEvent.
+     */
     public void addFood() {
         setFoodFullness(FOOD_TANK_CAPACITY);
     }
 
+    /**
+     * Add water to tank. Should be used by person solving FillEvent.
+     */
     public void addWater() {
         setWaterFullness(WATER_TANK_CAPACITY);
     }
 
+    /**
+     * Drink water from a pan. Should be used by animals.
+     * @param amount Amount of water to drink.
+     * @throws WrongDeviceStatusException Device is not in start status.
+     */
     public void drinkWater(int amount) throws WrongDeviceStatusException {
         setWaterLevel(waterLevel - amount);
         if (waterLevel == 0)
             fillWater();
     }
 
+    /**
+     * Eat food from a pan. Should be used by animals.
+     * @param amount Amount of food to eat.
+     * @throws WrongDeviceStatusException Device is not in start status.
+     */
     public void eatFood(int amount) throws WrongDeviceStatusException {
         setFoodLevel(foodLevel - amount);
         if (foodLevel == 0)

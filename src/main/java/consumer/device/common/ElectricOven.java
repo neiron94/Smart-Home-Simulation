@@ -6,6 +6,9 @@ import place.Room;
 import utils.Constants.Consumption.Electricity;
 import utils.HelpFunctions;
 
+/**
+ * Electric oven for cooking.
+ */
 public class ElectricOven extends Oven implements ElectricityConsumer {
 
     public ElectricOven(int id, Room startRoom) {

@@ -12,7 +12,9 @@ import utils.HelpFunctions;
 import utils.exceptions.DeviceIsOccupiedException;
 import utils.exceptions.WrongDeviceStatusException;
 
-
+/**
+ * Electric water tap with automatic heat which can be also interpreted as a shower (if it is in SHOWER room).
+ */
 public class WaterTap extends Device implements WaterConsumer, ElectricityConsumer {
     private static final double MAX_TEMPERATURE = 60;
     private static final double MIN_TEMPERATURE = 10;
@@ -45,6 +47,13 @@ public class WaterTap extends Device implements WaterConsumer, ElectricityConsum
 
     //---------- API for human -----------//
 
+    /**
+     * Open water tap with given temperature and openness.
+     * @param temperature Temperature of water.
+     * @param openness Openness of water tap.
+     * @throws DeviceIsOccupiedException Device is occupied by someone else.
+     * @throws WrongDeviceStatusException Device is not in start status.
+     */
     public void open(double temperature, int openness) throws DeviceIsOccupiedException, WrongDeviceStatusException {
         checkDeviceInStartStatus();
         checkDeviceNotOccupied();
@@ -55,6 +64,9 @@ public class WaterTap extends Device implements WaterConsumer, ElectricityConsum
         isOccupied = true;
     }
 
+    /**
+     * Close water tap.
+     */
     public void close() {
         openness = 0;
         restoreStatus();

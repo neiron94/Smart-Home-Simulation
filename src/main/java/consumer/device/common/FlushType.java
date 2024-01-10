@@ -2,6 +2,9 @@ package consumer.device.common;
 
 import utils.Constants.Consumption.Water;
 
+/**
+ * Types of toilet flush.
+ */
 public enum FlushType {
     SMALL("Small", Water.WC_SMALL),
     BIG("Big", Water.WC_BIG);

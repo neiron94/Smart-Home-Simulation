@@ -8,6 +8,9 @@ import java.time.Duration;
 import java.time.LocalTime;
 import java.util.Random;
 
+/**
+ * Programs for dishwasher. Stores information about programs' duration and consumption.
+ */
 public enum DishwasherProgram {
     LIGHT("Light", WorkTime.DISHWASHER_LIGHT, Electricity.DISHWASHER_LIGHT, Water.DISHWASHER_LIGHT),
     MEDIUM("Medium", WorkTime.DISHWASHER_MEDIUM, Electricity.DISHWASHER_MEDIUM, Water.DISHWASHER_MEDIUM),
@@ -25,6 +28,10 @@ public enum DishwasherProgram {
         this.waterConsumption = waterConsumption;
     }
 
+    /**
+     * Take random dishwasher program.
+     * @return Random dishwasher program.
+     */
     public static DishwasherProgram getRandomProgram() {
         return DishwasherProgram.values()[new Random().nextInt(0, DishwasherProgram.values().length)];
     }

@@ -8,7 +8,9 @@ import place.Room;
 import utils.HelpFunctions;
 import utils.exceptions.*;
 
-
+/**
+ * Provides function for washing dishes.
+ */
 public class Dishwasher extends CleaningDevice implements WaterConsumer, ElectricityConsumer {
 
     private DishwasherProgram program;
@@ -39,6 +41,14 @@ public class Dishwasher extends CleaningDevice implements WaterConsumer, Electri
 
     //---------- API for human -----------//
 
+    /**
+     * Start wash dishes.
+     * @param program Program of washing. Determines required time and consumption.
+     * @throws DirtyFilterException Filter of dishwasher is too dirty,
+     * @throws EntryProblemException Too little dishes inside.
+     * @throws WrongDeviceStatusException Device is not in start status.
+     * @throws DeviceIsOccupiedException Someone else is using this device.
+     */
     public void startWash(DishwasherProgram program) throws DirtyFilterException, EntryProblemException, WrongDeviceStatusException, DeviceIsOccupiedException {
         if (program == null) return;
         checkBeforeStart();
@@ -49,10 +59,17 @@ public class Dishwasher extends CleaningDevice implements WaterConsumer, Electri
         isOccupied = true;
     }
 
+    /**
+     * Add dishes to dishwasher.
+     * @param amount amount of added dishes.
+     */
     public void putDishes(int amount) {
         setFullness(fullness + amount);
     }
 
+    /**
+     * Take all dishes from dishwasher.
+     */
     public void takeDishes() {
         restoreStatus();
         setFullness(0);

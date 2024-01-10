@@ -17,6 +17,9 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Queue;
 
+/**
+ * Stereo system for reproduction of playlists or concrete songs.
+ */
 public class StereoSystem extends Device implements ElectricityConsumer {
 
     private int volume; // percent
@@ -39,6 +42,10 @@ public class StereoSystem extends Device implements ElectricityConsumer {
         return HelpFunctions.countElectricityConsumption(status, Electricity.STEREO_SYSTEM * volume / 100);
     }
 
+    /**
+     * Every tick checks if should stop or change song.
+     * @return Can be ignored.
+     */
     @Override
     public boolean routine() {
         if (!super.routine()) return false;
@@ -50,7 +57,6 @@ public class StereoSystem extends Device implements ElectricityConsumer {
                 currentSong = queue.poll();
                 setReadyTime(currentSong.duration());
             }
-
         }
 
         return true;
@@ -63,6 +69,12 @@ public class StereoSystem extends Device implements ElectricityConsumer {
 
     //---------- API for human -----------//
 
+    /**
+     * Start reproduction of playlist. Songs will be played until
+     * playlist is empty or stereo system is stopped.
+     * @param playlist Playlist of songs to play.
+     * @throws WrongDeviceStatusException Device is not in start status.
+     */
     public void play(List<Song> playlist) throws WrongDeviceStatusException {
         if (playlist == null || playlist.isEmpty()) return;
 
@@ -71,6 +83,11 @@ public class StereoSystem extends Device implements ElectricityConsumer {
         play(Objects.requireNonNull(queue.poll()));
     }
 
+    /**
+     * Play one concrete song.
+     * @param song Song to play.
+     * @throws WrongDeviceStatusException Device is not in start status.
+     */
     public void play(Song song) throws WrongDeviceStatusException {
         checkDeviceInStartStatus();
 
@@ -79,6 +96,9 @@ public class StereoSystem extends Device implements ElectricityConsumer {
         status = DeviceStatus.ON;
     }
 
+    /**
+     * Stop reproduction.
+     */
     public void stop() {
         currentSong = null;
         restoreStatus();
