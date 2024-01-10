@@ -51,7 +51,7 @@ public class Person extends Creature {
 
     @Override
     protected void decreaseHunger() {
-        DayPeriod period = HelpFunctions.getDayPeriod(Simulation.getInstance().getCurrentTime());
+        DayPeriod period = HelpFunctions.getDayPeriod(Simulation.getInstance().getCurrentTime()).orElse(DayPeriod.NIGHT);
         switch (period) {
             case MORNING -> memory.add(PersonAPI.takeBreakfast.apply(this));
             case DAY -> memory.add(PersonAPI.takeLunch.apply(this));
