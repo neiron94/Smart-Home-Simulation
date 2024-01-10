@@ -56,7 +56,7 @@ public class Pet extends Creature {
                 .filter(creature -> creature instanceof Person)
                 .map(person -> (Person) person)
                 .filter(person -> !person.isBusy() && person.isAlive())
-                .findFirst().ifPresent(human -> new Action<>(0, true, human, null, PersonAPI.cleanAfterPet).perform());
+                .findFirst().ifPresent(human -> new Action<>(1, true, human, null, PersonAPI.cleanAfterPet).perform());
         fullness = 0;
     }
 

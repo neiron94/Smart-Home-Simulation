@@ -50,7 +50,7 @@ public abstract class Creature {
                         strategy.react(event); // Need to solve event
                         if (event.getPriority().getValue() > Priority.SLEEP.getValue()) { // Need to wake up
                             memory.removeIf(queue -> queue.getPriority() == Priority.SLEEP);
-                            new Action<>(0, true, this, null, action -> {
+                            new Action<>(1, true, this, null, action -> {
                                 makeRecord(action.getExecutor(), "Wake up");
                                 return true;
                             }).perform();
@@ -63,7 +63,7 @@ public abstract class Creature {
 
         boolean canDoAction = true;
         for (RankedQueue<? extends Action<? extends Creature, ?>> queue : memory) {
-            if (queue.isEmpty()) continue;
+            if (queue.isEmpty()) continue; // TODO Maybe to do it more concise
             queue.peek().decreaseDuration(1); // Decrease duration of action start
             if (queue.peek().getDuration().equals(Duration.ZERO) && !isBusy && canDoAction) {
                 if (queue.poll().perform()) {
