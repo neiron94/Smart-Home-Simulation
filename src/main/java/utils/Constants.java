@@ -3,14 +3,55 @@ package utils;
 import java.time.Duration;
 
 public final class Constants {
-    public static final double TICK_DURATION = 1.0 * 1 / 60; // 1 minute in hours
-    public static final Duration TICK = Duration.ofMinutes(1);  // 1 minute
-    public static final int TIME_DEGRADATION = 1;
-    public static final int USE_DEGRADATION = 5;
-    public static final int DAMAGE_DEGRADATION = 20;
-    public static final double FILTER_DEGRADATION = 0.05;
-    public static final double DEVICE_EVENT_PROBABILITY = 0.0001;
-    public static final double EVENT_DURABILITY_DEPENDENCY = 50;
+
+    public static final class Probabilities {
+        public static final double DEVICE_EVENT_PROBABILITY = 0.0001;
+        public static final double EVENT_DURABILITY_DEPENDENCY = 50;
+    }
+
+    public static final class Degradation {
+        public static final int TIME_DEGRADATION = 1;
+        public static final int USE_DEGRADATION = 5;
+        public static final int DAMAGE_DEGRADATION = 20;
+        public static final double FILTER_DEGRADATION = 0.05;
+    }
+
+    public static final class WeatherConstants {
+        public static final int TEMPERATURE = 0;
+        public static final int HUMIDITY = 1;
+        public static final int BRIGHTNESS = 2;
+    }
+
+    public static final class ConfigurationReaderConstants {
+        public static final int TEMPERATURE = 0;
+        public static final int HUMIDITY = 1;
+        public static final int BRIGHTNESS = 2;
+        public static final int RED = 0;
+        public static final int GREEN = 1;
+        public static final int BLUE = 2;
+    }
+
+    public static final class Time {
+        public static final double TICK_DURATION = 1.0 * 1 / 60; // 1 minute in hours
+        public static final int MONTHS = 12;
+        public static final int HOURS = 12;
+
+    }
+
+    public static final class ParameterDevices {
+        public static final double HEATER_ON_MAX_POWER = 15;
+        public static final double AC_ON_MAX_POWER = 15;
+        public static final double HUMIDIFIER_ON_MAX_POWER = 20;
+        public static final double DRYER_ON_MAX_POWER = 20;
+        public static final double LIGHT_ON_MAX_POWER = 70;
+        public static final double WINDOW_ON_MAX_POWER = 70;
+    }
+
+    public static final class House {
+        public static final double HEAT_PENETRABILITY = 0.6;
+        public static final double HUMIDITY_PENETRABILITY = 0.9;
+        public static final double LIGHT_PENETRABILITY = 0.8;
+    }
 
     public static final class Guarantee {
         // All guarantee durations in months

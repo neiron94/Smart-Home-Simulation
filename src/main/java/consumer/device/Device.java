@@ -40,8 +40,8 @@ public abstract class Device implements Consumer, Prototype {
     public boolean routine() { // Is called every tick
         this.accept(new EventVisitor());
 
-        if (status == DeviceStatus.ON) decreaseDurability(Constants.USE_DEGRADATION);
-        else decreaseDurability(Constants.TIME_DEGRADATION);
+        if (status == DeviceStatus.ON) decreaseDurability(Constants.Degradation.USE_DEGRADATION);
+        else decreaseDurability(Constants.Degradation.TIME_DEGRADATION);
 
         if (durability <= 0 || status == DeviceStatus.OFF)    return false;
         accept(new ConsumeVisitor());
@@ -112,7 +112,7 @@ public abstract class Device implements Consumer, Prototype {
 
     private long countDurability(DeviceType type) {
         long hours = type.getGuarantee().getDays() * 24L * 4 / 3;
-        return (long)(hours / Constants.TICK_DURATION);
+        return (long)(hours / Constants.Time.TICK_DURATION);
     }
 
     @Override

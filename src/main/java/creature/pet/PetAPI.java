@@ -80,7 +80,7 @@ public class PetAPI {
     //--------------- Common device functions ---------------//
 
     private static final Function<Action<Pet, Device>, Boolean> damageDevice = action -> {
-        action.getSubject().decreaseDurability(Constants.DAMAGE_DEGRADATION);
+        action.getSubject().decreaseDurability(Constants.Degradation.DAMAGE_DEGRADATION);
         makeRecord(action.getExecutor(), String.format("Damage %s", action.getSubject()));
         return true;
     };

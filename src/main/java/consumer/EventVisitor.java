@@ -6,8 +6,8 @@ import event.FireEvent;
 import event.FloodEvent;
 import event.LeakEvent;
 
-import static utils.Constants.DEVICE_EVENT_PROBABILITY;
-import static utils.Constants.EVENT_DURABILITY_DEPENDENCY;
+import static utils.Constants.Probabilities.DEVICE_EVENT_PROBABILITY;
+import static utils.Constants.Probabilities.EVENT_DURABILITY_DEPENDENCY;
 
 public class EventVisitor implements Visitor {
     @Override

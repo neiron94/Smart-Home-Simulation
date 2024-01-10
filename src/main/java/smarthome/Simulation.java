@@ -72,6 +72,7 @@ public class Simulation {
     }
 
     public void simulate() {
+        // TODO - implement random electricity/gas/water shutdown
         // TODO Log simulation start
 
         while (!currentTime.isAfter(finishTime)) {
