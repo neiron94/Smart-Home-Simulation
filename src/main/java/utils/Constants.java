@@ -7,6 +7,7 @@ public final class Constants {
     public static final class Probabilities {
         public static final double DEVICE_EVENT_PROBABILITY = 0.0001;
         public static final double EVENT_DURABILITY_DEPENDENCY = 50;
+        public static final double SHUTDOWN_PROBABILITY = 0.005;
     }
 
     public static final class Degradation {
