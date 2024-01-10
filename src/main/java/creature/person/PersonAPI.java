@@ -1082,4 +1082,11 @@ public final class PersonAPI {
 
         return queue;
     };
+
+    //******************************************** Functions collections ********************************************//
+
+    static List<Function<Person, RankedQueue<Action<Person, ?>>>> streetFunctions = List.of(goWalk, goSport, goAway);
+
+    static List<Function<Person, RankedQueue<Action<Person, ?>>>> otherFunctions = List.of(playConsole, watchTV, listenMusic,
+            takeShower, washClothes, washDishes, cleanHome, nap, changeRoomParameters, saveRoomConfiguration, changeRoomConfiguration);
 }
