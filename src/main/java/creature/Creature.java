@@ -63,12 +63,12 @@ public abstract class Creature {
 
         boolean canDoAction = true;
         for (RankedQueue<? extends Action<? extends Creature, ?>> queue : memory) {
-            if (queue.isEmpty()) continue; // TODO Maybe to do it more concise
+            if (queue.isEmpty()) continue; // TODO Maybe to do it more concise + DO NOT CLEARING EMPTY QUEUES
             queue.peek().decreaseDuration(1); // Decrease duration of action start
-            if (queue.peek().getDuration().equals(Duration.ZERO) && !isBusy && canDoAction) {
+            if (queue.peek().getDuration().equals(Duration.ZERO)&& canDoAction) {
                 if (queue.poll().perform()) {
                     canDoAction = false; // Can do only one action per simulation tick
-                    isBusy = queue.peek().isBusy();
+                    isBusy = !queue.isEmpty() && queue.peek().isBusy();
                 } else {
                     memory.remove(queue);
                     isBusy = false;
