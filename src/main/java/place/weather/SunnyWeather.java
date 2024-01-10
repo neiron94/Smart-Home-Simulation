@@ -2,20 +2,11 @@ package place.weather;
 
 import smarthome.Simulation;
 import utils.Constants;
-
 import java.time.Duration;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Random;
 
-public class SunnyWeather implements Weather {
+public class SunnyWeather extends Weather {
     private final Duration duration = Duration.ofMinutes(120);
-    private final Map<Weather, Double> probabilities = new HashMap<>();
-
-    public SunnyWeather() {
-        double[] probability = new double[]{0.2, 0.5, 0.2, 0, 0.1};
-        for (int i = 0; i < weathers.size(); ++i) probabilities.put(weathers.get(i), probability[i]);
-    }
 
     @Override
     public void applyWeather() {
@@ -25,11 +16,6 @@ public class SunnyWeather implements Weather {
         street.setTemperature(stats[Constants.WeatherConstants.TEMPERATURE][month][hour] + new Random().nextInt(3, 6));
         street.setHumidity(stats[Constants.WeatherConstants.HUMIDITY][month][hour] + new Random().nextInt(-7, -3));
         street.setBrightness(stats[Constants.WeatherConstants.BRIGHTNESS][month][hour] + new Random().nextInt(5, 12));
-    }
-
-    @Override
-    public Map<Weather, Double> getProbabilities() {
-        return probabilities;
     }
 
     @Override

@@ -123,7 +123,7 @@ public class ConfigurationReader {
     }
 
     public static void readWeatherConfig() {
-        String configPath = CONFIG_PATH + "WeatherEnum.json";
+        String configPath = CONFIG_PATH + "Weather.json";
         JsonNode config = openConfig(configPath);
 
         JsonNode temperature = config.path("temperature");
