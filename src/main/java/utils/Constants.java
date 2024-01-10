@@ -35,7 +35,7 @@ public final class Constants {
     public static final class Time {
         public static final double TICK_DURATION = 1.0 * 1 / 60; // 1 minute in hours
         public static final int MONTHS = 12;
-        public static final int HOURS = 12;
+        public static final int HOURS = 24;
 
     }
 

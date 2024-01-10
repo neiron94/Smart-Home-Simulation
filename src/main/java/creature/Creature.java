@@ -3,16 +3,12 @@ package creature;
 import java.time.Duration;
 import java.util.*;
 import java.util.stream.Stream;
-
-import creature.person.Person;
-import creature.person.PersonAPI;
 import creature.strategy.Strategy;
 import smarthome.Simulation;
 import place.Room;
 import utils.HelpFunctions;
 import utils.Priority;
 import utils.RankedQueue;
-
 import static utils.HelpFunctions.makeRecord;
 
 public abstract class Creature {
@@ -67,6 +63,7 @@ public abstract class Creature {
 
         boolean canDoAction = true;
         for (RankedQueue<? extends Action<? extends Creature, ?>> queue : memory) {
+            if (queue.isEmpty()) continue;
             queue.peek().decreaseDuration(1); // Decrease duration of action start
             if (queue.peek().getDuration().equals(Duration.ZERO) && !isBusy && canDoAction) {
                 if (queue.poll().perform()) {
