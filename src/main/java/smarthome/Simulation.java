@@ -19,7 +19,7 @@ public class Simulation {
     private static final LocalTime REPORT_TIME = LocalTime.of(0, 0);
 
     private static Simulation INSTANCE;
-    public synchronized static Simulation getInstance() {
+    public static Simulation getInstance() {
         if (INSTANCE == null) {
             INSTANCE = new Simulation();
             readConfigurations(INSTANCE);

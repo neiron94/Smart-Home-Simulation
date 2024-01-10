@@ -1,7 +1,8 @@
 package place.weather;
 
+import place.Street;
 import smarthome.Simulation;
-import utils.Constants;
+import static utils.Constants.ConfigurationReaderConstants.*;
 import java.time.Duration;
 import java.util.Random;
 
@@ -13,9 +14,9 @@ public class CloudyWeather extends Weather  {
         int month = Simulation.getInstance().getCurrentTime().getMonthValue() - 1;
         int hour = Simulation.getInstance().getCurrentTime().getHour();
 
-        street.setTemperature(stats[Constants.WeatherConstants.TEMPERATURE][month][hour] + new Random().nextInt(0, 1));
-        street.setHumidity(stats[Constants.WeatherConstants.HUMIDITY][month][hour] + new Random().nextInt(3, 6));
-        street.setBrightness(stats[Constants.WeatherConstants.BRIGHTNESS][month][hour] + new Random().nextInt(-9, -4));
+        Street.getInstance().setTemperature(stats[TEMPERATURE][month][hour] + new Random().nextInt(0, 1));
+        Street.getInstance().setHumidity(stats[HUMIDITY][month][hour] + new Random().nextInt(3, 6));
+        Street.getInstance().setBrightness(stats[BRIGHTNESS][month][hour] + new Random().nextInt(-9, -4));
     }
 
     @Override
