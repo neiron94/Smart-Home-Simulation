@@ -13,8 +13,11 @@ import utils.exceptions.WrongDeviceStatusException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
+/**
+ * Alarm clock provides possibility to set it to time, in which it
+ * will ring (throw event) and wake up all people in the room.
+ */
 public class AlarmClock extends Device implements ElectricityConsumer {
-
     private LocalTime ringTime;
     private boolean rangToday;
     private LocalDate lastRingDay;
@@ -33,6 +36,10 @@ public class AlarmClock extends Device implements ElectricityConsumer {
         return HelpFunctions.countElectricityConsumption(status, Electricity.ALARM_CLOCK);
     }
 
+    /**
+     * Check if it time to ring every tick.
+     * @return can be ignored.
+     */
     @Override
     public boolean routine() {
         if (!super.routine())    return false;
@@ -50,6 +57,11 @@ public class AlarmClock extends Device implements ElectricityConsumer {
 
     //---------- API for human -----------//
 
+    /**
+     * Sets alarm to the given ringTime.
+     * @param ringTime Time to ring.
+     * @throws WrongDeviceStatusException Device is not on start status.
+     */
     public void setAlarm(LocalTime ringTime) throws WrongDeviceStatusException {
         if (ringTime == null)   return;
         checkDeviceInStartStatus();
@@ -58,6 +70,9 @@ public class AlarmClock extends Device implements ElectricityConsumer {
         rangToday = ringTime.isAfter(Simulation.getInstance().getCurrentTime().toLocalTime());
     }
 
+    /**
+     * Stop alarm. Is called when solving WakeUpEvent.
+     */
     public void stopAlarm() {
         restoreStatus();
     }

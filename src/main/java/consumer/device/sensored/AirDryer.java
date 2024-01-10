@@ -6,6 +6,9 @@ import place.Room;
 import utils.Constants.Consumption.Electricity;
 import utils.HelpFunctions;
 
+/**
+ * AirDryer for decreasing room's humidity.
+ */
 public class AirDryer extends ParameterDevice<HumiditySensor> {
     public AirDryer(int id, Room startRoom) {
         super(DeviceType.AIR_DRYER, id, startRoom);
@@ -13,6 +16,11 @@ public class AirDryer extends ParameterDevice<HumiditySensor> {
         this.sensor.attachDevice(this);
     }
 
+    /**
+     * Increase or decrease power depending on given parameter ond preferred parameter
+     * in Control Panel of the room.
+     * @param parameter Changed room parameter.
+     */
     @Override
     public void react(Number parameter) {
         if (parameter.doubleValue() > room.getControlPanel().getHumidity())

@@ -11,6 +11,9 @@ import utils.Constants.Consumption.Electricity;
 import utils.HelpFunctions;
 import utils.exceptions.*;
 
+/**
+ * Machine for making different types of coffee. Requires certain amount of coffee, milk and water.
+ */
 public class CoffeeMachine extends Device implements ElectricityConsumer {
     private static final int WATER_CAPACITY = 1500;
     private static final int COFFEE_CAPACITY = 400;
@@ -29,6 +32,10 @@ public class CoffeeMachine extends Device implements ElectricityConsumer {
 
     //--------- Main public functions ----------//
 
+    /**
+     * Counts amount of consumed electricity during this simulation tick.
+     * @return Consumed electricity.
+     */
     @Override
     public double consumeElectricity() {
         return HelpFunctions.countElectricityConsumption(status, Electricity.COFFEE_MACHINE);
@@ -41,6 +48,12 @@ public class CoffeeMachine extends Device implements ElectricityConsumer {
 
     //---------- API for human -----------//
 
+    /**
+     * Makes coffee.
+     * @param program Type of coffee to make.
+     * @throws EntryProblemException Not enough milk, water or coffee for this coffee type.
+     * @throws WrongDeviceStatusException Device is not in start status.
+     */
     public void makeCoffee(CoffeeType program) throws EntryProblemException, WrongDeviceStatusException {
         checkBeforeStart(program);
 
@@ -53,6 +66,9 @@ public class CoffeeMachine extends Device implements ElectricityConsumer {
         status = type.getStartStatus();
     }
 
+    /**
+     * Fill ingredients.
+     */
     public void fillAll() {
         setCoffee(COFFEE_CAPACITY);
         setWater(WATER_CAPACITY);

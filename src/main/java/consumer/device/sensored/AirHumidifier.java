@@ -6,6 +6,9 @@ import place.Room;
 import utils.Constants.Consumption.Electricity;
 import utils.HelpFunctions;
 
+/**
+ * AirHumidifier for increasing room's humidity.
+ */
 public class AirHumidifier extends ParameterDevice<HumiditySensor> {
     public AirHumidifier(int id, Room startRoom) {
         super(DeviceType.AIR_HUMIDIFIER, id, startRoom);
@@ -13,6 +16,11 @@ public class AirHumidifier extends ParameterDevice<HumiditySensor> {
         this.sensor.attachDevice(this);
     }
 
+    /**
+     * Increase or decrease power depending on given parameter ond preferred parameter
+     * in Control Panel of the room.
+     * @param parameter Changed room parameter.
+     */
     @Override
     public void react(Number parameter) {
         if (parameter.doubleValue() < room.getControlPanel().getHumidity())

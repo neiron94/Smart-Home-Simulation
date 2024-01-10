@@ -15,6 +15,9 @@ import utils.exceptions.WrongDeviceStatusException;
 import java.time.Duration;
 import java.time.LocalDateTime;
 
+/**
+ * Devices with filter, which provide some sort of cleaning service.
+ */
 public abstract class CleaningDevice extends Device {
     protected double filterStatus;   // percent
     protected LocalDateTime readyTime;
@@ -27,6 +30,10 @@ public abstract class CleaningDevice extends Device {
 
     //--------- Main public functions ----------//
 
+    /**
+     * Filter is getting dirtier every tick, when device works.
+     * @return Can be ignored.
+     */
     @Override
     public boolean routine() {
         if (!super.routine())   return false;
@@ -41,6 +48,9 @@ public abstract class CleaningDevice extends Device {
 
     //---------- API for human -----------//
 
+    /**
+     * Clean device's filter.
+     */
     public void cleanFilter() {
         setFilterStatus(100);
     }

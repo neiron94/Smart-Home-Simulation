@@ -6,6 +6,9 @@ import place.Room;
 import utils.Constants.Consumption.Gas;
 import utils.HelpFunctions;
 
+/**
+ * Gas oven in which person can cook food.
+ */
 public class GasOven extends Oven implements GasConsumer {
 
     public GasOven(int id, Room startRoom) {

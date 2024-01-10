@@ -1,5 +1,8 @@
 package consumer.device.common.entertainment;
 
+/**
+ * Genres for games.
+ */
 public enum GameGenre {
     RPG("RPG"),
     STRATEGY("Strategy"),

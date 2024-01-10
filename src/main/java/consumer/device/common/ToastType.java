@@ -7,6 +7,9 @@ import java.time.Duration;
 import java.time.LocalTime;
 import java.util.Random;
 
+/**
+ * Types of toast. Stores information about duration of cooking and consumption.
+ */
 public enum ToastType {
     SANDWICH("Sandwich", WorkTime.TOASTER_SANDWICH, Electricity.TOASTER_SANDWICH),
     GOLDEN("Golden", WorkTime.TOASTER_GOLDEN, Electricity.TOASTER_GOLDEN),

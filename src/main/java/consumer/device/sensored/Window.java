@@ -6,6 +6,9 @@ import place.Room;
 import utils.Constants.Consumption.Electricity;
 import utils.HelpFunctions;
 
+/**
+ * Window for decreasing room's brightness.
+ */
 public class Window extends ParameterDevice<LightSensor> {
 
     public Window(int id, Room startRoom) {
@@ -14,6 +17,11 @@ public class Window extends ParameterDevice<LightSensor> {
         this.sensor.attachDevice(this);
     }
 
+    /**
+     * Increase or decrease power depending on given parameter ond preferred parameter
+     * in Control Panel of the room.
+     * @param parameter Changed room parameter.
+     */
     @Override
     public void react(Number parameter) {
         if (room.getBrightness() > room.getControlPanel().getBrightness())

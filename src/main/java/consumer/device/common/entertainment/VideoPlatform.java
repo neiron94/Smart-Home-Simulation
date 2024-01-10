@@ -1,5 +1,8 @@
 package consumer.device.common.entertainment;
 
+/**
+ * Platforms for videos.
+ */
 public enum VideoPlatform {
     NETFLIX("Netflix"),
     YOUTUBE("YouTube"),

@@ -4,6 +4,9 @@ import utils.Constants.Consumption.Electricity;
 
 import java.util.Random;
 
+/**
+ * Vent programs. Stores information about consumption.
+ */
 public enum VentProgram {
     SLOW("Slow", Electricity.VENT_SLOW),
     NORMAL("Normal", Electricity.VENT_NORMAL),

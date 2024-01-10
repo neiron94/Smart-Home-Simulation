@@ -6,6 +6,9 @@ import place.Room;
 import utils.Constants.Consumption.Electricity;
 import utils.HelpFunctions;
 
+/**
+ * Heater for increasing room's temperature.
+ */
 public class Heater extends ParameterDevice<TemperatureSensor> {
 
     public Heater(int id, Room startRoom) {
@@ -14,6 +17,11 @@ public class Heater extends ParameterDevice<TemperatureSensor> {
         this.sensor.attachDevice(this);
     }
 
+    /**
+     * Increase or decrease power depending on given parameter ond preferred parameter
+     * in Control Panel of the room.
+     * @param parameter Changed room parameter.
+     */
     @Override
     public void react(Number parameter) {
         if (parameter.doubleValue() < room.getControlPanel().getTemperature())

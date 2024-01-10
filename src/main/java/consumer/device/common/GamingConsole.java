@@ -11,6 +11,9 @@ import utils.HelpFunctions;
 import utils.exceptions.DeviceIsOccupiedException;
 import utils.exceptions.WrongDeviceStatusException;
 
+/**
+ * Gaming console. Person can play on it.
+ */
 public class GamingConsole extends Device implements ElectricityConsumer {
 
     private Game currentGame;
@@ -27,13 +30,19 @@ public class GamingConsole extends Device implements ElectricityConsumer {
         return HelpFunctions.countElectricityConsumption(status, Electricity.GAMING_CONSOLE);
     }
 
-    @Override
+
     public GamingConsole copy() {
         return new GamingConsole(id, room);
     }
 
     //---------- API for human -----------//
 
+    /**
+     * Play specified game on console.
+     * @param game Game to play.
+     * @throws WrongDeviceStatusException Device is not in start status.
+     * @throws DeviceIsOccupiedException Device is occupied by someone else.
+     */
     public void play(Game game) throws WrongDeviceStatusException, DeviceIsOccupiedException {
         checkDeviceInStartStatus();
         checkDeviceNotOccupied();
@@ -43,6 +52,9 @@ public class GamingConsole extends Device implements ElectricityConsumer {
         isOccupied = true;
     }
 
+    /**
+     * Stop playing console.
+     */
     public void stop() {
         currentGame = null;
         restoreStatus();

@@ -11,6 +11,9 @@ import utils.exceptions.*;
 import java.time.Duration;
 import java.time.LocalDateTime;
 
+/**
+ * Oven in which person can cook food.
+ */
 public abstract class Oven extends Device {
     protected static final double MAX_TEMPERATURE = 250;
     protected static final double MIN_TEMPERATURE = 0;
@@ -28,6 +31,10 @@ public abstract class Oven extends Device {
 
     //--------- Main public functions ----------//
 
+    /**
+     * Every tick checks if should stop.
+     * @return Can be ignored.
+     */
     @Override
     public boolean routine() {
         if (!super.routine()) return false;
@@ -40,6 +47,14 @@ public abstract class Oven extends Device {
 
     //---------- API for human -----------//
 
+    /**
+     * Start cooking food.
+     * @param cookTime Duration of cooking.
+     * @param cookTemperature Temperature of cooking.
+     * @throws EntryProblemException No food inside oven.
+     * @throws DeviceIsOccupiedException Device is occupied by someone else.
+     * @throws WrongDeviceStatusException Device is not in start status.
+     */
     public void cookFood(Duration cookTime, int cookTemperature) throws EntryProblemException, DeviceIsOccupiedException, WrongDeviceStatusException {
         checkDeviceInStartStatus();
         checkDeviceNotOccupied();
@@ -52,10 +67,16 @@ public abstract class Oven extends Device {
         isOccupied = true;
     }
 
+    /**
+     * Put food to oven.
+     */
     public void putFood() {
         isFoodInside = true;
     }
 
+    /**
+     * Take food from oven.
+     */
     public void takeFood() {
         isFoodInside = false;
     }

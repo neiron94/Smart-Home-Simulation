@@ -8,6 +8,10 @@ import place.Room;
 import utils.Constants.Consumption.Electricity;
 import utils.HelpFunctions;
 
+/**
+ * Alarm for alerting about disaster events.
+ * @param <T> Type of sensor, which works with events.
+ */
 public abstract class Alarm<T extends EventSensor> extends EventDevice<T> {
     protected boolean isAlerting;
 
@@ -21,9 +25,20 @@ public abstract class Alarm<T extends EventSensor> extends EventDevice<T> {
         return HelpFunctions.countElectricityConsumption(status, Electricity.ALARM);
     }
 
+    /**
+     * React on event by alerting (throw AlertEvent).
+     */
     @Override
     public void react() {
         alert();
+    }
+
+    /**
+     * Stop alerting.
+     */
+    public void stop() {
+        isAlerting = false;
+        restoreStatus();
     }
 
     private void alert() {
@@ -33,11 +48,6 @@ public abstract class Alarm<T extends EventSensor> extends EventDevice<T> {
             status = DeviceStatus.ON;
             new AlertEvent(this, this.room).throwEvent();
         }
-    }
-
-    public void stop() {
-        isAlerting = false;
-        restoreStatus();
     }
 
     public boolean isAlerting() {

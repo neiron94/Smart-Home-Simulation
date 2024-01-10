@@ -1,5 +1,8 @@
 package consumer.device.common.entertainment;
 
+/**
+ * Genres for songs.
+ */
 public enum SongGenre {
     ROCK("Rock"),
     CLASSIC("Classic"),

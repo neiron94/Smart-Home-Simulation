@@ -11,6 +11,9 @@ import utils.HelpFunctions;
 import utils.exceptions.DeviceIsOccupiedException;
 import utils.exceptions.WrongDeviceStatusException;
 
+/**
+ * TV for watching videos.
+ */
 public class TV extends Device implements ElectricityConsumer {
 
     private int brightness; // percent
@@ -39,6 +42,12 @@ public class TV extends Device implements ElectricityConsumer {
 
     //---------- API for human -----------//
 
+    /**
+     * Start TV and watch video.
+     * @param video Video to watch.
+     * @throws WrongDeviceStatusException Device is not in start status.
+     * @throws DeviceIsOccupiedException Device is occupied by someone else.
+     */
     public void show(Video video) throws WrongDeviceStatusException, DeviceIsOccupiedException {
         checkDeviceInStartStatus();
         checkDeviceNotOccupied();
@@ -48,6 +57,9 @@ public class TV extends Device implements ElectricityConsumer {
         isOccupied = true;
     }
 
+    /**
+     * Stop TV.
+     */
     public void stop() {
         currentVideo = null;
         restoreStatus();
