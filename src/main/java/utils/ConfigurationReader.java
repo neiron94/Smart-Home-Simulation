@@ -14,14 +14,10 @@ import java.io.File;
 import java.io.IOException;
 import java.util.NoSuchElementException;
 
+import static utils.Constants.ConfigurationReaderConstants.*;
+
 public class ConfigurationReader {
     private static final String CONFIG_PATH = String.join(File.separator, System.getProperty("user.dir"), "src", "main", "resources", "config") + File.separator; // TODO Find out how to open configurations (not to use System.getProperty)
-    private static final int TEMPERATURE = 0; // TODO Move to constants
-    private static final int HUMIDITY = 1; // TODO Move to constants
-    private final static int BRIGHTNESS = 2; // TODO Move to constants
-    private static final int RED = 0; // TODO Move to constants
-    private static final int GREEN = 1; // TODO Move to constants
-    private static final int BLUE = 2; // TODO Move to constants
 
     public static void readSimulationConfig(Simulation simulation) {
         String configPath = CONFIG_PATH + "Simulation.json";

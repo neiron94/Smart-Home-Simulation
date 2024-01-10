@@ -9,6 +9,8 @@ import place.Room;
 import place.Floor;
 import place.Home;
 import smarthome.Simulation;
+import utils.Constants;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Comparator;
@@ -101,7 +103,9 @@ public class ReportFactory {
                 .filter(entry -> entry.getKey() == device) // Filter this device
                 .map(Map.Entry::getValue) // Get consumed electricity value
                 .findFirst().orElse(0.0);
-        double spentMoney = 0; // TODO Make formulae to count money + choose proper class to store Money
+        double spentMoney = usedGas * Constants.Consumption.GAS_COST;
+        spentMoney += usedWater * Constants.Consumption.WATER_COST;
+        spentMoney += usedElectricity * Constants.Consumption.ELECTRICITY_COST;
 
         return new ConsumptionReport(device.toString(),
                 String.valueOf(usedGas),

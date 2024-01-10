@@ -28,7 +28,7 @@ public class Vent extends Device implements ElectricityConsumer {
         if (!super.routine()) return false;
 
         if (status == DeviceStatus.ON)
-            setFilterStatus(filterStatus - Constants.FILTER_DEGRADATION);
+            setFilterStatus(filterStatus - Constants.Degradation.FILTER_DEGRADATION);
 
         return true;
     }

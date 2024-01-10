@@ -47,7 +47,7 @@ public class CoffeeMachine extends Device implements ElectricityConsumer {
         waterFullness -= program.getWater();
         coffeeFullness -= program.getCoffee();
         milkFullness -= program.getMilk();
-        decreaseDurability(Constants.USE_DEGRADATION);
+        decreaseDurability(Constants.Degradation.USE_DEGRADATION);
         status = DeviceStatus.ON;
         accept(new ConsumeVisitor());
         status = type.getStartStatus();

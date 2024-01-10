@@ -6,13 +6,13 @@ import java.time.Duration;
 import java.util.List;
 import java.util.Map;
 
+import static utils.Constants.Time.HOURS;
+import static utils.Constants.Time.MONTHS;
+
 public interface Weather {
-    int TEMPERATURE = 0; // TODO Move to constants
-    int HUMIDITY = 1; // TODO Move to constants
-    int BRIGHTNESS = 2; // TODO Move to constants
 
     Street street = Street.getInstance();
-    double[][][] stats = new double[3][12][24]; // TODO Put MONTHS=12 and HOURS=24 to constants
+    double[][][] stats = new double[3][MONTHS][HOURS];
     List<Weather> weathers = List.of(new NormalWeather(), new SunnyWeather(), new CloudyWeather(), new RainyWeather(), new WindyWeather());
 
     default void changeWeather() {

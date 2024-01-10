@@ -1,6 +1,8 @@
 package place.weather;
 
 import smarthome.Simulation;
+import utils.Constants;
+
 import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
@@ -20,9 +22,9 @@ public class RainyWeather implements Weather {
         int month = Simulation.getInstance().getCurrentTime().getMonthValue() - 1;
         int hour = Simulation.getInstance().getCurrentTime().getHour();
 
-        street.setTemperature(stats[TEMPERATURE][month][hour] + new Random().nextInt(-5, -2));
-        street.setHumidity(stats[HUMIDITY][month][hour] + new Random().nextInt(7, 13));
-        street.setBrightness(stats[BRIGHTNESS][month][hour] + new Random().nextInt(-17, -12));
+        street.setTemperature(stats[Constants.WeatherConstants.TEMPERATURE][month][hour] + new Random().nextInt(-5, -2));
+        street.setHumidity(stats[Constants.WeatherConstants.HUMIDITY][month][hour] + new Random().nextInt(7, 13));
+        street.setBrightness(stats[Constants.WeatherConstants.BRIGHTNESS][month][hour] + new Random().nextInt(-17, -12));
     }
 
     @Override

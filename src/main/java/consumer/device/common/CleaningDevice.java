@@ -32,7 +32,7 @@ public abstract class CleaningDevice extends Device {
         if (!super.routine())   return false;
 
         if (status == DeviceStatus.ON) {
-            setFilterStatus(filterStatus - Constants.FILTER_DEGRADATION);
+            setFilterStatus(filterStatus - Constants.Degradation.FILTER_DEGRADATION);
             if (readyTime.isAfter(Simulation.getInstance().getCurrentTime()))
                 restoreStatus();
         }

@@ -47,6 +47,16 @@ public class SupplySystem<T extends Consumer> {
         else consumedMap.put(consumer, consumed);
     }
 
+    public void shutdown() {
+        this.resourceAvailable = false;
+        switchAll(false);
+    }
+
+    public void recover() {
+        this.resourceAvailable = true;
+        switchAll(true);
+    }
+
     public void addConsumer(T consumer) {
         consumedMap.put(consumer, 0.0);
     }
@@ -61,9 +71,5 @@ public class SupplySystem<T extends Consumer> {
 
     public boolean isResourceAvailable() {
         return resourceAvailable;
-    }
-
-    public void setResourceAvailable(boolean resourceAvailable) {
-        this.resourceAvailable = resourceAvailable;
     }
 }

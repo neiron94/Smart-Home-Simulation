@@ -4,6 +4,8 @@ import consumer.device.sensored.*;
 import consumer.device.sensored.sensor.ParameterSensor;
 import event.Event;
 import smarthome.Simulation;
+import utils.Constants.ParameterDevices;
+import utils.Constants.House;
 import utils.HelpFunctions;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,8 +22,8 @@ public class Room implements EventDestination {
     private boolean activeGas;
 
     private double temperature;
-    private double humidity;
-    private double brightness;
+    private double humidity; // percent
+    private double brightness; // percent
 
     public Room(int id, RoomType type, Floor floor) {
         this.id = id;
@@ -47,24 +49,20 @@ public class Room implements EventDestination {
         return temperature;
     }
 
-    public void setTemperature(double temperature) {
-        this.temperature = temperature;
-    }
-
     public double getHumidity() {
         return humidity;
     }
 
-    public void setHumidity(int humidity) {
-        this.humidity = humidity;
+    private void setHumidity(double humidity) {
+        this.humidity = HelpFunctions.adjustPercent(humidity);
     }
 
     public double getBrightness() {
         return brightness;
     }
 
-    public void setBrightness(int brightness) {
-        this.brightness = brightness;
+    private void setBrightness(double brightness) {
+        this.brightness = HelpFunctions.adjustPercent(brightness);
     }
 
     public ControlPanel getControlPanel() {
@@ -123,20 +121,20 @@ public class Room implements EventDestination {
 
     public void routine() {
         Street street = Street.getInstance();
-        temperature = street.getTemperature() * 0.6; // Room temperature is almost street one // TODO Move 0.6 to HOUSE constant
-        humidity = street.getHumidity() * 0.9; // Room humidity is almost street one // TODO Move 0.9 to HOUSE constant
-        brightness = street.getBrightness() * 0.8; // Room brightness is almost street one // TODO Move 0.8 to HOUSE constant
+        temperature = street.getTemperature() * House.HEAT_PENETRABILITY; // Room temperature is almost street one
+        humidity = street.getHumidity() * House.HUMIDITY_PENETRABILITY; // Room humidity is almost street one
+        brightness = street.getBrightness() * House.LIGHT_PENETRABILITY; // Room brightness is almost street one
 
         Simulation.getInstance().getDevices().stream()
                 .filter(device -> device.getRoom() == this && device instanceof ParameterDevice)
                 .map(device -> (ParameterDevice<? extends ParameterSensor>) device)
                 .forEach(device -> {
-                    if (device instanceof Heater) temperature += 0.0 * device.getPower() / 100; // Consider working heater // TODO Make constant from Heater
-                    else if (device instanceof AC) temperature -= 0.0 * device.getPower() / 100; // Consider working AC // TODO Make constant from AC
-                    else if (device instanceof AirHumidifier) humidity = HelpFunctions.adjustPercent(humidity + 0.0 * device.getPower() / 100); // Consider working humidifier // TODO Make constant from AirHumidifier
-                    else if (device instanceof AirDryer) humidity = HelpFunctions.adjustPercent(humidity - 0.0 * device.getPower() / 100); // Consider working dryer // TODO Make constant from AirDryer
-                    else if (device instanceof Light) brightness = HelpFunctions.adjustPercent(brightness + 0.0 * device.getPower() / 100); // Consider working light // TODO Make constant from Light
-                    else if (device instanceof Window) brightness = HelpFunctions.adjustPercent(brightness - 0.0 * device.getPower() / 100); // Consider working window // TODO Make constant from Window
+                    if (device instanceof Heater) temperature += ParameterDevices.HEATER_ON_MAX_POWER * device.getPower() / 100; // Consider working heater
+                    else if (device instanceof AC) temperature -= ParameterDevices.AC_ON_MAX_POWER * device.getPower() / 100; // Consider working AC
+                    else if (device instanceof AirHumidifier) setHumidity(humidity + ParameterDevices.HUMIDIFIER_ON_MAX_POWER * device.getPower() / 100); // Consider working humidifier
+                    else if (device instanceof AirDryer) setHumidity(humidity - ParameterDevices.DRYER_ON_MAX_POWER * device.getPower() / 100); // Consider working dryer
+                    else if (device instanceof Light) setBrightness(brightness + ParameterDevices.LIGHT_ON_MAX_POWER * device.getPower() / 100); // Consider working light
+                    else if (device instanceof Window) setBrightness(brightness - ParameterDevices.WINDOW_ON_MAX_POWER * device.getPower() / 100); // Consider working window
                 });
     }
 }
