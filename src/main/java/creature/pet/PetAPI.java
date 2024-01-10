@@ -17,7 +17,7 @@ import java.util.Random;
 import java.util.function.Function;
 import static utils.HelpFunctions.*;
 
-public class PetAPI {
+public final class PetAPI {
 
     //*********************************************** Simple functions ***********************************************//
 
