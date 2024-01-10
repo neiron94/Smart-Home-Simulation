@@ -33,6 +33,10 @@ public class RankedQueue<T> implements Comparable<RankedQueue<T>> {
         return queue.peek();
     } // Look from front
 
+    public boolean isEmpty() {
+        return queue.isEmpty();
+    }
+
     public Priority getPriority() {
         return priority;
     }

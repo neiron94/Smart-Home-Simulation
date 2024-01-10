@@ -6,8 +6,6 @@ import java.time.Duration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
-
 import static utils.Constants.Time.HOURS;
 import static utils.Constants.Time.MONTHS;
 
@@ -18,11 +16,11 @@ public abstract class Weather {
     protected static Street street = Street.getInstance();
 
     static {
-        List<List<Double>> tmp = List.of(List.of(0.3, 0.2, 0.2, 0.1, 0.2),
-                                         List.of(0.2, 0.5, 0.2, 0.0, 0.1),
-                                         List.of(0.2, 0.2, 0.3, 0.3, 0.0),
-                                         List.of(0.1, 0.1, 0.3, 0.3, 0.2),
-                                         List.of(0.3, 0.1, 0.1, 0.2, 0.3));
+        List<List<Double>> tmp = List.of(List.of(0.3, 0.2, 0.2, 0.1, 0.2),  // Probabilities for NormalWeather
+                                         List.of(0.2, 0.5, 0.2, 0.0, 0.1),  // Probabilities for SunnyWeather
+                                         List.of(0.2, 0.2, 0.3, 0.3, 0.0),  // Probabilities for CloudyWeather
+                                         List.of(0.1, 0.1, 0.3, 0.3, 0.2),  // Probabilities for RainyWeather
+                                         List.of(0.3, 0.1, 0.1, 0.2, 0.3)); // Probabilities for WindyWeather
 
         tmp.forEach(list -> {
             int i = tmp.indexOf(list);
