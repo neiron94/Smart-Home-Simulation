@@ -1,28 +1,320 @@
 {
   "SONG" : [
     {
-      "author" : "Default",
-      "album" : "Default",
-      "name" : "Default",
+      "author" : "Queen",
+      "album" : "A Night at the Opera",
+      "name" : "Bohemian Rhapsody",
       "genre" : "ROCK",
-      "duration" : 1
+      "duration" : 6
+    },
+    {
+      "author" : "Led Zeppelin",
+      "album" : "Led Zeppelin IV",
+      "name" : "Stairway to Heaven",
+      "genre" : "ROCK",
+      "duration" : 8
+    },
+    {
+      "author" : "Ludwig van Beethoven",
+      "album" : "N/A",
+      "name" : "Symphony No. 9 (Ode to Joy)",
+      "genre" : "CLASSIC",
+      "duration" : 10
+    },
+    {
+      "author" : "Grandmaster Flash and the Furious Five",
+      "album" : "The Message",
+      "name" : "The Message",
+      "genre" : "HIP_HOP",
+      "duration" : 7
+    },
+    {
+      "author" : "Dave Brubeck Quartet",
+      "album" : "Time Out",
+      "name" : "Take Five",
+      "genre" : "JAZZ",
+      "duration" : 5
+    },
+    {
+      "author" : "Daft Punk",
+      "album" : "Homework",
+      "name" : "Around the World",
+      "genre" : "ELECTRONIC",
+      "duration" : 7
+    },
+    {
+      "author" : "Bob Marley & The Wailers",
+      "album" : "Exodus",
+      "name" : "Three Little Birds",
+      "genre" : "REGGAE",
+      "duration" : 3
+    },
+    {
+      "author" : "Michael Jackson",
+      "album" : "Thriller",
+      "name" : "Billie Jean",
+      "genre" : "POP",
+      "duration" : 4
+    },
+    {
+      "author" : "Eagles",
+      "album" : "Hotel California",
+      "name" : "Hotel California",
+      "genre" : "ROCK",
+      "duration" : 6
+    },
+    {
+      "author" : "Ludwig van Beethoven",
+      "album" : "N/A",
+      "name" : "Moonlight Sonata",
+      "genre" : "CLASSIC",
+      "duration" : 6
+    },
+    {
+      "author" : "Jay-Z featuring Alicia Keys",
+      "album" : "The Blueprint 3",
+      "name" : "Empire State of Mind",
+      "genre" : "HIP_HOP",
+      "duration" : 5
+    },
+    {
+      "author" : "Daft Punk",
+      "album" : "Discovery",
+      "name" : "One More Time",
+      "genre" : "ELECTRONIC",
+      "duration" : 5
+    },
+    {
+      "author" : "Bob Marley & The Wailers",
+      "album" : "Uprising",
+      "name" : "Redemption Song",
+      "genre" : "REGGAE",
+      "duration" : 4
+    },
+    {
+      "author" : "Michael Jackson",
+      "album" : "Thriller",
+      "name" : "Thriller",
+      "genre" : "POP",
+      "duration" : 6
+    },
+    {
+      "author" : "Эпидемия",
+      "album" : "Призраки и Тени",
+      "name" : "Пустошь Смауга",
+      "genre" : "ROCK",
+      "duration" : 5
     }
   ],
 
   "VIDEO" : [
     {
-      "name": "Default",
-      "description": "Default",
+      "name": "Stranger Things",
+      "description": "Mysterious events unfold in a small town as a group of kids encounters supernatural forces.",
+      "platform": "NETFLIX",
+      "duration": 50
+    },
+    {
+      "name": "The Crown",
+      "description": "A historical drama that chronicles the reign of Queen Elizabeth II and the events that shaped the second half of the 20th century.",
+      "platform": "NETFLIX",
+      "duration": 60
+    },
+    {
+      "name": "Money Heist",
+      "description": "A group of criminals, led by 'The Professor', executes intricate heists on the Royal Mint of Spain and the Bank of Spain.",
+      "platform": "NETFLIX",
+      "duration": 50
+    },
+    {
+      "name": "Unbox Therapy",
+      "description": "Tech and gadget reviews, unboxings, and discussions about the latest consumer electronics.",
       "platform": "YOUTUBE",
-      "duration": 1
+      "duration": 10
+    },
+    {
+      "name": "PewDiePie",
+      "description": "Gaming content, vlogs, and commentary from the most subscribed individual creator on YouTube.",
+      "platform": "YOUTUBE",
+      "duration": 20
+    },
+    {
+      "name": "TED-Ed",
+      "description": "Educational animations and lessons covering a wide range of topics from science to literature.",
+      "platform": "YOUTUBE",
+      "duration": 10
+    },
+    {
+      "name": "FEL ČVUT",
+      "description": "Záznamy přednášek, promovidea kateder a výzkumných skupin, akce, výzkumné výsledky aj.",
+      "platform": "YOUTUBE",
+      "duration": 80
+    },
+    {
+      "name": "The Mandalorian",
+      "description": "A lone bounty hunter explores the outer reaches of the galaxy in the Star Wars universe.",
+      "platform": "DISNEY_PLUS",
+      "duration": 30
+    },
+    {
+      "name": "The Simpsons",
+      "description": "An animated sitcom that satirically explores the lives of the Simpson family and the residents of the fictional town of Springfield.",
+      "platform": "DISNEY_PLUS",
+      "duration": 25
+    },
+    {
+      "name": "MythBusters",
+      "description": "A team of special effects experts investigates and tests popular myths, urban legends, and movie scenes.",
+      "platform": "DISCOVERY_CHANNEL",
+      "duration": 45
+    },
+    {
+      "name": "Planet Earth",
+      "description": "A documentary series showcasing the beauty and diversity of the Earth's ecosystems and wildlife.",
+      "platform": "DISCOVERY_CHANNEL",
+      "duration": 50
+    },
+    {
+      "name": "Snow White and the Seven Dwarfs",
+      "description": "Seven black gnomes have found young white princess felt asleep.",
+      "platform": "PORNHUB",
+      "duration": 25
+    },
+    {
+      "name": "Top Moments in NHL History",
+      "description": "A compilation video showcasing the top moments in the history of the National Hockey League (NHL).",
+      "platform": "SPORT_CHANNEL",
+      "duration": 60
+    },
+    {
+      "name": "Muhammad Ali vs. Joe Frazier - 'The Thrilla in Manila'",
+      "description": "The third and final bout between Muhammad Ali and Joe Frazier, held in Manila on October 1, 1975.",
+      "platform": "SPORT_CHANNEL",
+      "duration": 58
+    },
+    {
+      "name": "UFC 229 - Khabib Nurmagomedov vs. Conor McGregor",
+      "description": "A highly anticipated lightweight title bout between Khabib Nurmagomedov and Conor McGregor, held on October 6, 2018, at T-Mobile Arena in Las Vegas.",
+      "platform": "SPORT_CHANNEL",
+      "duration": 20
+    },
+    {
+      "name": "FIFA World Cup Final 2014 - Germany vs. Argentina",
+      "description": "The final match of the 2014 FIFA World Cup held at Maracanã Stadium in Rio de Janeiro, Brazil.",
+      "platform": "SPORT_CHANNEL",
+      "duration": 120
+    },
+    {
+      "name": "Inception",
+      "description": "A mind-bending science fiction thriller directed by Christopher Nolan, exploring the concept of dreams within dreams.",
+      "platform": "MOVIE",
+      "duration": 148
+    },
+    {
+      "name": "Titanic",
+      "description": "A romantic drama directed by James Cameron, depicting the ill-fated maiden voyage of the RMS Titanic.",
+      "platform": "MOVIE",
+      "duration": 195
+    },
+    {
+      "name": "Forrest Gump",
+      "description": "A heartwarming drama directed by Robert Zemeckis, following the life of Forrest Gump, a man with a low IQ but a remarkable life story.",
+      "platform": "MOVIE",
+      "duration": 142
+    },
+    {
+      "name": "Зеленый слоник",
+      "description": "Два младших офицера, сидя в одной камере на гауптвахте, вынуждены решать острые социальные и психологические вопросы в небольшом пространстве.",
+      "platform": "MOVIE",
+      "duration": 86
     }
   ],
 
   "GAME" : [
     {
-      "name" : "Default",
-      "description" : "Default",
+      "name" : "The Legend of Zelda: Ocarina of Time",
+      "description" : "Embark on a time-traveling adventure as Link to save the land of Hyrule.",
+      "genre" : "RPG"
+    },
+    {
+      "name" : "Civilization VI",
+      "description" : "Lead your civilization from ancient times to the modern era in this turn-based strategy game.",
+      "genre" : "STRATEGY"
+    },
+    {
+      "name" : "Super Mario Bros.",
+      "description" : "Join Mario in his classic quest to rescue Princess Peach from the clutches of Bowser.",
       "genre" : "ACTION"
+    },
+    {
+      "name" : "The Witcher 3: Wild Hunt",
+      "description" : "Play as Geralt of Rivia in this epic open-world RPG filled with monsters, quests, and moral choices.",
+      "genre" : "RPG"
+    },
+    {
+      "name" : "StarCraft II",
+      "description" : "Command armies of futuristic factions in this real-time strategy game.",
+      "genre" : "STRATEGY"
+    },
+    {
+      "name" : "Grand Theft Auto V",
+      "description" : "Experience the sprawling open world of Los Santos and engage in various criminal activities.",
+      "genre" : "ACTION"
+    },
+    {
+      "name" : "The Elder Scrolls V: Skyrim",
+      "description" : "Immerse yourself in the vast fantasy world of Tamriel as the Dragonborn.",
+      "genre" : "RPG"
+    },
+    {
+      "name" : "Diablo III",
+      "description" : "Battle hordes of demons and collect epic loot in this action RPG.",
+      "genre" : "RPG"
+    },
+    {
+      "name" : "Fallout: New Vegas",
+      "description" : "Navigate the post-apocalyptic Mojave Wasteland in this RPG filled with choices and consequences.",
+      "genre" : "RPG"
+    },
+    {
+      "name" : "Resident Evil 4",
+      "description" : "Survive a horror-filled adventure as Leon Kennedy in a quest to rescue the President's daughter.",
+      "genre" : "HORROR"
+    },
+    {
+      "name" : "FIFA 22",
+      "description" : "Experience realistic football gameplay and manage your favorite teams in this sports simulation.",
+      "genre" : "SPORT"
+    },
+    {
+      "name" : "Need for Speed: Most Wanted (2005)",
+      "description" : "Race and evade the police in this iconic racing game with an open-world structure.",
+      "genre" : "RACING"
+    },
+    {
+      "name" : "Dark Souls",
+      "description" : "Face challenging enemies and explore a dark fantasy world in this action RPG.",
+      "genre" : "ACTION"
+    },
+    {
+      "name" : "The Last of Us",
+      "description" : "Navigate a post-apocalyptic world and experience a gripping narrative in this action-adventure game.",
+      "genre" : "ACTION"
+    },
+    {
+      "name" : "Leisure Suit Larry",
+      "description" : "Larry Laffer, a bumbling and lovable character, embarks on comical adventures in pursuit of love and romance.",
+      "genre" : "QUEST"
+    },
+    {
+      "name" : "Counter-Strike 1.6",
+      "description" : "A classic multiplayer first-person shooter where teams of terrorists and counter-terrorists face off in intense, tactical battles. Known for its simplicity, strategic gameplay, and iconic maps.",
+      "genre" : "ACTION"
+    },
+    {
+      "name" : "ТЕТРИС",
+      "description" : "Классическая головоломка, где игроки собирают и выстраивают блоки различных форм для создания цельных линий.",
+      "genre" : "PUZZLE"
     }
   ]
 }

@@ -2,9 +2,23 @@
   "configurations" : [
     {
       "name" : "Default",
-      "temperature" : 1,
-      "humidity" : 1,
-      "brightness" : 1,
+      "temperature" : 20,
+      "humidity" : 60,
+      "brightness" : 70,
+      "color" : [255, 253, 141]
+    },
+    {
+      "name" : "Comfort",
+      "temperature" : 22,
+      "humidity" : 50,
+      "brightness" : 60,
+      "color" : [255, 254, 224]
+    },
+    {
+      "name" : "Eco",
+      "temperature" : 16,
+      "humidity" : 50,
+      "brightness" : 10,
       "color" : [1, 1, 1]
     }
   ]
