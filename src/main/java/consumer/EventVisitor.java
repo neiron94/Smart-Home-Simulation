@@ -9,7 +9,15 @@ import event.LeakEvent;
 import static utils.Constants.Probabilities.DEVICE_EVENT_PROBABILITY;
 import static utils.Constants.Probabilities.EVENT_DURABILITY_DEPENDENCY;
 
+/**
+ * With some probability makes consumer cause disaster event.
+ */
 public class EventVisitor implements Visitor {
+
+    /**
+     * Makes consumer cause fire event.
+     * @param consumer ElectricityConsumer to visit.
+     */
     @Override
     public void visit(ElectricityConsumer consumer) {
         Device device = (Device) consumer;
@@ -19,6 +27,10 @@ public class EventVisitor implements Visitor {
         }
     }
 
+    /**
+     * Makes consumer cause leak event.
+     * @param consumer GasConsumer to visit.
+     */
     @Override
     public void visit(GasConsumer consumer) {
         Device device = (Device) consumer;
@@ -28,6 +40,10 @@ public class EventVisitor implements Visitor {
         }
     }
 
+    /**
+     * Makes consumer cause flood event.
+     * @param consumer WaterConsumer to visit.
+     */
     @Override
     public void visit(WaterConsumer consumer) {
         Device device = (Device) consumer;

@@ -8,10 +8,13 @@ import utils.HelpFunctions;
 import utils.Prototype;
 import utils.exceptions.*;
 
-
+/**
+ * Represents device that can be interacted with.
+ * Each device consumes some resource (electricity, gas or water).
+ */
 public abstract class Device implements Consumer, Prototype {
     protected final int id;
-    protected  final DeviceType type;
+    protected final DeviceType type;
     protected Room room;
     protected final Manual manual;
     protected DeviceStatus status;
@@ -20,6 +23,15 @@ public abstract class Device implements Consumer, Prototype {
     protected boolean isFunctional; // is not totally broken
     protected boolean isOccupied;
 
+    /**
+     * The only one Device constructor. Automatically creates manual for this device,
+     * sets status to start status and durability depending on the device type.
+     * Also adds this device to Simulation and SupplySystem via Visitor design pattern.
+     *
+     * @param type Device type, which is connected to class of the concrete device.
+     * @param id ID of the device. All IDs are unique for one device type.
+     * @param startRoom Room in which device is located at the start of the program.
+     */
     public Device(DeviceType type, int id, Room startRoom) {
         this.type = type;
         this.id = id;
@@ -32,13 +44,19 @@ public abstract class Device implements Consumer, Prototype {
         isFunctional = true;
         isOccupied = false;
 
-        accept(new AddVisitor());   // add to consumption map in supply system
+        accept(new AddVisitor());   // add to simulation and consumption map in supply system
     }
 
     //--------- Main public functions ----------//
 
-    public boolean routine() { // Is called every tick
-        this.accept(new EventVisitor());
+    /**
+     * Routine which should be performed by each device every tick
+     * of simulation. Is called from Simulation class in simulate() function.
+     * Shouldn't be called by anyone else.
+     * @return Can be ignored, is used for inner logic.
+     */
+    public boolean routine() {
+        this.accept(new EventVisitor()); // disaster event can happen
 
         if (status == DeviceStatus.ON) decreaseDurability(Constants.Degradation.USE_DEGRADATION);
         else decreaseDurability(Constants.Degradation.TIME_DEGRADATION);
@@ -48,6 +66,10 @@ public abstract class Device implements Consumer, Prototype {
         return true;
     }
 
+    /**
+     * Decreases device's durability, can cause device's breakdown.
+     * @param degradation Amount of durability decreasing.
+     */
     public void decreaseDurability(long degradation) {
         if (durability > 0) {
             setDurability(durability - degradation);
@@ -55,8 +77,16 @@ public abstract class Device implements Consumer, Prototype {
         }
     }
 
+    @Override
+    public abstract Device copy();
+
     //---------- API for human -----------//
 
+    /**
+     * Repair broken device, called as an event solving. Device's maxDurability is
+     * decreased after each repairing.
+     * @throws NotRepairableDeviceException Device's maxDurability equals 0.
+     */
     public void repair() throws NotRepairableDeviceException {
         status = type.getStartStatus();
         maxDurability -= maxDurability * 0.05;
@@ -67,11 +97,19 @@ public abstract class Device implements Consumer, Prototype {
         }
     }
 
+    /**
+     * Turn on a device (set status to its startStatus).
+     * @throws DeviceIsBrokenException Device is broken.
+     * @throws ResourceNotAvailableException There is no electricity/gas/water available in the room.
+     */
     public void turnOn() throws DeviceIsBrokenException, ResourceNotAvailableException {
         checkBeforeTurnOn();
         status = type.getStartStatus();
     }
 
+    /**
+     * Torn off a device (set status to OFF).
+     */
     public void turnOff() {
         this.status = DeviceStatus.OFF;
         this.isOccupied = false;
@@ -165,7 +203,4 @@ public abstract class Device implements Consumer, Prototype {
     public int getId() {
         return id;
     }
-
-    @Override
-    public abstract Device copy();
 }

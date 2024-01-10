@@ -1,5 +1,8 @@
 package consumer.device;
 
+/**
+ * Difficulty of device repairing.
+ */
 public enum RepairDifficulty {
     EASY("easy", 300),
     MEDIUM("medium", 600),

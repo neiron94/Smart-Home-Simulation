@@ -2,6 +2,7 @@ package utils;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import consumer.device.Device;
 import consumer.device.DeviceFactory;
 import creature.CreatureFactory;
 import place.*;

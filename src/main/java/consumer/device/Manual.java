@@ -3,6 +3,9 @@ package consumer.device;
 import smarthome.Simulation;
 import java.time.LocalDateTime;
 
+/**
+ * Stores information that you need when device is broken.
+ */
 public class Manual {
     private final LocalDateTime guaranteeExpirationDate;
     private final String text;

@@ -2,6 +2,9 @@ package consumer.device;
 
 import utils.Constants.Consumption;
 
+/**
+ * Status of device. Consumption and work of devices depend on their status.
+ */
 public enum DeviceStatus {
     ON("ON", Consumption.ON_MULTIPLIER),
     OFF("OFF", Consumption.OFF_MULTIPLIER),

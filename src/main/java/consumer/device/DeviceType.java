@@ -5,6 +5,10 @@ import consumer.device.common.*;
 import consumer.device.sensored.*;
 import utils.Constants.Guarantee;
 
+/**
+ * Represents every possible concrete device, stores useful information such as
+ * start status guarantee duration and repair difficulty.
+ */
 public enum DeviceType {
     FRIDGE("Fridge", Fridge.class, DeviceStatus.ON, RepairDifficulty.MEDIUM, Guarantee.FRIDGE),
     COFFEE_MACHINE("CoffeeMachine", CoffeeMachine.class, DeviceStatus.STANDBY, RepairDifficulty.MEDIUM, Guarantee.COFFEE_MACHINE),
