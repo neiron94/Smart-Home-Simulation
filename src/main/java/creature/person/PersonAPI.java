@@ -17,13 +17,11 @@ import java.time.LocalTime;
 import java.util.List;
 import java.util.Random;
 import java.util.function.Function;
-
 import static utils.HelpFunctions.findDevice;
 import static utils.HelpFunctions.makeRecord;
 
 public final class PersonAPI {
 
-    // TODO - change numbers for constants?
     // TODO - work with hunger and fullness
 
     //*********************************************** Simple functions ***********************************************//
@@ -74,7 +72,6 @@ public final class PersonAPI {
         return true;
     };
 
-
     //################################# Void functions ##################################//
 
     //------------ Common home functions ------------//
@@ -85,7 +82,7 @@ public final class PersonAPI {
     };
 
     public static final Function<Action<Person, Void>, Boolean> wakeUp = action -> {
-        makeRecord(action.getExecutor(), "Woke up");
+        makeRecord(action.getExecutor(), "Wake up");
         return true;
     };
 
