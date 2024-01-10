@@ -13,35 +13,32 @@ public abstract class Weather {
     public static double[][][] stats = new double[3][MONTHS][HOURS];
     public static final List<Weather> weathers = List.of(new NormalWeather(), new SunnyWeather(), new CloudyWeather(), new RainyWeather(), new WindyWeather());
     private static final Map<Weather, Map<Weather, Double>> probabilities = new HashMap<>();
-    protected static Street street = Street.getInstance();
 
     static {
-        List<List<Double>> tmp = List.of(List.of(0.3, 0.2, 0.2, 0.1, 0.2),  // Probabilities for NormalWeather
-                                         List.of(0.2, 0.5, 0.2, 0.0, 0.1),  // Probabilities for SunnyWeather
-                                         List.of(0.2, 0.2, 0.3, 0.3, 0.0),  // Probabilities for CloudyWeather
-                                         List.of(0.1, 0.1, 0.3, 0.3, 0.2),  // Probabilities for RainyWeather
-                                         List.of(0.3, 0.1, 0.1, 0.2, 0.3)); // Probabilities for WindyWeather
+        double[][] probability = {
+                {0.3, 0.2, 0.2, 0.1, 0.2}, // Probabilities of next weather for Normal weather
+                {0.2, 0.5, 0.2, 0.0, 0.1}, // Probabilities of next weather for Sunny weather
+                {0.2, 0.2, 0.3, 0.3, 0.0}, // Probabilities of next weather for Cloudy weather
+                {0.1, 0.1, 0.3, 0.3, 0.2}, // Probabilities of next weather for Rainy weather
+                {0.3, 0.1, 0.1, 0.2, 0.3}  // Probabilities of next weather for Windy weather
+        };
 
-        tmp.forEach(list -> {
-            int i = tmp.indexOf(list);
+        for (int i = 0; i < probability.length; ++i) {
             Map<Weather, Double> map = new HashMap<>();
-            list.forEach(elem -> {
-                int j = list.indexOf(elem);
-                map.put(weathers.get(j), tmp.get(i).get(j));
-            });
+            for (int j = 0; j < probability[i].length; ++j) map.put(weathers.get(j), probability[i][j]);
             probabilities.put(weathers.get(i), map);
-        });
+        }
     }
 
     public void changeWeather() {
         double choice = Math.random();
         double accumulator = 0.0;
 
-        for (Map.Entry<Weather, Double> next : probabilities.get(street.getWeather()).entrySet()) {
+        for (Map.Entry<Weather, Double> next : probabilities.get(Street.getInstance().getWeather()).entrySet()) {
             accumulator += next.getValue();
             if (choice <= accumulator) {
-                street.setWeather(next.getKey());
-                street.setWeatherChange(Simulation.getInstance().getCurrentTime().plus(next.getKey().getDuration()));
+                Street.getInstance().setWeather(next.getKey());
+                Street.getInstance().setWeatherChange(Simulation.getInstance().getCurrentTime().plus(next.getKey().getDuration()));
                 applyWeather();
                 break;
             }

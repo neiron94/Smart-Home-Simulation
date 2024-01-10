@@ -25,20 +25,20 @@ public interface PersonStrategy extends Strategy {
     @Override
     default void react(WakeUpEvent event) {
         RankedQueue<Action<Person, ?>> sequence = new RankedQueue<>(event.getPriority());
-        sequence.add(new Action<>(0, true, person(), event, PersonActions.takeEvent));
+        sequence.add(new Action<>(1, true, person(), event, PersonActions.takeEvent));
         sequence.add(new Action<>(1, true, person(), (AlarmClock) event.getCreator(), PersonActions.stopAlarmClock));
-        sequence.add(new Action<>(0, true, person(), event, PersonActions.recordEvent));
+        sequence.add(new Action<>(1, true, person(), event, PersonActions.recordEvent));
         person().addToMemory(sequence);
     }
 
     @Override
     default void react(FillEvent event) {
         RankedQueue<Action<Person, ?>> sequence = new RankedQueue<>(event.getPriority());
-        sequence.add(new Action<>(0, true, person(), event, PersonActions.takeEvent));
+        sequence.add(new Action<>(1, true, person(), event, PersonActions.takeEvent));
         sequence.add(new Action<>(1, true, person(), event.getOrigin(), PersonActions.goToRoom));
         sequence.add(new Action<>(3, true, person(), (Feeder) event.getCreator(), PersonActions.addFoodFeeder));
         sequence.add(new Action<>(3, true, person(), (Feeder) event.getCreator(), PersonActions.addWaterFeeder));
-        sequence.add(new Action<>(0, true, person(), event, PersonActions.recordEvent));
+        sequence.add(new Action<>(1, true, person(), event, PersonActions.recordEvent));
         person().addToMemory(sequence);
     }
 

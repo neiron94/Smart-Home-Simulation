@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 
 public class Street {
     private static Street INSTANCE;
-    public synchronized static Street getInstance() {
+    public static Street getInstance() {
         if (INSTANCE == null) INSTANCE = new Street();
         return INSTANCE;
     }
@@ -19,7 +19,7 @@ public class Street {
     private double humidity;
     private double brightness;
 
-    public Street() {
+    private Street() {
         ConfigurationReader.readWeatherConfig();
         weatherChange = Simulation.getInstance().getCurrentTime();
         weather = HelpFunctions.getRandomObject(Weather.weathers);
