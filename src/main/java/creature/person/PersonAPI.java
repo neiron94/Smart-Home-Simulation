@@ -95,6 +95,11 @@ public final class PersonAPI {
         return true;
     };
 
+    private static final Function<Action<Person, Void>, Boolean> goNap = action -> {
+        makeRecord(action.getExecutor(), "Nap");
+        return true;
+    };
+
     private static final Function<Action<Person, Void>, Boolean> sweepFloor = action -> {
         makeRecord(action.getExecutor(), "Swept the floor");
         return true;
@@ -1006,7 +1011,7 @@ public final class PersonAPI {
     public static final Function<Person, RankedQueue<Action<Person, ?>>> nap = person -> {
         RankedQueue<Action<Person, ?>> queue = new RankedQueue<>(Priority.SLEEP);
 
-        queue.add(new Action<>(1, true, person, null, goSleep));
+        queue.add(new Action<>(1, true, person, null, goNap));
         queue.add(new Action<>(new Random().nextInt(20, 100), true, person, null, wakeUp));
 
         return queue;
