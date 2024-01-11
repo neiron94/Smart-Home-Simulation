@@ -14,6 +14,9 @@ public class ReportCreator {
     private static final String REPORT_PATH = String.join(File.separator, System.getProperty("user.dir"), "report") + File.separator; // TODO Find out where to save reports (not to use System.getProperty)
 
     static {
+        File directory = new File(REPORT_PATH); // Create directory
+        if (!directory.exists()) if (!directory.mkdirs()); // TODO Handle an error + log info about error of directory making
+
         Arrays.stream(ReportType.values()).forEach(ReportCreator::createFile); // Create files to write reports there later
     }
 
@@ -67,19 +70,15 @@ public class ReportCreator {
 
     private static void createFile(ReportType type) {
         try {
-            File directory = new File(REPORT_PATH);
-            if (!directory.exists()) if (!directory.mkdirs()) return; // TODO Handle an error + log info about error of directory making
-
             File file = new File(REPORT_PATH + type.getFileName()); // Delete previous simulation report
             if (file.exists()) if (!file.delete()) return; // TODO Handle an error + log info about error of old report file deletion
 
             FileWriter writer = new FileWriter(REPORT_PATH + type.getFileName()); // Create new report file
 
             switch (type) {
-                case CONSUMPTION -> writer.write("Date\tDevice\tElectricity\tWater\tGas\tMoney" + '\n'); // Add ConsumptionReport header
-                case EVENT -> writer.write("Created\tSolved\tType\tCreator\tSolver" + '\n'); // Add EventReport header
+                case CONSUMPTION -> writer.write("Date\tDevice\tElectricity\tWater\tGas\tMoney\n"); // Add ConsumptionReport header
+                case EVENT -> writer.write("Created\tSolved\tType\tCreator\tSolver\n"); // Add EventReport header
                 case CONFIGURATION, ACTIVITY -> writer.write("");
-                default -> throw new IllegalArgumentException("Invalid report type!"); // TODO Handle error
             }
 
             writer.close();
