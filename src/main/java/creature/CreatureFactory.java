@@ -27,7 +27,7 @@ public class CreatureFactory {
             throw new NoSuchElementException("Invalid Family Status");
         }
 
-        return new Person(name, gender, status, HelpFunctions.getRandomObject(rooms));
+        return new Person(name, gender, status, rooms.stream().findAny().orElseThrow(NoSuchElementException::new));
     }
 
     public Pet createPet(String name, String petType) {
@@ -39,6 +39,6 @@ public class CreatureFactory {
             throw new NoSuchElementException("Invalid Pet Type");
         }
 
-        return new Pet(name, type, HelpFunctions.getRandomObject(rooms));
+        return new Pet(name, type, rooms.stream().findAny().orElseThrow(NoSuchElementException::new));
     }
 }

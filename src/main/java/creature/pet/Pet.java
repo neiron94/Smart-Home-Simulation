@@ -46,7 +46,7 @@ public class Pet extends Creature {
     @Override
     protected void chooseActivity() {
         List<Function<Pet, RankedQueue<Action<Pet, ?>>>> functions = List.of(PetAPI.sleep, PetAPI.play, PetAPI.goToBackyard, PetAPI.goToBackyard);
-        memory.add(Objects.requireNonNull(HelpFunctions.getRandomObject(functions)).apply(this));
+        functions.stream().findAny().ifPresent(function -> memory.add(function.apply(this)));
     }
 
     @Override
@@ -55,7 +55,7 @@ public class Pet extends Creature {
         Simulation.getInstance().getCreatures().stream()
                 .filter(creature -> creature instanceof Person)
                 .map(person -> (Person) person)
-                .filter(person -> !person.isBusy() && person.isAlive())
+                .filter(person -> person.isAlive() && !person.isBusy() && person.isAtHome())
                 .findFirst().ifPresent(human -> new Action<>(1, true, human, null, PersonAPI.cleanAfterPet).perform());
         fullness = 0;
     }

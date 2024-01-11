@@ -11,12 +11,12 @@ import utils.Constants.Guarantee;
  */
 public enum DeviceType {
     FRIDGE("Fridge", Fridge.class, DeviceStatus.ON, RepairDifficulty.MEDIUM, Guarantee.FRIDGE),
-    COFFEE_MACHINE("CoffeeMachine", CoffeeMachine.class, DeviceStatus.STANDBY, RepairDifficulty.MEDIUM, Guarantee.COFFEE_MACHINE),
+    COFFEE_MACHINE("CoffeeMachine", CoffeeMachine.class, DeviceStatus.OFF, RepairDifficulty.MEDIUM, Guarantee.COFFEE_MACHINE),
     TOASTER("Toaster", Toaster.class, DeviceStatus.STANDBY, RepairDifficulty.EASY, Guarantee.TOASTER),
     MICROWAVE("Microwave", Microwave.class, DeviceStatus.STANDBY, RepairDifficulty.MEDIUM, Guarantee.MICROWAVE),
-    ELECTRIC_OVEN("ElectricOven", ElectricOven.class, DeviceStatus.OFF, RepairDifficulty.HARD, Guarantee.ELECTRIC_OVEN),
+    ELECTRIC_OVEN("ElectricOven", ElectricOven.class, DeviceStatus.STANDBY, RepairDifficulty.HARD, Guarantee.ELECTRIC_OVEN),
     GAS_OVEN("GasOven", GasOven.class, DeviceStatus.OFF, RepairDifficulty.HARD, Guarantee.GAS_OVEN),
-    VENT("Vent", Vent.class, DeviceStatus.OFF, RepairDifficulty.EASY, Guarantee.VENT),
+    VENT("Vent", Vent.class, DeviceStatus.STANDBY, RepairDifficulty.EASY, Guarantee.VENT),
     FEEDER("Feeder", Feeder.class, DeviceStatus.ON, RepairDifficulty.EASY, Guarantee.FEEDER),
     DISHWASHER("Dishwasher", Dishwasher.class, DeviceStatus.STANDBY, RepairDifficulty.MEDIUM, Guarantee.DISHWASHER),
     WASHER("Washer", Washer.class, DeviceStatus.STANDBY, RepairDifficulty.MEDIUM, Guarantee.WASHER),

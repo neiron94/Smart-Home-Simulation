@@ -14,9 +14,6 @@ public class ControlPanel {
     private RoomConfiguration currentConfiguration;
 
     private static final List<RoomConfiguration> configurations = new ArrayList<>();
-    static {
-        ConfigurationReader.readRoomConfigurationConfig();
-    }
 
     public ControlPanel(Room room) {
         this.room = room;
@@ -79,7 +76,7 @@ public class ControlPanel {
     }
 
     public RoomConfiguration getRandomConfiguration() {
-        return HelpFunctions.getRandomObject(configurations);
+        return configurations.stream().findAny().orElseThrow(NoSuchElementException::new);
     }
 
     public void loadConfiguration(RoomConfiguration configuration) {

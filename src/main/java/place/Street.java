@@ -5,6 +5,7 @@ import smarthome.Simulation;
 import utils.ConfigurationReader;
 import utils.HelpFunctions;
 import java.time.LocalDateTime;
+import java.util.NoSuchElementException;
 
 public class Street {
     private static Street INSTANCE;
@@ -22,7 +23,7 @@ public class Street {
     private Street() {
         ConfigurationReader.readWeatherConfig();
         weatherChange = Simulation.getInstance().getCurrentTime();
-        weather = HelpFunctions.getRandomObject(Weather.weathers);
+        weather = Weather.weathers.stream().findAny().orElseThrow(NoSuchElementException::new);
     }
 
     public double getTemperature() {

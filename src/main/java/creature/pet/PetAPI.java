@@ -6,6 +6,7 @@ import consumer.device.common.Feeder;
 import creature.Action;
 import place.Room;
 import place.RoomType;
+import smarthome.Simulation;
 import utils.Constants;
 import utils.HelpFunctions;
 import utils.Priority;
@@ -13,6 +14,8 @@ import utils.RankedQueue;
 import utils.exceptions.DeviceNotFoundException;
 import utils.exceptions.RoomNotFoundException;
 import utils.exceptions.WrongDeviceStatusException;
+
+import java.util.NoSuchElementException;
 import java.util.Random;
 import java.util.function.Function;
 import static utils.HelpFunctions.*;
@@ -170,7 +173,7 @@ public final class PetAPI {
     public static final Function<Pet, RankedQueue<Action<Pet, ?>>> brakeDevice = pet -> {
         RankedQueue<Action<Pet, ?>> queue = new RankedQueue<>(Priority.COMMON);
 
-        Device device = getRandomDevice();
+        Device device = Simulation.getInstance().getDevices().stream().findAny().orElseThrow(NoSuchElementException::new);
         queue.add(new Action<>(1, true, pet, device, damageDevice));
 
         return queue;

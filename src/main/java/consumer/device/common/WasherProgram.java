@@ -28,10 +28,6 @@ public enum WasherProgram {
         this.waterConsumption = waterConsumption;
     }
 
-    public static WasherProgram getRandomProgram() {
-        return WasherProgram.values()[new Random().nextInt(0, WasherProgram.values().length)];
-    }
-
     public Duration getDuration() {
         return duration;
     }

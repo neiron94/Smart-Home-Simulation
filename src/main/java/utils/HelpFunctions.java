@@ -12,6 +12,7 @@ import utils.exceptions.RoomNotFoundException;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.Random;
 
@@ -36,16 +37,6 @@ public class HelpFunctions {
         return value < min ? min : Math.min(value, max);
     }
 
-    public static <T> T getRandomObject(List<T> array) {
-        Random random = new Random();
-        try {
-            int randomIndex = random.nextInt(array.size());
-            return array.get(randomIndex);
-        } catch (IllegalArgumentException e) {
-            return null; // TODO Change return value
-        }
-    }
-
     public static double countElectricityConsumption(DeviceStatus status, double power) {
         return status.getMultiplier() * power * Constants.Time.TICK_DURATION;
     }
@@ -57,8 +48,6 @@ public class HelpFunctions {
     public static double countGasConsumption(DeviceStatus status, double power) {
         return status == DeviceStatus.ON ? power * Constants.Time.TICK_DURATION : 0;
     }
-
-    public static void ignore(){}
 
     public static void makeRecord(Creature creature, String description) {
         creature.getActivity().addActivity(description);
@@ -97,22 +86,12 @@ public class HelpFunctions {
                 .orElseThrow(DeviceNotFoundException::new);
     }
 
-    public static Room getRandomRoom() {
-        return getRandomObject(Simulation.getInstance().getHome().getFloors().stream()
-                .flatMap(floor -> floor.getRooms().stream())
-                .toList());
-    }
-
     public static Room findRoom(RoomType type) throws RoomNotFoundException {
         return Simulation.getInstance().getHome().getFloors().stream()
                 .flatMap(floor -> floor.getRooms().stream())
                 .filter(room -> room.getType() == type)
                 .findFirst()
                 .orElseThrow(RoomNotFoundException::new);
-    }
-
-    public static Device getRandomDevice() {
-        return getRandomObject(Simulation.getInstance().getDevices().stream().toList());
     }
 
     public static Optional<DayPeriod> getDayPeriod(LocalDateTime date) {

@@ -17,7 +17,7 @@ import static utils.Constants.ConfigurationReaderConstants.*;
 import static utils.Constants.Time.*;
 
 public class ConfigurationReader {
-    private static final String CONFIG_PATH = String.join(File.separator, System.getProperty("user.dir"), "src", "main", "resources", "config") + File.separator; // TODO Find out how to open configurations (not to use System.getProperty)
+    private static final String CONFIG_PATH = String.join(File.separator, System.getProperty("user.dir"), "config") + File.separator;
 
     public static void readSimulationConfig(Simulation simulation) {
         String configPath = CONFIG_PATH + "Simulation.json";
@@ -119,6 +119,8 @@ public class ConfigurationReader {
             String genre = game.path("genre").asText();
             EntertainmentService.GameService.addGame(factory.createGame(name, description, genre));
         }
+
+        EntertainmentService.AudioService.createPlaylists();
     }
 
     public static void readWeatherConfig() {

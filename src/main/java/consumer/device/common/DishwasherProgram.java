@@ -28,14 +28,6 @@ public enum DishwasherProgram {
         this.waterConsumption = waterConsumption;
     }
 
-    /**
-     * Take random dishwasher program.
-     * @return Random dishwasher program.
-     */
-    public static DishwasherProgram getRandomProgram() {
-        return DishwasherProgram.values()[new Random().nextInt(0, DishwasherProgram.values().length)];
-    }
-
     public Duration getDuration() {
         return duration;
     }

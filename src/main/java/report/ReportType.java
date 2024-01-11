@@ -2,9 +2,9 @@ package report;
 
 public enum ReportType {
     CONFIGURATION("Configuration", "txt"),
-    CONSUMPTION("Consumption", "csv"),
+    CONSUMPTION("Consumption", "tsv"),
     ACTIVITY("Activity", "txt"),
-    EVENT("Event", "csv");
+    EVENT("Event", "tsv");
 
     private final String name;
     private final String fileName;

@@ -14,9 +14,13 @@ import utils.RankedQueue;
 import utils.exceptions.*;
 import java.time.Duration;
 import java.time.LocalTime;
+import java.util.Arrays;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Random;
 import java.util.function.Function;
+import java.util.stream.Stream;
+
 import static utils.HelpFunctions.findDevice;
 import static utils.HelpFunctions.makeRecord;
 
@@ -117,7 +121,7 @@ public final class PersonAPI {
 
     private static final Function<Action<Person, Void>, Boolean> doSport = action -> {
         action.getExecutor().setAtHome(false);
-        String sportDescription = HelpFunctions.getRandomObject(List.of("Go to gym", "Go jogging", "Ride bike", "Go skiing"));
+        String sportDescription = Stream.of("Go to gym", "Go jogging", "Ride bike", "Go skiing").findAny().orElseThrow(NoSuchElementException::new);
         makeRecord(action.getExecutor(), sportDescription);
         return true;
     };
@@ -227,7 +231,7 @@ public final class PersonAPI {
     };
 
     private static final Function<Action<Person, CoffeeMachine>, Boolean> makeCoffee = action -> {
-        CoffeeType coffeeType = CoffeeType.getRandomType();
+        CoffeeType coffeeType = Arrays.stream(CoffeeType.values()).findAny().orElseThrow(NoSuchElementException::new);
         while (true) {
             try {
                 action.getSubject().makeCoffee(coffeeType);
@@ -263,7 +267,7 @@ public final class PersonAPI {
     };
 
     private static final Function<Action<Person, Dishwasher>, Boolean> startDishwasher = action -> {
-        DishwasherProgram program = DishwasherProgram.getRandomProgram();
+        DishwasherProgram program = Arrays.stream(DishwasherProgram.values()).findAny().orElseThrow(NoSuchElementException::new);
         while (true) {
             try {
                 action.getSubject().startWash(program);
@@ -302,7 +306,7 @@ public final class PersonAPI {
     };
 
     private static final Function<Action<Person, Dryer>, Boolean> startDryer = action -> {
-        DryerProgram program = DryerProgram.getRandomProgram();
+        DryerProgram program = Arrays.stream(DryerProgram.values()).findAny().orElseThrow(NoSuchElementException::new);
         while (true) {
             try {
                 action.getSubject().startDry(program);
@@ -532,7 +536,7 @@ public final class PersonAPI {
     };
 
     private static final Function<Action<Person, Toaster>, Boolean> makeToast = action -> {
-        ToastType toastType = ToastType.getRandomType();
+        ToastType toastType = Arrays.stream(ToastType.values()).findAny().orElseThrow(NoSuchElementException::new);
         while (true) {
             try {
                 action.getSubject().makeToast(toastType);
@@ -613,7 +617,7 @@ public final class PersonAPI {
     };
 
     private static final Function<Action<Person, Vent>, Boolean> startVent = action -> {
-        VentProgram program = VentProgram.getRandomProgram();
+        VentProgram program = Arrays.stream(VentProgram.values()).findAny().orElseThrow(NoSuchElementException::new);
         while (true) {
             try {
                 action.getSubject().startVent(program);
@@ -650,7 +654,7 @@ public final class PersonAPI {
     };
 
     private static final Function<Action<Person, Washer>, Boolean> startWasher = action -> {
-        WasherProgram program = WasherProgram.getRandomProgram();
+        WasherProgram program = Arrays.stream(WasherProgram.values()).findAny().orElseThrow(NoSuchElementException::new);
         while (true) {
             try {
                 action.getSubject().startWash(program);

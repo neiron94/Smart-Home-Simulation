@@ -2,17 +2,17 @@ package report;
 
 public class ConsumptionReport extends Report {
     private final String device;
-    private final String usedGas;
-    private final String usedWater;
     private final String usedElectricity;
+    private final String usedWater;
+    private final String usedGas;
     private final String spentMoney;
 
-    public ConsumptionReport(String device, String usedGas, String usedWater, String usedElectricity, String spentMoney) {
+    public ConsumptionReport(String device, String usedElectricity, String usedWater, String usedGas, String spentMoney) {
         super(ReportType.CONSUMPTION);
         this.device = device;
-        this.usedGas = usedGas;
-        this.usedWater = usedWater;
         this.usedElectricity = usedElectricity;
+        this.usedWater = usedWater;
+        this.usedGas = usedGas;
         this.spentMoney = spentMoney;
     }
 
@@ -39,9 +39,9 @@ public class ConsumptionReport extends Report {
     @Override
     public String toString() {
         return device + '\t' +
-                usedGas + '\t' +
-                usedWater + '\t' +
                 usedElectricity + '\t' +
+                usedWater + '\t' +
+                usedGas + '\t' +
                 spentMoney;
     }
 }

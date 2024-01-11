@@ -2,27 +2,14 @@ package consumer.device.common.entertainment;
 
 import utils.ConfigurationReader;
 import utils.HelpFunctions;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+
+import java.util.*;
 
 /**
  * Service which contains simulation of database of entertainment objects (video/game/song).
  * Also contains some useful functions for entertainment objects.
  */
 public class EntertainmentService {
-
-    // Read entertainment objects from json files
-    static {
-        ConfigurationReader.readContentConfig();
-
-        for (int i = 0; i < new Random().nextInt(3) + 3; ++i) { // Randomly generate playlists
-            List<Song> playlist = new ArrayList<>();
-            for (int j = 0; j < new Random().nextInt(3) + 5; ++j) playlist.add(AudioService.getRandomSong());
-            AudioService.addPlaylist(playlist);
-        }
-    }
-
     /**
      * Service which contains simulation of database of games.
      * Also contains some useful functions for game objects.
@@ -43,7 +30,7 @@ public class EntertainmentService {
          * @return Random game.
          */
         public static Game getRandomGame() {
-            return HelpFunctions.getRandomObject(games);
+            return games.stream().findAny().orElseThrow(NoSuchElementException::new);
         }
     }
 
@@ -68,15 +55,18 @@ public class EntertainmentService {
          * @return Random song.
          */
         public static Song getRandomSong() {
-            return HelpFunctions.getRandomObject(songs);
+            return songs.stream().findAny().orElseThrow(NoSuchElementException::new);
         }
 
         /**
-         * Add playlist to "database".
-         * @param playlist Playlist to add.
+         * Add playlists to "database".
          */
-        public static void addPlaylist(List<Song> playlist) {
-            playlists.add(playlist);
+        public static void createPlaylists() {
+            for (int i = 0; i < new Random().nextInt(3) + 3; ++i) { // Randomly generate playlists
+                List<Song> playlist = new ArrayList<>();
+                for (int j = 0; j < new Random().nextInt(3) + 5; ++j) playlist.add(AudioService.getRandomSong());
+                playlists.add(playlist);
+            }
         }
 
         /**
@@ -84,7 +74,7 @@ public class EntertainmentService {
          * @return Random playlist.
          */
         public static List<Song> getRandomPlaylist() {
-            return HelpFunctions.getRandomObject(playlists);
+            return playlists.stream().findAny().orElseThrow(NoSuchElementException::new);
         }
     }
 
@@ -108,7 +98,7 @@ public class EntertainmentService {
          * @return Random video.
          */
         public static Video getRandomVideo() {
-            return HelpFunctions.getRandomObject(shows);
+            return shows.stream().findAny().orElseThrow(NoSuchElementException::new);
         }
     }
 }

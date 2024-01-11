@@ -149,7 +149,7 @@ public abstract class Device implements Consumer, Prototype {
     }
 
     private long countDurability(DeviceType type) {
-        long hours = type.getGuarantee().getDays() * 24L * 4 / 3;
+        long hours = type.getGuarantee().getMonths() * 30 * 24L * 4 / 3; // TODO Constants
         return (long)(hours / Constants.Time.TICK_DURATION);
     }
 
