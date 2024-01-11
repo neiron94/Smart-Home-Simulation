@@ -27,10 +27,10 @@ public class EntertainmentService {
 
         /**
          * Get random game from "database".
-         * @return Random game.
+         * @return Optional with random game.
          */
-        public static Game getRandomGame() {
-            return HelpFunctions.getRandomObject(games).orElseThrow(NoSuchElementException::new);
+        public static Optional<Game> getRandomGame() {
+            return HelpFunctions.getRandomObject(games);
         }
     }
 
@@ -52,10 +52,10 @@ public class EntertainmentService {
 
         /**
          * Get random song from "database".
-         * @return Random song.
+         * @return Optional with random song.
          */
-        public static Song getRandomSong() {
-            return HelpFunctions.getRandomObject(songs).orElseThrow(NoSuchElementException::new);
+        public static Optional<Song> getRandomSong() {
+            return HelpFunctions.getRandomObject(songs);
         }
 
         /**
@@ -64,17 +64,17 @@ public class EntertainmentService {
         public static void createPlaylists() {
             for (int i = 0; i < new Random().nextInt(3) + 3; ++i) { // Randomly generate playlists
                 List<Song> playlist = new ArrayList<>();
-                for (int j = 0; j < new Random().nextInt(3) + 5; ++j) playlist.add(AudioService.getRandomSong());
+                for (int j = 0; j < new Random().nextInt(3) + 5; ++j) AudioService.getRandomSong().ifPresent(playlist::add);
                 playlists.add(playlist);
             }
         }
 
         /**
          * Get random playlist from "database".
-         * @return Random playlist.
+         * @return Optional with random playlist.
          */
-        public static List<Song> getRandomPlaylist() {
-            return HelpFunctions.getRandomObject(playlists).orElseThrow(NoSuchElementException::new);
+        public static Optional<List<Song>> getRandomPlaylist() {
+            return HelpFunctions.getRandomObject(playlists);
         }
     }
 
@@ -95,10 +95,10 @@ public class EntertainmentService {
 
         /**
          * Get random video from "database".
-         * @return Random video.
+         * @return Optional with random video.
          */
-        public static Video getRandomVideo() {
-            return HelpFunctions.getRandomObject(shows).orElseThrow(NoSuchElementException::new);
+        public static Optional<Video> getRandomVideo() {
+            return HelpFunctions.getRandomObject(shows);
         }
     }
 }

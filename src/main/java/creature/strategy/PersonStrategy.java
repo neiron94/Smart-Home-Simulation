@@ -60,8 +60,7 @@ public interface PersonStrategy extends Strategy {
                 return true;
             } else {
                 List<Room> rooms = Simulation.getInstance().getHome().getFloors().stream().flatMap(floor -> floor.getRooms().stream()).toList();
-                Room room = HelpFunctions.getRandomObject(rooms).orElseThrow(NoSuchElementException::new);
-                action.getExecutor().setRoom(room);
+                HelpFunctions.getRandomObject(rooms).ifPresent(room -> action.getExecutor().setRoom(room));
                 HelpFunctions.makeRecord(action.getExecutor(), String.format("Search an adult to tell about %s in %s", action.getSubject().getEventType(), action.getSubject().getOrigin()));
                 return false;
             }
@@ -236,8 +235,8 @@ public interface PersonStrategy extends Strategy {
                 action.getSubject().repair();
                 HelpFunctions.makeRecord(action.getExecutor(), String.format("Take repaired %s from Service Center", action.getSubject()));
             } catch (NotRepairableDeviceException e) {
-                action.getSubject().copy();
                 action.getSubject().setFunctional(false);
+                action.getSubject().copy();
                 HelpFunctions.makeRecord(action.getExecutor(), String.format("Take new %s from Service Center", action.getSubject()));
             }
             return true;

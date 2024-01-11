@@ -110,7 +110,7 @@ public class Simulation {
             });
 
         if (Math.random() <= Constants.Probabilities.SHUTDOWN_PROBABILITY) {
-            HelpFunctions.getRandomObject(supplySystems).orElseThrow(NoSuchElementException::new).shutdown();
+            HelpFunctions.getRandomObject(supplySystems).ifPresent(SupplySystem::shutdown);
             restoreSupplySystemTime = currentTime.plusHours(new Random().nextInt(1, 4));
         }
     }

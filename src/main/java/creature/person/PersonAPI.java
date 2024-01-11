@@ -14,10 +14,7 @@ import utils.RankedQueue;
 import utils.exceptions.*;
 import java.time.Duration;
 import java.time.LocalTime;
-import java.util.Arrays;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Random;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
@@ -69,9 +66,9 @@ public final class PersonAPI {
     };
 
     private static final Function<Action<Person, Room>, Boolean> downloadConfigRoom = action -> {
-        RoomConfiguration configuration = action.getSubject().getControlPanel().getRandomConfiguration();
+        RoomConfiguration configuration = action.getSubject().getControlPanel().getRandomConfiguration().orElse(null);
+        if (configuration == null) return false;
         action.getSubject().getControlPanel().loadConfiguration(configuration);
-
         makeRecord(action.getExecutor(), String.format("Change configuration of %s to %s", action.getSubject(), configuration.getName()));
         return true;
     };
@@ -126,7 +123,8 @@ public final class PersonAPI {
 
     private static final Function<Action<Person, Void>, Boolean> doSport = action -> {
         action.getExecutor().setAtHome(false);
-        String sportDescription = HelpFunctions.getRandomObject(List.of("Go to gym", "Go jogging", "Ride bike", "Go skiing")).orElseThrow(NoSuchElementException::new);
+        String sportDescription = HelpFunctions.getRandomObject(List.of("Go to gym", "Go jogging", "Ride bike", "Go skiing")).orElse(null);
+        if (sportDescription == null) return false;
         makeRecord(action.getExecutor(), sportDescription);
         return true;
     };
@@ -236,7 +234,9 @@ public final class PersonAPI {
     };
 
     private static final Function<Action<Person, CoffeeMachine>, Boolean> makeCoffee = action -> {
-        CoffeeType coffeeType = HelpFunctions.getRandomObject(List.of(CoffeeType.values())).orElseThrow(NoSuchElementException::new);
+        CoffeeType coffeeType = HelpFunctions.getRandomObject(List.of(CoffeeType.values())).orElse(null);
+        if (coffeeType == null) return false;
+
         while (true) {
             try {
                 action.getSubject().makeCoffee(coffeeType);
@@ -272,7 +272,9 @@ public final class PersonAPI {
     };
 
     private static final Function<Action<Person, Dishwasher>, Boolean> startDishwasher = action -> {
-        DishwasherProgram program = HelpFunctions.getRandomObject(List.of(DishwasherProgram.values())).orElseThrow(NoSuchElementException::new);
+        DishwasherProgram program = HelpFunctions.getRandomObject(List.of(DishwasherProgram.values())).orElse(null);
+        if (program == null) return false;
+
         while (true) {
             try {
                 action.getSubject().startWash(program);
@@ -311,7 +313,9 @@ public final class PersonAPI {
     };
 
     private static final Function<Action<Person, Dryer>, Boolean> startDryer = action -> {
-        DryerProgram program = HelpFunctions.getRandomObject(List.of(DryerProgram.values())).orElseThrow(NoSuchElementException::new);
+        DryerProgram program = HelpFunctions.getRandomObject(List.of(DryerProgram.values())).orElse(null);
+        if (program == null) return false;
+
         while (true) {
             try {
                 action.getSubject().startDry(program);
@@ -372,7 +376,9 @@ public final class PersonAPI {
     //----------------------- Gaming console -----------------------//
 
     private static final Function<Action<Person, GamingConsole>, Boolean> startConsole = action -> {
-        Game game = EntertainmentService.GameService.getRandomGame();
+        Game game = EntertainmentService.GameService.getRandomGame().orElse(null);
+        if (game == null) return false;
+
         while (true) {
             try {
                 action.getSubject().play(game);
@@ -492,7 +498,9 @@ public final class PersonAPI {
     };
 
     private static final Function<Action<Person, StereoSystem>, Boolean> playSong = action -> {
-        Song song = EntertainmentService.AudioService.getRandomSong();
+        Song song = EntertainmentService.AudioService.getRandomSong().orElse(null);
+        if (song == null) return false;
+
         while (true) {
             try {
                 action.getSubject().play(song);
@@ -508,7 +516,9 @@ public final class PersonAPI {
     };
 
     private static final Function<Action<Person, StereoSystem>, Boolean> playPlaylist = action -> {
-        List<Song> playlist = EntertainmentService.AudioService.getRandomPlaylist();
+        List<Song> playlist = EntertainmentService.AudioService.getRandomPlaylist().orElse(null);
+        if (playlist == null) return false;
+
         while (true) {
             try {
                 action.getSubject().play(playlist);
@@ -541,7 +551,9 @@ public final class PersonAPI {
     };
 
     private static final Function<Action<Person, Toaster>, Boolean> makeToast = action -> {
-        ToastType toastType = HelpFunctions.getRandomObject(List.of(ToastType.values())).orElseThrow(NoSuchElementException::new);
+        ToastType toastType = HelpFunctions.getRandomObject(List.of(ToastType.values())).orElse(null);
+        if (toastType == null) return false;
+
         while (true) {
             try {
                 action.getSubject().makeToast(toastType);
@@ -587,7 +599,9 @@ public final class PersonAPI {
     };
 
     private static final Function<Action<Person, TV>, Boolean> startTV = action -> {
-        Video video = EntertainmentService.VideoService.getRandomVideo();
+        Video video = EntertainmentService.VideoService.getRandomVideo().orElse(null);
+        if (video == null) return false;
+
         while (true) {
             try {
                 action.getSubject().show(video);
@@ -622,7 +636,9 @@ public final class PersonAPI {
     };
 
     private static final Function<Action<Person, Vent>, Boolean> startVent = action -> {
-        VentProgram program = HelpFunctions.getRandomObject(List.of(VentProgram.values())).orElseThrow(NoSuchElementException::new);
+        VentProgram program = HelpFunctions.getRandomObject(List.of(VentProgram.values())).orElse(null);
+        if (program == null) return false;
+
         while (true) {
             try {
                 action.getSubject().startVent(program);
@@ -659,7 +675,9 @@ public final class PersonAPI {
     };
 
     private static final Function<Action<Person, Washer>, Boolean> startWasher = action -> {
-        WasherProgram program = HelpFunctions.getRandomObject(List.of(WasherProgram.values())).orElseThrow(NoSuchElementException::new);
+        WasherProgram program = HelpFunctions.getRandomObject(List.of(WasherProgram.values())).orElse(null);
+        if (program == null) return false;
+
         while (true) {
             try {
                 action.getSubject().startWash(program);

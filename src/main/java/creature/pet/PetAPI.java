@@ -124,8 +124,7 @@ public final class PetAPI {
             queue.add(new Action<>(1, true, pet, feeder.getRoom(), goToRoom));
             queue.add(new Action<>(new Random().nextInt(5, 15), true, pet, feeder, eatFoodFeeder));
             queue.add(new Action<>(new Random().nextInt(3, 7), true, pet, feeder, drinkWaterFeeder));
-        } catch (DeviceNotFoundException ignored) {
-        }
+        } catch (DeviceNotFoundException ignored) {}
 
         return queue;
     };
@@ -138,8 +137,7 @@ public final class PetAPI {
             Room room = HelpFunctions.findRoom(RoomType.TOILET);
             queue.add(new Action<>(1, true, pet, room, goToRoom));
             queue.add(new Action<>(new Random().nextInt(1, 3), true, pet, room, useTray));
-        } catch (RoomNotFoundException ignored) {
-        }
+        } catch (RoomNotFoundException ignored) {}
 
         return queue;
     };
@@ -174,9 +172,8 @@ public final class PetAPI {
     public static final Function<Pet, RankedQueue<Action<Pet, ?>>> brakeDevice = pet -> {
         RankedQueue<Action<Pet, ?>> queue = new RankedQueue<>(Priority.COMMON);
 
-        List<Device> devices = Simulation.getInstance().getDevices().stream().toList();
-        Device device = HelpFunctions.getRandomObject(devices).orElseThrow(NoSuchElementException::new);
-        queue.add(new Action<>(1, true, pet, device, damageDevice));
+        Device device = HelpFunctions.getRandomObject(Simulation.getInstance().getDevices().stream().toList()).orElse(null);
+        if (device != null) queue.add(new Action<>(1, true, pet, device, damageDevice));
 
         return queue;
     };

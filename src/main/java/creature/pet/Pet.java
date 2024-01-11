@@ -44,7 +44,7 @@ public class Pet extends Creature {
     @Override
     protected void chooseActivity() {
         List<Function<Pet, RankedQueue<Action<Pet, ?>>>> functions = List.of(PetAPI.sleep, PetAPI.play, PetAPI.goToBackyard, PetAPI.goToBackyard);
-        memory.add(HelpFunctions.getRandomObject(functions).orElseThrow(NoSuchElementException::new).apply(this));
+        HelpFunctions.getRandomObject(functions).ifPresent(function -> memory.add(function.apply(this)));
     }
 
     @Override

@@ -44,7 +44,13 @@ public class ConfigurationReader {
                 Room startRoom = Simulation.getInstance().getHome().getFloors().stream()
                         .flatMap(floor -> floor.getRooms().stream())
                         .filter(room -> room.getId() == roomId)
-                        .findFirst().orElseThrow(NoSuchElementException::new);
+                        .findFirst().orElse(null);
+
+                if (startRoom == null) {
+                    HelpFunctions.logger.warn(String.format("Problem with creating %s_%d. Device wasn't created", device.getKey(), i+1));
+                    return;
+                }
+
                 try {
                     new DeviceFactory(device.getKey()).createDevice(i+1, startRoom);
                 } catch (NoSuchElementException ignored) {}

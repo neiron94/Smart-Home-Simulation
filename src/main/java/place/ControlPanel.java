@@ -4,10 +4,7 @@ package place;
 import utils.ConfigurationReader;
 import utils.HelpFunctions;
 import java.awt.Color;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.NoSuchElementException;
+import java.util.*;
 
 public class ControlPanel {
     private final Room room;
@@ -75,8 +72,8 @@ public class ControlPanel {
         configurations.add(copy);
     }
 
-    public RoomConfiguration getRandomConfiguration() {
-        return HelpFunctions.getRandomObject(configurations).orElseThrow(NoSuchElementException::new);
+    public Optional<RoomConfiguration> getRandomConfiguration() {
+        return HelpFunctions.getRandomObject(configurations);
     }
 
     public void loadConfiguration(RoomConfiguration configuration) {
@@ -90,6 +87,6 @@ public class ControlPanel {
                 return;
             }
         }
-        throw new NoSuchElementException("No configuration with name " + name);
+        throw new NoSuchElementException(String.format("No configuration with name '%s'", name));
     }
 }

@@ -62,7 +62,7 @@ public class Vent extends Device implements ElectricityConsumer {
         checkDeviceInStartStatus();
         checkDeviceNotOccupied();
         if (filterStatus <= 0)
-            throw new DirtyFilterException();
+            throw new DirtyFilterException("Filter is too dirty.");
 
         this.program = program;
         status = DeviceStatus.ON;

@@ -51,8 +51,7 @@ public class Fridge extends Device implements ElectricityConsumer {
         if (fullness <= 0) {
             try {
                 orderFood();
-            } catch (DeviceIsBrokenException | ResourceNotAvailableException ignored) {
-            }
+            } catch (DeviceIsBrokenException | ResourceNotAvailableException ignored) {}
         }
     }
 
