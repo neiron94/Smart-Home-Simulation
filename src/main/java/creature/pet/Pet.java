@@ -55,7 +55,7 @@ public class Pet extends Creature {
         Simulation.getInstance().getCreatures().stream()
                 .filter(creature -> creature instanceof Person)
                 .map(person -> (Person) person)
-                .filter(person -> !person.isBusy() && person.isAlive())
+                .filter(person -> person.isAlive() && !person.isBusy() && person.isAtHome())
                 .findFirst().ifPresent(human -> new Action<>(1, true, human, null, PersonAPI.cleanAfterPet).perform());
         fullness = 0;
     }
