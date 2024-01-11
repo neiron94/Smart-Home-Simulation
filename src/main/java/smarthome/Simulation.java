@@ -101,10 +101,10 @@ public class Simulation {
 
     private void shutdownSupplySystem() {
         List<SupplySystem<?>> supplySystems = List.of(home.getElectricitySupplySystem(), home.getGasSupplySystem(), home.getWaterSupplySystem());
+
         if (restoreSupplySystemTime.isAfter(currentTime))
             supplySystems.forEach(supplySystem -> {
-                if (!supplySystem.isResourceAvailable())
-                    supplySystem.recover();
+                if (!supplySystem.isResourceAvailable()) supplySystem.recover();
             });
 
         if (Math.random() <= Constants.Probabilities.SHUTDOWN_PROBABILITY) {
