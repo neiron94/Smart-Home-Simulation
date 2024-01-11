@@ -108,10 +108,10 @@ public class ReportFactory {
         spentMoney += usedElectricity * Constants.Consumption.ELECTRICITY_COST;
 
         return new ConsumptionReport(device.toString(),
-                String.valueOf(usedGas),
-                String.valueOf(usedWater),
-                String.valueOf(usedElectricity),
-                String.valueOf(spentMoney));
+                String.format("%.3f", usedGas), // TODO Select rounding value
+                String.format("%.3f", usedWater), // TODO Select rounding value
+                String.format("%.3f", usedElectricity), // TODO Select rounding value
+                String.format("%.2f", spentMoney)); // TODO Select rounding value
     }
 
     private EventReport makeEventReport() {
