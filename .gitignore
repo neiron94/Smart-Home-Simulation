@@ -83,3 +83,12 @@ nb-configuration.xml
 ##           OS X           ##
 ##############################
 .DS_Store
+
+##############################
+##          Project         ##
+##############################
+report/Activity.txt
+report/Configuration.txt
+report/Consumption.tsv
+report/Event.tsv
+config/test/

@@ -11,7 +11,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 
 public class ReportCreator {
-    private static final String REPORT_PATH = String.join(File.separator, System.getProperty("user.dir"), "report") + File.separator; // TODO Find out where to save reports (not to use System.getProperty)
+    private static final String REPORT_PATH = String.join(File.separator, System.getProperty("user.dir"), "report") + File.separator;
 
     static {
         File directory = new File(REPORT_PATH); // Create directory
