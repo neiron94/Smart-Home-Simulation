@@ -1,6 +1,8 @@
 package report;
 
-
+/**
+ * Report containing information about solved events.
+ */
 public class EventReport extends Report {
     private final String creationTime;
     private final String solutionTime;

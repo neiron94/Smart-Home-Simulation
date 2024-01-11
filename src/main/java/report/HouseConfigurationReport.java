@@ -1,11 +1,11 @@
 package report;
 
-import place.Floor;
-
-import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Report containing information about house configuration (residents and topology of floors and rooms).
+ */
 public class HouseConfigurationReport extends Report {
     private final Map<String, List<String>> hierarchy;
     private final List<String> residents;

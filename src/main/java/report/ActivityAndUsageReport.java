@@ -2,6 +2,10 @@ package report;
 
 import java.util.List;
 
+/**
+ * Report containing information about person's
+ * activity (text interpretation of actions and number of usages of different devices).
+ */
 public class ActivityAndUsageReport extends Report {
     private final String creature;
     private final List<String> activities;

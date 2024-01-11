@@ -1,5 +1,8 @@
 package report;
 
+/**
+ * Enum for holding name and output filename of reports of different types.
+ */
 public enum ReportType {
     CONFIGURATION("Configuration", "txt"),
     CONSUMPTION("Consumption", "tsv"),
