@@ -9,4 +9,9 @@ import java.time.Duration;
  * @param platform Platform of the video.
  * @param duration Duration of the video.
  */
-public record Video(String name, String description, VideoPlatform platform, Duration duration) {}
+public record Video(String name, String description, VideoPlatform platform, Duration duration) {
+    @Override
+    public String toString() {
+        return name;
+    }
+}

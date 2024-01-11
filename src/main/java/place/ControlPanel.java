@@ -76,7 +76,7 @@ public class ControlPanel {
     }
 
     public RoomConfiguration getRandomConfiguration() {
-        return configurations.stream().findAny().orElseThrow(NoSuchElementException::new);
+        return HelpFunctions.getRandomObject(configurations).orElseThrow(NoSuchElementException::new);
     }
 
     public void loadConfiguration(RoomConfiguration configuration) {

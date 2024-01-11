@@ -51,7 +51,7 @@ public abstract class Creature {
                         if (event.getPriority().getValue() > Priority.SLEEP.getValue()) { // Need to wake up
                             memory.removeIf(queue -> queue.getPriority() == Priority.SLEEP);
                             new Action<>(1, true, this, null, action -> {
-                                makeRecord(action.getExecutor(), "Wake up");
+                                makeRecord(action.getExecutor(), "Wake up to an event");
                                 return true;
                             }).perform();
                         }
@@ -61,24 +61,28 @@ public abstract class Creature {
         if (fullness > 0 && notPlanned(Priority.EMPTY)) decreaseFullness(); // Need to empty myself // TODO Make constant
         if (!isBusy) chooseActivity(); // Nothing important is doing - take new activity
 
-        boolean canDoAction = true;
-        for (RankedQueue<? extends Action<? extends Creature, ?>> queue : memory) {
-            if (queue.isEmpty()) continue; // TODO Maybe to do it more concise + DO NOT CLEARING EMPTY QUEUES
-            queue.peek().decreaseDuration(1); // Decrease duration of action start
-            if (queue.peek().getDuration().equals(Duration.ZERO)&& canDoAction) {
-                if (queue.poll().perform()) {
-                    canDoAction = false; // Can do only one action per simulation tick
-                    isBusy = !queue.isEmpty() && queue.peek().isBusy();
-                } else {
-                    memory.remove(queue);
-                    isBusy = false;
-                }
-            }
+        Iterator<RankedQueue<? extends Action<? extends Creature, ?>>> memoryIterator = memory.iterator();
+        while (memoryIterator.hasNext()) {
+            RankedQueue<? extends Action<? extends Creature, ?>> queue = memoryIterator.next();
+            if (queue.isEmpty()) memoryIterator.remove(); // Remove empty actions queue
+            else queue.peek().decreaseDuration(1); // Decrease first action duration in queue
         }
+
+        boolean[] canDoAction = {true}; // Array for changing value in stream
+        memory.forEach(queue -> {
+                    if (queue.peek().getDuration().equals(Duration.ZERO) && canDoAction[0]) { // Action can be performed
+                        if (queue.poll().perform()) { // Successful perform
+                            canDoAction[0] = false; // Can do only one action per simulation tick
+                            isBusy = !queue.isEmpty() && queue.peek().isBusy();
+                        } else { // Unsuccessful perform
+                            queue.clear();
+                            isBusy = false;
+                        }
+                    }
+                });
 
         hunger += 0; // TODO Make constant
         fullness += 0; // TODO Make constant
-
         if (fullness == 100) reactMaxFullness();
         if (hunger == 100) reactMaxHunger();
     }

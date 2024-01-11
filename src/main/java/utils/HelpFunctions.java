@@ -21,6 +21,11 @@ public class HelpFunctions {
         return value < 0 ? 0 : Math.min(value, 100);
     }
 
+    public static <T> Optional<T> getRandomObject(List<T> array) {
+        if (array.size() == 0) return Optional.empty();
+        return Optional.of(array.get(new Random().nextInt(array.size())));
+    }
+
     public static double adjustPercent(double value) {
         return value < 0 ? 0 : Math.min(value, 100);
     }

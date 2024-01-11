@@ -9,10 +9,8 @@ import place.Room;
 import smarthome.Simulation;
 import utils.HelpFunctions;
 import utils.RankedQueue;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+
+import java.util.*;
 import java.util.function.Function;
 
 public class Pet extends Creature {
@@ -46,7 +44,7 @@ public class Pet extends Creature {
     @Override
     protected void chooseActivity() {
         List<Function<Pet, RankedQueue<Action<Pet, ?>>>> functions = List.of(PetAPI.sleep, PetAPI.play, PetAPI.goToBackyard, PetAPI.goToBackyard);
-        functions.stream().findAny().ifPresent(function -> memory.add(function.apply(this)));
+        memory.add(HelpFunctions.getRandomObject(functions).orElseThrow(NoSuchElementException::new).apply(this));
     }
 
     @Override

@@ -6,4 +6,9 @@ package consumer.device.common.entertainment;
  * @param description Description of the game.
  * @param genre Genre of the game.
  */
-public record Game(String name, String description, GameGenre genre) {}
+public record Game(String name, String description, GameGenre genre) {
+    @Override
+    public String toString() {
+        return name;
+    }
+}
