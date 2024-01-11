@@ -39,7 +39,7 @@ public class DeviceFactory {
             Device device = (Device) constructor.newInstance(id, room);
             HelpFunctions.logger.info(String.format("%s was created in %s", device, room));
         } catch (NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException e) {
-
+            HelpFunctions.logger.warn(String.format("Problem with creating %s_%d. Device wasn't created", type.getName(), id));
         }
     }
 }

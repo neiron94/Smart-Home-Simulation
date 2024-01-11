@@ -1,5 +1,6 @@
 package place;
 
+import place.weather.NormalWeather;
 import place.weather.Weather;
 import smarthome.Simulation;
 import utils.ConfigurationReader;
@@ -23,7 +24,7 @@ public class Street {
     private Street() {
         ConfigurationReader.readWeatherConfig();
         weatherChange = Simulation.getInstance().getCurrentTime();
-        weather = HelpFunctions.getRandomObject(Weather.weathers).orElseThrow(NoSuchElementException::new);
+        weather = HelpFunctions.getRandomObject(Weather.weathers).orElse(new NormalWeather());
     }
 
     public double getTemperature() {

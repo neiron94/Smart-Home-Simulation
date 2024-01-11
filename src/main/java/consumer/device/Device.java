@@ -123,13 +123,11 @@ public abstract class Device implements Consumer, Prototype {
     }
 
     protected void checkDeviceInStartStatus() throws WrongDeviceStatusException {
-        if (status != type.getStartStatus())
-            throw new WrongDeviceStatusException(this + " should be " + type.getStartStatus());
+        if (status != type.getStartStatus()) throw new WrongDeviceStatusException(this + " should be " + type.getStartStatus());
     }
 
     protected void checkDeviceNotOccupied() throws DeviceIsOccupiedException {
-        if (isOccupied)
-            throw new DeviceIsOccupiedException(this + " is occupied.");
+        if (isOccupied) throw new DeviceIsOccupiedException(this + " is occupied.");
     }
 
     protected void checkBeforeTurnOn() throws DeviceIsBrokenException, ResourceNotAvailableException {
