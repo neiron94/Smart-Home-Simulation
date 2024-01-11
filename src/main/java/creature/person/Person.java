@@ -64,7 +64,7 @@ public class Person extends Creature {
     protected void decreaseFullness() {
         List<Function<Person, RankedQueue<Action<Person, ?>>>> functions = List.of(PersonAPI.pee, PersonAPI.poo);
         if (fullness > 0) memory.add(PersonAPI.poo.apply(this)); // TODO Constant
-        else memory.add(Objects.requireNonNull(HelpFunctions.getRandomObject(functions)).apply(this));
+        else HelpFunctions.getRandomObject(functions).ifPresent(function -> memory.add(function.apply(this)));
     }
 
     @Override
@@ -73,7 +73,7 @@ public class Person extends Creature {
         if (period == DayPeriod.NIGHT) memory.add(PersonAPI.sleep.apply(this));
         else {
             List<Function<Person, RankedQueue<Action<Person, ?>>>> functions = Math.random() < 0.5 ? PersonAPI.streetFunctions : PersonAPI.otherFunctions;
-            memory.add(Objects.requireNonNull(HelpFunctions.getRandomObject(functions)).apply(this));
+            HelpFunctions.getRandomObject(functions).ifPresent(function -> memory.add(function.apply(this)));
         }
     }
 

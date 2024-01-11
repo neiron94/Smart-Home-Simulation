@@ -15,6 +15,7 @@ import utils.exceptions.*;
 import java.time.Duration;
 import java.time.LocalTime;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Random;
 import java.util.function.Function;
 import static utils.HelpFunctions.findDevice;
@@ -117,7 +118,7 @@ public final class PersonAPI {
 
     private static final Function<Action<Person, Void>, Boolean> doSport = action -> {
         action.getExecutor().setAtHome(false);
-        String sportDescription = HelpFunctions.getRandomObject(List.of("Go to gym", "Go jogging", "Ride bike", "Go skiing"));
+        String sportDescription = HelpFunctions.getRandomObject(List.of("Go to gym", "Go jogging", "Ride bike", "Go skiing")).orElseThrow(NoSuchElementException::new);
         makeRecord(action.getExecutor(), sportDescription);
         return true;
     };

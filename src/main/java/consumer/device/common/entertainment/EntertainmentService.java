@@ -4,6 +4,7 @@ import utils.ConfigurationReader;
 import utils.HelpFunctions;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Random;
 
 /**
@@ -43,7 +44,7 @@ public class EntertainmentService {
          * @return Random game.
          */
         public static Game getRandomGame() {
-            return HelpFunctions.getRandomObject(games);
+            return HelpFunctions.getRandomObject(games).orElseThrow(NoSuchElementException::new);
         }
     }
 
@@ -68,7 +69,7 @@ public class EntertainmentService {
          * @return Random song.
          */
         public static Song getRandomSong() {
-            return HelpFunctions.getRandomObject(songs);
+            return HelpFunctions.getRandomObject(songs).orElseThrow(NoSuchElementException::new);
         }
 
         /**
@@ -84,7 +85,7 @@ public class EntertainmentService {
          * @return Random playlist.
          */
         public static List<Song> getRandomPlaylist() {
-            return HelpFunctions.getRandomObject(playlists);
+            return HelpFunctions.getRandomObject(playlists).orElseThrow(NoSuchElementException::new);
         }
     }
 
@@ -108,7 +109,7 @@ public class EntertainmentService {
          * @return Random video.
          */
         public static Video getRandomVideo() {
-            return HelpFunctions.getRandomObject(shows);
+            return HelpFunctions.getRandomObject(shows).orElseThrow(NoSuchElementException::new);
         }
     }
 }

@@ -12,6 +12,7 @@ import utils.exceptions.RoomNotFoundException;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.Random;
 
@@ -36,13 +37,13 @@ public class HelpFunctions {
         return value < min ? min : Math.min(value, max);
     }
 
-    public static <T> T getRandomObject(List<T> array) {
+    public static <T> Optional<T> getRandomObject(List<T> array) {
         Random random = new Random();
         try {
             int randomIndex = random.nextInt(array.size());
-            return array.get(randomIndex);
+            return Optional.of(array.get(randomIndex));
         } catch (IllegalArgumentException e) {
-            return null; // TODO Change return value
+            return Optional.empty(); // TODO Change return value
         }
     }
 
@@ -57,8 +58,6 @@ public class HelpFunctions {
     public static double countGasConsumption(DeviceStatus status, double power) {
         return status == DeviceStatus.ON ? power * Constants.Time.TICK_DURATION : 0;
     }
-
-    public static void ignore(){}
 
     public static void makeRecord(Creature creature, String description) {
         creature.getActivity().addActivity(description);
@@ -100,7 +99,7 @@ public class HelpFunctions {
     public static Room getRandomRoom() {
         return getRandomObject(Simulation.getInstance().getHome().getFloors().stream()
                 .flatMap(floor -> floor.getRooms().stream())
-                .toList());
+                .toList()).orElseThrow(NoSuchElementException::new);
     }
 
     public static Room findRoom(RoomType type) throws RoomNotFoundException {
@@ -112,7 +111,7 @@ public class HelpFunctions {
     }
 
     public static Device getRandomDevice() {
-        return getRandomObject(Simulation.getInstance().getDevices().stream().toList());
+        return getRandomObject(Simulation.getInstance().getDevices().stream().toList()).orElseThrow(NoSuchElementException::new);
     }
 
     public static Optional<DayPeriod> getDayPeriod(LocalDateTime date) {
