@@ -40,6 +40,6 @@ public enum EventType {
 
     @Override
     public String toString() {
-        return String.format("%s Event", description);
+        return String.format("%s event", description);
     }
 }

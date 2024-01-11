@@ -11,34 +11,56 @@ import java.util.NoSuchElementException;
 public class CreatureFactory {
     private final List<Room> rooms = Simulation.getInstance().getHome().getFloors().stream().flatMap(floor -> floor.getRooms().stream()).toList();
 
-    public Person createPerson(String name, String personGender, String personStatus) {
+    /**
+     * Creation method. Return type is void, because person automatically
+     * adds itself to simulation in the constructor.
+     * @param name person's name.
+     * @param personGender person's gender.
+     * @param personStatus person's family status
+     */
+    public void createPerson(String name, String personGender, String personStatus) {
         Gender gender;
         FamilyStatus status;
 
         try {
             gender = Gender.valueOf(personGender);
         } catch (IllegalArgumentException e) {
-            throw new NoSuchElementException("Invalid Gender");
+            HelpFunctions.logger.warn(String.format("Invalid person gender '%s'. Person %s wasn't created", personGender, name));
+            return;
         }
 
         try {
             status = FamilyStatus.valueOf(personStatus);
         } catch (IllegalArgumentException e) {
-            throw new NoSuchElementException("Invalid Family Status");
+            HelpFunctions.logger.warn(String.format("Invalid person family status '%s'. Person %s wasn't created", personStatus, name));
+            return;
         }
 
-        return new Person(name, gender, status, HelpFunctions.getRandomObject(rooms).orElseThrow(NoSuchElementException::new));
+        HelpFunctions.getRandomObject(rooms).ifPresent(room -> {
+            Person person = new Person(name, gender, status, room);
+            HelpFunctions.logger.info(String.format("%s was created in %s", person, room));
+        });
     }
 
-    public Pet createPet(String name, String petType) {
+    /**
+     * Creation method. Return type is void, because pet automatically
+     * adds itself to simulation in the constructor.
+     * @param name pet's name.
+     * @param petType type of pet.
+     */
+    public void createPet(String name, String petType) {
         PetType type;
 
         try {
             type = PetType.valueOf(petType);
         } catch (IllegalArgumentException e) {
-            throw new NoSuchElementException("Invalid Pet Type");
+            HelpFunctions.logger.warn(String.format("Invalid pet type '%s'. Pet %s wasn't created", petType, name));
+            return;
         }
 
-        return new Pet(name, type, HelpFunctions.getRandomObject(rooms).orElseThrow(NoSuchElementException::new));
+        HelpFunctions.getRandomObject(rooms).ifPresent(room -> {
+            Pet pet = new Pet(name, type, room);
+            HelpFunctions.logger.info(String.format("%s was created in %s", pet, room));
+        });
     }
 }

@@ -95,6 +95,11 @@ public final class PersonAPI {
         return true;
     };
 
+    private static final Function<Action<Person, Void>, Boolean> goNap = action -> {
+        makeRecord(action.getExecutor(), "Nap");
+        return true;
+    };
+
     private static final Function<Action<Person, Void>, Boolean> sweepFloor = action -> {
         makeRecord(action.getExecutor(), "Swept the floor");
         return true;
@@ -142,29 +147,29 @@ public final class PersonAPI {
     //------------------ Food functions ------------------//
 
     private static final Function<Action<Person, Void>, Boolean> eatBreakfast = action -> {
-        action.getExecutor().setHunger(0);   // TODO - set value
-        action.getExecutor().setFullness(0);   // TODO - set value
+        action.getExecutor().setHunger(0);   // TODO - Constant
+        action.getExecutor().setFullness(0);   // TODO - Constant
         makeRecord(action.getExecutor(), "Ate breakfast");
         return true;
     };
 
     private static final Function<Action<Person, Void>, Boolean> eatLunch = action -> {
-        action.getExecutor().setHunger(0);   // TODO - set value
-        action.getExecutor().setFullness(0);   // TODO - set value
+        action.getExecutor().setHunger(0);   // TODO - Constant
+        action.getExecutor().setFullness(0);   // TODO - Constant
         makeRecord(action.getExecutor(), "Ate lunch");
         return true;
     };
 
     private static final Function<Action<Person, Void>, Boolean> eatDinner = action -> {
-        action.getExecutor().setHunger(0);   // TODO - set value
-        action.getExecutor().setFullness(0);   // TODO - set value
+        action.getExecutor().setHunger(0);   // TODO - Constant
+        action.getExecutor().setFullness(0);   // TODO - Constant
         makeRecord(action.getExecutor(), "Ate dinner");
         return true;
     };
 
     private static final Function<Action<Person, Void>, Boolean> drinkCoffee = action -> {
-        action.getExecutor().setHunger(0);   // TODO - set value
-        action.getExecutor().setFullness(0);   // TODO - set value
+        action.getExecutor().setHunger(0);   // TODO - Constant
+        action.getExecutor().setFullness(0);   // TODO - Constant
         makeRecord(action.getExecutor(), "Drank coffee");
         return true;
     };
@@ -709,7 +714,7 @@ public final class PersonAPI {
     //----------------------- WC -----------------------//
 
     private static final Function<Action<Person, WC>, Boolean> makeToiletThings = action -> {
-        action.getExecutor().setFullness(0);   // TODO - set value
+        action.getExecutor().setFullness(0);   // TODO Constant
         action.getSubject().makeThings();
 
         makeRecord(action.getExecutor(), action.getSubject(), String.format("Use %s", action.getSubject()));
@@ -1006,7 +1011,7 @@ public final class PersonAPI {
     public static final Function<Person, RankedQueue<Action<Person, ?>>> nap = person -> {
         RankedQueue<Action<Person, ?>> queue = new RankedQueue<>(Priority.SLEEP);
 
-        queue.add(new Action<>(1, true, person, null, goSleep));
+        queue.add(new Action<>(1, true, person, null, goNap));
         queue.add(new Action<>(new Random().nextInt(20, 100), true, person, null, wakeUp));
 
         return queue;

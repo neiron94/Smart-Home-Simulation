@@ -1,6 +1,7 @@
 package consumer.device;
 
 import place.Room;
+import utils.HelpFunctions;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.NoSuchElementException;
@@ -20,7 +21,8 @@ public class DeviceFactory {
         try {
             this.type = DeviceType.valueOf(type);
         } catch (IllegalArgumentException e) {
-            throw new NoSuchElementException("Invalid Device Type");
+            HelpFunctions.logger.warn(String.format("Invalid device type '%s'. Device wasn't created", type));
+            throw new NoSuchElementException();
         }
     }
 
@@ -34,9 +36,10 @@ public class DeviceFactory {
         try {
             Class<?> deviceClass = type.getDeviceClass();
             Constructor<?> constructor = deviceClass.getConstructor(int.class, Room.class);
-            constructor.newInstance(id, room);
+            Device device = (Device) constructor.newInstance(id, room);
+            HelpFunctions.logger.info(String.format("%s was created in %s", device, room));
         } catch (NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException e) {
-            throw new RuntimeException("Failed to create device");
+
         }
     }
 }

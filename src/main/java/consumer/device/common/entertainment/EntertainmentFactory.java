@@ -1,8 +1,11 @@
 package consumer.device.common.entertainment;
 
+import utils.HelpFunctions;
+
 import java.time.Duration;
 import java.time.LocalTime;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 /**
  * Factory for creating entertainment objects (song/game/video).
@@ -19,16 +22,16 @@ public class EntertainmentFactory {
      * @param duration Duration of the song.
      * @return New song.
      */
-    public Song createSong(String author, String album, String name, String songGenre, int duration) {
+    public Optional<Song> createSong(String author, String album, String name, String songGenre, int duration) {
         SongGenre genre;
 
         try {
             genre = SongGenre.valueOf(songGenre);
+            return Optional.of(new Song(author, album, name, genre, Duration.ofMinutes(duration)));
         } catch (IllegalArgumentException e) {
-            throw new NoSuchElementException("Invalid Genre");
+            HelpFunctions.logger.warn(String.format("Invalid song genre '%s'. Song '%s' wasn't created", songGenre, name));
+            return Optional.empty();
         }
-
-        return new Song(author, album, name, genre, Duration.ofMinutes(duration));
     }
 
     /**
@@ -39,16 +42,16 @@ public class EntertainmentFactory {
      * @param duration Duration of the video.
      * @return New video.
      */
-    public Video createVideo(String name, String description, String videoPlatform, int duration) {
+    public Optional<Video> createVideo(String name, String description, String videoPlatform, int duration) {
         VideoPlatform platform;
 
         try {
             platform = VideoPlatform.valueOf(videoPlatform);
+            return Optional.of(new Video(name, description, platform, Duration.ofMinutes(duration)));
         } catch (IllegalArgumentException e) {
-            throw new NoSuchElementException("Invalid Genre");
+            HelpFunctions.logger.warn(String.format("Invalid video platform '%s'. Video '%s' wasn't created", videoPlatform, name));
+            return Optional.empty();
         }
-
-        return new Video(name, description, platform, Duration.ofMinutes(duration));
     }
 
     /**
@@ -58,15 +61,15 @@ public class EntertainmentFactory {
      * @param gameGenre Genre of the game.
      * @return New game.
      */
-    public Game createGame(String name, String description, String gameGenre) {
+    public Optional<Game> createGame(String name, String description, String gameGenre) {
         GameGenre genre;
 
         try {
             genre = GameGenre.valueOf(gameGenre);
+            return Optional.of(new Game(name, description, genre));
         } catch (IllegalArgumentException e) {
-            throw new NoSuchElementException("Invalid Genre");
+            HelpFunctions.logger.warn(String.format("Invalid game genre '%s'. Game '%s' wasn't created", gameGenre, name));
+            return Optional.empty();
         }
-
-        return new Game(name, description, genre);
     }
 }
