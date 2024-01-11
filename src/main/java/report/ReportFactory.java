@@ -91,26 +91,26 @@ public class ReportFactory {
     private ConsumptionReport makeConsumptionReport() {
         Home home = Simulation.getInstance().getHome();
 
-        double usedGas = home.getGasSupplySystem().getConsumedMap().entrySet().stream() // Get gas consumers stream
+        double usedElectricity = home.getElectricitySupplySystem().getConsumedMap().entrySet().stream() // Get electricity consumers stream
                 .filter(entry -> entry.getKey() == device) // Filter this device
-                .map(Map.Entry::getValue) // Get consumed gas value
+                .map(Map.Entry::getValue) // Get consumed electricity value
                 .findFirst().orElse(0.0);
         double usedWater = home.getWaterSupplySystem().getConsumedMap().entrySet().stream() // Get water consumers stream
                 .filter(entry -> entry.getKey() == device) // Filter this device
                 .map(Map.Entry::getValue) // Get consumed water value
                 .findFirst().orElse(0.0);
-        double usedElectricity = home.getElectricitySupplySystem().getConsumedMap().entrySet().stream() // Get electricity consumers stream
+        double usedGas = home.getGasSupplySystem().getConsumedMap().entrySet().stream() // Get gas consumers stream
                 .filter(entry -> entry.getKey() == device) // Filter this device
-                .map(Map.Entry::getValue) // Get consumed electricity value
+                .map(Map.Entry::getValue) // Get consumed gas value
                 .findFirst().orElse(0.0);
         double spentMoney = usedGas * Constants.Consumption.GAS_COST;
         spentMoney += usedWater * Constants.Consumption.WATER_COST;
         spentMoney += usedElectricity * Constants.Consumption.ELECTRICITY_COST;
 
         return new ConsumptionReport(device.toString(),
-                String.format("%.3f", usedGas), // TODO Select rounding value
-                String.format("%.3f", usedWater), // TODO Select rounding value
                 String.format("%.3f", usedElectricity), // TODO Select rounding value
+                String.format("%.3f", usedWater), // TODO Select rounding value
+                String.format("%.3f", usedGas), // TODO Select rounding value
                 String.format("%.2f", spentMoney)); // TODO Select rounding value
     }
 
