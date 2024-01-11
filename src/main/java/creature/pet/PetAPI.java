@@ -61,8 +61,8 @@ public final class PetAPI {
         return true;
     };
 
-    private static final Function<Action<Pet, Void>, Boolean> playWithFurniture = action -> {
-        makeRecord(action.getExecutor(), "Play with furniture");
+    private static final Function<Action<Pet, Void>, Boolean> damageFurniture = action -> {
+        makeRecord(action.getExecutor(), "Damage furniture");
         return true;
     };
 
@@ -92,7 +92,7 @@ public final class PetAPI {
     private static final Function<Action<Pet, Feeder>, Boolean> drinkWaterFeeder = action -> {
         try {
             action.getSubject().drinkWater(0); // TODO - depends on hunger?
-            action.getExecutor().setHunger(0);  // TODO - set value
+            action.getExecutor().setHunger(0);  // TODO - depends on hunger?
         } catch (WrongDeviceStatusException e) {
             return false;
         }
@@ -104,7 +104,7 @@ public final class PetAPI {
     private static final Function<Action<Pet, Feeder>, Boolean> eatFoodFeeder = action -> {
         try {
             action.getSubject().eatFood(0); // TODO - depends on hunger?
-            action.getExecutor().setHunger(0);  // TODO - set value
+            action.getExecutor().setHunger(0);  // TODO - depends on hunger?
         } catch (WrongDeviceStatusException e) {
             return false;
         }
@@ -166,7 +166,7 @@ public final class PetAPI {
         RankedQueue<Action<Pet, ?>> queue = new RankedQueue<>(Priority.COMMON);
 
         queue.add(new Action<>(1, true, pet, null, playWithToys));
-        queue.add(new Action<>(new Random().nextInt(20, 40), true, pet, null, playWithFurniture));
+        queue.add(new Action<>(new Random().nextInt(20, 40), true, pet, null, damageFurniture));
 
         return queue;
     };

@@ -7,6 +7,7 @@ import report.factory.ConfigurationReportFactory;
 import report.factory.ConsumptionReportFactory;
 import report.factory.EventReportFactory;
 import smarthome.Simulation;
+import utils.HelpFunctions;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -21,10 +22,15 @@ public class ReportCreator {
 
     static {
         File directory = new File(REPORT_PATH); // Create directory
-        if (!directory.exists()) if (!directory.mkdirs()); // TODO Handle an error + log info about error of directory making
+        if (!directory.exists()) if (!directory.mkdirs()) HelpFunctions.logger.warn("Can't create 'report' directory. Reports wouldn't be saved");
 
         Arrays.stream(ReportType.values()).forEach(ReportCreator::createFile); // Create files to write reports there later
     }
+
+    private static boolean configuration = true;
+    private static boolean consumption = true;
+    private static boolean activity = true;
+    private static boolean event = true;
 
     /**
      * Create all types of reports (except for configuration report) and write them to files.
@@ -33,8 +39,8 @@ public class ReportCreator {
      */
     public static void createReports() {
         String date = Simulation.getInstance().getCurrentTime().minusDays(1).format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-        createActivityReports(date);
         createConsumptionReports(date);
+        createActivityReports(date);
         createEventReports();
     }
 
@@ -44,7 +50,8 @@ public class ReportCreator {
      */
     public static void createConfigurationReport() {
         Report report = new ConfigurationReportFactory().createReport();
-        writeFile(report.getReportType(), report.toString());
+        if (configuration) writeFile(report.getReportType(), report.toString());
+        HelpFunctions.logger.info("House Configuration report created");
     }
 
     private static void createActivityReports(String date) {
@@ -52,22 +59,26 @@ public class ReportCreator {
 
         Simulation.getInstance().getCreatures().forEach(creature -> {
             Report report = new ActivityReportFactory(creature).createReport();
-            writeFile(report.getReportType(), report.toString());
+            if (activity) writeFile(report.getReportType(), report.toString());
             creature.getActivity().getActivities().clear(); // Clear reported activities
             creature.getActivity().getUsage().clear(); // Clear reported usages
         });
+
+        HelpFunctions.logger.info("Activity and Usage report created");
     }
 
     private static void createConsumptionReports(String date) {
         Simulation.getInstance().getDevices().forEach(device -> {
             Report report = new ConsumptionReportFactory(device).createReport();
-            writeFile(report.getReportType(), String.join("\t", date, report.toString()));
+            if (consumption) writeFile(report.getReportType(), String.join("\t", date, report.toString()));
         });
 
         Home home = Simulation.getInstance().getHome();
         home.getGasSupplySystem().restoreConsumptions(); // Clear reported gas consumptions
         home.getWaterSupplySystem().restoreConsumptions(); // Clear reported water consumptions
         home.getElectricitySupplySystem().restoreConsumptions(); // Clear reported electricity consumptions
+
+        HelpFunctions.logger.info("Consumption report created");
     }
 
     private static void createEventReports() {
@@ -77,16 +88,21 @@ public class ReportCreator {
                 .forEach(person -> {
                     person.getSolvedEvents().forEach((key, value) -> {
                         Report report = new EventReportFactory(key, value, person).createReport();
-                        writeFile(report.getReportType(), report.toString());
+                        if (event) writeFile(report.getReportType(), report.toString());
                     });
                     person.getSolvedEvents().clear(); // Clear reported events
                 });
+
+        HelpFunctions.logger.info("Event report created");
     }
 
     private static void createFile(ReportType type) {
         try {
             File file = new File(REPORT_PATH + type.getFileName()); // Delete previous simulation report
-            if (file.exists()) if (!file.delete()) return; // TODO Handle an error + log info about error of old report file deletion
+            if (file.exists() && !file.delete()) {
+                HelpFunctions.logger.warn(String.format("Can't delete old '%s' report file. Report wouldn't be saved", type.getFileName()));
+                return;
+            }
 
             FileWriter writer = new FileWriter(REPORT_PATH + type.getFileName()); // Create new report file
 
@@ -98,7 +114,13 @@ public class ReportCreator {
 
             writer.close();
         } catch (IOException e) {
-            // TODO Handle an error
+            switch (type) {
+                case CONFIGURATION -> configuration = false;
+                case CONSUMPTION -> consumption = false;
+                case ACTIVITY -> activity = false;
+                case EVENT -> event = false;
+            }
+            HelpFunctions.logger.warn(String.format("Can't write '%s' file. Report wouldn't be saved", type.getFileName()));
         }
     }
 
@@ -108,7 +130,7 @@ public class ReportCreator {
             writer.write(data + '\n');
             writer.close();
         } catch (IOException e) {
-            // TODO Handle an error
+            HelpFunctions.logger.warn(String.format("Can't write '%s' file. Report wouldn't be saved", type.getFileName()));
         }
     }
 }

@@ -25,6 +25,8 @@ public class ConfigurationReader {
 
         simulation.setConfigurationName(config.path("config").asText());
         simulation.setFinishTime(simulation.getCurrentTime().toLocalDate().atStartOfDay().plusDays(config.path("duration").asLong()));
+
+        HelpFunctions.logger.info("Main simulation configuration read");
     }
 
     public static JsonNode readHomeConfig(String configName) {
@@ -43,9 +45,13 @@ public class ConfigurationReader {
                         .flatMap(floor -> floor.getRooms().stream())
                         .filter(room -> room.getId() == roomId)
                         .findFirst().orElseThrow(NoSuchElementException::new);
-                new DeviceFactory(device.getKey()).createDevice(i+1, startRoom);
+                try {
+                    new DeviceFactory(device.getKey()).createDevice(i+1, startRoom);
+                } catch (NoSuchElementException ignored) {}
             }
         });
+
+        HelpFunctions.logger.info("Devices configuration read");
     }
 
     public static void readCreatureConfig(String configName) {
@@ -68,6 +74,8 @@ public class ConfigurationReader {
             String petType = pet.path("type").asText();
             factory.createPet(name, petType);
         }
+
+        HelpFunctions.logger.info("Creatures configuration read");
     }
 
     public static void readRoomConfigurationConfig() {
@@ -85,6 +93,8 @@ public class ConfigurationReader {
             int b = configuration.path("color").get(BLUE).asInt();
             ControlPanel.addConfiguration(new RoomConfiguration(name, temperature, humidity, brightness, new Color(r, g, b)));
         }
+
+        HelpFunctions.logger.info("RoomConfig configuration read");
     }
 
     public static void readContentConfig() {
@@ -100,7 +110,7 @@ public class ConfigurationReader {
             String name = song.path("name").asText();
             String genre = song.path("genre").asText();
             int duration = song.path("duration").asInt();
-            EntertainmentService.AudioService.addSong(factory.createSong(author, album, name, genre, duration));
+            factory.createSong(author, album, name, genre, duration).ifPresent(EntertainmentService.AudioService::addSong);
         }
 
         for (int i = 0; i < config.path("VIDEO").size(); ++i) {
@@ -109,7 +119,7 @@ public class ConfigurationReader {
             String description = video.path("description").asText();
             String platform = video.path("platform").asText();
             int duration = video.path("duration").asInt();
-            EntertainmentService.VideoService.addVideo(factory.createVideo(name, description, platform, duration));
+            factory.createVideo(name, description, platform, duration).ifPresent(EntertainmentService.VideoService::addVideo);
         }
 
         for (int i = 0; i < config.path("GAME").size(); ++i) {
@@ -117,10 +127,11 @@ public class ConfigurationReader {
             String name = game.path("name").asText();
             String description = game.path("description").asText();
             String genre = game.path("genre").asText();
-            EntertainmentService.GameService.addGame(factory.createGame(name, description, genre));
+            factory.createGame(name, description, genre).ifPresent(EntertainmentService.GameService::addGame);
         }
 
         EntertainmentService.AudioService.createPlaylists();
+        HelpFunctions.logger.info("Entertainment configuration read");
     }
 
     public static void readWeatherConfig() {
@@ -138,13 +149,17 @@ public class ConfigurationReader {
                 Weather.stats[BRIGHTNESS][i][j] = brightness.get(i).get(j).asDouble();
             }
         }
+
+        HelpFunctions.logger.info("Weather configuration read");
     }
 
     private static JsonNode openConfig(String configPath) {
         try {
             return new ObjectMapper().readTree(new File(configPath));
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            HelpFunctions.logger.error(String.format("Can't open '%s'", configPath));
+            System.exit(1);
+            return null;
         }
     }
 }

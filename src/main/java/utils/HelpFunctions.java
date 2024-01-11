@@ -12,11 +12,14 @@ import utils.exceptions.RoomNotFoundException;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.Random;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class HelpFunctions {
+    public static final Logger logger = LogManager.getLogger();
+
     public static int adjustPercent(int value) {
         return value < 0 ? 0 : Math.min(value, 100);
     }

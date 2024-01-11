@@ -57,8 +57,8 @@ public abstract class Creature {
                         }
                     });
         }
-        if (hunger > 0 && notPlanned(Priority.EAT)) decreaseHunger(); // Need to eat // TODO Make constant
-        if (fullness > 0 && notPlanned(Priority.EMPTY)) decreaseFullness(); // Need to empty myself // TODO Make constant
+        if (hunger > 0 && notPlanned(Priority.EAT)) decreaseHunger(); // Need to eat // TODO Constant
+        if (fullness > 0 && notPlanned(Priority.EMPTY)) decreaseFullness(); // Need to empty myself // TODO Constant
         if (!isBusy) chooseActivity(); // Nothing important is doing - take new activity
 
         Iterator<RankedQueue<? extends Action<? extends Creature, ?>>> memoryIterator = memory.iterator();
@@ -81,8 +81,8 @@ public abstract class Creature {
                     }
                 });
 
-        hunger += 0; // TODO Make constant
-        fullness += 0; // TODO Make constant
+        hunger += 0; // TODO Constant
+        fullness += 0; // TODO Constant
         if (fullness == 100) reactMaxFullness();
         if (hunger == 100) reactMaxHunger();
     }

@@ -1,19 +1,17 @@
 package smarthome;
 
-import consumer.AddVisitor;
 import consumer.DeleteVisitor;
 import consumer.SupplySystem;
 import consumer.device.Device;
-import consumer.device.common.entertainment.EntertainmentService;
 import creature.Creature;
 import place.*;
 import report.ReportCreator;
 import utils.ConfigurationReader;
 import utils.Constants;
 import utils.HelpFunctions;
-
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 public class Simulation {
@@ -52,7 +50,6 @@ public class Simulation {
         ConfigurationReader.readCreatureConfig(simulation.configurationName); // Create creatures
         ConfigurationReader.readDeviceConfig(simulation.configurationName); // Create devices
 
-
         ReportCreator.createConfigurationReport();
     }
 
@@ -81,11 +78,12 @@ public class Simulation {
     }
 
     public void simulate() {
-        // TODO Log simulation start
+        Street street = Street.getInstance();
+        HelpFunctions.logger.info("Simulation started");
 
         while (!currentTime.isAfter(finishTime)) {
             shutdownSupplySystem();
-            Street.getInstance().routine(); // Update street parameters (temperature, humidity, brightness)
+            street.routine(); // Update street parameters (temperature, humidity, brightness)
             home.getFloors().stream().flatMap(floor -> floor.getRooms().stream()).forEach(Room::routine); // Do rooms routine
 
             devices.stream().filter(Device::isFunctional).forEach(Device::routine); // Do devices routine
@@ -93,14 +91,14 @@ public class Simulation {
 
             currentTime = currentTime.plusMinutes(1);
             if (currentTime.toLocalTime().equals(REPORT_TIME)) {
-                // TODO Log step of simulation (currentTime)
+                HelpFunctions.logger.info(String.format("Simulating day %s", currentTime.minusDays(1).format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))));
                 ReportCreator.createReports();
                 devices.stream().filter(device -> !device.isFunctional()).forEach(device -> device.accept(new DeleteVisitor())); // Delete non-functional devices
                 creatures.stream().filter(creature -> !creature.isAlive()).forEach(creatures::remove); // Delete dead creatures
             }
         }
 
-        // TODO Log simulation finish
+        HelpFunctions.logger.info("Simulation finished");
     }
 
     private void shutdownSupplySystem() {
