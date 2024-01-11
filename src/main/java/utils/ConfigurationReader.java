@@ -17,7 +17,7 @@ import static utils.Constants.ConfigurationReaderConstants.*;
 import static utils.Constants.Time.*;
 
 public class ConfigurationReader {
-    private static final String CONFIG_PATH = String.join(File.separator, System.getProperty("user.dir"), "config") + File.separator;
+    private static final String CONFIG_PATH = String.join(File.separator, System.getProperty("user.dir"), "src", "main", "resources", "config") + File.separator;
 
     public static void readSimulationConfig(Simulation simulation) {
         String configPath = CONFIG_PATH + "Simulation.json";

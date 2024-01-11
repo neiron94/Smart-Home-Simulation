@@ -91,4 +91,4 @@ report/Activity.txt
 report/Configuration.txt
 report/Consumption.tsv
 report/Event.tsv
-config/test/
+src/main/resources/config/test/
