@@ -15,6 +15,7 @@ import utils.exceptions.DeviceNotFoundException;
 import utils.exceptions.RoomNotFoundException;
 import utils.exceptions.WrongDeviceStatusException;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Random;
 import java.util.function.Function;
@@ -173,7 +174,8 @@ public final class PetAPI {
     public static final Function<Pet, RankedQueue<Action<Pet, ?>>> brakeDevice = pet -> {
         RankedQueue<Action<Pet, ?>> queue = new RankedQueue<>(Priority.COMMON);
 
-        Device device = Simulation.getInstance().getDevices().stream().findAny().orElseThrow(NoSuchElementException::new);
+        List<Device> devices = Simulation.getInstance().getDevices().stream().toList();
+        Device device = HelpFunctions.getRandomObject(devices).orElseThrow(NoSuchElementException::new);
         queue.add(new Action<>(1, true, pet, device, damageDevice));
 
         return queue;

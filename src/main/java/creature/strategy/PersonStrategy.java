@@ -59,9 +59,8 @@ public interface PersonStrategy extends Strategy {
                 HelpFunctions.makeRecord(action.getExecutor(), String.format("Call %s to solve %s in %s", adult.getName(), action.getSubject(), action.getSubject().getOrigin()));
                 return true;
             } else {
-                Room room = Simulation.getInstance().getHome().getFloors().stream()
-                        .flatMap(floor -> floor.getRooms().stream())
-                        .findAny().orElseThrow(NoSuchElementException::new);
+                List<Room> rooms = Simulation.getInstance().getHome().getFloors().stream().flatMap(floor -> floor.getRooms().stream()).toList();
+                Room room = HelpFunctions.getRandomObject(rooms).orElseThrow(NoSuchElementException::new);
                 action.getExecutor().setRoom(room);
                 HelpFunctions.makeRecord(action.getExecutor(), String.format("Search an adult to tell about %s", action.getSubject()));
                 return false;

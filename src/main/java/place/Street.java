@@ -23,7 +23,7 @@ public class Street {
     private Street() {
         ConfigurationReader.readWeatherConfig();
         weatherChange = Simulation.getInstance().getCurrentTime();
-        weather = Weather.weathers.stream().findAny().orElseThrow(NoSuchElementException::new);
+        weather = HelpFunctions.getRandomObject(Weather.weathers).orElseThrow(NoSuchElementException::new);
     }
 
     public double getTemperature() {

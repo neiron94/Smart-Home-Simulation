@@ -30,7 +30,7 @@ public class EntertainmentService {
          * @return Random game.
          */
         public static Game getRandomGame() {
-            return games.stream().findAny().orElseThrow(NoSuchElementException::new);
+            return HelpFunctions.getRandomObject(games).orElseThrow(NoSuchElementException::new);
         }
     }
 
@@ -55,7 +55,7 @@ public class EntertainmentService {
          * @return Random song.
          */
         public static Song getRandomSong() {
-            return songs.stream().findAny().orElseThrow(NoSuchElementException::new);
+            return HelpFunctions.getRandomObject(songs).orElseThrow(NoSuchElementException::new);
         }
 
         /**
@@ -74,7 +74,7 @@ public class EntertainmentService {
          * @return Random playlist.
          */
         public static List<Song> getRandomPlaylist() {
-            return playlists.stream().findAny().orElseThrow(NoSuchElementException::new);
+            return HelpFunctions.getRandomObject(playlists).orElseThrow(NoSuchElementException::new);
         }
     }
 
@@ -98,7 +98,7 @@ public class EntertainmentService {
          * @return Random video.
          */
         public static Video getRandomVideo() {
-            return shows.stream().findAny().orElseThrow(NoSuchElementException::new);
+            return HelpFunctions.getRandomObject(shows).orElseThrow(NoSuchElementException::new);
         }
     }
 }

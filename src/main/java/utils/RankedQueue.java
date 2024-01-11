@@ -37,6 +37,10 @@ public class RankedQueue<T> implements Comparable<RankedQueue<T>> {
         return queue.isEmpty();
     }
 
+    public void clear() {
+        queue.clear();
+    }
+
     public Priority getPriority() {
         return priority;
     }
