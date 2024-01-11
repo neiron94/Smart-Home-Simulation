@@ -2,14 +2,20 @@ package report;
 
 import creature.person.Person;
 import place.Home;
+import report.factory.ActivityReportFactory;
+import report.factory.ConfigurationReportFactory;
+import report.factory.ConsumptionReportFactory;
+import report.factory.EventReportFactory;
 import smarthome.Simulation;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 
+/**
+ * Creates reports using ReportFactory and writes them to files.
+ */
 public class ReportCreator {
     private static final String REPORT_PATH = String.join(File.separator, System.getProperty("user.dir"), "report") + File.separator;
 
@@ -20,6 +26,11 @@ public class ReportCreator {
         Arrays.stream(ReportType.values()).forEach(ReportCreator::createFile); // Create files to write reports there later
     }
 
+    /**
+     * Create all types of reports (except for configuration report) and write them to files.
+     * Also resets to zero people's activities and consumed maps in supply systems.
+     * Is called in the end of every simulation day.
+     */
     public static void createReports() {
         String date = Simulation.getInstance().getCurrentTime().minusDays(1).format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
         createActivityReports(date);
@@ -27,8 +38,12 @@ public class ReportCreator {
         createEventReports();
     }
 
+    /**
+     * Creates and writes to file configuration report. Is called
+     * only once when reading from config file.
+     */
     public static void createConfigurationReport() {
-        Report report = new ReportFactory().makeReport(ReportType.CONFIGURATION);
+        Report report = new ConfigurationReportFactory().createReport();
         writeFile(report.getReportType(), report.toString());
     }
 
@@ -36,7 +51,7 @@ public class ReportCreator {
         writeFile(ReportType.ACTIVITY, date);
 
         Simulation.getInstance().getCreatures().forEach(creature -> {
-            Report report = new ReportFactory(creature).makeReport(ReportType.ACTIVITY);
+            Report report = new ActivityReportFactory(creature).createReport();
             writeFile(report.getReportType(), report.toString());
             creature.getActivity().getActivities().clear(); // Clear reported activities
             creature.getActivity().getUsage().clear(); // Clear reported usages
@@ -45,7 +60,7 @@ public class ReportCreator {
 
     private static void createConsumptionReports(String date) {
         Simulation.getInstance().getDevices().forEach(device -> {
-            Report report = new ReportFactory(device).makeReport(ReportType.CONSUMPTION);
+            Report report = new ConsumptionReportFactory(device).createReport();
             writeFile(report.getReportType(), String.join("\t", date, report.toString()));
         });
 
@@ -60,8 +75,8 @@ public class ReportCreator {
                 .filter(creature -> creature instanceof Person)
                 .map(creature -> (Person) creature)
                 .forEach(person -> {
-                    person.getSolvedEvents().entrySet().forEach(event -> {
-                        Report report = new ReportFactory(person, event).makeReport(ReportType.EVENT);
+                    person.getSolvedEvents().forEach((key, value) -> {
+                        Report report = new EventReportFactory(key, value, person).createReport();
                         writeFile(report.getReportType(), report.toString());
                     });
                     person.getSolvedEvents().clear(); // Clear reported events

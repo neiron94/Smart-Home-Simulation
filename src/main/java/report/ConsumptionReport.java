@@ -1,5 +1,8 @@
 package report;
 
+/**
+ * Report containing information about consumption of device.
+ */
 public class ConsumptionReport extends Report {
     private final String device;
     private final String usedElectricity;

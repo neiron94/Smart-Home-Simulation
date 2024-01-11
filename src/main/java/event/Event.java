@@ -8,6 +8,10 @@ import utils.Priority;
 
 import java.time.LocalDateTime;
 
+/**
+ * Events provides interaction from devices to people. Deice throws an event and person
+ * detects and solves it. Events hold information about by what, when and where in was created.
+ */
 public abstract class Event {
     private final EventType eventType;
     private final Device creator;
@@ -21,6 +25,9 @@ public abstract class Event {
         eventDate = Simulation.getInstance().getCurrentTime();
     }
 
+    /**
+     * Throw event to room/floor/home. Depends on throw strategy.
+     */
     public void throwEvent() {
         eventType.getThrowStrategy().throwEvent(this);
     }
