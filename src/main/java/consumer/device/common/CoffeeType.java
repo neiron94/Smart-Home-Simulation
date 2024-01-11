@@ -28,10 +28,6 @@ public enum CoffeeType {
         this.coffee = coffee;
     }
 
-    public static CoffeeType getRandomType() {
-        return CoffeeType.values()[new Random().nextInt(0, CoffeeType.values().length)];
-    }
-
     public int getMilk() {
         return milk;
     }

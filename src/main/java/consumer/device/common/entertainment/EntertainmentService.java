@@ -2,10 +2,8 @@ package consumer.device.common.entertainment;
 
 import utils.ConfigurationReader;
 import utils.HelpFunctions;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Random;
+
+import java.util.*;
 
 /**
  * Service which contains simulation of database of entertainment objects (video/game/song).
@@ -44,7 +42,7 @@ public class EntertainmentService {
          * @return Random game.
          */
         public static Game getRandomGame() {
-            return HelpFunctions.getRandomObject(games).orElseThrow(NoSuchElementException::new);
+            return games.stream().findAny().orElseThrow(NoSuchElementException::new);
         }
     }
 
@@ -69,7 +67,7 @@ public class EntertainmentService {
          * @return Random song.
          */
         public static Song getRandomSong() {
-            return HelpFunctions.getRandomObject(songs).orElseThrow(NoSuchElementException::new);
+            return songs.stream().findAny().orElseThrow(NoSuchElementException::new);
         }
 
         /**
@@ -85,7 +83,7 @@ public class EntertainmentService {
          * @return Random playlist.
          */
         public static List<Song> getRandomPlaylist() {
-            return HelpFunctions.getRandomObject(playlists).orElseThrow(NoSuchElementException::new);
+            return playlists.stream().findAny().orElseThrow(NoSuchElementException::new);
         }
     }
 
@@ -109,7 +107,7 @@ public class EntertainmentService {
          * @return Random video.
          */
         public static Video getRandomVideo() {
-            return HelpFunctions.getRandomObject(shows).orElseThrow(NoSuchElementException::new);
+            return shows.stream().findAny().orElseThrow(NoSuchElementException::new);
         }
     }
 }

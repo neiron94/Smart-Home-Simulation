@@ -37,16 +37,6 @@ public class HelpFunctions {
         return value < min ? min : Math.min(value, max);
     }
 
-    public static <T> Optional<T> getRandomObject(List<T> array) {
-        Random random = new Random();
-        try {
-            int randomIndex = random.nextInt(array.size());
-            return Optional.of(array.get(randomIndex));
-        } catch (IllegalArgumentException e) {
-            return Optional.empty(); // TODO Change return value
-        }
-    }
-
     public static double countElectricityConsumption(DeviceStatus status, double power) {
         return status.getMultiplier() * power * Constants.Time.TICK_DURATION;
     }
@@ -96,22 +86,12 @@ public class HelpFunctions {
                 .orElseThrow(DeviceNotFoundException::new);
     }
 
-    public static Room getRandomRoom() {
-        return getRandomObject(Simulation.getInstance().getHome().getFloors().stream()
-                .flatMap(floor -> floor.getRooms().stream())
-                .toList()).orElseThrow(NoSuchElementException::new);
-    }
-
     public static Room findRoom(RoomType type) throws RoomNotFoundException {
         return Simulation.getInstance().getHome().getFloors().stream()
                 .flatMap(floor -> floor.getRooms().stream())
                 .filter(room -> room.getType() == type)
                 .findFirst()
                 .orElseThrow(RoomNotFoundException::new);
-    }
-
-    public static Device getRandomDevice() {
-        return getRandomObject(Simulation.getInstance().getDevices().stream().toList()).orElseThrow(NoSuchElementException::new);
     }
 
     public static Optional<DayPeriod> getDayPeriod(LocalDateTime date) {

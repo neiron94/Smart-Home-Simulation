@@ -21,10 +21,6 @@ public enum VentProgram {
         this.power = power;
     }
 
-    public static VentProgram getRandomProgram() {
-        return VentProgram.values()[new Random().nextInt(0, VentProgram.values().length)];
-    }
-
     public double getPower() {
         return power;
     }

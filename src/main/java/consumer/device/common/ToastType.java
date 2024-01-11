@@ -26,10 +26,6 @@ public enum ToastType {
         this.power = power;
     }
 
-    public static ToastType getRandomType() {
-        return ToastType.values()[new Random().nextInt(0, ToastType.values().length)];
-    }
-
     public Duration getCookTime() {
         return cookTime;
     }

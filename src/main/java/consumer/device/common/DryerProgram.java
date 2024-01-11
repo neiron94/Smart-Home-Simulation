@@ -25,10 +25,6 @@ public enum DryerProgram {
         this.electricityConsumption = electricityConsumption;
     }
 
-    public static DryerProgram getRandomProgram() {
-        return DryerProgram.values()[new Random().nextInt(0, DryerProgram.values().length)];
-    }
-
     public Duration getDuration() {
         return duration;
     }

@@ -17,6 +17,7 @@ import utils.RankedQueue;
 import utils.exceptions.NotRepairableDeviceException;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.function.Function;
 
 public interface PersonStrategy extends Strategy {
@@ -58,7 +59,10 @@ public interface PersonStrategy extends Strategy {
                 HelpFunctions.makeRecord(action.getExecutor(), String.format("Call %s to solve %s in %s", adult.getName(), action.getSubject(), action.getSubject().getOrigin()));
                 return true;
             } else {
-                action.getExecutor().setRoom(HelpFunctions.getRandomRoom());
+                Room room = Simulation.getInstance().getHome().getFloors().stream()
+                        .flatMap(floor -> floor.getRooms().stream())
+                        .findAny().orElseThrow(NoSuchElementException::new);
+                action.getExecutor().setRoom(room);
                 HelpFunctions.makeRecord(action.getExecutor(), String.format("Search an adult to tell about %s", action.getSubject()));
                 return false;
             }
