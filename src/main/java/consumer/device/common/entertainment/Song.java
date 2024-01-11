@@ -10,4 +10,9 @@ import java.time.Duration;
  * @param genre Genre of the song.
  * @param duration Duration of the song.
  */
-public record Song(String author, String album, String name, SongGenre genre, Duration duration) {}
+public record Song(String author, String album, String name, SongGenre genre, Duration duration) {
+    @Override
+    public String toString() {
+        return name;
+    }
+}

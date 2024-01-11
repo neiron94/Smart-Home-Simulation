@@ -284,7 +284,7 @@ public final class PersonAPI {
             }
         }
 
-        makeRecord(action.getExecutor(), action.getSubject(), String.format("Start %s on program %s", action.getSubject(), program));
+        makeRecord(action.getExecutor(), action.getSubject(), String.format("Start %s on '%s'", action.getSubject(), program));
         return true;
     };
 
@@ -323,7 +323,7 @@ public final class PersonAPI {
             }
         }
 
-        makeRecord(action.getExecutor(), action.getSubject(), String.format("Start %s on program %s", action.getSubject(), program));
+        makeRecord(action.getExecutor(), action.getSubject(), String.format("Start %s on '%s'", action.getSubject(), program));
         return true;
     };
 
@@ -352,14 +352,14 @@ public final class PersonAPI {
     private static final Function<Action<Person, Fridge>, Boolean> increaseTemperatureFridge = action -> {
         action.getSubject().increaseTemperature();
 
-        makeRecord(action.getExecutor(), action.getSubject(), String.format("Increase temperature of %s, current temperature: %.1f°C", action.getSubject(), action.getSubject().getTemperature()));
+        makeRecord(action.getExecutor(), action.getSubject(), String.format("Increase temperature in %s, current temperature: %.1f°C", action.getSubject(), action.getSubject().getTemperature()));
         return true;
     };
 
     private static final Function<Action<Person, Fridge>, Boolean> decreaseTemperatureFridge = action -> {
         action.getSubject().decreaseTemperature();
 
-        makeRecord(action.getExecutor(), action.getSubject(), String.format("Decrease temperature of %s, current temperature: %.1f°C", action.getSubject(), action.getSubject().getTemperature()));
+        makeRecord(action.getExecutor(), action.getSubject(), String.format("Decrease temperature in %s, current temperature: %.1f°C", action.getSubject(), action.getSubject().getTemperature()));
         return true;
     };
 
@@ -380,7 +380,7 @@ public final class PersonAPI {
             }
         }
 
-        makeRecord(action.getExecutor(), action.getSubject(), String.format("Play %s on %s", action.getSubject().getCurrentGame(), action.getSubject()));
+        makeRecord(action.getExecutor(), action.getSubject(), String.format("Play '%s' on %s", action.getSubject().getCurrentGame(), action.getSubject()));
         return true;
     };
 
@@ -498,7 +498,7 @@ public final class PersonAPI {
             }
         }
 
-        makeRecord(action.getExecutor(), action.getSubject(), String.format("Play song %s on %s", action.getSubject().getCurrentSong().name(), action.getSubject()));
+        makeRecord(action.getExecutor(), action.getSubject(), String.format("Play song '%s' on %s", action.getSubject().getCurrentSong().name(), action.getSubject()));
         return true;
     };
 
@@ -595,7 +595,7 @@ public final class PersonAPI {
             }
         }
 
-        makeRecord(action.getExecutor(), action.getSubject(), String.format("Watch %s on %s", action.getSubject().getCurrentVideo().name(), action.getSubject()));
+        makeRecord(action.getExecutor(), action.getSubject(), String.format("Watch '%s' on %s", action.getSubject().getCurrentVideo().name(), action.getSubject()));
         return true;
     };
 
@@ -632,7 +632,7 @@ public final class PersonAPI {
             }
         }
 
-        makeRecord(action.getExecutor(), action.getSubject(), String.format("Start %s with program %s", action.getSubject(), program));
+        makeRecord(action.getExecutor(), action.getSubject(), String.format("Start %s with '%s'", action.getSubject(), program));
         return true;
     };
 
@@ -671,7 +671,7 @@ public final class PersonAPI {
             }
         }
 
-        makeRecord(action.getExecutor(), action.getSubject(), String.format("Start %s with program %s", action.getSubject(), program));
+        makeRecord(action.getExecutor(), action.getSubject(), String.format("Start %s with '%s'", action.getSubject(), program));
         return true;
     };
 
