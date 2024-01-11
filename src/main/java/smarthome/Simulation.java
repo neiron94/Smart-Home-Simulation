@@ -1,10 +1,8 @@
 package smarthome;
 
-import consumer.AddVisitor;
 import consumer.DeleteVisitor;
-import consumer.SupplySystem;
+import consumer.supplySystem.SupplySystem;
 import consumer.device.Device;
-import consumer.device.common.entertainment.EntertainmentService;
 import creature.Creature;
 import place.*;
 import report.ReportCreator;
