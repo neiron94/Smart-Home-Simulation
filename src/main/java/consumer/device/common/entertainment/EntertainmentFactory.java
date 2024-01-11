@@ -48,7 +48,7 @@ public class EntertainmentFactory {
             throw new NoSuchElementException("Invalid Genre");
         }
 
-        return new Video(name, description, platform, LocalTime.of(0, duration));
+        return new Video(name, description, platform, Duration.ofMinutes(duration));
     }
 
     /**

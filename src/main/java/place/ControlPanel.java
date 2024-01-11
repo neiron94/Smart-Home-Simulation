@@ -14,9 +14,6 @@ public class ControlPanel {
     private RoomConfiguration currentConfiguration;
 
     private static final List<RoomConfiguration> configurations = new ArrayList<>();
-    static {
-        ConfigurationReader.readRoomConfigurationConfig();
-    }
 
     public ControlPanel(Room room) {
         this.room = room;

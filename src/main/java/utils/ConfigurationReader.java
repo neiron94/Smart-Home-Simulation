@@ -119,6 +119,8 @@ public class ConfigurationReader {
             String genre = game.path("genre").asText();
             EntertainmentService.GameService.addGame(factory.createGame(name, description, genre));
         }
+
+        EntertainmentService.AudioService.createPlaylists();
     }
 
     public static void readWeatherConfig() {

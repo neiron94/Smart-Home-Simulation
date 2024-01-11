@@ -1,6 +1,6 @@
 package consumer.device.common.entertainment;
 
-import java.time.LocalTime;
+import java.time.Duration;
 
 /**
  * Video for TV.
@@ -9,4 +9,4 @@ import java.time.LocalTime;
  * @param platform Platform of the video.
  * @param duration Duration of the video.
  */
-public record Video(String name, String description, VideoPlatform platform, LocalTime duration) {}
+public record Video(String name, String description, VideoPlatform platform, Duration duration) {}

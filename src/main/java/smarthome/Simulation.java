@@ -4,6 +4,7 @@ import consumer.AddVisitor;
 import consumer.DeleteVisitor;
 import consumer.SupplySystem;
 import consumer.device.Device;
+import consumer.device.common.entertainment.EntertainmentService;
 import creature.Creature;
 import place.*;
 import report.ReportCreator;
@@ -45,9 +46,12 @@ public class Simulation {
 
     private static void readConfigurations(Simulation simulation) {
         ConfigurationReader.readSimulationConfig(simulation); // Read main configuration
+        ConfigurationReader.readContentConfig(); // Create entertainment
+        ConfigurationReader.readRoomConfigurationConfig(); // Create room configurations
         simulation.home = new HomeBuilder(simulation.configurationName).getHome(); // Create home
         ConfigurationReader.readCreatureConfig(simulation.configurationName); // Create creatures
         ConfigurationReader.readDeviceConfig(simulation.configurationName); // Create devices
+
 
         ReportCreator.createConfigurationReport();
     }

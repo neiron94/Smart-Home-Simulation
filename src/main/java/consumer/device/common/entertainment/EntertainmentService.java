@@ -10,18 +10,6 @@ import java.util.*;
  * Also contains some useful functions for entertainment objects.
  */
 public class EntertainmentService {
-
-    // Read entertainment objects from json files
-    static {
-        ConfigurationReader.readContentConfig();
-
-        for (int i = 0; i < new Random().nextInt(3) + 3; ++i) { // Randomly generate playlists
-            List<Song> playlist = new ArrayList<>();
-            for (int j = 0; j < new Random().nextInt(3) + 5; ++j) playlist.add(AudioService.getRandomSong());
-            AudioService.addPlaylist(playlist);
-        }
-    }
-
     /**
      * Service which contains simulation of database of games.
      * Also contains some useful functions for game objects.
@@ -71,11 +59,14 @@ public class EntertainmentService {
         }
 
         /**
-         * Add playlist to "database".
-         * @param playlist Playlist to add.
+         * Add playlists to "database".
          */
-        public static void addPlaylist(List<Song> playlist) {
-            playlists.add(playlist);
+        public static void createPlaylists() {
+            for (int i = 0; i < new Random().nextInt(3) + 3; ++i) { // Randomly generate playlists
+                List<Song> playlist = new ArrayList<>();
+                for (int j = 0; j < new Random().nextInt(3) + 5; ++j) playlist.add(AudioService.getRandomSong());
+                playlists.add(playlist);
+            }
         }
 
         /**
