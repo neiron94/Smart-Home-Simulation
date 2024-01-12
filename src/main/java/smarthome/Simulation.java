@@ -1,7 +1,7 @@
 package smarthome;
 
 import consumer.DeleteVisitor;
-import consumer.SupplySystem;
+import consumer.supplySystem.SupplySystem;
 import consumer.device.Device;
 import creature.Creature;
 import place.*;

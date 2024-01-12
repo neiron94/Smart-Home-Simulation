@@ -5,6 +5,9 @@ import utils.ConfigurationReader;
 import utils.HelpFunctions;
 import java.util.Optional;
 
+/**
+ * // TODO - Javadoc
+ */
 public class HomeBuilder {
     private final JsonNode homeDraft;
     private final JsonNode floorDraft;

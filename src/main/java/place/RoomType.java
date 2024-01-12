@@ -1,5 +1,8 @@
 package place;
 
+/**
+ * Type of the room.
+ */
 public enum RoomType {
     KITCHEN("Kitchen"),
     HALL("Hall"),
