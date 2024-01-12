@@ -6,8 +6,17 @@ import static utils.Constants.ConfigurationReaderConstants.*;
 import java.time.Duration;
 import java.util.Random;
 
+/**
+ * Rainy weather.
+ */
 public class RainyWeather extends Weather {
-    private final Duration duration = Duration.ofMinutes(90);
+
+    /**
+     * Creates rainy weather.
+     */
+    public RainyWeather() {
+        super(Duration.ofMinutes(90));
+    }
 
     @Override
     public void applyWeather() {
@@ -17,11 +26,6 @@ public class RainyWeather extends Weather {
         Street.getInstance().setTemperature(stats[TEMPERATURE][month][hour] + new Random().nextInt(-5, -2));
         Street.getInstance().setHumidity(stats[HUMIDITY][month][hour] + new Random().nextInt(7, 13));
         Street.getInstance().setBrightness(stats[BRIGHTNESS][month][hour] + new Random().nextInt(-17, -12));
-    }
-
-    @Override
-    public Duration getDuration() {
-        return duration;
     }
 
     @Override

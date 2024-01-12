@@ -2,6 +2,8 @@ package place.weather;
 
 import place.Street;
 import smarthome.Simulation;
+import utils.ConfigurationReader;
+
 import java.time.Duration;
 import java.util.HashMap;
 import java.util.List;
@@ -9,11 +11,26 @@ import java.util.Map;
 import static utils.Constants.Time.HOURS;
 import static utils.Constants.Time.MONTHS;
 
+/**
+ * Weather affects attributes of street and dynamically changes every hour in {@link Street#routine()}.
+ * Every concrete weather has Markov chain table, which sets the probability of transition to another weather state.
+ */
 public abstract class Weather {
+    private final Duration duration;
+
+    /**
+     * Preloaded tables of attribute dependency on month of a year and hour of a day.
+     */
     public static double[][][] stats = new double[3][MONTHS][HOURS];
+    static {
+        ConfigurationReader.readWeatherConfig();
+    }
+
+    /**
+     * List of all possible weathers, between which will be switched.
+     */
     public static final List<Weather> weathers = List.of(new NormalWeather(), new SunnyWeather(), new CloudyWeather(), new RainyWeather(), new WindyWeather());
     private static final Map<Weather, Map<Weather, Double>> probabilities = new HashMap<>();
-
     static {
         double[][] probability = {
                 {0.3, 0.2, 0.2, 0.1, 0.2}, // Probabilities of next weather for Normal weather
@@ -30,6 +47,13 @@ public abstract class Weather {
         }
     }
 
+    protected Weather(Duration duration) {
+        this.duration = duration;
+    }
+
+    /**
+     * Switches to another weather, depends on Markov probability table.
+     */
     public void changeWeather() {
         double choice = Math.random();
         double accumulator = 0.0;
@@ -45,7 +69,12 @@ public abstract class Weather {
         }
     }
 
+    /**
+     * Changes attributes of street, is called every hour in {@link Street#routine()}.
+     */
     public abstract void applyWeather();
 
-    public abstract Duration getDuration();
+    public Duration getDuration() {
+        return duration;
+    }
 }

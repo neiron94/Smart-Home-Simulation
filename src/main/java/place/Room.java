@@ -2,6 +2,7 @@ package place;
 
 import consumer.device.sensored.*;
 import consumer.device.sensored.sensor.ParameterSensor;
+import consumer.supplySystem.SupplySystem;
 import event.Event;
 import smarthome.Simulation;
 import utils.Constants.ParameterDevices;
@@ -10,6 +11,11 @@ import utils.HelpFunctions;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Leaf place in home topology. Contains devices and control panel.
+ * Has attributes: temperature, humidity and brightness.
+ * Resources can be blocked in the room by {@link SupplySystem}.
+ */
 public class Room implements EventDestination {
     private final int id;
     private final RoomType type;
@@ -25,6 +31,12 @@ public class Room implements EventDestination {
     private double humidity; // percent
     private double brightness; // percent
 
+    /**
+     * Creates new room.
+     * @param id id of the room, should be unique
+     * @param type type of the room
+     * @param floor floor, where this room is located
+     */
     public Room(int id, RoomType type, Floor floor) {
         this.id = id;
         this.type = type;
@@ -37,12 +49,56 @@ public class Room implements EventDestination {
         activeGas = true;
     }
 
-    public List<Event> getEvents() {
-        return events;
+    /**
+     * Counts and sets room attributes depending on street attributes
+     * and power of every {@link consumer.device.sensored.ParameterDevice} in this room.
+     * Is called every tick in {@link Simulation#simulate()}.
+     */
+    public void routine() {
+        Street street = Street.getInstance();
+        temperature = street.getTemperature() * House.HEAT_PENETRABILITY; // Room temperature is almost street one
+        humidity = street.getHumidity() * House.HUMIDITY_PENETRABILITY; // Room humidity is almost street one
+        brightness = street.getBrightness() * House.LIGHT_PENETRABILITY; // Room brightness is almost street one
+
+        Simulation.getInstance().getDevices().stream()
+                .filter(device -> device.getRoom() == this && device instanceof ParameterDevice)
+                .map(device -> (ParameterDevice<? extends ParameterSensor>) device)
+                .forEach(device -> {
+                    if (device instanceof Heater) temperature += ParameterDevices.HEATER_ON_MAX_POWER * device.getPower() / 100; // Consider working heater
+                    else if (device instanceof AC) temperature -= ParameterDevices.AC_ON_MAX_POWER * device.getPower() / 100; // Consider working AC
+                    else if (device instanceof AirHumidifier) setHumidity(humidity + ParameterDevices.HUMIDIFIER_ON_MAX_POWER * device.getPower() / 100); // Consider working humidifier
+                    else if (device instanceof AirDryer) setHumidity(humidity - ParameterDevices.DRYER_ON_MAX_POWER * device.getPower() / 100); // Consider working dryer
+                    else if (device instanceof Light) setBrightness(brightness + ParameterDevices.LIGHT_ON_MAX_POWER * device.getPower() / 100); // Consider working light
+                    else if (device instanceof Window) setBrightness(brightness - ParameterDevices.WINDOW_ON_MAX_POWER * device.getPower() / 100); // Consider working window
+                });
     }
 
+    /**
+     * Deletes event from this room.
+     * @param event event to delete
+     * @return true if room contained the specified event
+     */
+    @Override
+    public boolean deleteEvent(Event event) {
+        return events.remove(event);
+    }
+
+    /**
+     * Adds event to this room.
+     * @param event event to add
+     */
+    @Override
     public void addEvent(Event event) {
         events.add(event);
+    }
+
+    @Override
+    public String toString() {
+        return String.format("Room_%d (%s)", id, getType().toString());
+    }
+
+    public List<Event> getEvents() {
+        return events;
     }
 
     public double getTemperature() {
@@ -93,10 +149,6 @@ public class Room implements EventDestination {
         this.activeGas = activeGas;
     }
 
-    public RoomType getRoomType() {
-        return type;
-    }
-
     public int getId() {
         return id;
     }
@@ -107,34 +159,5 @@ public class Room implements EventDestination {
 
     public Floor getFloor() {
         return floor;
-    }
-
-    @Override
-    public String toString() {
-        return String.format("Room_%d (%s)", id, getRoomType().toString());
-    }
-
-    @Override
-    public boolean deleteEvent(Event event) {
-        return events.remove(event);
-    }
-
-    public void routine() {
-        Street street = Street.getInstance();
-        temperature = street.getTemperature() * House.HEAT_PENETRABILITY; // Room temperature is almost street one
-        humidity = street.getHumidity() * House.HUMIDITY_PENETRABILITY; // Room humidity is almost street one
-        brightness = street.getBrightness() * House.LIGHT_PENETRABILITY; // Room brightness is almost street one
-
-        Simulation.getInstance().getDevices().stream()
-                .filter(device -> device.getRoom() == this && device instanceof ParameterDevice)
-                .map(device -> (ParameterDevice<? extends ParameterSensor>) device)
-                .forEach(device -> {
-                    if (device instanceof Heater) temperature += ParameterDevices.HEATER_ON_MAX_POWER * device.getPower() / 100; // Consider working heater
-                    else if (device instanceof AC) temperature -= ParameterDevices.AC_ON_MAX_POWER * device.getPower() / 100; // Consider working AC
-                    else if (device instanceof AirHumidifier) setHumidity(humidity + ParameterDevices.HUMIDIFIER_ON_MAX_POWER * device.getPower() / 100); // Consider working humidifier
-                    else if (device instanceof AirDryer) setHumidity(humidity - ParameterDevices.DRYER_ON_MAX_POWER * device.getPower() / 100); // Consider working dryer
-                    else if (device instanceof Light) setBrightness(brightness + ParameterDevices.LIGHT_ON_MAX_POWER * device.getPower() / 100); // Consider working light
-                    else if (device instanceof Window) setBrightness(brightness - ParameterDevices.WINDOW_ON_MAX_POWER * device.getPower() / 100); // Consider working window
-                });
     }
 }

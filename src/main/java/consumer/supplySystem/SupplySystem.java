@@ -1,5 +1,6 @@
-package consumer;
+package consumer.supplySystem;
 
+import consumer.Consumer;
 import consumer.device.Device;
 import place.Room;
 import smarthome.Simulation;
@@ -14,7 +15,7 @@ import java.util.Map;
  * by all device in the house in total and which can switch on/off resource in whole house/concrete room.
  * @param <T> Concrete Consumer type which describes what resource this supply system is responsible for.
  */
-public class SupplySystem<T extends Consumer> {
+public abstract class SupplySystem<T extends Consumer> {
     private final Map<T, Double> consumedMap;
     private boolean resourceAvailable;
 
