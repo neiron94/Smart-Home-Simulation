@@ -11,7 +11,10 @@ import java.util.Random;
  */
 public class CloudyWeather extends Weather  {
 
-    protected CloudyWeather() {
+    /**
+     * Creates cloudy weather.
+     */
+    public CloudyWeather() {
         super(Duration.ofMinutes(180));
     }
 

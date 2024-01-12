@@ -11,7 +11,10 @@ import java.util.Random;
  */
 public class RainyWeather extends Weather {
 
-    protected RainyWeather() {
+    /**
+     * Creates rainy weather.
+     */
+    public RainyWeather() {
         super(Duration.ofMinutes(90));
     }
 

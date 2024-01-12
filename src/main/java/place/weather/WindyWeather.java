@@ -11,7 +11,10 @@ import java.util.Random;
  */
 public class WindyWeather extends Weather {
 
-    protected WindyWeather() {
+    /**
+     * Creates windy weather.
+     */
+    public WindyWeather() {
         super(Duration.ofMinutes(60));
     }
 
