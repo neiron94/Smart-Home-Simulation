@@ -43,11 +43,11 @@ public class Washer extends CleaningDevice implements WaterConsumer, Electricity
 
     /**
      * Start washing with given program.
-     * @param program Program to start.
-     * @throws WrongDeviceStatusException Device is not in start status.
-     * @throws DirtyFilterException Filter is too dirty.
-     * @throws EntryProblemException No clothes inside washer.
-     * @throws DeviceIsOccupiedException Device is occupied by someone else.
+     * @param program program to start
+     * @throws WrongDeviceStatusException if device is not in start status
+     * @throws DirtyFilterException if filter is too dirty
+     * @throws EntryProblemException if no clothes inside washer
+     * @throws DeviceIsOccupiedException if device is occupied by someone else
      */
     public void startWash(WasherProgram program) throws WrongDeviceStatusException, DirtyFilterException, EntryProblemException, DeviceIsOccupiedException {
         if (program == null) return;

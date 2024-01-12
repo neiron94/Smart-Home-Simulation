@@ -32,7 +32,7 @@ public abstract class CleaningDevice extends Device {
 
     /**
      * Filter is getting dirtier every tick, when device works.
-     * @return Can be ignored.
+     * @return can be ignored
      */
     @Override
     public boolean routine() {

@@ -34,7 +34,7 @@ public class CoffeeMachine extends Device implements ElectricityConsumer {
 
     /**
      * Counts amount of consumed electricity during this simulation tick.
-     * @return Consumed electricity.
+     * @return consumed electricity
      */
     @Override
     public double consumeElectricity() {
@@ -50,9 +50,9 @@ public class CoffeeMachine extends Device implements ElectricityConsumer {
 
     /**
      * Makes coffee.
-     * @param program Type of coffee to make.
-     * @throws EntryProblemException Not enough milk, water or coffee for this coffee type.
-     * @throws WrongDeviceStatusException Device is not in start status.
+     * @param program type of coffee to make
+     * @throws EntryProblemException not enough milk, water or coffee for this coffee type
+     * @throws WrongDeviceStatusException if device is not in start status
      */
     public void makeCoffee(CoffeeType program) throws EntryProblemException, WrongDeviceStatusException {
         checkBeforeStart(program);

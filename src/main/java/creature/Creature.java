@@ -11,21 +11,77 @@ import utils.Priority;
 import utils.RankedQueue;
 import static utils.HelpFunctions.makeRecord;
 
+/**
+ * Creatures perform actions, interact with devices and react on events
+ * depending on their attributes and strategy. They have memory for possibility
+ * of multiple interaction (for instance, person can start washing machine, go
+ * cook food and then return to this washing machine when it's ready), also creatures
+ * store information about their activity for future reports.
+ */
 public abstract class Creature {
+
+    /**
+     * Name of a creature.
+     */
     protected final String name;
+
+    /**
+     * Room in which creature is located, or room in which
+     * creature will return from street if not in home.
+     */
     protected Room room;
 
+    /**
+     * Creature's activity for report.
+     */
     protected final Activity activity;
+
+    /**
+     * Memory of a creature consists of queues of actions. Each queue of actions
+     * represents sequence of actions which should be performed for some result.
+     * For instance, to wash clothes, you should go to room with washer -> put clothes ->
+     * start washer -> wait some time -> take clothes. Queues can have different priorities
+     * ("solve fire event" is more important than "watch TV"), that's why {@link TreeSet} is used,
+     * it can store items of different priorities in decreasing order. Java don't
+     * have built-in Queue, which have priority, so Adapter pattern is used in {@link RankedQueue}.
+     */
     protected final TreeSet<RankedQueue<? extends Action<? extends Creature, ?>>> memory;
+
+    /**
+     * Strategy for reacting on events.
+     */
     protected Strategy strategy;
 
+    /**
+     * True if creature is at home. It cannot solve events if is not at home.
+     */
     protected boolean atHome;
+
+    /**
+     * True if creature is doing some busy action.
+     */
     protected boolean isBusy;
+
+    /**
+     * True is creature is alive.
+     */
     protected boolean isAlive;
 
+    /**
+     * Hunger of a creature. If too hungry, chooses eat action.
+     */
     protected double hunger;
+
+    /**
+     * Fullness of a creature. If too full, chooses toilet action.
+     */
     protected double fullness;
 
+    /**
+     * Creates new creature.
+     * @param name name of a creature
+     * @param startRoom room where creature is located
+     */
     public Creature(String name, Room startRoom) {
         Simulation.getInstance().getCreatures().add(this);
         this.name = name;
@@ -42,6 +98,12 @@ public abstract class Creature {
         atHome = true;
     }
 
+    /**
+     * Is called every simulation tick from {@link Simulation#simulate()}.
+     * Decides and adds next action to memory, perform current actions,
+     * deletes completed actions, detects event and start reacting,
+     * increases hunger and fullness.
+     */
     public void routine() {
         if (atHome) {
             Stream.concat(Simulation.getInstance().getHome().getEvents().stream(),
@@ -85,6 +147,37 @@ public abstract class Creature {
         if (hunger == 100) reactMaxHunger();
     }
 
+    /**
+     * Adds new sequence of actions to memory.
+     * @param sequence sequence of actions
+     */
+    public void addToMemory(RankedQueue<? extends Action<? extends Creature, ?>> sequence) {
+        memory.add(sequence);
+    }
+
+    /**
+     * Chooses sequence of actions to decrease hunger.
+     */
+    protected abstract void decreaseHunger();
+
+    /**
+     * Chooses sequence of actions to decrease fullness.
+     */
+    protected abstract void decreaseFullness();
+
+    /**
+     * Chooses new sequence of actions.
+     */
+    protected abstract void chooseActivity();
+
+    /**
+     * Reacts on max fullness.
+     */
+    protected abstract void reactMaxFullness();
+
+    @Override
+    public abstract String toString();
+
     private boolean notPlanned(Priority activity) {
         for (RankedQueue<? extends Action<? extends Creature, ?>> queue : memory) {
             if (queue.getPriority().getValue() == activity.getValue()) return false;
@@ -92,14 +185,6 @@ public abstract class Creature {
         }
         return true;
     }
-
-    protected abstract void decreaseHunger();
-
-    protected abstract void decreaseFullness();
-
-    protected abstract void chooseActivity();
-
-    protected abstract void reactMaxFullness();
 
     private void reactMaxHunger() {
         makeRecord(this, "Die");
@@ -158,15 +243,4 @@ public abstract class Creature {
     public boolean isAtHome() {
         return atHome;
     }
-
-    public void setStrategy(Strategy strategy) {
-        this.strategy = strategy;
-    }
-
-    public void addToMemory(RankedQueue<? extends Action<? extends Creature, ?>> sequence) {
-        memory.add(sequence);
-    }
-
-    @Override
-    public abstract String toString();
 }

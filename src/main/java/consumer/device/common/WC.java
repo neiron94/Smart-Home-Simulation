@@ -47,9 +47,9 @@ public class WC extends Device implements WaterConsumer {
 
     /**
      * Flush WC after use.
-     * @param flushType Type of flushing.
-     * @throws DeviceIsBrokenException WC is broken.
-     * @throws ResourceNotAvailableException No water available in this room.
+     * @param flushType type of flushing
+     * @throws DeviceIsBrokenException if WC is broken
+     * @throws ResourceNotAvailableException if no water available in this room
      */
     public void flush(FlushType flushType) throws DeviceIsBrokenException, ResourceNotAvailableException {
         checkBeforeTurnOn();

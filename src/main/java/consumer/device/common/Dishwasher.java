@@ -43,11 +43,11 @@ public class Dishwasher extends CleaningDevice implements WaterConsumer, Electri
 
     /**
      * Start wash dishes.
-     * @param program Program of washing. Determines required time and consumption.
-     * @throws DirtyFilterException Filter of dishwasher is too dirty,
-     * @throws EntryProblemException Too little dishes inside.
-     * @throws WrongDeviceStatusException Device is not in start status.
-     * @throws DeviceIsOccupiedException Someone else is using this device.
+     * @param program program of washing, determines required time and consumption
+     * @throws DirtyFilterException if filter of dishwasher is too dirty
+     * @throws EntryProblemException if too little dishes inside
+     * @throws WrongDeviceStatusException if device is not in start status
+     * @throws DeviceIsOccupiedException if someone else is using this device
      */
     public void startWash(DishwasherProgram program) throws DirtyFilterException, EntryProblemException, WrongDeviceStatusException, DeviceIsOccupiedException {
         if (program == null) return;
@@ -61,7 +61,7 @@ public class Dishwasher extends CleaningDevice implements WaterConsumer, Electri
 
     /**
      * Add dishes to dishwasher.
-     * @param amount amount of added dishes.
+     * @param amount amount of added dishes
      */
     public void putDishes(int amount) {
         setFullness(fullness + amount);

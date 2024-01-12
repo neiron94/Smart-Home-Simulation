@@ -15,9 +15,18 @@ import java.util.function.Function;
 
 import static utils.HelpFunctions.makeRecord;
 
+/**
+ * Pet cannot interact with devices (except for feeder), but can react on events.
+ */
 public class Pet extends Creature {
     private final PetType type;
 
+    /**
+     * Creates new pet.
+     * @param name name of pet
+     * @param type type of pet
+     * @param startRoom room where pet is located
+     */
     public Pet(String name, PetType type, Room startRoom) {
         super(name, startRoom);
         this.type = type;
@@ -29,26 +38,34 @@ public class Pet extends Creature {
         }
     }
 
-    public PetType getType() {
-        return type;
-    }
-
+    /**
+     * Chooses action for decreasing hunger.
+     */
     @Override
     protected void decreaseHunger() {
         memory.add(PetAPI.feed.apply(this));
     }
 
+    /**
+     * Chooses action for decreasing fullness.
+     */
     @Override
     protected void decreaseFullness() {
         memory.add(PetAPI.goToToilet.apply(this));
     }
 
+    /**
+     * Chooses new action.
+     */
     @Override
     protected void chooseActivity() {
         List<Function<Pet, RankedQueue<Action<Pet, ?>>>> functions = List.of(PetAPI.sleep, PetAPI.play, PetAPI.goToBackyard, PetAPI.goToBackyard);
         HelpFunctions.getRandomObject(functions).ifPresent(function -> memory.add(function.apply(this)));
     }
 
+    /**
+     * Reacts on max fullness.
+     */
     @Override
     protected void reactMaxFullness() {
         makeRecord(this, "Shitted");
@@ -63,5 +80,9 @@ public class Pet extends Creature {
     @Override
     public String toString() {
         return String.format("%s (%s)", name, type.toString());
+    }
+
+    public PetType getType() {
+        return type;
     }
 }

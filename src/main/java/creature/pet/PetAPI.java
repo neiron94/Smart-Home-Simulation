@@ -106,7 +106,7 @@ public final class PetAPI {
 
     //*********************************************** Complex functions ***********************************************//
 
-    public static final Function<Pet, RankedQueue<Action<Pet, ?>>> feed = pet -> {
+    static final Function<Pet, RankedQueue<Action<Pet, ?>>> feed = pet -> {
         RankedQueue<Action<Pet, ?>> queue = new RankedQueue<>(Priority.EAT);
 
         try {
@@ -120,7 +120,7 @@ public final class PetAPI {
     };
 
 
-    public static final Function<Pet, RankedQueue<Action<Pet, ?>>> goToToilet = pet -> {
+    static final Function<Pet, RankedQueue<Action<Pet, ?>>> goToToilet = pet -> {
         RankedQueue<Action<Pet, ?>> queue = new RankedQueue<>(Priority.EMPTY);
 
         try {
@@ -132,7 +132,7 @@ public final class PetAPI {
         return queue;
     };
 
-    public static final Function<Pet, RankedQueue<Action<Pet, ?>>> sleep = pet -> {
+    static final Function<Pet, RankedQueue<Action<Pet, ?>>> sleep = pet -> {
         RankedQueue<Action<Pet, ?>> queue = new RankedQueue<>(Priority.SLEEP);
 
         queue.add(new Action<>(1, true, pet, null, goSleep));
@@ -141,7 +141,7 @@ public final class PetAPI {
         return queue;
     };
 
-    public static final Function<Pet, RankedQueue<Action<Pet, ?>>> goToBackyard = pet -> {
+    static final Function<Pet, RankedQueue<Action<Pet, ?>>> goToBackyard = pet -> {
         RankedQueue<Action<Pet, ?>> queue = new RankedQueue<>(Priority.COMMON);
 
         queue.add(new Action<>(1, true, pet, null, goOutside));
@@ -150,7 +150,7 @@ public final class PetAPI {
         return queue;
     };
 
-    public static final Function<Pet, RankedQueue<Action<Pet, ?>>> play = pet -> {
+    static final Function<Pet, RankedQueue<Action<Pet, ?>>> play = pet -> {
         RankedQueue<Action<Pet, ?>> queue = new RankedQueue<>(Priority.COMMON);
 
         queue.add(new Action<>(1, true, pet, null, playWithToys));
@@ -159,7 +159,7 @@ public final class PetAPI {
         return queue;
     };
 
-    public static final Function<Pet, RankedQueue<Action<Pet, ?>>> brakeDevice = pet -> {
+    static final Function<Pet, RankedQueue<Action<Pet, ?>>> brakeDevice = pet -> {  // TODO - add to list?
         RankedQueue<Action<Pet, ?>> queue = new RankedQueue<>(Priority.COMMON);
 
         Device device = HelpFunctions.getRandomObject(Simulation.getInstance().getDevices().stream().toList()).orElse(null);

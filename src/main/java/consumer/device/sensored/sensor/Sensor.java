@@ -16,7 +16,7 @@ public abstract class Sensor<T extends SensoredDevice<?>> {
 
     /**
      * Attach device to this sensor.
-     * @param device Device to attach.
+     * @param device device to attach
      */
     public void attachDevice(T device) {
         if (this.device == null)

@@ -39,9 +39,9 @@ public class GamingConsole extends Device implements ElectricityConsumer {
 
     /**
      * Play specified game on console.
-     * @param game Game to play.
-     * @throws WrongDeviceStatusException Device is not in start status.
-     * @throws DeviceIsOccupiedException Device is occupied by someone else.
+     * @param game game to play
+     * @throws WrongDeviceStatusException if device is not in start status
+     * @throws DeviceIsOccupiedException if device is occupied by someone else
      */
     public void play(Game game) throws WrongDeviceStatusException, DeviceIsOccupiedException {
         checkDeviceInStartStatus();

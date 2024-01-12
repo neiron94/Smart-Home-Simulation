@@ -33,7 +33,7 @@ public abstract class Oven extends Device {
 
     /**
      * Every tick checks if should stop.
-     * @return Can be ignored.
+     * @return can be ignored
      */
     @Override
     public boolean routine() {
@@ -49,11 +49,11 @@ public abstract class Oven extends Device {
 
     /**
      * Start cooking food.
-     * @param cookTime Duration of cooking.
-     * @param cookTemperature Temperature of cooking.
-     * @throws EntryProblemException No food inside oven.
-     * @throws DeviceIsOccupiedException Device is occupied by someone else.
-     * @throws WrongDeviceStatusException Device is not in start status.
+     * @param cookTime duration of cooking
+     * @param cookTemperature temperature of cooking
+     * @throws EntryProblemException if no food inside oven
+     * @throws DeviceIsOccupiedException if device is occupied by someone else
+     * @throws WrongDeviceStatusException if device is not in start status
      */
     public void cookFood(Duration cookTime, int cookTemperature) throws EntryProblemException, DeviceIsOccupiedException, WrongDeviceStatusException {
         checkDeviceInStartStatus();

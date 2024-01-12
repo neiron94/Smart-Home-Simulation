@@ -15,12 +15,12 @@ public class EntertainmentFactory {
 
     /**
      * Create song. Used in configuration reading.
-     * @param author Author of the song.
-     * @param album Album of the song.
-     * @param name Name of the song.
-     * @param songGenre Genre of the song.
-     * @param duration Duration of the song.
-     * @return New song.
+     * @param author author of the song
+     * @param album album of the song
+     * @param name name of the song
+     * @param songGenre genre of the song
+     * @param duration duration of the song
+     * @return new song
      */
     public Optional<Song> createSong(String author, String album, String name, String songGenre, int duration) {
         SongGenre genre;
@@ -36,11 +36,11 @@ public class EntertainmentFactory {
 
     /**
      * Create video. Used in configuration reading.
-     * @param name Name of the video.
-     * @param description Description of the video.
-     * @param videoPlatform Platform of the video.
-     * @param duration Duration of the video.
-     * @return New video.
+     * @param name name of the video
+     * @param description description of the video
+     * @param videoPlatform platform of the video
+     * @param duration duration of the video
+     * @return new video
      */
     public Optional<Video> createVideo(String name, String description, String videoPlatform, int duration) {
         VideoPlatform platform;
@@ -56,10 +56,10 @@ public class EntertainmentFactory {
 
     /**
      * Create game. Used in configuration reading.
-     * @param name Name of the game.
-     * @param description Description of the game.
-     * @param gameGenre Genre of the game.
-     * @return New game.
+     * @param name name of the game
+     * @param description description of the game
+     * @param gameGenre genre of the game
+     * @return new game
      */
     public Optional<Game> createGame(String name, String description, String gameGenre) {
         GameGenre genre;

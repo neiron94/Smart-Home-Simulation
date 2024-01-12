@@ -8,14 +8,17 @@ import utils.HelpFunctions;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+/**
+ * Factory for creating creatures.
+ */
 public class CreatureFactory {
     private final List<Room> rooms = Simulation.getInstance().getHome().getFloors().stream().flatMap(floor -> floor.getRooms().stream()).toList();
 
     /**
      * Creation method. Return type is void, because person automatically
      * adds itself to simulation in the constructor.
-     * @param name person's name.
-     * @param personGender person's gender.
+     * @param name person's name
+     * @param personGender person's gender
      * @param personStatus person's family status
      */
     public void createPerson(String name, String personGender, String personStatus) {
@@ -45,8 +48,8 @@ public class CreatureFactory {
     /**
      * Creation method. Return type is void, because pet automatically
      * adds itself to simulation in the constructor.
-     * @param name pet's name.
-     * @param petType type of pet.
+     * @param name pet's name
+     * @param petType type of pet
      */
     public void createPet(String name, String petType) {
         PetType type;

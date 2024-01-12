@@ -35,7 +35,7 @@ public class Toaster extends Device implements ElectricityConsumer {
 
     /**
      * Every tick check if should stop.
-     * @return Can be ignored.
+     * @return can be ignored
      */
     @Override
     public boolean routine() {
@@ -56,10 +56,10 @@ public class Toaster extends Device implements ElectricityConsumer {
 
     /**
      * Start making toast.
-     * @param program Type of toast to make.
-     * @throws EntryProblemException No toast inside toaster.
-     * @throws WrongDeviceStatusException Device is not in start status.
-     * @throws DeviceIsOccupiedException Device is occupied by someone else.
+     * @param program type of toast to make
+     * @throws EntryProblemException if no toast inside toaster
+     * @throws WrongDeviceStatusException if device is not in start status
+     * @throws DeviceIsOccupiedException if device is occupied by someone else
      */
     public void makeToast(ToastType program) throws EntryProblemException, WrongDeviceStatusException, DeviceIsOccupiedException {
         checkDeviceInStartStatus();
