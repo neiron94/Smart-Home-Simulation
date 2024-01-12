@@ -16,8 +16,6 @@ import java.time.Duration;
 import java.time.LocalTime;
 import java.util.*;
 import java.util.function.Function;
-import java.util.stream.Stream;
-
 import static utils.HelpFunctions.findDevice;
 import static utils.HelpFunctions.makeRecord;
 

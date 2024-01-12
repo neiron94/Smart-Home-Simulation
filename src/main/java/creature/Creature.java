@@ -59,7 +59,7 @@ public abstract class Creature {
         }
         if (hunger > 0 && notPlanned(Priority.EAT)) decreaseHunger(); // Need to eat // TODO Constant
         if (fullness > 0 && notPlanned(Priority.EMPTY)) decreaseFullness(); // Need to empty myself // TODO Constant
-        if (!isBusy) chooseActivity(); // Nothing important is doing - take new activity
+        //if (!isBusy) chooseActivity(); // Nothing important is doing - take new activity
 
         Iterator<RankedQueue<? extends Action<? extends Creature, ?>>> memoryIterator = memory.iterator();
         while (memoryIterator.hasNext()) {
