@@ -97,7 +97,7 @@ If person is trying to use device, which already `isOccupied` by other person, h
 ### Program Input
 ------------
 
-<details>
+- <details>
   <summary>
     <a href="https://github.com/neiron94/Smart-Home-Simulation/blob/develop/src/main/resources/config/Simulation.json">
       <b>Simulation.json</b>
@@ -113,13 +113,13 @@ If person is trying to use device, which already `isOccupied` by other person, h
         <td>Simulation duration (in days)</td>
       </tr>
     </table>
-<p>
-Configuration folder should exist in <code>config</code> directory and have <code>Home.json</code>, <code>Creature.json</code>, <code>Device.json</code>.<br>
-Duration should be integer non-negative value.
-</p>
+    <p>
+    Configuration folder should exist in <code>config</code> directory and have <code>Home.json</code>, <code>Creature.json</code>, <code>Device.json</code>.<br>
+    Duration should be integer non-negative value.
+    </p>
 </details>
 
-<details>
+- <details>
   <summary>
     <a href="https://github.com/neiron94/Smart-Home-Simulation/blob/develop/src/main/resources/config/1/Home.json">
       <b>Home.json</b>
@@ -139,13 +139,13 @@ Duration should be integer non-negative value.
         <td>List of rooms (types)</td>
       </tr>
     </table>
-<p>
-Numbers are IDs (integer) and should be unique for floors and rooms. They are connected with values in proper array (1-based).<br>
-Room types should match these <a href="https://github.com/neiron94/Smart-Home-Simulation/blob/develop/src/main/java/place/RoomType.java">values</a>.
-</p>
+    <p>
+    Numbers are IDs (integer) and should be unique for floors and rooms. They are connected with values in proper array (1-based).<br>
+    Room types should match these <a href="https://github.com/neiron94/Smart-Home-Simulation/blob/develop/src/main/java/place/RoomType.java">values</a>.
+    </p>
 </details>
 
-<details>
+- <details>
   <summary>
     <a href="https://github.com/neiron94/Smart-Home-Simulation/blob/develop/src/main/resources/config/1/Device.json">
       <b>Device.json</b>
@@ -157,13 +157,13 @@ Room types should match these <a href="https://github.com/neiron94/Smart-Home-Si
         <td>Device type and its instances</td>
       </tr>
     </table>
-<p>
-Numbers are room IDs (integer).<br>
-Device types should match these <a href="https://github.com/neiron94/Smart-Home-Simulation/blob/develop/src/main/java/consumer/device/DeviceType.java">values</a>.
-</p>
+    <p>
+    Numbers are room IDs (integer).<br>
+    Device types should match these <a href="https://github.com/neiron94/Smart-Home-Simulation/blob/develop/src/main/java/consumer/device/DeviceType.java">values</a>.
+    </p>
 </details>
 
-<details>
+- <details>
   <summary>
     <a href="https://github.com/neiron94/Smart-Home-Simulation/blob/develop/src/main/resources/config/1/Creature.json">
       <b>Creature.json</b>
@@ -183,10 +183,10 @@ Device types should match these <a href="https://github.com/neiron94/Smart-Home-
         <td>Person's family status</td>
       </tr>
     </table>
-<p>
-Gender should match these <a href="https://github.com/neiron94/Smart-Home-Simulation/blob/develop/src/main/java/creature/person/Gender.java">values</a>.<br>
-Family status should match these <a href="https://github.com/neiron94/Smart-Home-Simulation/blob/develop/src/main/java/creature/person/FamilyStatus.java">values</a>.
-</p>
+    <p>
+    Gender should match these <a href="https://github.com/neiron94/Smart-Home-Simulation/blob/develop/src/main/java/creature/person/Gender.java">values</a>.<br>
+    Family status should match these <a href="https://github.com/neiron94/Smart-Home-Simulation/blob/develop/src/main/java/creature/person/FamilyStatus.java">values</a>.
+    </p>
     <table>
       <tr>
         <td><code>"name" : "Garfield"</code></td>
@@ -197,12 +197,12 @@ Family status should match these <a href="https://github.com/neiron94/Smart-Home
         <td>Pet's type</td>
       </tr>
     </table>
-<p>
-Pet type should match these <a href="https://github.com/neiron94/Smart-Home-Simulation/blob/develop/src/main/java/creature/pet/PetType.java">values</a>.
-</p>
+    <p>         
+    Pet type should match these <a href="https://github.com/neiron94/Smart-Home-Simulation/blob/develop/src/main/java/creature/pet/PetType.java">values</a>.
+    </p>
 </details>
 
-<details>
+- <details>
   <summary>
     <a href="https://github.com/neiron94/Smart-Home-Simulation/blob/develop/src/main/resources/config/Content.json">
       <b>Content.json</b>
@@ -230,10 +230,10 @@ Pet type should match these <a href="https://github.com/neiron94/Smart-Home-Simu
         <td>Duration (in minutes)</td>
       </tr>
     </table>
-<p>
-Duration should be integer non-negative value.<br>
-Song genre should match these <a href="https://github.com/neiron94/Smart-Home-Simulation/blob/develop/src/main/java/consumer/device/common/entertainment/SongGenre.java">values</a>.
-</p>
+    <p>
+    Duration should be integer non-negative value.<br>
+    Song genre should match these <a href="https://github.com/neiron94/Smart-Home-Simulation/blob/develop/src/main/java/consumer/device/common/entertainment/SongGenre.java">values</a>.
+    </p>
     <table>
       <tr>
         <td><code>"name" : "Baby Shark Dance"</code></td>
@@ -252,10 +252,10 @@ Song genre should match these <a href="https://github.com/neiron94/Smart-Home-Si
         <td>Duration (in minutes)</td>
       </tr>
     </table>
-<p>
-Duration should be integer non-negative value.<br>
-Video platform should match these <a href="https://github.com/neiron94/Smart-Home-Simulation/blob/develop/src/main/java/consumer/device/common/entertainment/VideoPlatform.java">values</a>.
-</p>
+    <p>
+    Duration should be integer non-negative value.<br>
+    Video platform should match these <a href="https://github.com/neiron94/Smart-Home-Simulation/blob/develop/src/main/java/consumer/device/common/entertainment/VideoPlatform.java">values</a>.
+    </p>
     <table>
       <tr>
         <td><code>"name" : "2048"</code></td>
@@ -270,12 +270,12 @@ Video platform should match these <a href="https://github.com/neiron94/Smart-Hom
         <td>Game genre</td>
       </tr>
     </table>
-<p>
-Game genre should match these <a href="https://github.com/neiron94/Smart-Home-Simulation/blob/develop/src/main/java/consumer/device/common/entertainment/GameGenre.java">values</a>.
-</p>
+    <p> 
+    Game genre should match these <a href="https://github.com/neiron94/Smart-Home-Simulation/blob/develop/src/main/java/consumer/device/common/entertainment/GameGenre.java">values</a>.
+    </p>
 </details>
 
-<details>
+- <details>
   <summary>
     <a href="https://github.com/neiron94/Smart-Home-Simulation/blob/develop/src/main/resources/config/RoomConfiguration.json">
       <b>RoomConfiguration.json</b>
@@ -303,15 +303,15 @@ Game genre should match these <a href="https://github.com/neiron94/Smart-Home-Si
         <td>Set color of light</td>
       </tr>
     </table>
-<p>
-Temperature can be negative and float.<br>
-Humidity should be in range 0-100. Can be float.<br>
-Brightness should be in range 0-100. Can be float.<br>
-Color should have three integers in range 0-255 representing <code>RED</code>, <code>GREEN</code>, <code>BLUE</code> components.
-</p>
+    <p>
+    Temperature can be negative and float.<br>
+    Humidity should be in range 0-100. Can be float.<br>
+    Brightness should be in range 0-100. Can be float.<br>
+    Color should have three integers in range 0-255 representing <code>RED</code>, <code>GREEN</code>, <code>BLUE</code> components.
+    </p>
 </details>
 
-<details>
+- <details>
   <summary>
     <a href="https://github.com/neiron94/Smart-Home-Simulation/blob/develop/src/main/resources/config/Weather.json">
       <b>Weather.json</b>
@@ -331,115 +331,114 @@ Color should have three integers in range 0-255 representing <code>RED</code>, <
         <td>Brightness map</td>
       </tr>
     </table>
-<p>
-Temperature can be negative and float.<br>
-Humidity should be in range 0-100. Can be float.<br>
-Brightness should be in range 0-100. Can be float.<br>
-Each map should contain 12 arrays of 24 values representing temperature/humidity/brightness in concrete hour of concrete month (starting from 00:00 and January).
-</p>
+    <p>
+    Temperature can be negative and float.<br>
+    Humidity should be in range 0-100. Can be float.<br>
+    Brightness should be in range 0-100. Can be float.<br>
+    Each map should contain 12 arrays of 24 values representing temperature/humidity/brightness in concrete hour of concrete month (starting from 00:00 and January).
+    </p>
 </details>
 
 ------------
 ### Program Output
 ------------
-<details>
+- <details>
   <summary>
     <b>Configuration.txt</b>
   </summary>
     <u><i>House Configuration Report</i></u><br>
     Stores all configuration information about home hierarchy and its residents.<br>
-<pre>
-Home                           <b><i><- Information about home</i></b>
-    Floor_1                    <b><i><- First floor</i></b>
-        Room_1 (Hall)          <b><i><- First room</i></b>
-            TV_1               <b><i><- Device</i></b>
-            Light_1            <b><i><- Device</i></b>
-    Floor_2                    <b><i><- Second floor</i></b>
-        Room_2 (Kitchen)       <b><i><- Second room</i></b>
-            Microwave_1        <b><i><- Device</i></b>
-            Light_2            <b><i><- Device</i></b>
-        Room_3 (Toilet)        <b><i><- Third room</i></b>
-            WC_1               <b><i><- Device</i></b>
-Residents                      <b><i><- Information about residents</i></b>
-	Bob (Male, Adult)      <b><i><- Resident</i></b>
-	Bark (Dog)             <b><i><- Resident</i></b>
-</pre>
+    <pre>
+    Home                           <b><i><- Information about home</i></b>
+        Floor_1                    <b><i><- First floor</i></b>
+            Room_1 (Hall)          <b><i><- First room</i></b>
+                TV_1               <b><i><- Device</i></b>
+                Light_1            <b><i><- Device</i></b>
+        Floor_2                    <b><i><- Second floor</i></b>
+            Room_2 (Kitchen)       <b><i><- Second room</i></b>
+                Microwave_1        <b><i><- Device</i></b>
+                Light_2            <b><i><- Device</i></b>
+            Room_3 (Toilet)        <b><i><- Third room</i></b>
+                WC_1               <b><i><- Device</i></b>
+    Residents                      <b><i><- Information about residents</i></b>
+        Bob (Male, Adult)          <b><i><- Resident</i></b>
+        Bark (Dog)                 <b><i><- Resident</i></b>
+    </pre>  
 </details>
 
-<details>
+- <details>
   <summary>
     <b>Consumption.tsv</b>
   </summary>
     <u><i>Consumption Report</i></u><br>
     Stores all information about every device consumption during simulation in easy-readable table form.<br>
     All information can be sorted, summed and filtered by auxiliary program<br>
-<pre>
-<table>
-    <tr>
-        <td><code>Date</code></td>
-        <td><code>Device</code></td>
-        <td><code>Electricity</code></td>
-        <td><code>Water</code></td>
-        <td><code>Gas</code></td>
-        <td><code>Money</code></td>
-    </tr>
-    <tr>
-        <td><b><i>Simulation day</i></b></td>
-        <td><b><i>Device_ID</i></b></td>
-        <td><b><i>Consumed electricity</i></b></td>
-        <td><b><i>Consumed water</i></b></td>
-        <td><b><i>Consumed gas</i></b></td>
-        <td><b><i>Spent money</i></b></td>
-    </tr>
-</table>
-</pre>
+    <pre>
+    <table>
+        <tr>
+            <td><code>Date</code></td>
+            <td><code>Device</code></td>
+            <td><code>Electricity</code></td>
+            <td><code>Water</code></td>
+            <td><code>Gas</code></td>
+            <td><code>Money</code></td>
+        </tr>
+        <tr>
+            <td><b><i>Simulation day</i></b></td>
+            <td><b><i>Device_ID</i></b></td>
+            <td><b><i>Consumed electricity</i></b></td>
+            <td><b><i>Consumed water</i></b></td>
+            <td><b><i>Consumed gas</i></b></td>
+            <td><b><i>Spent money</i></b></td>
+        </tr>
+    </table>
+    </pre>
 </details>
 
-<details>
+- <details>
   <summary>
     <b>Activity.txt</b>
   </summary>
     <u><i>Activity and Usage Report</i></u><br>
     Stores all daily performed activity of every person during simulation.<br>
-<pre>
-12/01/2024                                                          <b><i><- Simulation date</i></b>
-    Bob (Male, Adult)                                               <b><i><- Person</i></b>
-        Activity                                                    <b><i><- Information about activity</i></b>
-            20:25 - Go to Room_2 (Shower)                           <b><i><- Action</i></b>
-            20:26 - Put clothes to Washer_1                         <b><i><- Action</i></b>
-            20:26 - Start Washer_1 with 'Washer Intensive program'  <b><i><- Action</i></b>
-            21:26 - Go to Room_3 (Toilet)                           <b><i><- Action</i></b>
-            21:27 - Use WC_1                                        <b><i><- Action</i></b>
-        Usage                                                       <b><i><- Information about usage</i></b>
-            Washer_1 - 2                                            <b><i><- Device usage</i></b>
-            WC_1 - 1                                                <b><i><- Device usage</i></b>
-</pre>
+    <pre>
+    12/01/2024                                                          <b><i><- Simulation date</i></b>
+        Bob (Male, Adult)                                               <b><i><- Person</i></b>
+            Activity                                                    <b><i><- Information about activity</i></b>
+                20:25 - Go to Room_2 (Shower)                           <b><i><- Action</i></b>
+                20:26 - Put clothes to Washer_1                         <b><i><- Action</i></b>
+                20:26 - Start Washer_1 with 'Washer Intensive program'  <b><i><- Action</i></b>
+                21:26 - Go to Room_3 (Toilet)                           <b><i><- Action</i></b>
+                21:27 - Use WC_1                                        <b><i><- Action</i></b>
+            Usage                                                       <b><i><- Information about usage</i></b>
+                Washer_1 - 2                                            <b><i><- Device usage</i></b>
+                WC_1 - 1                                                <b><i><- Device usage</i></b>
+    </pre>
 </details>
 
-<details>
+- <details>
   <summary>
     <b>Event.tsv</b>
   </summary>
-<u><i>Event Report</i></u><br>
+    <u><i>Event Report</i></u><br>
     Stores all information about handled events during simulation in easy-readable table form.<br>
     All information can be sorted, summed and filtered by auxiliary program<br>
-<pre>
-<table>
-    <tr>
-        <td><code>Created</code></td>
-        <td><code>Solved</code></td>
-        <td><code>Type</code></td>
-        <td><code>Creator</code></td>
-        <td><code>Solver</code></td>
-    </tr>
-    <tr>
-        <td><b><i>Date, time of creation</i></b></td>
-        <td><b><i>Date, time of solution</i></b></td>
-        <td><b><i>Event type</i></b></td>
-        <td><b><i>Device_ID</i></b></td>
-        <td><b><i>Person name</i></b></td>
-    </tr>
-</table>
-</pre>
-    <u><i>Event Report</i></u><br>
+    <pre>
+    <table>
+        <tr>
+            <td><code>Created</code></td>
+            <td><code>Solved</code></td>
+            <td><code>Type</code></td>
+            <td><code>Creator</code></td>
+            <td><code>Solver</code></td>
+        </tr>
+        <tr>
+            <td><b><i>Date, time of creation</i></b></td>
+            <td><b><i>Date, time of solution</i></b></td>
+            <td><b><i>Event type</i></b></td>
+            <td><b><i>Device_ID</i></b></td>
+            <td><b><i>Person name</i></b></td>
+        </tr>
+    </table>    
+    </pre>
 </details>
