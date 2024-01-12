@@ -23,7 +23,7 @@ public class ActivityReportFactory implements ReportFactory {
      */
     @Override
     public Report createReport() {
-        String name = creature.getName();
+        String name = creature.toString();
 
         List<String> activities = creature.getActivity().getActivities(); // Get activities stream
 
