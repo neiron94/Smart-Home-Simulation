@@ -14,6 +14,7 @@ import utils.RankedQueue;
 import utils.exceptions.*;
 import java.time.Duration;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.function.Function;
 import static utils.HelpFunctions.findDevice;
@@ -218,7 +219,7 @@ public final class PersonAPI {
             }
         }
 
-        makeRecord(action.getExecutor(), action.getSubject(), String.format("Set %s to %s", action.getSubject(), action.getSubject().getRingTime()));
+        makeRecord(action.getExecutor(), action.getSubject(), String.format("Set %s to %s", action.getSubject(), action.getSubject().getRingTime().format(DateTimeFormatter.ofPattern("hh:mm"))));
         return true;
     };
 

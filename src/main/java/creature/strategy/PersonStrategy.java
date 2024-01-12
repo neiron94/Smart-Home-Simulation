@@ -86,16 +86,11 @@ public interface PersonStrategy extends Strategy {
             if (action.getSubject().getThrowStrategy() instanceof HomeThrowStrategy) deleteResult = Simulation.getInstance().getHome().deleteEvent(action.getSubject());
             else if (action.getSubject().getThrowStrategy() instanceof FloorThrowStrategy) deleteResult = action.getSubject().getOrigin().getFloor().deleteEvent(action.getSubject());
             else if (action.getSubject().getThrowStrategy() instanceof RoomThrowStrategy) deleteResult = action.getSubject().getOrigin().deleteEvent(action.getSubject());
-
-            if (deleteResult) {
-                HelpFunctions.makeRecord(action.getExecutor(), String.format("Take %s", action.getSubject().getEventType()));
-                return true;
-            } else return false;
+            return deleteResult;
         };
 
         Function<Action<Person, Event>, Boolean> recordEvent = action -> {
             action.getExecutor().addSolvedEvent(action.getSubject());
-            HelpFunctions.makeRecord(action.getExecutor(), String.format("Solve %s", action.getSubject().getEventType()));
             return true;
         };
 
