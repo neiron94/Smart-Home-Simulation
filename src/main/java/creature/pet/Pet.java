@@ -13,6 +13,8 @@ import utils.RankedQueue;
 import java.util.*;
 import java.util.function.Function;
 
+import static utils.HelpFunctions.makeRecord;
+
 public class Pet extends Creature {
     private final PetType type;
 
@@ -49,7 +51,7 @@ public class Pet extends Creature {
 
     @Override
     protected void reactMaxFullness() {
-        activity.addActivity("Shitted");
+        makeRecord(this, "Shitted");
         Simulation.getInstance().getCreatures().stream()
                 .filter(creature -> creature instanceof Person)
                 .map(person -> (Person) person)
