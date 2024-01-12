@@ -31,7 +31,7 @@ public class AirDryer extends ParameterDevice<HumiditySensor> {
 
     @Override
     public double consumeElectricity() {
-        return HelpFunctions.countElectricityConsumption(status, Electricity.AIR_DRYER * power);
+        return HelpFunctions.countElectricityConsumption(status, Electricity.AIR_DRYER * power / 100);
     }
 
     @Override

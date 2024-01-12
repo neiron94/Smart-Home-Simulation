@@ -32,7 +32,7 @@ public class Window extends ParameterDevice<LightSensor> {
 
     @Override
     public double consumeElectricity() {
-        return HelpFunctions.countElectricityConsumption(status, Electricity.WINDOW * power);
+        return HelpFunctions.countElectricityConsumption(status, Electricity.WINDOW * power / 100);
     }
 
     @Override

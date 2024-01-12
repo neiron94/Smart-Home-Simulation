@@ -39,7 +39,7 @@ public class Light extends ParameterDevice<LightSensor> {
 
     @Override
     public double consumeElectricity() {
-        return HelpFunctions.countElectricityConsumption(status, Electricity.LIGHT * power);
+        return HelpFunctions.countElectricityConsumption(status, Electricity.LIGHT * power / 100);
     }
 
     public Color getColor() {
