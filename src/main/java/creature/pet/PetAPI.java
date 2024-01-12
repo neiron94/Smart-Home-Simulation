@@ -90,15 +90,15 @@ public final class PetAPI {
     //----------------------- Feeder ------------------------//
 
     private static final Function<Action<Pet, Feeder>, Boolean> drinkWaterFeeder = action -> {
-        action.getSubject().drinkWater(0); // TODO - depends on hunger?
-        action.getExecutor().setHunger(0);  // TODO - depends on hunger?
+        action.getSubject().drinkWater(30); // TODO - Constant (30 is wrong)
+        action.getExecutor().setHunger(action.getExecutor().getHunger() - 30);  // TODO - Constant (30 is wrong)
         HelpFunctions.makeRecord(action.getExecutor(), action.getSubject(), String.format("Drink from %s", action.getSubject()));
         return true;
     };
 
     private static final Function<Action<Pet, Feeder>, Boolean> eatFoodFeeder = action -> {
-        action.getSubject().eatFood(0); // TODO - depends on hunger?
-        action.getExecutor().setHunger(0);  // TODO - depends on hunger?
+        action.getSubject().eatFood(100); // TODO - Constant (100 is wrong)
+        action.getExecutor().setHunger(action.getExecutor().getHunger() - 10);  // TODO - Constant (10 is wrong)
         HelpFunctions.makeRecord(action.getExecutor(), action.getSubject(), String.format("Eat from %s", action.getSubject()));
         return true;
     };

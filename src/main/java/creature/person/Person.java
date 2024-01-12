@@ -60,7 +60,7 @@ public class Person extends Creature {
     @Override
     protected void decreaseFullness() {
         List<Function<Person, RankedQueue<Action<Person, ?>>>> functions = List.of(PersonAPI.pee, PersonAPI.poo);
-        if (fullness > 0) memory.add(PersonAPI.poo.apply(this)); // TODO Constant
+        if (fullness > 50) memory.add(PersonAPI.poo.apply(this)); // TODO Constant (50 is wrong)
         else HelpFunctions.getRandomObject(functions).ifPresent(function -> memory.add(function.apply(this)));
     }
 

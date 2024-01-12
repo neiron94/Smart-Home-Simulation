@@ -144,30 +144,30 @@ public final class PersonAPI {
     //------------------ Food functions ------------------//
 
     private static final Function<Action<Person, Void>, Boolean> eatBreakfast = action -> {
-        action.getExecutor().setHunger(0);   // TODO - Constant
-        action.getExecutor().setFullness(0);   // TODO - Constant
+        action.getExecutor().setHunger(action.getExecutor().getHunger() - 30);   // TODO - Constant (30 is wrong)
+        action.getExecutor().setFullness(action.getExecutor().getFullness() + 10);   // TODO - Constant (10 is wrong)
         makeRecord(action.getExecutor(), "Ate breakfast");
         return true;
     };
 
     private static final Function<Action<Person, Void>, Boolean> eatLunch = action -> {
-        action.getExecutor().setHunger(0);   // TODO - Constant
-        action.getExecutor().setFullness(0);   // TODO - Constant
+        action.getExecutor().setHunger(action.getExecutor().getHunger() - 50);   // TODO - Constant (50 is wrong)
+        action.getExecutor().setFullness(action.getExecutor().getFullness() + 30);   // TODO - Constant (30 is wrong)
         makeRecord(action.getExecutor(), "Ate lunch");
         return true;
     };
 
     private static final Function<Action<Person, Void>, Boolean> eatDinner = action -> {
-        action.getExecutor().setHunger(0);   // TODO - Constant
-        action.getExecutor().setFullness(0);   // TODO - Constant
+        action.getExecutor().setHunger(action.getExecutor().getHunger() - 40);   // TODO - Constant (40 is wrong)
+        action.getExecutor().setFullness(action.getExecutor().getFullness() + 20);   // TODO - Constant (20 is wrong)
         makeRecord(action.getExecutor(), "Ate dinner");
         return true;
     };
 
     private static final Function<Action<Person, Void>, Boolean> drinkCoffee = action -> {
-        action.getExecutor().setHunger(0);   // TODO - Constant
-        action.getExecutor().setFullness(0);   // TODO - Constant
-        makeRecord(action.getExecutor(), "Drank coffee");
+        action.getExecutor().setHunger(action.getExecutor().getHunger() - 5);   // TODO - Constant (5 is wrong)
+        action.getExecutor().setFullness(action.getExecutor().getFullness() + 20);   // TODO - Constant (20 is wrong)
+        makeRecord(action.getExecutor(), "Drink coffee");
         return true;
     };
 
@@ -338,7 +338,7 @@ public final class PersonAPI {
     //----------------------- Fridge -----------------------//
 
     private static final Function<Action<Person, Fridge>, Boolean> takeFoodFridge = action -> {
-        int amount = 0;  // TODO - depends on hunger?
+        int amount = 20;  // TODO - depends on type (breakfast, lunch, dinner)? (20 is wrong)
         try {
             action.getSubject().takeFood(amount);
         } catch (WrongDeviceStatusException e) {
@@ -350,7 +350,7 @@ public final class PersonAPI {
     };
 
     private static final Function<Action<Person, Fridge>, Boolean> putFoodFridge = action -> {
-        int amount = 0;   // TODO - how much?
+        int amount = 10;   // TODO - depends on type (breakfast, lunch, dinner)? (10 is wrong)
         action.getSubject().putFood(amount);
 
         makeRecord(action.getExecutor(), action.getSubject(), String.format("Put food to %s, fullness: %d%%", action.getSubject(), action.getSubject().getFullness()));
@@ -436,7 +436,7 @@ public final class PersonAPI {
             }
         }
 
-        makeRecord(action.getExecutor(), action.getSubject(), String.format("Heat food in %s, power: %d%%, duration: %s", action.getSubject(), action.getSubject().getPower(), duration));
+        makeRecord(action.getExecutor(), action.getSubject(), String.format("Heat food in %s, power: %d%%, duration: %d:%02d", action.getSubject(), action.getSubject().getPower(), duration.toHours(), duration.toMinutes()%60));
         return true;
     };
 
@@ -475,7 +475,7 @@ public final class PersonAPI {
             }
         }
 
-        makeRecord(action.getExecutor(), action.getSubject(), String.format("Cook food in %s, temperature: %.1f°C, duration: %s", action.getSubject(), action.getSubject().getTemperature(), duration));
+        makeRecord(action.getExecutor(), action.getSubject(), String.format("Cook food in %s, temperature: %.1f°C, duration: %d:%02d", action.getSubject(), action.getSubject().getTemperature(), duration.toHours(), duration.toMinutes()%60));
         return true;
     };
 
@@ -730,8 +730,8 @@ public final class PersonAPI {
 
     //----------------------- WC -----------------------//
 
-    private static final Function<Action<Person, WC>, Boolean> makeToiletThings = action -> {
-        action.getExecutor().setFullness(0);   // TODO Constant
+    private static final Function<Action<Person, WC>, Boolean> doPee = action -> {
+        action.getExecutor().setFullness(action.getExecutor().getFullness() - 10);   // TODO Constant (10 is wrong)
         action.getSubject().makeThings();
 
         makeRecord(action.getExecutor(), action.getSubject(), String.format("Use %s", action.getSubject()));
@@ -746,6 +746,14 @@ public final class PersonAPI {
         }
 
         makeRecord(action.getExecutor(), action.getSubject(), String.format("Flush %s after pee", action.getSubject()));
+        return true;
+    };
+
+    private static final Function<Action<Person, WC>, Boolean> doPoo = action -> {
+        action.getExecutor().setFullness(action.getExecutor().getFullness() - 30);   // TODO Constant (30 is wrong)
+        action.getSubject().makeThings();
+
+        makeRecord(action.getExecutor(), action.getSubject(), String.format("Use %s", action.getSubject()));
         return true;
     };
 
@@ -988,7 +996,7 @@ public final class PersonAPI {
         try {
             WC wc = (WC) findDevice(DeviceType.WC);
             queue.add(new Action<>(1, true, person, wc.getRoom(), goToRoom));
-            queue.add(new Action<>(1, true, person, wc, makeToiletThings));
+            queue.add(new Action<>(1, true, person, wc, doPee));
             queue.add(new Action<>(new Random().nextInt(3, 5), true, person, wc, flushAfterPee));
         } catch (DeviceNotFoundException ignored) {
         }
@@ -1015,7 +1023,7 @@ public final class PersonAPI {
 
         queue.add(new Action<>(1, true, person, wc.getRoom(), goToRoom));
         if (vent != null) queue.add(new Action<>(1, true, person, vent, startVent));
-        queue.add(new Action<>(1, true, person, wc, makeToiletThings));
+        queue.add(new Action<>(1, true, person, wc, doPoo));
         queue.add(new Action<>(new Random().nextInt(5, 15), true, person, wc, flushAfterPoo));
         if (vent != null) queue.add(new Action<>(1, true, person, vent, stopVent));
 
