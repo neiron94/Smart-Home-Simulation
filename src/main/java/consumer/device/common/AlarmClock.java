@@ -11,22 +11,20 @@ import utils.Constants.Consumption.Electricity;
 import utils.HelpFunctions;
 import utils.exceptions.WrongDeviceStatusException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 
 /**
  * Alarm clock provides possibility to set it to time, in which it
  * will ring (throw event) and wake up all people in the room.
  */
 public class AlarmClock extends Device implements ElectricityConsumer {
-    private LocalTime ringTime;
-    private boolean rangToday;
-    private LocalDate lastRingDay;
+    private LocalDateTime ringAt;
 
     public AlarmClock(int id, Room startRoom) {
         super(DeviceType.ALARM_CLOCK, id, startRoom);
-        ringTime = LocalTime.of(8,0);   // 8:00 by default
-        rangToday = ringTime.isAfter(Simulation.getInstance().getCurrentTime().toLocalTime());
-        lastRingDay = Simulation.getInstance().getCurrentTime().toLocalDate();
+        ringAt = Simulation.getInstance().getCurrentTime();
     }
 
     //--------- Main public functions ----------//
@@ -44,7 +42,6 @@ public class AlarmClock extends Device implements ElectricityConsumer {
     public boolean routine() {
         if (!super.routine())    return false;
 
-        updateStatus();
         if (shouldRing())   ring();
 
         return true;
@@ -66,8 +63,12 @@ public class AlarmClock extends Device implements ElectricityConsumer {
         if (ringTime == null)   return;
         checkDeviceInStartStatus();
 
-        this.ringTime = ringTime;
-        rangToday = ringTime.isAfter(Simulation.getInstance().getCurrentTime().toLocalTime());
+        LocalDateTime currentTime = Simulation.getInstance().getCurrentTime();
+        if (ringTime.isBefore(currentTime.toLocalTime())) {
+            ringAt = LocalDateTime.of(currentTime.toLocalDate().minusDays(1), ringTime);
+        } else {
+            ringAt = LocalDateTime.of(currentTime.toLocalDate(), ringTime);
+        }
     }
 
     /**
@@ -79,28 +80,19 @@ public class AlarmClock extends Device implements ElectricityConsumer {
 
     //------------- Help functions -------------//
 
-    private void updateStatus() {
-        LocalDate currentDate = Simulation.getInstance().getCurrentTime().toLocalDate();
-        if (currentDate.isEqual(lastRingDay)) {
-            rangToday = false;
-            lastRingDay = currentDate;
-        }
-    }
-
     private boolean shouldRing() {
-        return !rangToday && status == type.getStartStatus() && ringTime.isAfter(Simulation.getInstance().getCurrentTime().toLocalTime());
+        return status == type.getStartStatus() && ringAt.equals(Simulation.getInstance().getCurrentTime());
     }
 
     private void ring() {
         status = DeviceStatus.ON;
         new WakeUpEvent(this, this.room).throwEvent();
-        rangToday = true;
     }
 
     //---------- Getters and Setters ----------//
 
-    public LocalTime getRingTime() {
-        return ringTime;
+    public LocalDateTime getRingTime() {
+        return ringAt;
     }
 }
 

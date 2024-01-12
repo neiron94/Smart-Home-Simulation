@@ -14,10 +14,9 @@ import utils.RankedQueue;
 import utils.exceptions.*;
 import java.time.Duration;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.function.Function;
-import java.util.stream.Stream;
-
 import static utils.HelpFunctions.findDevice;
 import static utils.HelpFunctions.makeRecord;
 
@@ -93,7 +92,7 @@ public final class PersonAPI {
     };
 
     private static final Function<Action<Person, Void>, Boolean> goNap = action -> {
-        makeRecord(action.getExecutor(), "Nap");
+        makeRecord(action.getExecutor(), "Take a nap");
         return true;
     };
 
@@ -220,7 +219,7 @@ public final class PersonAPI {
             }
         }
 
-        makeRecord(action.getExecutor(), action.getSubject(), String.format("Set %s to %s", action.getSubject(), action.getSubject().getRingTime()));
+        makeRecord(action.getExecutor(), action.getSubject(), String.format("Set %s to %s", action.getSubject(), action.getSubject().getRingTime().format(DateTimeFormatter.ofPattern("hh:mm"))));
         return true;
     };
 

@@ -16,7 +16,7 @@ import utils.exceptions.WrongDeviceStatusException;
 public class Feeder extends Device implements ElectricityConsumer {
 
     private static final int WATER_TANK_CAPACITY = 1500; // in milliliters
-    private static final int FOOD_TANK_CAPACITY = 1800;  // in grams
+    private static final int FOOD_TANK_CAPACITY = 1000;  // in grams
     private static final int WATER_DISH_CAPACITY = 300; // in milliliters
     private static final int FOOD_DISH_CAPACITY = 200;  // in grams
 
@@ -31,6 +31,7 @@ public class Feeder extends Device implements ElectricityConsumer {
         waterFullness = 0;
         foodLevel = 0;
         waterLevel = 0;
+        requestFill();
     }
 
     //--------- Main public functions ----------//
@@ -64,23 +65,23 @@ public class Feeder extends Device implements ElectricityConsumer {
     /**
      * Drink water from a pan. Should be used by animals.
      * @param amount Amount of water to drink.
-     * @throws WrongDeviceStatusException Device is not in start status.
      */
-    public void drinkWater(int amount) throws WrongDeviceStatusException {
+    public void drinkWater(int amount) {
         setWaterLevel(waterLevel - amount);
-        if (waterLevel == 0)
-            fillWater();
+        try {
+            if (waterLevel == 0) fillWater();
+        } catch (WrongDeviceStatusException ignored) {}
     }
 
     /**
      * Eat food from a pan. Should be used by animals.
      * @param amount Amount of food to eat.
-     * @throws WrongDeviceStatusException Device is not in start status.
      */
-    public void eatFood(int amount) throws WrongDeviceStatusException {
+    public void eatFood(int amount) {
         setFoodLevel(foodLevel - amount);
-        if (foodLevel == 0)
-            fillFood();
+        try {
+            if (foodLevel == 0) fillFood();
+        } catch (WrongDeviceStatusException ignored) {}
     }
 
     //------------- Help functions -------------//
@@ -91,7 +92,7 @@ public class Feeder extends Device implements ElectricityConsumer {
         int fillAmount = Math.min(FOOD_DISH_CAPACITY, foodFullness);
         setFoodLevel(fillAmount);
         setFoodFullness(foodFullness - fillAmount);
-        if (foodFullness <= 0) requestFill();
+        if (foodFullness == 0) requestFill();
     }
 
     private void fillWater() throws WrongDeviceStatusException {
@@ -100,7 +101,7 @@ public class Feeder extends Device implements ElectricityConsumer {
         int fillAmount = Math.min(WATER_DISH_CAPACITY, waterFullness);
         setWaterLevel(fillAmount);
         setWaterFullness(waterFullness - fillAmount);
-        if (waterFullness <= 0) requestFill();
+        if (waterFullness == 0) requestFill();
     }
 
     private void requestFill() {

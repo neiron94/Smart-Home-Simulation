@@ -90,25 +90,15 @@ public final class PetAPI {
     //----------------------- Feeder ------------------------//
 
     private static final Function<Action<Pet, Feeder>, Boolean> drinkWaterFeeder = action -> {
-        try {
-            action.getSubject().drinkWater(0); // TODO - depends on hunger?
-            action.getExecutor().setHunger(0);  // TODO - depends on hunger?
-        } catch (WrongDeviceStatusException e) {
-            return false;
-        }
-
+        action.getSubject().drinkWater(0); // TODO - depends on hunger?
+        action.getExecutor().setHunger(0);  // TODO - depends on hunger?
         HelpFunctions.makeRecord(action.getExecutor(), action.getSubject(), String.format("Drink from %s", action.getSubject()));
         return true;
     };
 
     private static final Function<Action<Pet, Feeder>, Boolean> eatFoodFeeder = action -> {
-        try {
-            action.getSubject().eatFood(0); // TODO - depends on hunger?
-            action.getExecutor().setHunger(0);  // TODO - depends on hunger?
-        } catch (WrongDeviceStatusException e) {
-            return false;
-        }
-
+        action.getSubject().eatFood(0); // TODO - depends on hunger?
+        action.getExecutor().setHunger(0);  // TODO - depends on hunger?
         HelpFunctions.makeRecord(action.getExecutor(), action.getSubject(), String.format("Eat from %s", action.getSubject()));
         return true;
     };

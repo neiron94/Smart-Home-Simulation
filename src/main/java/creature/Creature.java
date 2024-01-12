@@ -49,11 +49,13 @@ public abstract class Creature {
                     .forEach(event -> { // Find event to solve
                         strategy.react(event); // Need to solve event
                         if (event.getPriority().getValue() > Priority.SLEEP.getValue()) { // Need to wake up
-                            memory.removeIf(queue -> queue.getPriority() == Priority.SLEEP);
-                            new Action<>(1, true, this, null, action -> {
-                                makeRecord(action.getExecutor(), "Wake up to an event");
-                                return true;
-                            }).perform();
+                            memory.removeIf(queue -> {
+                                if (queue.getPriority() == Priority.SLEEP) {
+                                    makeRecord(this, "Wake up to an event");
+                                    return true;
+                                }
+                                return false;
+                            });
                         }
                     });
         }
@@ -61,12 +63,8 @@ public abstract class Creature {
         if (fullness > 0 && notPlanned(Priority.EMPTY)) decreaseFullness(); // Need to empty myself // TODO Constant
         if (!isBusy) chooseActivity(); // Nothing important is doing - take new activity
 
-        Iterator<RankedQueue<? extends Action<? extends Creature, ?>>> memoryIterator = memory.iterator();
-        while (memoryIterator.hasNext()) {
-            RankedQueue<? extends Action<? extends Creature, ?>> queue = memoryIterator.next();
-            if (queue.isEmpty()) memoryIterator.remove(); // Remove empty actions queue
-            else queue.peek().decreaseDuration(1); // Decrease first action duration in queue
-        }
+        memory.removeIf(RankedQueue::isEmpty); // Remove empty actions queue
+        memory.forEach(queue -> queue.peek().decreaseDuration(1)); // Decrease first action duration in queue
 
         boolean[] canDoAction = {true}; // Array for changing value in stream
         memory.forEach(queue -> {
@@ -81,8 +79,8 @@ public abstract class Creature {
                     }
                 });
 
-        hunger += 0; // TODO Constant
-        fullness += 0; // TODO Constant
+        hunger = HelpFunctions.adjustPercent(hunger + 0); // TODO Constant
+        fullness = HelpFunctions.adjustPercent(fullness + 0); // TODO Constant
         if (fullness == 100) reactMaxFullness();
         if (hunger == 100) reactMaxHunger();
     }
@@ -105,8 +103,8 @@ public abstract class Creature {
 
     private void reactMaxHunger() {
         activity.addActivity("Die");
-        if (fullness > 0) reactMaxHunger();
         isAlive = false;
+        if (fullness > 0) reactMaxFullness();
     }
 
     public String getName() {
