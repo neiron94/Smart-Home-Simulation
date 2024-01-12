@@ -68,7 +68,7 @@ public abstract class Creature {
 
         boolean[] canDoAction = {true}; // Array for changing value in stream
         memory.forEach(queue -> {
-                    if (queue.peek().getDuration().equals(Duration.ZERO) && canDoAction[0]) { // Action can be performed
+                    if (queue.peek().getDuration().equals(Duration.ZERO) && canDoAction[0]) { // Action can be performed // TODO Bug - Doing actions when busy by other actions
                         if (queue.poll().perform()) { // Successful perform
                             canDoAction[0] = false; // Can do only one action per simulation tick
                             isBusy = !queue.isEmpty() && queue.peek().isBusy();
