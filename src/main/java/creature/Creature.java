@@ -59,8 +59,8 @@ public abstract class Creature {
                         }
                     });
         }
-        if (hunger > 0 && notPlanned(Priority.EAT)) decreaseHunger(); // Need to eat // TODO Constant
-        if (fullness > 0 && notPlanned(Priority.EMPTY)) decreaseFullness(); // Need to empty myself // TODO Constant
+        if (hunger > 50 && notPlanned(Priority.EAT)) decreaseHunger(); // Need to eat // TODO Constant (50 is wrong)
+        if (fullness > 30 && notPlanned(Priority.EMPTY)) decreaseFullness(); // Need to empty myself // TODO Constant (30 is wrong)
         if (!isBusy) chooseActivity(); // Nothing important is doing - take new activity
 
         memory.removeIf(RankedQueue::isEmpty); // Remove empty actions queue
@@ -79,8 +79,8 @@ public abstract class Creature {
                     }
                 });
 
-        hunger = HelpFunctions.adjustPercent(hunger + 0); // TODO Constant
-        fullness = HelpFunctions.adjustPercent(fullness + 0); // TODO Constant
+        hunger = HelpFunctions.adjustPercent(hunger + 0.5); // TODO Constant (0.5 is wrong)
+        fullness = HelpFunctions.adjustPercent(fullness + 0.5); // TODO Constant (0.5 is wrong)
         if (fullness == 100) reactMaxFullness();
         if (hunger == 100) reactMaxHunger();
     }
