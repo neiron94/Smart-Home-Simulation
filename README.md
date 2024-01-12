@@ -1,6 +1,28 @@
 # Smart Home Simulation
 
 ------------
+### Project information
+------------
+
+Present project simulates life in smart home. Residents using devices on their needs and living their happiest life.
+
+### Main features
+
+- Dynamic weather changes based on real data
+- Real existing media content (videos, songs, games)
+- Finest adjustment of the room's ecosystem through a control panel
+- Random event generation: from device malfunctions to complete shutdowns
+- An astonishing variety of devices
+- Rich diversity of people's functionality
+- Detailed and visual reports on ongoing activities
+
+### Application running
+
+1. Choose existing configuration or create a new one based on [tutorial](https://github.com/neiron94/Smart-Home-Simulation/edit/develop/README.md#application-input).
+2. Set proper [simulation settings](https://github.com/neiron94/Smart-Home-Simulation/blob/develop/src/main/resources/config/Simulation.json). 
+3. Run [`main` function](https://github.com/neiron94/Smart-Home-Simulation/blob/develop/src/main/java/smarthome/SmartHome.java).
+
+------------
 ### Functional requirements
 ------------
 
