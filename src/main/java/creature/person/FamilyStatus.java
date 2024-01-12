@@ -1,5 +1,8 @@
 package creature.person;
 
+/**
+ * Family status.
+ */
 public enum FamilyStatus {
     KID("Kid"),
     ADULT("Adult"),

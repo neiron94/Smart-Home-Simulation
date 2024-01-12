@@ -44,9 +44,9 @@ public class TV extends Device implements ElectricityConsumer {
 
     /**
      * Start TV and watch video.
-     * @param video Video to watch.
-     * @throws WrongDeviceStatusException Device is not in start status.
-     * @throws DeviceIsOccupiedException Device is occupied by someone else.
+     * @param video video to watch
+     * @throws WrongDeviceStatusException if device is not in start status
+     * @throws DeviceIsOccupiedException if device is occupied by someone else
      */
     public void show(Video video) throws WrongDeviceStatusException, DeviceIsOccupiedException {
         checkDeviceInStartStatus();

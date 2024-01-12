@@ -773,7 +773,7 @@ public final class PersonAPI {
 
     //################################# Relax functions ##################################//
 
-    public static final Function<Person, RankedQueue<Action<Person, ?>>> playConsole = person -> {
+    static final Function<Person, RankedQueue<Action<Person, ?>>> playConsole = person -> {
         RankedQueue<Action<Person, ?>> queue = new RankedQueue<>(Priority.COMMON);
 
         try {
@@ -787,7 +787,7 @@ public final class PersonAPI {
         return queue;
     };
 
-    public static final Function<Person, RankedQueue<Action<Person, ?>>> watchTV = person -> {
+    static final Function<Person, RankedQueue<Action<Person, ?>>> watchTV = person -> {
         RankedQueue<Action<Person, ?>> queue = new RankedQueue<>(Priority.COMMON);
 
         try {
@@ -803,7 +803,7 @@ public final class PersonAPI {
         return queue;
     };
 
-    public static final Function<Person, RankedQueue<Action<Person, ?>>> listenMusic = person -> {
+    static final Function<Person, RankedQueue<Action<Person, ?>>> listenMusic = person -> {
         RankedQueue<Action<Person, ?>> queue = new RankedQueue<>(Priority.COMMON);
 
         try {
@@ -818,7 +818,7 @@ public final class PersonAPI {
         return queue;
     };
 
-    public static final Function<Person, RankedQueue<Action<Person, ?>>> takeShower = person -> {
+    static final Function<Person, RankedQueue<Action<Person, ?>>> takeShower = person -> {
         RankedQueue<Action<Person, ?>> queue = new RankedQueue<>(Priority.COMMON);
 
         try {
@@ -835,7 +835,7 @@ public final class PersonAPI {
 
     //################################# Clean functions ##################################//
 
-    public static final Function<Person, RankedQueue<Action<Person, ?>>> washClothes = person -> {
+    static final Function<Person, RankedQueue<Action<Person, ?>>> washClothes = person -> {
         RankedQueue<Action<Person, ?>> queue = new RankedQueue<>(Priority.COMMON);
 
         try {
@@ -854,7 +854,7 @@ public final class PersonAPI {
         return queue;
     };
 
-    public static final Function<Person, RankedQueue<Action<Person, ?>>> washDishes = person -> {
+    static final Function<Person, RankedQueue<Action<Person, ?>>> washDishes = person -> {
         RankedQueue<Action<Person, ?>> queue = new RankedQueue<>(Priority.COMMON);
 
         try {
@@ -868,7 +868,7 @@ public final class PersonAPI {
         return queue;
     };
 
-    public static final Function<Person, RankedQueue<Action<Person, ?>>> cleanHome = person -> {
+    static final Function<Person, RankedQueue<Action<Person, ?>>> cleanHome = person -> {
         RankedQueue<Action<Person, ?>> queue = new RankedQueue<>(Priority.COMMON);
 
         queue.add(new Action<>(new Random().nextInt(30, 50), true, person, null, sweepFloor));
@@ -881,7 +881,7 @@ public final class PersonAPI {
 
     //################################# Food functions ##################################//
 
-    public static final Function<Person, RankedQueue<Action<Person, ?>>> takeLunch = person -> {
+    static final Function<Person, RankedQueue<Action<Person, ?>>> takeLunch = person -> {
         RankedQueue<Action<Person, ?>> queue = new RankedQueue<>(Priority.EAT);
 
         Oven oven;
@@ -925,7 +925,7 @@ public final class PersonAPI {
         return queue;
     };
 
-    public static final Function<Person, RankedQueue<Action<Person, ?>>> takeBreakfast = person -> {
+    static final Function<Person, RankedQueue<Action<Person, ?>>> takeBreakfast = person -> {
         RankedQueue<Action<Person, ?>> queue = new RankedQueue<>(Priority.EAT);
 
         Fridge fridge;
@@ -958,7 +958,7 @@ public final class PersonAPI {
         return queue;
     };
 
-    public static final Function<Person, RankedQueue<Action<Person, ?>>> takeDinner = person -> {
+    static final Function<Person, RankedQueue<Action<Person, ?>>> takeDinner = person -> {
         RankedQueue<Action<Person, ?>> queue = new RankedQueue<>(Priority.EAT);
 
         Fridge fridge;
@@ -990,7 +990,7 @@ public final class PersonAPI {
 
     //################################# Toilet functions ##################################//
 
-    public static final Function<Person, RankedQueue<Action<Person, ?>>> pee = person -> {
+    static final Function<Person, RankedQueue<Action<Person, ?>>> pee = person -> {
         RankedQueue<Action<Person, ?>> queue = new RankedQueue<>(Priority.EMPTY);
 
         try {
@@ -1004,7 +1004,7 @@ public final class PersonAPI {
         return queue;
     };
 
-    public static final Function<Person, RankedQueue<Action<Person, ?>>> poo = person -> {
+    static final Function<Person, RankedQueue<Action<Person, ?>>> poo = person -> {
         RankedQueue<Action<Person, ?>> queue = new RankedQueue<>(Priority.EMPTY);
 
         WC wc;
@@ -1033,7 +1033,7 @@ public final class PersonAPI {
 
     //################################# Other functions ##################################//
 
-    public static final Function<Person, RankedQueue<Action<Person, ?>>> nap = person -> {
+    static final Function<Person, RankedQueue<Action<Person, ?>>> nap = person -> { // TODO - add to list?
         RankedQueue<Action<Person, ?>> queue = new RankedQueue<>(Priority.SLEEP);
 
         queue.add(new Action<>(1, true, person, null, goNap));
@@ -1042,7 +1042,7 @@ public final class PersonAPI {
         return queue;
     };
 
-    public static final Function<Person, RankedQueue<Action<Person, ?>>> sleep = person -> {
+    static final Function<Person, RankedQueue<Action<Person, ?>>> sleep = person -> {
         RankedQueue<Action<Person, ?>> queue = new RankedQueue<>(Priority.SLEEP);
 
         try {
@@ -1061,7 +1061,7 @@ public final class PersonAPI {
 
     //################################# Street functions ##################################//
 
-    public static final Function<Person, RankedQueue<Action<Person, ?>>> goWalk = person -> {
+    static final Function<Person, RankedQueue<Action<Person, ?>>> goWalk = person -> {
         RankedQueue<Action<Person, ?>> queue = new RankedQueue<>(Priority.COMMON);
 
         queue.add(new Action<>(1, true, person, null, goForWalk));
@@ -1070,7 +1070,7 @@ public final class PersonAPI {
         return queue;
     };
 
-    public static final Function<Person, RankedQueue<Action<Person, ?>>> goSport = person -> {
+    static final Function<Person, RankedQueue<Action<Person, ?>>> goSport = person -> {
         RankedQueue<Action<Person, ?>> queue = new RankedQueue<>(Priority.COMMON);
 
         queue.add(new Action<>(1, true, person, null, doSport));
@@ -1079,7 +1079,7 @@ public final class PersonAPI {
         return queue;
     };
 
-    public static final Function<Person, RankedQueue<Action<Person, ?>>> goAway = person -> {
+    static final Function<Person, RankedQueue<Action<Person, ?>>> goAway = person -> {
         RankedQueue<Action<Person, ?>> queue = new RankedQueue<>(Priority.COMMON);
 
         queue.add(new Action<>(1, true, person, null, leaveHome));
@@ -1091,7 +1091,7 @@ public final class PersonAPI {
 
     //################################# Control panel functions ##################################//
 
-    public static final Function<Person, RankedQueue<Action<Person, ?>>> changeRoomParameters = person -> {
+    static final Function<Person, RankedQueue<Action<Person, ?>>> changeRoomParameters = person -> {
         RankedQueue<Action<Person, ?>> queue = new RankedQueue<>(Priority.COMMON);
 
         queue.add(new Action<>(1, true, person, person.getRoom(), changeTemperatureRoom));
@@ -1101,7 +1101,7 @@ public final class PersonAPI {
         return queue;
     };
 
-    public static final Function<Person, RankedQueue<Action<Person, ?>>> saveRoomConfiguration = person -> {
+    static final Function<Person, RankedQueue<Action<Person, ?>>> saveRoomConfiguration = person -> {
         RankedQueue<Action<Person, ?>> queue = new RankedQueue<>(Priority.COMMON);
 
         queue.add(new Action<>(1, true, person, person.getRoom(), saveConfigRoom));
@@ -1109,7 +1109,7 @@ public final class PersonAPI {
         return queue;
     };
 
-    public static final Function<Person, RankedQueue<Action<Person, ?>>> changeRoomConfiguration = person -> {
+    static final Function<Person, RankedQueue<Action<Person, ?>>> changeRoomConfiguration = person -> {
         RankedQueue<Action<Person, ?>> queue = new RankedQueue<>(Priority.COMMON);
 
         queue.add(new Action<>(1, true, person, person.getRoom(), downloadConfigRoom));

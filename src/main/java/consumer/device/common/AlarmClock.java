@@ -36,7 +36,7 @@ public class AlarmClock extends Device implements ElectricityConsumer {
 
     /**
      * Check if it time to ring every tick.
-     * @return can be ignored.
+     * @return can be ignored
      */
     @Override
     public boolean routine() {
@@ -56,8 +56,8 @@ public class AlarmClock extends Device implements ElectricityConsumer {
 
     /**
      * Sets alarm to the given ringTime.
-     * @param ringTime Time to ring.
-     * @throws WrongDeviceStatusException Device is not on start status.
+     * @param ringTime time to ring
+     * @throws WrongDeviceStatusException if device is not in start status
      */
     public void setAlarm(LocalTime ringTime) throws WrongDeviceStatusException {
         if (ringTime == null)   return;

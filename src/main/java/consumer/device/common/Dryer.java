@@ -37,11 +37,11 @@ public class Dryer extends CleaningDevice implements ElectricityConsumer {
 
     /**
      * Start drying clothes. Duration and consumption depends on chosen program.
-     * @param program Chosen program.
-     * @throws WrongDeviceStatusException Device is not in start status.
-     * @throws DirtyFilterException Filter is too dirty.
-     * @throws EntryProblemException No clothes inside dryer.
-     * @throws DeviceIsOccupiedException Device is occupied by someone else.
+     * @param program chosen program
+     * @throws WrongDeviceStatusException if device is not in start status
+     * @throws DirtyFilterException if filter is too dirty
+     * @throws EntryProblemException if no clothes inside dryer
+     * @throws DeviceIsOccupiedException if device is occupied by someone else
      */
     public void startDry(DryerProgram program) throws WrongDeviceStatusException, DirtyFilterException, EntryProblemException, DeviceIsOccupiedException {
         if (program == null) return;

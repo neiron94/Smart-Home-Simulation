@@ -44,7 +44,7 @@ public class StereoSystem extends Device implements ElectricityConsumer {
 
     /**
      * Every tick checks if should stop or change song.
-     * @return Can be ignored.
+     * @return can be ignored
      */
     @Override
     public boolean routine() {
@@ -72,8 +72,8 @@ public class StereoSystem extends Device implements ElectricityConsumer {
     /**
      * Start reproduction of playlist. Songs will be played until
      * playlist is empty or stereo system is stopped.
-     * @param playlist Playlist of songs to play.
-     * @throws WrongDeviceStatusException Device is not in start status.
+     * @param playlist playlist of songs to play
+     * @throws WrongDeviceStatusException if device is not in start status
      */
     public void play(List<Song> playlist) throws WrongDeviceStatusException {
         if (playlist == null || playlist.isEmpty()) return;
@@ -85,8 +85,8 @@ public class StereoSystem extends Device implements ElectricityConsumer {
 
     /**
      * Play one concrete song.
-     * @param song Song to play.
-     * @throws WrongDeviceStatusException Device is not in start status.
+     * @param song song to play
+     * @throws WrongDeviceStatusException if device is not in start status
      */
     public void play(Song song) throws WrongDeviceStatusException {
         checkDeviceInStartStatus();

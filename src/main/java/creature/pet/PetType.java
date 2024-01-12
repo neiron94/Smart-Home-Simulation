@@ -1,5 +1,8 @@
 package creature.pet;
 
+/**
+ * Type of pet.
+ */
 public enum PetType {
     CAT("Cat"),
     DOG("Dog"),

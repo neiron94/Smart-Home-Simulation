@@ -10,6 +10,9 @@ import smarthome.Simulation;
 import utils.RankedQueue;
 import java.util.List;
 
+/**
+ * TODO - Javadoc
+ */
 public interface AdultStrategy extends PersonStrategy {
     List<Action<Person, Room>> solveFlood(Event event);
     List<Action<Person, Room>> solveLeak(Event event);
