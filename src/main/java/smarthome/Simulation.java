@@ -93,8 +93,9 @@ public class Simulation {
             if (currentTime.toLocalTime().equals(REPORT_TIME)) {
                 HelpFunctions.logger.info(String.format("Simulating day %s", currentTime.minusDays(1).format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))));
                 ReportCreator.createReports();
-                devices.stream().filter(device -> !device.isFunctional()).forEach(device -> device.accept(new DeleteVisitor())); // Delete non-functional devices
-                creatures.stream().filter(creature -> !creature.isAlive()).forEach(creatures::remove); // Delete dead creatures
+                List<Device> brokenDevices = devices.stream().filter(device -> !device.isFunctional()).toList();
+                brokenDevices.forEach(device -> device.accept(new DeleteVisitor()));
+                creatures.removeIf(creature -> !creature.isAlive());
             }
         }
 
