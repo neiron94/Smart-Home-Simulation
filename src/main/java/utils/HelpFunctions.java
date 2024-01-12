@@ -11,6 +11,7 @@ import utils.exceptions.DeviceNotFoundException;
 import utils.exceptions.RoomNotFoundException;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
@@ -58,11 +59,11 @@ public class HelpFunctions {
     }
 
     public static void makeRecord(Creature creature, String description) {
-        creature.getActivity().addActivity(description);
+        creature.getActivity().addActivity(String.format("%s - %s", Simulation.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("HH:mm")), description));
     }
 
     public static void makeRecord(Creature creature, Device device, String description) {
-        creature.getActivity().addActivity(description);
+        makeRecord(creature, description);
         creature.getActivity().increaseUsage(device);
     }
 

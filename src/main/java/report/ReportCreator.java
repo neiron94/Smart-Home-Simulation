@@ -46,7 +46,7 @@ public class ReportCreator {
 
     /**
      * Creates and writes to file configuration report. Is called
-     * only once when reading from config file.
+     * only once after reading from config file.
      */
     public static void createConfigurationReport() {
         Report report = new ConfigurationReportFactory().createReport();

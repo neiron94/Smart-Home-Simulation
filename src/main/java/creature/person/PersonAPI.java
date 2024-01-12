@@ -219,7 +219,7 @@ public final class PersonAPI {
             }
         }
 
-        makeRecord(action.getExecutor(), action.getSubject(), String.format("Set %s to %s", action.getSubject(), action.getSubject().getRingTime().format(DateTimeFormatter.ofPattern("hh:mm"))));
+        makeRecord(action.getExecutor(), action.getSubject(), String.format("Set %s to %s", action.getSubject(), action.getSubject().getRingTime().format(DateTimeFormatter.ofPattern("HH:mm"))));
         return true;
     };
 
@@ -1114,5 +1114,5 @@ public final class PersonAPI {
     static List<Function<Person, RankedQueue<Action<Person, ?>>>> streetFunctions = List.of(goWalk, goSport, goAway);
 
     static List<Function<Person, RankedQueue<Action<Person, ?>>>> otherFunctions = List.of(playConsole, watchTV, listenMusic,
-            takeShower, washClothes, washDishes, cleanHome, nap, changeRoomParameters, saveRoomConfiguration, changeRoomConfiguration);
+            takeShower, washClothes, washDishes, cleanHome, changeRoomParameters, saveRoomConfiguration, changeRoomConfiguration);
 }
