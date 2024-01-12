@@ -8,6 +8,9 @@ import utils.HelpFunctions;
 import utils.Prototype;
 import utils.exceptions.*;
 
+import static utils.Constants.Time.DAYS_IN_MONTH;
+import static utils.Constants.Time.HOURS;
+
 /**
  * Represents device that can be interacted with.
  * Each device consumes some resource (electricity, gas or water).
@@ -146,7 +149,7 @@ public abstract class Device implements Consumer, Prototype {
     }
 
     private long countDurability(DeviceType type) {
-        long hours = type.getGuarantee().getMonths() * 30 * 24L * 4 / 3; // TODO Constants
+        long hours = (long) type.getGuarantee().getMonths() * DAYS_IN_MONTH * HOURS * 4 / 3;
         return (long)(hours / Constants.Time.TICK_DURATION);
     }
 
@@ -199,5 +202,9 @@ public abstract class Device implements Consumer, Prototype {
 
     public int getId() {
         return id;
+    }
+
+    public boolean isOccupied() {
+        return isOccupied;
     }
 }

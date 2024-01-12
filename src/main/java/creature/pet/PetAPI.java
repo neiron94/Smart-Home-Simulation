@@ -4,6 +4,7 @@ import consumer.device.Device;
 import consumer.device.DeviceType;
 import consumer.device.common.Feeder;
 import creature.Action;
+import creature.Creature;
 import place.Room;
 import place.RoomType;
 import smarthome.Simulation;
@@ -19,8 +20,15 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Random;
 import java.util.function.Function;
+
+import static utils.Constants.Creature.FULLNESS_THRESHOLD;
+import static utils.Constants.Creature.HUNGER_THRESHOLD;
 import static utils.HelpFunctions.*;
 
+/**
+ * Class contains possible pet's functions. Complex functions are called
+ * from {@link Creature#routine()} and consists of simple functions.
+ */
 public final class PetAPI {
 
     //*********************************************** Simple functions ***********************************************//
@@ -37,6 +45,7 @@ public final class PetAPI {
 
     private static final Function<Action<Pet, Room>, Boolean> useTray = action -> {
         action.getExecutor().setRoom(action.getSubject());
+        action.getExecutor().setFullness(action.getExecutor().getFullness() - FULLNESS_THRESHOLD * 2);
         makeRecord(action.getExecutor(), String.format("Use animal tray in %s", action.getSubject()));
         return true;
     };
@@ -90,15 +99,17 @@ public final class PetAPI {
     //----------------------- Feeder ------------------------//
 
     private static final Function<Action<Pet, Feeder>, Boolean> drinkWaterFeeder = action -> {
-        action.getSubject().drinkWater(30); // TODO - Constant (30 is wrong)
-        action.getExecutor().setHunger(action.getExecutor().getHunger() - 30);  // TODO - Constant (30 is wrong)
+        int amount = new Random().nextInt(5, (int) HUNGER_THRESHOLD * 10);
+        action.getSubject().drinkWater(amount * 3);
+        action.getExecutor().setHunger(action.getExecutor().getHunger() - amount * 0.1);
         HelpFunctions.makeRecord(action.getExecutor(), action.getSubject(), String.format("Drink from %s", action.getSubject()));
         return true;
     };
 
     private static final Function<Action<Pet, Feeder>, Boolean> eatFoodFeeder = action -> {
-        action.getSubject().eatFood(100); // TODO - Constant (100 is wrong)
-        action.getExecutor().setHunger(action.getExecutor().getHunger() - 10);  // TODO - Constant (10 is wrong)
+        int amount = new Random().nextInt(5, (int) HUNGER_THRESHOLD * 10);
+        action.getSubject().eatFood(amount * 3);
+        action.getExecutor().setHunger(action.getExecutor().getHunger() - amount);
         HelpFunctions.makeRecord(action.getExecutor(), action.getSubject(), String.format("Eat from %s", action.getSubject()));
         return true;
     };
@@ -154,16 +165,19 @@ public final class PetAPI {
         RankedQueue<Action<Pet, ?>> queue = new RankedQueue<>(Priority.COMMON);
 
         queue.add(new Action<>(1, true, pet, null, playWithToys));
-        queue.add(new Action<>(new Random().nextInt(20, 40), true, pet, null, damageFurniture));
 
         return queue;
     };
 
-    static final Function<Pet, RankedQueue<Action<Pet, ?>>> brakeDevice = pet -> {  // TODO - add to list?
+    static final Function<Pet, RankedQueue<Action<Pet, ?>>> brakeDevice = pet -> {
         RankedQueue<Action<Pet, ?>> queue = new RankedQueue<>(Priority.COMMON);
 
-        Device device = HelpFunctions.getRandomObject(Simulation.getInstance().getDevices().stream().toList()).orElse(null);
-        if (device != null) queue.add(new Action<>(1, true, pet, device, damageDevice));
+        if (new Random().nextInt(0,2) == 0)
+            queue.add(new Action<>(new Random().nextInt(20, 40), true, pet, null, damageFurniture));
+        else {
+            Device device = HelpFunctions.getRandomObject(Simulation.getInstance().getDevices().stream().toList()).orElse(null);
+            if (device != null) queue.add(new Action<>(1, true, pet, device, damageDevice));
+        }
 
         return queue;
     };

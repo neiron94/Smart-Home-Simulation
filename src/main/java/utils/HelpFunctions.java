@@ -148,7 +148,7 @@ public class HelpFunctions {
      */
     public static Device findDevice(DeviceType type) throws DeviceNotFoundException {
         return Simulation.getInstance().getDevices().stream()
-                .filter(device -> device.getType() == type)
+                .filter(device -> device.getType() == type && !device.isOccupied())
                 .findFirst()
                 .orElseThrow(DeviceNotFoundException::new);
     }
@@ -162,7 +162,7 @@ public class HelpFunctions {
      */
     public static Device findDevice(DeviceType type1, DeviceType type2) throws DeviceNotFoundException {
         return Simulation.getInstance().getDevices().stream()
-                .filter(device -> device.getType() == type1 || device.getType() == type2)
+                .filter(device ->  !device.isOccupied() && (device.getType() == type1 || device.getType() == type2))
                 .findFirst()
                 .orElseThrow(DeviceNotFoundException::new);
     }
@@ -176,7 +176,7 @@ public class HelpFunctions {
      */
     public static Device findDevice(DeviceType type, Room room) throws DeviceNotFoundException {
         return Simulation.getInstance().getDevices().stream()
-                .filter(device -> device.getType() == type && device.getRoom() == room)
+                .filter(device -> device.getType() == type && device.getRoom() == room  && !device.isOccupied())
                 .findFirst()
                 .orElseThrow(DeviceNotFoundException::new);
     }
@@ -190,7 +190,7 @@ public class HelpFunctions {
      */
     public static Device findDevice(DeviceType type, RoomType roomType) throws DeviceNotFoundException {
         return Simulation.getInstance().getDevices().stream()
-                .filter(device -> device.getType() == type && device.getRoom().getType() == roomType)
+                .filter(device -> device.getType() == type && device.getRoom().getType() == roomType && !device.isOccupied())
                 .findFirst()
                 .orElseThrow(DeviceNotFoundException::new);
     }

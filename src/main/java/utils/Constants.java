@@ -8,6 +8,42 @@ import java.time.Duration;
 public final class Constants {
 
     /**
+     * Creature constants.
+     */
+    public static final class Creature {
+
+        /**
+         * Amount of hunger increasing every tick.
+         */
+        public static final double HUNGER_INCREASE = 0.01;
+
+        /**
+         * Amount of fullness increasing every tick.
+         */
+        public static final double FULLNESS_INCREASE = 0.05;
+
+        /**
+         * Amount of hunger after which creature will decide to eat.
+         */
+        public static final double HUNGER_THRESHOLD = 10;
+
+        /**
+         * Amount of fullness after which creature will decide to go to toilet.
+         */
+        public static final double FULLNESS_THRESHOLD = 30;
+
+        /**
+         * Amount of hunger decreasing after eating.
+         */
+        public static final double EAT_HUNGER_DECREASE = HUNGER_THRESHOLD;
+
+        /**
+         * Amount of fullness increasing after eating.
+         */
+        public static final double EAT_FULLNESS_INCREASE = FULLNESS_THRESHOLD * 1 / 4;
+    }
+
+    /**
      * Probability constants.
      */
     public static final class Probabilities {
@@ -105,6 +141,16 @@ public final class Constants {
          * Amount of months in a year.
          */
         public static final int MONTHS = 12;
+
+        /**
+         * Amount of days in a week.
+         */
+        public static final int DAYS_IN_WEEK = 7;
+
+        /**
+         * Average amount of days in a month.
+         */
+        public static final int DAYS_IN_MONTH = 30;
 
         /**
          * Amount of hours in a day.

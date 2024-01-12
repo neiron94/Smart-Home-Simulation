@@ -24,7 +24,7 @@ public class AlarmClock extends Device implements ElectricityConsumer {
 
     public AlarmClock(int id, Room startRoom) {
         super(DeviceType.ALARM_CLOCK, id, startRoom);
-        ringAt = Simulation.getInstance().getCurrentTime();
+        ringAt = Simulation.getInstance().getCurrentTime().minusMinutes(1);
     }
 
     //--------- Main public functions ----------//
