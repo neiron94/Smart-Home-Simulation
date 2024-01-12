@@ -7,8 +7,17 @@ import utils.HelpFunctions;
 import java.time.LocalDateTime;
 import java.util.NoSuchElementException;
 
+/**
+ * Singleton class representing street which can have different
+ * temperature, humidity, brightness and weather which are dynamically changed.
+ */
 public class Street {
     private static Street INSTANCE;
+
+    /**
+     * Singleton getInstance method.
+     * @return instance of Street
+     */
     public static Street getInstance() {
         if (INSTANCE == null) INSTANCE = new Street();
         return INSTANCE;
@@ -21,9 +30,19 @@ public class Street {
     private double brightness;
 
     private Street() {
-        ConfigurationReader.readWeatherConfig();
         weatherChange = Simulation.getInstance().getCurrentTime();
         weather = HelpFunctions.getRandomObject(Weather.weathers).orElseThrow(NoSuchElementException::new);
+    }
+
+    /**
+     * Changes weather in a proper time, changes attributes of
+     * the street every hour, is called every tick in {@link Simulation#simulate()}.
+     */
+    public void routine() {
+        LocalDateTime currentTime = Simulation.getInstance().getCurrentTime();
+
+        if (currentTime.equals(weatherChange)) weather.changeWeather();
+        if (currentTime.getMinute() == 0) weather.applyWeather();
     }
 
     public double getTemperature() {
@@ -60,12 +79,5 @@ public class Street {
 
     public void setWeatherChange(LocalDateTime weatherChange) {
         this.weatherChange = weatherChange;
-    }
-
-    public void routine() {
-        LocalDateTime currentTime = Simulation.getInstance().getCurrentTime();
-
-        if (currentTime.equals(weatherChange)) weather.changeWeather();
-        if (currentTime.getMinute() == 0) weather.applyWeather();
     }
 }

@@ -3,6 +3,9 @@ package place;
 import com.fasterxml.jackson.databind.JsonNode;
 import utils.ConfigurationReader;
 
+/**
+ * // TODO - Javadoc
+ */
 public class HomeBuilder {
     private final JsonNode homeDraft;
     private final JsonNode floorDraft;
