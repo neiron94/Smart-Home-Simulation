@@ -97,6 +97,248 @@ If person is trying to use device, which already `isOccupied` by other person, h
 ### Program Input
 ------------
 
+<details>
+  <summary>
+    <a href="https://github.com/neiron94/Smart-Home-Simulation/blob/develop/src/main/resources/config/Simulation.json">
+      <b>Simulation.json</b>
+    </a>
+  </summary>
+    <table>
+      <tr>
+        <td><code>"config" : "1"</code></td>
+        <td>Current configuration to load (name of folder)</td>
+      </tr>
+      <tr>
+        <td><code>"duration" : 30</code></td>
+        <td>Simulation duration (in days)</td>
+      </tr>
+    </table>
+<p>
+Configuration folder should exist in <code>config</code> directory and have <code>Home.json</code>, <code>Creature.json</code>, <code>Device.json</code>.<br>
+Duration should be integer non-negative value.
+</p>
+</details>
+
+<details>
+  <summary>
+    <a href="https://github.com/neiron94/Smart-Home-Simulation/blob/develop/src/main/resources/config/1/Home.json">
+      <b>Home.json</b>
+    </a>
+  </summary>
+    <table>
+      <tr>
+        <td><code>"HOME" : [1, 2]</code></td>
+        <td>Floors in home</td>
+      </tr>
+      <tr>
+        <td><code>"FLOOR" : [[1, 2], [3, 4]]</code></td>
+        <td>Rooms at floor (each floor should have it own pair of brackets) </td>
+      </tr>
+      <tr>
+        <td><code>"ROOM" : ["KITCHEN", "HALL", "TOILET", "BEDROOM"]</code></td>
+        <td>List of rooms (types)</td>
+      </tr>
+    </table>
+<p>
+Numbers are IDs (integer) and should be unique for floors and rooms. They are connected with values in proper array (1-based).<br>
+Room types should match these <a href="https://github.com/neiron94/Smart-Home-Simulation/blob/develop/src/main/java/place/RoomType.java">values</a>.
+</p>
+</details>
+
+<details>
+  <summary>
+    <a href="https://github.com/neiron94/Smart-Home-Simulation/blob/develop/src/main/resources/config/1/Device.json">
+      <b>Device.json</b>
+    </a>
+  </summary>
+    <table>
+      <tr>
+        <td><code>"FRIDGE" : [1, 2, 3]</code></td>
+        <td>Device type and its instances</td>
+      </tr>
+    </table>
+<p>
+Numbers are room IDs (integer).<br>
+Device types should match these <a href="https://github.com/neiron94/Smart-Home-Simulation/blob/develop/src/main/java/consumer/device/DeviceType.java">values</a>.
+</p>
+</details>
+
+<details>
+  <summary>
+    <a href="https://github.com/neiron94/Smart-Home-Simulation/blob/develop/src/main/resources/config/1/Creature.json">
+      <b>Creature.json</b>
+    </a>
+  </summary>
+    <table>
+      <tr>
+        <td><code>"name" : "Jirka"</code></td>
+        <td>Person's name</td>
+      </tr>
+      <tr>
+        <td><code>"gender" : "MALE"</code></td>
+        <td>Person's gender</td>
+      </tr>
+      <tr>
+        <td><code>"status" : "ADULT"</code></td>
+        <td>Person's family status</td>
+      </tr>
+    </table>
+<p>
+Gender should match these <a href="https://github.com/neiron94/Smart-Home-Simulation/blob/develop/src/main/java/creature/person/Gender.java">values</a>.<br>
+Family status should match these <a href="https://github.com/neiron94/Smart-Home-Simulation/blob/develop/src/main/java/creature/person/FamilyStatus.java">values</a>.
+</p>
+    <table>
+      <tr>
+        <td><code>"name" : "Garfield"</code></td>
+        <td>Pet's name</td>
+      </tr>
+      <tr>
+        <td><code>"gender" : "CAT"</code></td>
+        <td>Pet's type</td>
+      </tr>
+    </table>
+<p>
+Pet type should match these <a href="https://github.com/neiron94/Smart-Home-Simulation/blob/develop/src/main/java/creature/pet/PetType.java">values</a>.
+</p>
+</details>
+
+<details>
+  <summary>
+    <a href="https://github.com/neiron94/Smart-Home-Simulation/blob/develop/src/main/resources/config/Content.json">
+      <b>Content.json</b>
+    </a>
+  </summary>
+    <table>
+      <tr>
+        <td><code>"author" : "MC Adolfeen"</code></td>
+        <td>Author of song</td>
+      </tr>
+      <tr>
+        <td><code>"album" : "Je mi to jedno"</code></td>
+        <td>Name of album</td>
+      </tr>
+      <tr>
+        <td><code>"name" : "Corona Firus"</code></td>
+        <td>Name of song</td>
+      </tr>
+      <tr>
+        <td><code>"genre" : "HIP_HOP"</code></td>
+        <td>Song genre</td>
+      </tr>
+      <tr>
+        <td><code>"duration" : 3</code></td>
+        <td>Duration (in minutes)</td>
+      </tr>
+    </table>
+<p>
+Duration should be integer non-negative value.<br>
+Song genre should match these <a href="https://github.com/neiron94/Smart-Home-Simulation/blob/develop/src/main/java/consumer/device/common/entertainment/SongGenre.java">values</a>.
+</p>
+    <table>
+      <tr>
+        <td><code>"name" : "Baby Shark Dance"</code></td>
+        <td>Name of video</td>
+      </tr>
+      <tr>
+        <td><code>"description" : "Baby shark, doo doo doo doo doo doo."</code></td>
+        <td>Short video description</td>
+      </tr>
+      <tr>
+        <td><code>"platform" : "YOUTUBE"</code></td>
+        <td>Video platform (channel, streaming service, ...)</td>
+      </tr>
+      <tr>
+        <td><code>"duration" : 2</code></td>
+        <td>Duration (in minutes)</td>
+      </tr>
+    </table>
+<p>
+Duration should be integer non-negative value.<br>
+Video platform should match these <a href="https://github.com/neiron94/Smart-Home-Simulation/blob/develop/src/main/java/consumer/device/common/entertainment/VideoPlatform.java">values</a>.
+</p>
+    <table>
+      <tr>
+        <td><code>"name" : "2048"</code></td>
+        <td>Name of game</td>
+      </tr>
+      <tr>
+        <td><code>"description" : "Move bricks to win."</code></td>
+        <td>Short game description</td>
+      </tr>
+      <tr>
+        <td><code>"genre" : "PUZZLE"</code></td>
+        <td>Game genre</td>
+      </tr>
+    </table>
+<p>
+Game genre should match these <a href="https://github.com/neiron94/Smart-Home-Simulation/blob/develop/src/main/java/consumer/device/common/entertainment/GameGenre.java">values</a>.
+</p>
+</details>
+
+<details>
+  <summary>
+    <a href="https://github.com/neiron94/Smart-Home-Simulation/blob/develop/src/main/resources/config/RoomConfiguration.json">
+      <b>RoomConfiguration.json</b>
+    </a>
+  </summary>
+    <table>
+      <tr>
+        <td><code>"name" : "Bathhouse"</code></td>
+        <td>Configuration name</td>
+      </tr>
+      <tr>
+        <td><code>"temperature" : 90</code></td>
+        <td>Set temperature (in ºC)</td>
+      </tr>
+      <tr>
+        <td><code>"humidity" : 85</code></td>
+        <td>Set humidity (in %)</td>
+      </tr>
+      <tr>
+        <td><code>"brightness" : 20</code></td>
+        <td>Set brightness (in %)</td>
+      </tr>
+      <tr>
+        <td><code>"color" : [255, 253, 141]</code></td>
+        <td>Set color of light</td>
+      </tr>
+    </table>
+<p>
+Temperature can be negative and float.<br>
+Humidity should be in range 0-100. Can be float.<br>
+Brightness should be in range 0-100. Can be float.<br>
+Color should have three integers in range 0-255 representing <code>RED</code>, <code>GREEN</code>, <code>BLUE</code> components.
+</p>
+</details>
+
+<details>
+  <summary>
+    <a href="https://github.com/neiron94/Smart-Home-Simulation/blob/develop/src/main/resources/config/Weather.json">
+      <b>Weather.json</b>
+    </a>
+  </summary>
+    <table>
+      <tr>
+        <td><code>"temperature" : [[-10.2, -11.2, ...], ...]</code></td>
+        <td>Temperature map</td>
+      </tr>
+      <tr>
+        <td><code>"humidity" : [[69.3, 68.1, ...], ...]</code></td>
+        <td>Humidity map</td>
+      </tr>
+      <tr>
+        <td><code>"brightness" : [[16.8, 16.9, ...], ...]</code></td>
+        <td>Brightness map</td>
+      </tr>
+    </table>
+<p>
+Temperature can be negative and float.<br>
+Humidity should be in range 0-100. Can be float.<br>
+Brightness should be in range 0-100. Can be float.<br>
+Each map should contain 12 arrays of 24 values representing temperature/humidity/brightness in concrete hour of concrete month (starting from 00:00 and January).
+</p>
+</details>
+
 ------------
 ### Program Output
 ------------
