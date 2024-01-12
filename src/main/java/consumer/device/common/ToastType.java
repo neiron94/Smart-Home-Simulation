@@ -1,19 +1,17 @@
 package consumer.device.common;
 
-import utils.Constants.WorkTime;
+import utils.Constants.WorkDuration;
 import utils.Constants.Consumption.Electricity;
 
 import java.time.Duration;
-import java.time.LocalTime;
-import java.util.Random;
 
 /**
  * Types of toast. Stores information about duration of cooking and consumption.
  */
 public enum ToastType {
-    SANDWICH("Sandwich", WorkTime.TOASTER_SANDWICH, Electricity.TOASTER_SANDWICH),
-    GOLDEN("Golden", WorkTime.TOASTER_GOLDEN, Electricity.TOASTER_GOLDEN),
-    CRUST("Crust", WorkTime.TOASTER_CRUST, Electricity.TOASTER_CRUST);
+    SANDWICH("Sandwich", WorkDuration.TOASTER_SANDWICH, Electricity.TOASTER_SANDWICH),
+    GOLDEN("Golden", WorkDuration.TOASTER_GOLDEN, Electricity.TOASTER_GOLDEN),
+    CRUST("Crust", WorkDuration.TOASTER_CRUST, Electricity.TOASTER_CRUST);
 
     private final String name;
     private final Duration cookTime;
