@@ -146,21 +146,21 @@ public final class PersonAPI {
     private static final Function<Action<Person, Void>, Boolean> eatBreakfast = action -> {
         action.getExecutor().setHunger(action.getExecutor().getHunger() - 30);   // TODO - Constant (30 is wrong)
         action.getExecutor().setFullness(action.getExecutor().getFullness() + 10);   // TODO - Constant (10 is wrong)
-        makeRecord(action.getExecutor(), "Ate breakfast");
+        makeRecord(action.getExecutor(), "Eat breakfast");
         return true;
     };
 
     private static final Function<Action<Person, Void>, Boolean> eatLunch = action -> {
         action.getExecutor().setHunger(action.getExecutor().getHunger() - 50);   // TODO - Constant (50 is wrong)
         action.getExecutor().setFullness(action.getExecutor().getFullness() + 30);   // TODO - Constant (30 is wrong)
-        makeRecord(action.getExecutor(), "Ate lunch");
+        makeRecord(action.getExecutor(), "Eat lunch");
         return true;
     };
 
     private static final Function<Action<Person, Void>, Boolean> eatDinner = action -> {
         action.getExecutor().setHunger(action.getExecutor().getHunger() - 40);   // TODO - Constant (40 is wrong)
         action.getExecutor().setFullness(action.getExecutor().getFullness() + 20);   // TODO - Constant (20 is wrong)
-        makeRecord(action.getExecutor(), "Ate dinner");
+        makeRecord(action.getExecutor(), "Eat dinner");
         return true;
     };
 
