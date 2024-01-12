@@ -1,19 +1,17 @@
 package consumer.device.common;
 
-import utils.Constants.WorkTime;
+import utils.Constants.WorkDuration;
 import utils.Constants.Consumption.Electricity;
 
 import java.time.Duration;
-import java.time.LocalTime;
-import java.util.Random;
 
 /**
  * Dryer programs. Stores information about programs' duration and consumption.
  */
 public enum DryerProgram {
-    COLD("Cold", WorkTime.DRYER_COLD, Electricity.DRYER_COLD),
-    NORMAL("Normal", WorkTime.DRYER_NORMAL, Electricity.DRYER_NORMAL),
-    HOT("Hot", WorkTime.DRYER_HOT, Electricity.DRYER_HOT);
+    COLD("Cold", WorkDuration.DRYER_COLD, Electricity.DRYER_COLD),
+    NORMAL("Normal", WorkDuration.DRYER_NORMAL, Electricity.DRYER_NORMAL),
+    HOT("Hot", WorkDuration.DRYER_HOT, Electricity.DRYER_HOT);
 
     private final String name;
     private final Duration duration;

@@ -16,9 +16,16 @@ import java.util.NoSuchElementException;
 import static utils.Constants.ConfigurationReaderConstants.*;
 import static utils.Constants.Time.*;
 
+/**
+ * Class for reading configuration files.
+ */
 public class ConfigurationReader {
     private static final String CONFIG_PATH = String.join(File.separator, System.getProperty("user.dir"), "src", "main", "resources", "config") + File.separator;
 
+    /**
+     * Reads configuration of Simulation.
+     * @param simulation instance of simulation, where information will be written
+     */
     public static void readSimulationConfig(Simulation simulation) {
         String configPath = CONFIG_PATH + "Simulation.json";
         JsonNode config = openConfig(configPath);
@@ -29,11 +36,20 @@ public class ConfigurationReader {
         HelpFunctions.logger.info("Main simulation configuration read");
     }
 
+    /**
+     * Reads home configuration from the specified directory.
+     * @param configName directory of home configuration
+     * @return opened json configuration file
+     */
     public static JsonNode readHomeConfig(String configName) {
         String configPath = CONFIG_PATH + configName + File.separator + "Home.json";
         return openConfig(configPath);
     }
 
+    /**
+     * Reads device configuration from the given directory and creates all the devices.
+     * @param configName directory of device configuration
+     */
     public static void readDeviceConfig(String configName) {
         String configPath = CONFIG_PATH + configName + File.separator + "Device.json";
         JsonNode config = openConfig(configPath);
@@ -60,6 +76,10 @@ public class ConfigurationReader {
         HelpFunctions.logger.info("Devices configuration read");
     }
 
+    /**
+     * Reads creature configuration from the given directory and creates all the creatures.
+     * @param configName directory of creature configuration
+     */
     public static void readCreatureConfig(String configName) {
         String configPath = CONFIG_PATH + configName + File.separator + "Creature.json";
         JsonNode config = openConfig(configPath);
@@ -84,6 +104,10 @@ public class ConfigurationReader {
         HelpFunctions.logger.info("Creatures configuration read");
     }
 
+    /**
+     * Reads pre-created room configurations from config and adds them to the
+     * simulation of database.
+     */
     public static void readRoomConfigurationConfig() {
         String configPath = CONFIG_PATH + "RoomConfiguration.json";
         JsonNode config = openConfig(configPath);
@@ -103,6 +127,10 @@ public class ConfigurationReader {
         HelpFunctions.logger.info("RoomConfig configuration read");
     }
 
+    /**
+     * Reads pre-created content (songs, games, videos) from config and adds them to the
+     * simulation of database.
+     */
     public static void readContentConfig() {
         String configPath = CONFIG_PATH + "Content.json";
         JsonNode config = openConfig(configPath);
@@ -140,6 +168,10 @@ public class ConfigurationReader {
         HelpFunctions.logger.info("Entertainment configuration read");
     }
 
+    /**
+     * Reads pre-created weather stats from config and adds them to the
+     * simulation of database.
+     */
     public static void readWeatherConfig() {
         String configPath = CONFIG_PATH + "Weather.json";
         JsonNode config = openConfig(configPath);

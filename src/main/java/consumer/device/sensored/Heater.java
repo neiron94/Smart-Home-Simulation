@@ -32,7 +32,7 @@ public class Heater extends ParameterDevice<TemperatureSensor> {
 
     @Override
     public double consumeElectricity() {
-        return HelpFunctions.countElectricityConsumption(status, Electricity.HEATER * power);
+        return HelpFunctions.countElectricityConsumption(status, Electricity.HEATER * power / 100);
     }
 
     @Override

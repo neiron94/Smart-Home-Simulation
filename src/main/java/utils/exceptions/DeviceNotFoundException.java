@@ -1,5 +1,8 @@
 package utils.exceptions;
 
+/**
+ * Signals that searched device is not found.
+ */
 public class DeviceNotFoundException extends Exception {
     public DeviceNotFoundException() {
     }

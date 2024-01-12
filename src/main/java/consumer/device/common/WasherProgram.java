@@ -1,20 +1,18 @@
 package consumer.device.common;
 
-import utils.Constants.WorkTime;
+import utils.Constants.WorkDuration;
 import utils.Constants.Consumption.Electricity;
 import utils.Constants.Consumption.Water;
 
 import java.time.Duration;
-import java.time.LocalTime;
-import java.util.Random;
 
 /**
  * Washer programs. Stores information about programs' duration and consumption.
  */
 public enum WasherProgram {
-    DELICATE("Delicate", WorkTime.WASHER_DELICATE, Electricity.WASHER_DELICATE, Water.WASHER_DELICATE),
-    NORMAL("Normal", WorkTime.WASHER_NORMAL, Electricity.WASHER_NORMAL, Water.WASHER_NORMAL),
-    INTENSIVE("Intensive", WorkTime.WASHER_INTENSIVE, Electricity.WASHER_INTENSIVE, Water.WASHER_INTENSIVE);
+    DELICATE("Delicate", WorkDuration.WASHER_DELICATE, Electricity.WASHER_DELICATE, Water.WASHER_DELICATE),
+    NORMAL("Normal", WorkDuration.WASHER_NORMAL, Electricity.WASHER_NORMAL, Water.WASHER_NORMAL),
+    INTENSIVE("Intensive", WorkDuration.WASHER_INTENSIVE, Electricity.WASHER_INTENSIVE, Water.WASHER_INTENSIVE);
 
     private final String name;
     private final Duration duration;

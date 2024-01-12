@@ -2,6 +2,9 @@ package utils;
 
 import java.time.LocalTime;
 
+/**
+ * Represents day periods.
+ */
 public enum DayPeriod {
     MORNING("Morning", LocalTime.of(6, 0), LocalTime.of(11, 59)),
     DAY("Day", LocalTime.of(12, 0), LocalTime.of(17, 59)),

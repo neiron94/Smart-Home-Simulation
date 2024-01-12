@@ -1,5 +1,8 @@
 package utils;
 
+/**
+ * Represents priority of event or person's queue of actions.
+ */
 public enum Priority {
     COMMON("Default", 1),
     EMPTY("Emptying", 2),

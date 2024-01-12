@@ -14,10 +14,18 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
+/**
+ * Core singleton class which controls the simulation flow.
+ */
 public class Simulation {
     private static final LocalTime REPORT_TIME = LocalTime.of(0, 0);
 
     private static Simulation INSTANCE;
+
+    /**
+     * Singleton getInstance method. Reads configuration files when is called for the first time.
+     * @return instance of Simulation.
+     */
     public static Simulation getInstance() {
         if (INSTANCE == null) {
             INSTANCE = new Simulation();
@@ -42,41 +50,11 @@ public class Simulation {
         devices = new HashSet<>();
     }
 
-    private static void readConfigurations(Simulation simulation) {
-        ConfigurationReader.readSimulationConfig(simulation); // Read main configuration
-        ConfigurationReader.readContentConfig(); // Create entertainment
-        ConfigurationReader.readRoomConfigurationConfig(); // Create room configurations
-        simulation.home = new HomeBuilder(simulation.configurationName).getHome(); // Create home
-        ConfigurationReader.readCreatureConfig(simulation.configurationName); // Create creatures
-        ConfigurationReader.readDeviceConfig(simulation.configurationName); // Create devices
-
-        ReportCreator.createConfigurationReport();
-    }
-
-    public void setConfigurationName(String configurationName) {
-        this.configurationName = configurationName;
-    }
-
-    public void setFinishTime(LocalDateTime finishTime) {
-        this.finishTime = finishTime;
-    }
-
-    public LocalDateTime getCurrentTime() {
-        return currentTime;
-    }
-
-    public Home getHome() {
-        return home;
-    }
-
-    public Set<Creature> getCreatures() {
-        return creatures;
-    }
-
-    public Set<Device> getDevices() {
-        return devices;
-    }
-
+    /**
+     * Main cycle of the program. Calls routine of street, rooms, devices, creatures every tick.
+     * Can randomly creat shutdown of some supply system. Creates reports and
+     * deletes all dead people and nonfunctional devices in the end of each day.
+     */
     public void simulate() {
         Street street = Street.getInstance();
         HelpFunctions.logger.info("Simulation started");
@@ -114,5 +92,39 @@ public class Simulation {
             HelpFunctions.getRandomObject(supplySystems).ifPresent(SupplySystem::shutdown);
             restoreSupplySystemTime = currentTime.plusHours(new Random().nextInt(1, 4));
         }
+    }
+
+    private static void readConfigurations(Simulation simulation) {
+        ConfigurationReader.readSimulationConfig(simulation); // Read main configuration
+        ConfigurationReader.readContentConfig(); // Create entertainment
+        ConfigurationReader.readRoomConfigurationConfig(); // Create room configurations
+        simulation.home = new HomeBuilder(simulation.configurationName).getHome(); // Create home
+        ConfigurationReader.readCreatureConfig(simulation.configurationName); // Create creatures
+        ConfigurationReader.readDeviceConfig(simulation.configurationName); // Create devices
+        ReportCreator.createConfigurationReport();
+    }
+
+    public void setConfigurationName(String configurationName) {
+        this.configurationName = configurationName;
+    }
+
+    public void setFinishTime(LocalDateTime finishTime) {
+        this.finishTime = finishTime;
+    }
+
+    public LocalDateTime getCurrentTime() {
+        return currentTime;
+    }
+
+    public Home getHome() {
+        return home;
+    }
+
+    public Set<Creature> getCreatures() {
+        return creatures;
+    }
+
+    public Set<Device> getDevices() {
+        return devices;
     }
 }
