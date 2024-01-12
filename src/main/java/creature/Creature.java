@@ -102,7 +102,7 @@ public abstract class Creature {
     protected abstract void reactMaxFullness();
 
     private void reactMaxHunger() {
-        activity.addActivity("Die");
+        makeRecord(this, "Die");
         isAlive = false;
         if (fullness > 0) reactMaxFullness();
     }

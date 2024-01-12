@@ -16,6 +16,8 @@ import java.time.LocalDateTime;
 import java.util.*;
 import java.util.function.Function;
 
+import static utils.HelpFunctions.makeRecord;
+
 public class Person extends Creature {
     private final Gender gender;
     private final FamilyStatus status;
@@ -77,8 +79,8 @@ public class Person extends Creature {
     @Override
     protected void reactMaxFullness() {
         switch (gender) {
-            case MALE -> activity.addActivity("Shit himself");
-            case FEMALE -> activity.addActivity("Shit herself");
+            case MALE -> makeRecord(this, "Shit himself");
+            case FEMALE -> makeRecord(this, "Shit herself");
         }
         memory.add(PersonAPI.takeShower.apply(this));
         fullness = 0;
