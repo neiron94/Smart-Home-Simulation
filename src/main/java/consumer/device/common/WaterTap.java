@@ -49,10 +49,10 @@ public class WaterTap extends Device implements WaterConsumer, ElectricityConsum
 
     /**
      * Open water tap with given temperature and openness.
-     * @param temperature Temperature of water.
-     * @param openness Openness of water tap.
-     * @throws DeviceIsOccupiedException Device is occupied by someone else.
-     * @throws WrongDeviceStatusException Device is not in start status.
+     * @param temperature temperature of water
+     * @param openness openness of water tap
+     * @throws DeviceIsOccupiedException if device is occupied by someone else
+     * @throws WrongDeviceStatusException if device is not in start status
      */
     public void open(double temperature, int openness) throws DeviceIsOccupiedException, WrongDeviceStatusException {
         checkDeviceInStartStatus();

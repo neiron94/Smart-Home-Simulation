@@ -27,7 +27,7 @@ public class Vent extends Device implements ElectricityConsumer {
 
     /**
      * Every tick make filter dirtier.
-     * @return Can be ignored.
+     * @return can be ignored
      */
     @Override
     public boolean routine() {
@@ -53,10 +53,10 @@ public class Vent extends Device implements ElectricityConsumer {
 
     /**
      * Start vent with given program.
-     * @param program Chosen program.
-     * @throws DirtyFilterException Filter is too dirty.
-     * @throws DeviceIsOccupiedException Device is occupied by someone else.
-     * @throws WrongDeviceStatusException Device is not in start status.
+     * @param program chosen program
+     * @throws DirtyFilterException if filter is too dirty
+     * @throws DeviceIsOccupiedException if device is occupied by someone else
+     * @throws WrongDeviceStatusException if device is not in start status
      */
     public void startVent(VentProgram program) throws DirtyFilterException, DeviceIsOccupiedException, WrongDeviceStatusException {
         checkDeviceInStartStatus();

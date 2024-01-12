@@ -19,7 +19,7 @@ public class EntertainmentService {
 
         /**
          * Add game to "database".
-         * @param game Game to add.
+         * @param game game to add
          */
         public static void addGame(Game game) {
             games.add(game);
@@ -27,7 +27,7 @@ public class EntertainmentService {
 
         /**
          * Get random game from "database".
-         * @return Optional with random game.
+         * @return optional with random game
          */
         public static Optional<Game> getRandomGame() {
             return HelpFunctions.getRandomObject(games);
@@ -44,7 +44,7 @@ public class EntertainmentService {
 
         /**
          * Add song to "database".
-         * @param song Song to add.
+         * @param song song to add
          */
         public static void addSong(Song song) {
             songs.add(song);
@@ -52,7 +52,7 @@ public class EntertainmentService {
 
         /**
          * Get random song from "database".
-         * @return Optional with random song.
+         * @return optional with random song
          */
         public static Optional<Song> getRandomSong() {
             return HelpFunctions.getRandomObject(songs);
@@ -71,7 +71,7 @@ public class EntertainmentService {
 
         /**
          * Get random playlist from "database".
-         * @return Optional with random playlist.
+         * @return optional with random playlist
          */
         public static Optional<List<Song>> getRandomPlaylist() {
             return HelpFunctions.getRandomObject(playlists);
@@ -87,7 +87,7 @@ public class EntertainmentService {
 
         /**
          * Add video to "database".
-         * @param video Video to add.
+         * @param video video to add
          */
         public static void addVideo(Video video) {
             shows.add(video);
@@ -95,7 +95,7 @@ public class EntertainmentService {
 
         /**
          * Get random video from "database".
-         * @return Optional with random video.
+         * @return optional with random video
          */
         public static Optional<Video> getRandomVideo() {
             return HelpFunctions.getRandomObject(shows);

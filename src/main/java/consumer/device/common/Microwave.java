@@ -36,7 +36,7 @@ public class Microwave extends Device implements ElectricityConsumer {
 
     /**
      * Every tick checks if should stop.
-     * @return Can be ignored.
+     * @return can be ignored
      */
     @Override
     public boolean routine() {
@@ -57,11 +57,11 @@ public class Microwave extends Device implements ElectricityConsumer {
 
     /**
      * Heat food.
-     * @param heatTime Duration of heating.
-     * @param heatPower Power of heating.
-     * @throws WrongDeviceStatusException Device is not in start status.
-     * @throws EntryProblemException No food inside microwave.
-     * @throws DeviceIsOccupiedException Device is occupied by someone else.
+     * @param heatTime duration of heating
+     * @param heatPower power of heating
+     * @throws WrongDeviceStatusException if device is not in start status
+     * @throws EntryProblemException if no food inside microwave
+     * @throws DeviceIsOccupiedException if device is occupied by someone else
      */
     public void heatFood(Duration heatTime, int heatPower) throws WrongDeviceStatusException, EntryProblemException, DeviceIsOccupiedException {
         if (heatTime == null) return;

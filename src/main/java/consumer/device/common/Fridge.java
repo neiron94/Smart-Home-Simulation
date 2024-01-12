@@ -43,8 +43,8 @@ public class Fridge extends Device implements ElectricityConsumer {
 
     /**
      * Take food from fridge. Fridge automatically orders food if fullness equals zero.
-     * @param amount Amount of taken food.
-     * @throws WrongDeviceStatusException Device is not in start status.
+     * @param amount amount of taken food
+     * @throws WrongDeviceStatusException if device is not in start status
      */
     public void takeFood(int amount) throws WrongDeviceStatusException {
         setFullness(fullness - amount);
@@ -57,7 +57,7 @@ public class Fridge extends Device implements ElectricityConsumer {
 
     /**
      * Put food to fridge.
-     * @param amount Amount of food to put.
+     * @param amount amount of food to put
      */
     public void putFood(int amount) {
         setFullness(fullness + amount);

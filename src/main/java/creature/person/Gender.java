@@ -1,5 +1,8 @@
 package creature.person;
 
+/**
+ * Human's gender.
+ */
 public enum Gender {
     MALE("Male"),
     FEMALE("Female");

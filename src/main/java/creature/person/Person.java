@@ -18,11 +18,23 @@ import java.util.function.Function;
 
 import static utils.HelpFunctions.makeRecord;
 
+/**
+ * Person interacts with devices and can perform many actions
+ * with them. Can solve events.
+ */
 public class Person extends Creature {
     private final Gender gender;
     private final FamilyStatus status;
     private final Map<Event, LocalDateTime> solvedEvents;
 
+    /**
+     * Creates new person. Automatically sets strategy
+     * for reacting on events depending on family status and gender.
+     * @param name name of a person
+     * @param gender gender of a person
+     * @param status family status of a person
+     * @param startRoom room, where person is located
+     */
     public Person(String name, Gender gender, FamilyStatus status, Room startRoom) {
         super(name, startRoom);
         this.gender = gender;
@@ -33,22 +45,17 @@ public class Person extends Creature {
         else strategy = gender == Gender.MALE ? new ManStrategy(this) : new WomanStrategy(this);
     }
 
-    public Gender getGender() {
-        return gender;
-    }
-
-    public FamilyStatus getStatus() {
-        return status;
-    }
-
-    public Map<Event, LocalDateTime> getSolvedEvents() {
-        return solvedEvents;
-    }
-
+    /**
+     * Adds new solved event for future report.
+     * @param solvedEvent solved event
+     */
     public void addSolvedEvent(Event solvedEvent) {
         solvedEvents.put(solvedEvent, Simulation.getInstance().getCurrentTime());
     }
 
+    /**
+     * Chooses action for decreasing hunger depending on current time.
+     */
     @Override
     protected void decreaseHunger() {
         DayPeriod period = HelpFunctions.getDayPeriod(Simulation.getInstance().getCurrentTime()).orElse(DayPeriod.NIGHT);
@@ -59,6 +66,9 @@ public class Person extends Creature {
         }
     }
 
+    /**
+     * Chooses action for decreasing fullness depending on fullness.
+     */
     @Override
     protected void decreaseFullness() {
         List<Function<Person, RankedQueue<Action<Person, ?>>>> functions = List.of(PersonAPI.pee, PersonAPI.poo);
@@ -66,6 +76,9 @@ public class Person extends Creature {
         else HelpFunctions.getRandomObject(functions).ifPresent(function -> memory.add(function.apply(this)));
     }
 
+    /**
+     * Chooses new action depending on current time.
+     */
     @Override
     protected void chooseActivity() {
         DayPeriod period = HelpFunctions.getDayPeriod(Simulation.getInstance().getCurrentTime()).orElse(DayPeriod.NIGHT);
@@ -76,6 +89,9 @@ public class Person extends Creature {
         }
     }
 
+    /**
+     * Reacts on max fullness.
+     */
     @Override
     protected void reactMaxFullness() {
         switch (gender) {
@@ -89,5 +105,17 @@ public class Person extends Creature {
     @Override
     public String toString() {
         return String.format("%s (%s, %s)", name, gender.toString(), status.toString());
+    }
+
+    public Gender getGender() {
+        return gender;
+    }
+
+    public FamilyStatus getStatus() {
+        return status;
+    }
+
+    public Map<Event, LocalDateTime> getSolvedEvents() {
+        return solvedEvents;
     }
 }

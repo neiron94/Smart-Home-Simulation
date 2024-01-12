@@ -64,7 +64,7 @@ public class Feeder extends Device implements ElectricityConsumer {
 
     /**
      * Drink water from a pan. Should be used by animals.
-     * @param amount Amount of water to drink.
+     * @param amount amount of water to drink
      */
     public void drinkWater(int amount) {
         setWaterLevel(waterLevel - amount);
@@ -75,7 +75,7 @@ public class Feeder extends Device implements ElectricityConsumer {
 
     /**
      * Eat food from a pan. Should be used by animals.
-     * @param amount Amount of food to eat.
+     * @param amount amount of food to eat
      */
     public void eatFood(int amount) {
         setFoodLevel(foodLevel - amount);
