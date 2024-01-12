@@ -342,4 +342,104 @@ Each map should contain 12 arrays of 24 values representing temperature/humidity
 ------------
 ### Program Output
 ------------
+<details>
+  <summary>
+    <b>Configuration.txt</b>
+  </summary>
+    <u><i>House Configuration Report</i></u><br>
+    Stores all configuration information about home hierarchy and its residents.<br>
+<pre>
+Home                           <b><i><- Information about home</i></b>
+    Floor_1                    <b><i><- First floor</i></b>
+        Room_1 (Hall)          <b><i><- First room</i></b>
+            TV_1               <b><i><- Device</i></b>
+            Light_1            <b><i><- Device</i></b>
+    Floor_2                    <b><i><- Second floor</i></b>
+        Room_2 (Kitchen)       <b><i><- Second room</i></b>
+            Microwave_1        <b><i><- Device</i></b>
+            Light_2            <b><i><- Device</i></b>
+        Room_3 (Toilet)        <b><i><- Third room</i></b>
+            WC_1               <b><i><- Device</i></b>
+Residents                      <b><i><- Information about residents</i></b>
+	Bob (Male, Adult)      <b><i><- Resident</i></b>
+	Bark (Dog)             <b><i><- Resident</i></b>
+</pre>
+</details>
 
+<details>
+  <summary>
+    <b>Consumption.tsv</b>
+  </summary>
+    <u><i>Consumption Report</i></u><br>
+    Stores all information about every device consumption during simulation in easy-readable table form.<br>
+    All information can be sorted, summed and filtered by auxiliary program<br>
+<pre>
+<table>
+    <tr>
+        <td><code>Date</code></td>
+        <td><code>Device</code></td>
+        <td><code>Electricity</code></td>
+        <td><code>Water</code></td>
+        <td><code>Gas</code></td>
+        <td><code>Money</code></td>
+    </tr>
+    <tr>
+        <td><b><i>Simulation day</i></b></td>
+        <td><b><i>Device_ID</i></b></td>
+        <td><b><i>Consumed electricity</i></b></td>
+        <td><b><i>Consumed water</i></b></td>
+        <td><b><i>Consumed gas</i></b></td>
+        <td><b><i>Spent money</i></b></td>
+    </tr>
+</table>
+</pre>
+</details>
+
+<details>
+  <summary>
+    <b>Activity.txt</b>
+  </summary>
+    <u><i>Activity and Usage Report</i></u><br>
+    Stores all daily performed activity of every person during simulation.<br>
+<pre>
+12/01/2024                                                          <b><i><- Simulation date</i></b>
+    Bob (Male, Adult)                                               <b><i><- Person</i></b>
+        Activity                                                    <b><i><- Information about activity</i></b>
+            20:25 - Go to Room_2 (Shower)                           <b><i><- Action</i></b>
+            20:26 - Put clothes to Washer_1                         <b><i><- Action</i></b>
+            20:26 - Start Washer_1 with 'Washer Intensive program'  <b><i><- Action</i></b>
+            21:26 - Go to Room_3 (Toilet)                           <b><i><- Action</i></b>
+            21:27 - Use WC_1                                        <b><i><- Action</i></b>
+        Usage                                                       <b><i><- Information about usage</i></b>
+            Washer_1 - 2                                            <b><i><- Device usage</i></b>
+            WC_1 - 1                                                <b><i><- Device usage</i></b>
+</pre>
+</details>
+
+<details>
+  <summary>
+    <b>Event.tsv</b>
+  </summary>
+<u><i>Event Report</i></u><br>
+    Stores all information about handled events during simulation in easy-readable table form.<br>
+    All information can be sorted, summed and filtered by auxiliary program<br>
+<pre>
+<table>
+    <tr>
+        <td><code>Created</code></td>
+        <td><code>Solved</code></td>
+        <td><code>Type</code></td>
+        <td><code>Creator</code></td>
+        <td><code>Solver</code></td>
+    </tr>
+    <tr>
+        <td><b><i>Date, time of creation</i></b></td>
+        <td><b><i>Date, time of solution</i></b></td>
+        <td><b><i>Event type</i></b></td>
+        <td><b><i>Device_ID</i></b></td>
+        <td><b><i>Person name</i></b></td>
+    </tr>
+</table>
+</pre>
+    <u><i>Event Report</i></u><br>
+</details>
