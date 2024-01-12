@@ -4,7 +4,7 @@
   "TOASTER" : [1],
   "MICROWAVE" : [1],
   "ELECTRIC_OVEN" : [],
-  "GAS_OVEN" : [1],
+  "GAS_OVEN" : [1, 2],
   "VENT" : [1, 3],
   "FEEDER" : [1, 2],
   "DISHWASHER" : [1],

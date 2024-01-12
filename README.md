@@ -7,7 +7,7 @@
 - #### F1
 > Entities we work with are house, window (+outside blinds), floor in the house, sensor, device (=appliance), person, car, bike, pet other than farm type, plus any other entities.
 
-Main entities in the program are [Street](https://github.com/neiron94/Smart-Home-Simulation/blob/develop/src/main/java/place/Street.java), [Home](https://github.com/neiron94/Smart-Home-Simulation/blob/develop/src/main/java/place/Home.java), [Room](https://github.com/neiron94/Smart-Home-Simulation/blob/develop/src/main/java/place/Room.java), [Person](https://github.com/neiron94/Smart-Home-Simulation/blob/develop/src/main/java/creature/person/Person.java), [Pet](https://github.com/neiron94/Smart-Home-Simulation/blob/develop/src/main/java/creature/pet/Pet.java), [Device](https://github.com/neiron94/Smart-Home-Simulation/blob/develop/src/main/java/consumer/device/Device.java), [Sensor](https://github.com/neiron94/Smart-Home-Simulation/blob/develop/src/main/java/consumer/device/sensored/sensor/Sensor.java).
+Main entities in the project are [Street](https://github.com/neiron94/Smart-Home-Simulation/blob/develop/src/main/java/place/Street.java), [Home](https://github.com/neiron94/Smart-Home-Simulation/blob/develop/src/main/java/place/Home.java), [Room](https://github.com/neiron94/Smart-Home-Simulation/blob/develop/src/main/java/place/Room.java), [Person](https://github.com/neiron94/Smart-Home-Simulation/blob/develop/src/main/java/creature/person/Person.java), [Pet](https://github.com/neiron94/Smart-Home-Simulation/blob/develop/src/main/java/creature/pet/Pet.java), [Device](https://github.com/neiron94/Smart-Home-Simulation/blob/develop/src/main/java/consumer/device/Device.java), [Sensor](https://github.com/neiron94/Smart-Home-Simulation/blob/develop/src/main/java/consumer/device/sensored/sensor/Sensor.java).
 
 ------------
 - #### F2
@@ -93,6 +93,70 @@ If person is trying to use device, which already `isOccupied` by other person, h
 ------------
 ### Non-Functional requirements
 ------------
+
+- #### NF1
+> Project must have UML Diagrams.
+
+Project has next [UML diagrams](https://github.com/neiron94/Smart-Home-Simulation/edit/develop/README.md#uml-diagrams):
+- [Class diagram]()
+- [Use-case diagram]()
+
+------------
+
+- #### NF2
+> Project must have ReadMe.
+
+Project has its [ReadMe](https://github.com/neiron94/Smart-Home-Simulation/edit/develop/README.md#smart-home-simulation).
+
+------------
+
+- #### NF3
+> Project must have public API and JavaDoc.
+
+Project has JavaDoc for every public function and attribute (except getters and setters). <br>
+Project classes (such as [Device](https://github.com/neiron94/Smart-Home-Simulation/blob/develop/src/main/java/creature/Creature.java), [Creature](https://github.com/neiron94/Smart-Home-Simulation/blob/develop/src/main/java/consumer/device/Device.java) etc.) can be freely used outside the main project.
+
+------------
+
+- #### NF4
+> No authentication or authorization required.
+
+Application doesn't demand any authentication nor authorization.
+
+------------
+
+- #### NF5
+> Application can only run in one JVM.
+
+Application runs in one JVM as a single-thread application.
+
+------------
+
+- #### NF6
+> Write the application in such a way that methods and variables that should not be
+available to other classes would be private. The generated JavaDoc should have as few public methods and variables as possible.
+
+Project has proper level of encapsulation.
+
+------------
+
+- #### NF7
+> Reports are generated to a text file.
+
+[Required reports](https://github.com/neiron94/Smart-Home-Simulation/edit/develop/README.md#application-output) are generating as text files. <br>
+- HouseConfigurationReport, ActivityAndUsageReport - `.txt`
+- ConsumptionReport, EventReport - `.tsv`
+
+------------
+
+- #### NF8
+> The configuration of the house, facilities and residents of the house can be loaded directly from the class or
+an external file (json is preferred). Two configurations is required.<br>
+> Minimal configuration filling: 6 people, 3 animals, 8 types of devices, 20 devices, 6 rooms.
+
+Application has two [input configurations](https://github.com/neiron94/Smart-Home-Simulation/edit/develop/README.md#application-input):
+- [1](https://github.com/neiron94/Smart-Home-Simulation/tree/develop/src/main/resources/config/1): 6 people, 3 animals, 22 types of devices, 40 devices, 6 rooms.
+- [2](https://github.com/neiron94/Smart-Home-Simulation/tree/develop/src/main/resources/config/2): 8 people, 6 animals, 26 types of devices, 126 devices, 13 rooms.
 
 ------------
 ### UML Diagrams
@@ -180,7 +244,7 @@ _buildStepA()_ = `buildHome()` <br>
 _buildStepB()_ = `buildFloor()` <br>
 _buildStepC()_ = `buildRoom()` <br>
 
-There is no need in program in Builder interface as long as there is only one type of Home creating.
+There is no need in project in Builder interface as long as there is only one type of Home creating.
 We don't also need a Director class because this role is played by home draft read from configuration file.
 
 ------------
@@ -387,12 +451,12 @@ InitialState is random Weather.
 
 **Adapter** - [RankedQueue](https://github.com/neiron94/Smart-Home-Simulation/blob/develop/src/main/java/utils/RankedQueue.java)
 
-In the program Creature is need to work with its sequences of future actions (called memory). Those sequences have different priorities (what should be done next). Also implementation requires to have ability in iteration by action sequences. For this reason TreeSet is used (is easily iterable + can add elements respecting priorities).
+In the project Creature is need to work with its sequences of future actions (called memory). Those sequences have different priorities (what should be done next). Also, implementation requires to have ability in iteration by action sequences. For this reason TreeSet is used (is easily iterable + can add elements respecting priorities).
 Every element of memory should be specific action sequence.
 That's why adapter was implemented to store those action sequences and its priority to let TreeSet work with it later.
 
 ------------
-### Program Input
+### Application Input
 ------------
 
 - <details>
@@ -556,15 +620,15 @@ That's why adapter was implemented to store those action sequences and its prior
     </p>
     <table>
       <tr>
-        <td><code>"name" : "2048"</code></td>
+        <td><code>"name" : "Mafia: The City of Lost Heaven"</code></td>
         <td>Name of game</td>
       </tr>
       <tr>
-        <td><code>"description" : "Move bricks to win."</code></td>
+        <td><code>"description" : "Classic Czech game about italian mafia in USA."</code></td>
         <td>Short game description</td>
       </tr>
       <tr>
-        <td><code>"genre" : "PUZZLE"</code></td>
+        <td><code>"genre" : "ACTION"</code></td>
         <td>Game genre</td>
       </tr>
     </table>
@@ -638,7 +702,7 @@ That's why adapter was implemented to store those action sequences and its prior
 </details>
 
 ------------
-### Program Output
+### Application Output
 ------------
 - <details>
   <summary>
@@ -670,7 +734,7 @@ That's why adapter was implemented to store those action sequences and its prior
   </summary>
     <u><i>Consumption Report</i></u><br>
     Stores all information about every device consumption during simulation in easy-readable table form.<br>
-    All information can be sorted, summed and filtered by auxiliary program<br>
+    All information can be sorted, summed and filtered by auxiliary application<br>
     <pre>
     <table>
         <tr>
@@ -720,7 +784,7 @@ That's why adapter was implemented to store those action sequences and its prior
   </summary>
     <u><i>Event Report</i></u><br>
     Stores all information about handled events during simulation in easy-readable table form.<br>
-    All information can be sorted, summed and filtered by auxiliary program<br>
+    All information can be sorted, summed and filtered by auxiliary application<br>
     <pre>
     <table>
         <tr>
