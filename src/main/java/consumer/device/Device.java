@@ -56,12 +56,11 @@ public abstract class Device implements Consumer, Prototype {
      * @return Can be ignored, is used for inner logic.
      */
     public boolean routine() {
-        this.accept(new EventVisitor()); // disaster event can happen
-
         if (status == DeviceStatus.ON) decreaseDurability(Constants.Degradation.USE_DEGRADATION);
         else decreaseDurability(Constants.Degradation.TIME_DEGRADATION);
 
         if (durability <= 0 || status == DeviceStatus.OFF)    return false;
+        accept(new EventVisitor()); // disaster event can happen
         accept(new ConsumeVisitor());
         return true;
     }

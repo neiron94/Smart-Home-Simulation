@@ -6,6 +6,7 @@ import creature.Action;
 import creature.person.Person;
 import event.*;
 import place.Room;
+import smarthome.Simulation;
 import utils.RankedQueue;
 import java.util.List;
 
@@ -65,7 +66,8 @@ public interface AdultStrategy extends PersonStrategy {
         RankedQueue<Action<Person, ?>> sequence = new RankedQueue<>(event.getPriority());
         sequence.add(new Action<>(1, true, person(), event, PersonActions.takeEvent));
         sequence.add(new Action<>(30, true, person(), event.getCreator(), PersonActions.findManual));
-        if (new Action<>(1, true, person(), event.getCreator(), PersonActions.checkWarranty).perform()) {
+        sequence.add(new Action<>(1, true, person(), event.getCreator(), PersonActions.checkWarranty));
+        if (event.getCreator().getManual().getGuaranteeExpirationDate().isBefore(Simulation.getInstance().getCurrentTime())) {
             sequence.add(new Action<>(30, true, person(), event.getCreator(), PersonActions.bringDeviceToService));
             sequence.add(new Action<>(event.getCreator().getManual().getDifficulty().getRepairTime() * 10, false, person(), event.getCreator(), PersonActions.takeDeviceFromService));
         } else sequence.addAll(solveBreak(event.getCreator()));

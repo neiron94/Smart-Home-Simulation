@@ -92,7 +92,7 @@ public final class PersonAPI {
     };
 
     private static final Function<Action<Person, Void>, Boolean> goNap = action -> {
-        makeRecord(action.getExecutor(), "Nap");
+        makeRecord(action.getExecutor(), "Take a nap");
         return true;
     };
 

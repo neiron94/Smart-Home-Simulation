@@ -5,7 +5,6 @@ import consumer.device.common.AlarmClock;
 import consumer.device.common.Feeder;
 import consumer.device.sensored.Alarm;
 import creature.Action;
-import creature.Creature;
 import creature.person.FamilyStatus;
 import creature.person.Person;
 import event.*;
@@ -15,9 +14,7 @@ import smarthome.Simulation;
 import utils.HelpFunctions;
 import utils.RankedQueue;
 import utils.exceptions.NotRepairableDeviceException;
-
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.function.Function;
 
 public interface PersonStrategy extends Strategy {
