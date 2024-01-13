@@ -36,7 +36,7 @@ public class Action<T1,T2> {
      * @param value amount of decreasing
      */
     public void decreaseDuration(int value) {
-        duration = duration.minus(Duration.ofMinutes(value));
+        if (!duration.equals(Duration.ZERO))duration = duration.minus(Duration.ofMinutes(value));
     }
 
     /**
