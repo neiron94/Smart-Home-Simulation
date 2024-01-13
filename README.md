@@ -18,7 +18,7 @@ Present project simulates life in smart home. Residents using devices on their n
 
 #### Application running
 
-1. Choose existing configuration or create a new one based on [tutorial](https://github.com/neiron94/Smart-Home-Simulation/edit/develop/README.md#application-input).
+1. Choose existing configuration or create a new one based on [tutorial](https://github.com/neiron94/Smart-Home-Simulation/tree/develop?tab=readme-ov-file#application-input).
 2. Set proper [simulation settings](https://github.com/neiron94/Smart-Home-Simulation/blob/develop/src/main/resources/config/Simulation.json). 
 3. Run [`main` function](https://github.com/neiron94/Smart-Home-Simulation/blob/develop/src/main/java/smarthome/SmartHome.java).
 
@@ -128,7 +128,7 @@ If person is trying to use device, which already `isOccupied` by other person, h
 - #### NF1
 > Project must have UML Diagrams.
 
-Project has next [UML diagrams](https://github.com/neiron94/Smart-Home-Simulation/edit/develop/README.md#uml-diagrams):
+Project has next [UML diagrams](https://github.com/neiron94/Smart-Home-Simulation/tree/develop?tab=readme-ov-file#uml-diagrams):
 - [Class diagram]()
 - [Use-case diagram]()
 
@@ -137,7 +137,7 @@ Project has next [UML diagrams](https://github.com/neiron94/Smart-Home-Simulatio
 - #### NF2
 > Project must have ReadMe.
 
-Project has its [ReadMe](https://github.com/neiron94/Smart-Home-Simulation/edit/develop/README.md#smart-home-simulation).
+Project has its [ReadMe](https://github.com/neiron94/Smart-Home-Simulation/tree/develop?tab=readme-ov-file#smart-home-simulation).
 
 <br>
 
@@ -174,7 +174,7 @@ Project has proper level of encapsulation.
 - #### NF7
 > Reports are generated to a text file.
 
-[Required reports](https://github.com/neiron94/Smart-Home-Simulation/edit/develop/README.md#application-output) are generating as text files. <br>
+[Required reports](https://github.com/neiron94/Smart-Home-Simulation/tree/develop?tab=readme-ov-file#application-output) are generating as text files. <br>
 - HouseConfigurationReport, ActivityAndUsageReport - `.txt`
 - ConsumptionReport, EventReport - `.tsv`
 
@@ -185,7 +185,7 @@ Project has proper level of encapsulation.
 an external file (json is preferred). Two configurations is required.<br>
 > Minimal configuration filling: 6 people, 3 animals, 8 types of devices, 20 devices, 6 rooms.
 
-Application has two [input configurations](https://github.com/neiron94/Smart-Home-Simulation/edit/develop/README.md#application-input):
+Application has two [input configurations](https://github.com/neiron94/Smart-Home-Simulation/tree/develop?tab=readme-ov-file#application-input):
 - [1](https://github.com/neiron94/Smart-Home-Simulation/tree/develop/src/main/resources/config/1): 6 people, 3 animals, 22 types of devices, 40 devices, 6 rooms.
 - [2](https://github.com/neiron94/Smart-Home-Simulation/tree/develop/src/main/resources/config/2): 8 people, 6 animals, 26 types of devices, 126 devices, 13 rooms.
 
