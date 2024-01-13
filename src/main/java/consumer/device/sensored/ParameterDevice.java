@@ -1,8 +1,6 @@
 package consumer.device.sensored;
 
-import consumer.device.DeviceStatus;
 import consumer.device.DeviceType;
-import consumer.device.Manual;
 import consumer.device.sensored.sensor.ParameterSensor;
 import place.Room;
 import utils.HelpFunctions;

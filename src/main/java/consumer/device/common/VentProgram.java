@@ -2,8 +2,6 @@ package consumer.device.common;
 
 import utils.Constants.Consumption.Electricity;
 
-import java.util.Random;
-
 /**
  * Vent programs. Stores information about consumption.
  */

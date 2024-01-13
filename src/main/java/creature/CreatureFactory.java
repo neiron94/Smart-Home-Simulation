@@ -6,7 +6,6 @@ import place.Room;
 import smarthome.Simulation;
 import utils.HelpFunctions;
 import java.util.List;
-import java.util.NoSuchElementException;
 
 /**
  * Factory for creating creatures.

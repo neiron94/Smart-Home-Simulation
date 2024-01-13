@@ -2,8 +2,6 @@ package consumer.device.common;
 
 import utils.Constants.Coffee;
 
-import java.util.Random;
-
 /**
  * Types of coffee. Stores information of required amount of coffee, milk and water.
  */

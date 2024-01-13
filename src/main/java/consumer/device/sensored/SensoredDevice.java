@@ -2,9 +2,7 @@ package consumer.device.sensored;
 
 import consumer.device.Device;
 import consumer.ElectricityConsumer;
-import consumer.device.DeviceStatus;
 import consumer.device.DeviceType;
-import consumer.device.Manual;
 import consumer.device.sensored.sensor.Sensor;
 import place.Room;
 

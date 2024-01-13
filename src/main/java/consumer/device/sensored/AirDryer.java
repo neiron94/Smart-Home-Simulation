@@ -1,7 +1,7 @@
 package consumer.device.sensored;
 
 import consumer.device.DeviceType;
-import consumer.device.sensored.sensor.HumiditySensor;;
+import consumer.device.sensored.sensor.HumiditySensor;
 import place.Room;
 import utils.Constants.Consumption.Electricity;
 import utils.HelpFunctions;

@@ -14,13 +14,8 @@ import utils.Priority;
 import utils.RankedQueue;
 import utils.exceptions.DeviceNotFoundException;
 import utils.exceptions.RoomNotFoundException;
-import utils.exceptions.WrongDeviceStatusException;
-
-import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Random;
 import java.util.function.Function;
-
 import static utils.Constants.Creature.FULLNESS_THRESHOLD;
 import static utils.Constants.Creature.HUNGER_THRESHOLD;
 import static utils.HelpFunctions.*;
@@ -175,8 +170,8 @@ public final class PetAPI {
         if (new Random().nextInt(0,2) == 0)
             queue.add(new Action<>(new Random().nextInt(20, 40), true, pet, null, damageFurniture));
         else {
-            Device device = HelpFunctions.getRandomObject(Simulation.getInstance().getDevices().stream().toList()).orElse(null);
-            if (device != null) queue.add(new Action<>(1, true, pet, device, damageDevice));
+            HelpFunctions.getRandomObject(Simulation.getInstance().getDevices().stream().toList())
+                    .ifPresent(device -> queue.add(new Action<>(1, true, pet, device, damageDevice)));
         }
 
         return queue;

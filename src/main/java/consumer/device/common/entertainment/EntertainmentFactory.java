@@ -3,8 +3,6 @@ package consumer.device.common.entertainment;
 import utils.HelpFunctions;
 
 import java.time.Duration;
-import java.time.LocalTime;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 
 /**

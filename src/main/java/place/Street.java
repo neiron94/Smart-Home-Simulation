@@ -3,10 +3,8 @@ package place;
 import place.weather.NormalWeather;
 import place.weather.Weather;
 import smarthome.Simulation;
-import utils.ConfigurationReader;
 import utils.HelpFunctions;
 import java.time.LocalDateTime;
-import java.util.NoSuchElementException;
 
 /**
  * Singleton class representing street which can have different

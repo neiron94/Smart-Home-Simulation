@@ -10,10 +10,8 @@ import smarthome.Simulation;
 import utils.Constants.Consumption.Electricity;
 import utils.HelpFunctions;
 import utils.exceptions.WrongDeviceStatusException;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 
 /**
  * Alarm clock provides possibility to set it to time, in which it

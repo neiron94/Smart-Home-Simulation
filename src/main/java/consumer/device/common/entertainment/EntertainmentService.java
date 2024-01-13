@@ -1,8 +1,6 @@
 package consumer.device.common.entertainment;
 
-import utils.ConfigurationReader;
 import utils.HelpFunctions;
-
 import java.util.*;
 
 /**

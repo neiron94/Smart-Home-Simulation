@@ -9,7 +9,6 @@ import creature.Creature;
 import place.Room;
 import place.RoomConfiguration;
 import place.RoomType;
-import utils.Constants;
 import utils.HelpFunctions;
 import utils.Priority;
 import utils.RankedQueue;
@@ -19,7 +18,6 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.function.Function;
-
 import static utils.Constants.Creature.*;
 import static utils.HelpFunctions.findDevice;
 import static utils.HelpFunctions.makeRecord;
@@ -1112,8 +1110,8 @@ public final class PersonAPI {
 
     //******************************************** Functions collections ********************************************//
 
-    static List<Function<Person, RankedQueue<Action<Person, ?>>>> streetFunctions = List.of(goWalk, goSport, goAway);
+    static final List<Function<Person, RankedQueue<Action<Person, ?>>>> streetFunctions = List.of(goWalk, goSport, goAway);
 
-    static List<Function<Person, RankedQueue<Action<Person, ?>>>> otherFunctions = List.of(playConsole, watchTV, listenMusic,
+    static final List<Function<Person, RankedQueue<Action<Person, ?>>>> otherFunctions = List.of(playConsole, watchTV, listenMusic,
             takeShower, washClothes, washDishes, cleanHome, changeRoomParameters, saveRoomConfiguration, changeRoomConfiguration);
 }

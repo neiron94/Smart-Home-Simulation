@@ -1,8 +1,5 @@
 package consumer;
 
-import consumer.device.Device;
-import event.FireEvent;
-
 /**
  * Devices, which consumes electricity, implements this interface.
  */

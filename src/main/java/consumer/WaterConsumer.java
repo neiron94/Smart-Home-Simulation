@@ -1,8 +1,5 @@
 package consumer;
 
-import consumer.device.Device;
-import event.FloodEvent;
-
 /**
  * Devices, which consumes water, implements this interface.
  */
