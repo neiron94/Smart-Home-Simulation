@@ -31,7 +31,8 @@ Present project simulates life in smart home. Residents using devices on their n
 
 Main entities in the project are [Street](https://github.com/neiron94/Smart-Home-Simulation/blob/develop/src/main/java/place/Street.java), [Home](https://github.com/neiron94/Smart-Home-Simulation/blob/develop/src/main/java/place/Home.java), [Room](https://github.com/neiron94/Smart-Home-Simulation/blob/develop/src/main/java/place/Room.java), [Person](https://github.com/neiron94/Smart-Home-Simulation/blob/develop/src/main/java/creature/person/Person.java), [Pet](https://github.com/neiron94/Smart-Home-Simulation/blob/develop/src/main/java/creature/pet/Pet.java), [Device](https://github.com/neiron94/Smart-Home-Simulation/blob/develop/src/main/java/consumer/device/Device.java), [Sensor](https://github.com/neiron94/Smart-Home-Simulation/blob/develop/src/main/java/consumer/device/sensored/sensor/Sensor.java).
 
-------------
+<br>
+
 - #### F2
 > Each device in the house has an API to control it. Devices have a state that can be changed using the API to control it. Actions from the API are applicable according to the state of the device. Selected devices can also have content.
 
@@ -40,26 +41,30 @@ Main entities in the project are [Street](https://github.com/neiron94/Smart-Home
 Each device (with few exclusions) can be in one of [different states](https://github.com/neiron94/Smart-Home-Simulation/blob/develop/src/main/java/consumer/device/DeviceStatus.java) at the moment. This state have impact on device consumption and allowed functions to use.
 Some devices (eg. [TV](https://github.com/neiron94/Smart-Home-Simulation/blob/develop/src/main/java/consumer/device/common/TV.java), [CoffeeMachine](https://github.com/neiron94/Smart-Home-Simulation/blob/develop/src/main/java/consumer/device/common/CoffeeMachine.java), ...) have content (eg. current [Video](https://github.com/neiron94/Smart-Home-Simulation/blob/develop/src/main/java/consumer/device/common/entertainment/Video.java) in TV; water, milk, coffee beans in CoffeeMachine and so on).
 
-------------
+<br>
+
 - #### F3
 > Appliances have their consumption in active state, idle state, off state.
 
 [State](https://github.com/neiron94/Smart-Home-Simulation/blob/develop/src/main/java/consumer/device/DeviceStatus.java) of the device impacts device consumption rate using state multiplier. This multiplier applies to default device rate.
 
-------------
+<br>
+
 - #### F4
 > Each device has an API to collect data about that device. We collect data about devices such as electricity, gas, water consumption and functionality (decreases linearly with time).
 
 Every device is consumer and stores amount of consumed resource in [Electricity](https://github.com/neiron94/Smart-Home-Simulation/blob/develop/src/main/java/consumer/supplySystem/ElectricitySupplySystem.java)/[Water](https://github.com/neiron94/Smart-Home-Simulation/blob/develop/src/main/java/consumer/supplySystem/WaterSupplySystem.java)/[Gas](https://github.com/neiron94/Smart-Home-Simulation/blob/develop/src/main/java/consumer/supplySystem/GasSupplySystem.java) meters where can be easily taken from.
 Those three classes have information about consumption of every existing device and have an ability to switch them altogether or by concrete room (changing resource availability in room) just as in real life.
 
-------------
+<br>
+
 - #### F5
 > Individual persons and animals can perform activities (actions) that have an effect on the device or another person.
 
 [Persons](https://github.com/neiron94/Smart-Home-Simulation/blob/develop/src/main/java/creature/person/Person.java) and [pets](https://github.com/neiron94/Smart-Home-Simulation/blob/develop/src/main/java/creature/pet/Pet.java) are interacting with devices using their API functions. It changes actual state of the device (such as device state `ON`/`OFF`/`STANDBY`, occupancy and so on).
 
-------------
+<br>
+
 - #### F6
 > Individual devices and persons are in the one room at any time (unless they are doing sports) and randomly generate events (an event can be important information or an alert).
 
@@ -67,14 +72,16 @@ Both [people]() and [devices](https://github.com/neiron94/Smart-Home-Simulation/
 [Devices](https://github.com/neiron94/Smart-Home-Simulation/tree/develop/src/main/java/consumer/device) communicate with people using [Event](https://github.com/neiron94/Smart-Home-Simulation/blob/develop/src/main/java/event/Event.java) generation.
 Events can have restricted visibility: for example person can see [flood](https://github.com/neiron94/Smart-Home-Simulation/blob/develop/src/main/java/event/FloodEvent.java) from [washing machine](https://github.com/neiron94/Smart-Home-Simulation/blob/develop/src/main/java/consumer/device/common/Washer.java) only if stands in the same room. In other hand [alert](https://github.com/neiron94/Smart-Home-Simulation/blob/develop/src/main/java/event/AlertEvent.java) about [fire](https://github.com/neiron94/Smart-Home-Simulation/blob/develop/src/main/java/event/FireEvent.java) is loud enough to be heard throughout home.
 
-------------
+<br>
+
 - #### F7
 > Events are picked up and handled by the appropriate person(s) or device(s).
 
 [Events](https://github.com/neiron94/Smart-Home-Simulation/blob/develop/src/main/java/event/Event.java) are taken only by persons who can solve it. Solution (as well as reaction) [strategy](https://github.com/neiron94/Smart-Home-Simulation/tree/develop/src/main/java/creature/strategy) depends on concrete attributes (in our case [gender](https://github.com/neiron94/Smart-Home-Simulation/blob/develop/src/main/java/creature/person/Gender.java) and [family status](https://github.com/neiron94/Smart-Home-Simulation/blob/develop/src/main/java/creature/person/FamilyStatus.java) representing age). 
 Concrete event can be solved only by one person.
 
-------------
+<br>
+
 - #### F8
 > Reports generating
 > - HouseConfigurationReport:
@@ -90,7 +97,8 @@ Concrete event can be solved only by one person.
 [House Configuration Report](https://github.com/neiron94/Smart-Home-Simulation/blob/develop/src/main/java/report/HouseConfigurationReport.java) creates once [simulation](https://github.com/neiron94/Smart-Home-Simulation/blob/develop/src/main/java/smarthome/Simulation.java) started. 
 At the end of every simulation day remained three [reports](https://github.com/neiron94/Smart-Home-Simulation/tree/develop/src/main/java/report) are generated with all information about living in home this day.
 
-------------
+<br>
+
 - #### F9
 > When a device breaks, the house resident must examine the documentation for the device - find the warranty card, review the repair manual and take corrective action (e.g., do-it-yourself repair, purchase a new one, etc.).
 
@@ -104,7 +112,8 @@ At the end of every simulation day remained three [reports](https://github.com/n
 In all cases proper person would do something with it. Firstly he will check [warranty card](https://github.com/neiron94/Smart-Home-Simulation/blob/develop/src/main/java/consumer/device/Manual.java) if device can be given to Service Center.
 If not - following steps depend on [solving strategy](https://github.com/neiron94/Smart-Home-Simulation/blob/develop/src/main/java/creature/strategy/AdultStrategy.java).
 
-------------
+<br>
+
 - #### F10
 > The family is active and spends their leisure time in roughly the same proportion (50% using appliances in the house and 50% playing sports using bicycles or skis). When there is no free appliance or sports equipment, the person waits.
 
@@ -123,14 +132,14 @@ Project has next [UML diagrams](https://github.com/neiron94/Smart-Home-Simulatio
 - [Class diagram]()
 - [Use-case diagram]()
 
-------------
+<br>
 
 - #### NF2
 > Project must have ReadMe.
 
 Project has its [ReadMe](https://github.com/neiron94/Smart-Home-Simulation/edit/develop/README.md#smart-home-simulation).
 
-------------
+<br>
 
 - #### NF3
 > Project must have public API and JavaDoc.
@@ -138,21 +147,21 @@ Project has its [ReadMe](https://github.com/neiron94/Smart-Home-Simulation/edit/
 Project has JavaDoc for every public function and attribute (except getters and setters). <br>
 Project classes (such as [Device](https://github.com/neiron94/Smart-Home-Simulation/blob/develop/src/main/java/creature/Creature.java), [Creature](https://github.com/neiron94/Smart-Home-Simulation/blob/develop/src/main/java/consumer/device/Device.java) etc.) can be freely used outside the main project.
 
-------------
+<br>
 
 - #### NF4
 > No authentication or authorization required.
 
 Application doesn't demand any authentication nor authorization.
 
-------------
+<br>
 
 - #### NF5
 > Application can only run in one JVM.
 
 Application runs in one JVM as a single-thread application.
 
-------------
+<br>
 
 - #### NF6
 > Write the application in such a way that methods and variables that should not be
@@ -160,7 +169,7 @@ available to other classes would be private. The generated JavaDoc should have a
 
 Project has proper level of encapsulation.
 
-------------
+<br>
 
 - #### NF7
 > Reports are generated to a text file.
@@ -169,7 +178,7 @@ Project has proper level of encapsulation.
 - HouseConfigurationReport, ActivityAndUsageReport - `.txt`
 - ConsumptionReport, EventReport - `.tsv`
 
-------------
+<br>
 
 - #### NF8
 > The configuration of the house, facilities and residents of the house can be loaded directly from the class or
@@ -188,7 +197,8 @@ Application has two [input configurations](https://github.com/neiron94/Smart-Hom
 ### Design Patterns
 ------------
 
-- #### [Visitor](https://refactoring.guru/design-patterns/visitor) _(4 implementations)_
+- #### [Visitor](https://refactoring.guru/design-patterns/visitor) 
+  _(4 implementations)_
 
 **Element** - [Consumer](https://github.com/neiron94/Smart-Home-Simulation/blob/develop/src/main/java/consumer/Consumer.java)<br>
 accept() = `accept()`<br>
@@ -225,8 +235,10 @@ _visit(Element B)_ = `visit(WaterConsumer)`<br>
 _visit(Element C)_ = `visit(GasConsumer)`<br>
 Visitor feature - creates disaster events (fire/flood/leak) for proper consumer<br>
 
-------------
-- #### [Memento](https://www.baeldung.com/java-memento-design-pattern) _(1 implementation)_
+<br>
+
+- #### [Memento](https://www.baeldung.com/java-memento-design-pattern) 
+  _(1 implementation)_
 
 **Memento** - [RoomConfiguration](https://github.com/neiron94/Smart-Home-Simulation/blob/develop/src/main/java/place/RoomConfiguration.java)<br>
 
@@ -241,8 +253,10 @@ _hitUndo()_ = `loadConfiguration()`<br>
 State - preferred temperature, humidity, brightness and light color (fields in the ControlPanel).
 State is saved in static field in ControlPanel.
 
-------------
-- #### [Prototype](https://refactoring.guru/design-patterns/prototype) _(2 implementations)_
+<br>
+
+- #### [Prototype](https://refactoring.guru/design-patterns/prototype) 
+  _(2 implementations)_
 
 **Prototype** - [Prototype](https://github.com/neiron94/Smart-Home-Simulation/blob/develop/src/main/java/utils/Prototype.java)<br>
 
@@ -254,8 +268,10 @@ _clone()_ = `copy()`<br>
 **ConcretePrototype** - [Device](https://github.com/neiron94/Smart-Home-Simulation/blob/develop/src/main/java/consumer/device/Device.java) (+ all inheritors)<br>
 _clone()_ = `clone()` <br>
 
-------------
-- #### [Builder](https://refactoring.guru/design-patterns/builder) _(1 implementation)_
+<br>
+
+- #### [Builder](https://refactoring.guru/design-patterns/builder) 
+  _(1 implementation)_
 
 **Client** - [Simulation](https://github.com/neiron94/Smart-Home-Simulation/blob/develop/src/main/java/smarthome/Simulation.java) <br>
 
@@ -269,8 +285,10 @@ _buildStepC()_ = `buildRoom()` <br>
 There is no need in project in Builder interface as long as there is only one type of Home creating.
 We don't also need a Director class because this role is played by home draft read from configuration file.
 
-------------
-- #### [AbstractFactory](https://refactoring.guru/design-patterns/abstract-factory) _(1 implementation)_
+<br>
+
+- #### [AbstractFactory](https://refactoring.guru/design-patterns/abstract-factory) 
+  _(1 implementation)_
 
 **AbstractFactory** - [ReportFactory](https://github.com/neiron94/Smart-Home-Simulation/blob/develop/src/main/java/report/factory/ReportFactory.java) <br>
 _createProduct()_ = `createReport()` <br>
@@ -299,8 +317,10 @@ _someOperationB()_ = `createConsumptionReports()` <br>
 _someOperationC()_ = `createActivityReports()` <br>
 _someOperationD()_ = `createEventReports()` <br>
 
-------------
-- #### [Singleton](https://refactoring.guru/design-patterns/singleton) _(2 implementations)_
+<br>
+
+- #### [Singleton](https://refactoring.guru/design-patterns/singleton) 
+  _(2 implementations)_
 
 **Singleton** - [Simulation](https://github.com/neiron94/Smart-Home-Simulation/blob/develop/src/main/java/smarthome/Simulation.java) <br>
 
@@ -312,8 +332,10 @@ _someOperationD()_ = `createEventReports()` <br>
 
 **Client** - [Simulation](https://github.com/neiron94/Smart-Home-Simulation/blob/develop/src/main/java/smarthome/Simulation.java) and so on <br>
 
-------------
-- #### [Facade](https://refactoring.guru/design-patterns/facade) _(2 implementations)_
+<br>
+
+- #### [Facade](https://refactoring.guru/design-patterns/facade) 
+  _(2 implementations)_
 
 **ClientA** - [Simulation]() <br>
 **ClientB** - [HomeBuilder]() <br>
@@ -342,8 +364,10 @@ Facade provides working with JSON files. Inside it reads, parse them and creates
 
 Facade provides reports creation. Inside it collects all necessary information, creates reports and writes it into files.
 
-------------
-- #### [SimpleFactory](https://dragonprogrammer.com/design-patterns-java-simple-factory/) _(3 implementations)_
+<br>
+
+- #### [SimpleFactory](https://dragonprogrammer.com/design-patterns-java-simple-factory/) 
+  _(3 implementations)_
 
 **Client** - [ConfigurationReader](https://github.com/neiron94/Smart-Home-Simulation/blob/develop/src/main/java/utils/ConfigurationReader.java) <br>
 
@@ -373,8 +397,10 @@ Factory provides Device creations. Hidden complexity is control of validity of g
 
 Factory provides Song, Video, Game creations. Hidden complexity is control of validity of given parameters.
 
-------------
-- #### [Strategy](https://refactoring.guru/design-patterns/strategy) _(2 implementations)_
+<br>
+
+- #### [Strategy](https://refactoring.guru/design-patterns/strategy) 
+  _(2 implementations)_
 
 **Strategy** - [EventThrowStrategy](https://github.com/neiron94/Smart-Home-Simulation/blob/develop/src/main/java/event/throwStrategy/EventThrowStrategy.java) <br>
 **ConcreteStrategyA** - [HomeThrowStrategy](https://github.com/neiron94/Smart-Home-Simulation/blob/develop/src/main/java/event/throwStrategy/HomeThrowStrategy.java) <br>
@@ -406,8 +432,10 @@ _execute()_ = `react()` <br>
 _doSomething()_ is used in Creature routine function <br>
 _setStrategy()_ is missing because strategies sets in creatures' constructors <br>
 
-------------
-- #### [TemplateMethod](https://refactoring.guru/design-patterns/template-method) _(1 implementation)_
+<br>
+
+- #### [TemplateMethod](https://refactoring.guru/design-patterns/template-method) 
+  _(1 implementation)_
 
 **AbstractClass** - [Creature](https://github.com/neiron94/Smart-Home-Simulation/blob/develop/src/main/java/creature/Creature.java) <br>
 _templateMethod()_ = `routine()` <br>
@@ -429,8 +457,10 @@ _step2()_ = `decreaseHunger()` <br>
 _step3()_ = `chooseActivity()` <br>
 _step4()_ = `reactMaxFullness()` <br>
 
-------------
-- #### [Observer](https://refactoring.guru/design-patterns/observer) _(1 implementation)_
+<br>
+
+- #### [Observer](https://refactoring.guru/design-patterns/observer) 
+  _(1 implementation)_
 
 **Publisher** - [SupplySystem](https://github.com/neiron94/Smart-Home-Simulation/blob/develop/src/main/java/consumer/supplySystem/SupplySystem.java) <br>
 _subscribers_ = `consumedMap` <br>
@@ -447,8 +477,10 @@ _update()_ = `turnOn()` <br>
 _update()_ = `turnOff()` <br>
 Concrete subscribers are all devices (depends on what resource they consume).
 
-------------
-- #### [State](https://refactoring.guru/design-patterns/state) _(1 implementation)_
+<br>
+
+- #### [State](https://refactoring.guru/design-patterns/state) 
+  _(1 implementation)_
 
 **State** - [Weather](https://github.com/neiron94/Smart-Home-Simulation/blob/develop/src/main/java/place/weather/Weather.java) <br>
 **ConcreteStateA** - [NormalWeather](https://github.com/neiron94/Smart-Home-Simulation/blob/develop/src/main/java/place/weather/NoramlWeather.java) <br>
@@ -464,8 +496,10 @@ _changeState()_ = `setWeather()` <br>
 There is no need in explicit _doThis()_ - context uses `applyWeather()` and `changeWeather()` of its state.
 InitialState is random Weather.
 
-------------
-- #### [Adapter](https://refactoring.guru/design-patterns/adapter) _(1 implementation)_
+<br>
+
+- #### [Adapter](https://refactoring.guru/design-patterns/adapter) 
+  _(1 implementation)_
 
 **Client** - [TreeSet](https://docs.oracle.com/javase/8/docs/api/java/util/TreeSet.html)
 
@@ -481,7 +515,7 @@ That's why adapter was implemented to store those action sequences and its prior
 ### Application Input
 ------------
 
-- <details>
+<details>
   <summary>
     <a href="https://github.com/neiron94/Smart-Home-Simulation/blob/develop/src/main/resources/config/Simulation.json">
       <b>Simulation.json</b>
@@ -503,7 +537,7 @@ That's why adapter was implemented to store those action sequences and its prior
     </p>
 </details>
 
-- <details>
+<details>
   <summary>
     <a href="https://github.com/neiron94/Smart-Home-Simulation/blob/develop/src/main/resources/config/1/Home.json">
       <b>Home.json</b>
@@ -529,7 +563,7 @@ That's why adapter was implemented to store those action sequences and its prior
     </p>
 </details>
 
-- <details>
+<details>
   <summary>
     <a href="https://github.com/neiron94/Smart-Home-Simulation/blob/develop/src/main/resources/config/1/Device.json">
       <b>Device.json</b>
@@ -547,7 +581,7 @@ That's why adapter was implemented to store those action sequences and its prior
     </p>
 </details>
 
-- <details>
+<details>
   <summary>
     <a href="https://github.com/neiron94/Smart-Home-Simulation/blob/develop/src/main/resources/config/1/Creature.json">
       <b>Creature.json</b>
@@ -586,7 +620,7 @@ That's why adapter was implemented to store those action sequences and its prior
     </p>
 </details>
 
-- <details>
+<details>
   <summary>
     <a href="https://github.com/neiron94/Smart-Home-Simulation/blob/develop/src/main/resources/config/Content.json">
       <b>Content.json</b>
@@ -659,7 +693,7 @@ That's why adapter was implemented to store those action sequences and its prior
     </p>
 </details>
 
-- <details>
+<details>
   <summary>
     <a href="https://github.com/neiron94/Smart-Home-Simulation/blob/develop/src/main/resources/config/RoomConfiguration.json">
       <b>RoomConfiguration.json</b>
@@ -695,7 +729,7 @@ That's why adapter was implemented to store those action sequences and its prior
     </p>
 </details>
 
-- <details>
+<details>
   <summary>
     <a href="https://github.com/neiron94/Smart-Home-Simulation/blob/develop/src/main/resources/config/Weather.json">
       <b>Weather.json</b>
@@ -726,7 +760,7 @@ That's why adapter was implemented to store those action sequences and its prior
 ------------
 ### Application Output
 ------------
-- <details>
+<details>
   <summary>
     <b>Configuration.txt</b>
   </summary>
@@ -750,7 +784,7 @@ That's why adapter was implemented to store those action sequences and its prior
     </pre>  
 </details>
 
-- <details>
+<details>
   <summary>
     <b>Consumption.tsv</b>
   </summary>
@@ -779,7 +813,7 @@ That's why adapter was implemented to store those action sequences and its prior
     </pre>
 </details>
 
-- <details>
+<details>
   <summary>
     <b>Activity.txt</b>
   </summary>
@@ -800,7 +834,7 @@ That's why adapter was implemented to store those action sequences and its prior
     </pre>
 </details>
 
-- <details>
+<details>
   <summary>
     <b>Event.tsv</b>
   </summary>
