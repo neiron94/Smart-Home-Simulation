@@ -58,7 +58,8 @@ public class Person extends Creature {
      */
     @Override
     protected void decreaseHunger() {
-        HelpFunctions.getRandomObject(List.of(PersonAPI.takeBreakfast, PersonAPI.takeLunch, PersonAPI.takeDinner)).ifPresent(function -> memory.add(function.apply(this)));
+        HelpFunctions.getRandomObject(List.of(PersonAPI.takeBreakfast, PersonAPI.takeLunch, PersonAPI.takeDinner))
+                .ifPresent(function -> addToMemory(function.apply(this)));
     }
 
     /**
@@ -67,8 +68,8 @@ public class Person extends Creature {
     @Override
     protected void decreaseFullness() {
         List<Function<Person, RankedQueue<Action<Person, ?>>>> functions = List.of(PersonAPI.pee, PersonAPI.poo);
-        if (new Random().nextInt(0, 2) == 0) memory.add(PersonAPI.poo.apply(this));
-        else HelpFunctions.getRandomObject(functions).ifPresent(function -> memory.add(function.apply(this)));
+        if (new Random().nextInt(0, 2) == 0) addToMemory(PersonAPI.poo.apply(this));
+        else HelpFunctions.getRandomObject(functions).ifPresent(function -> addToMemory(function.apply(this)));
     }
 
     /**
@@ -77,10 +78,10 @@ public class Person extends Creature {
     @Override
     protected void chooseActivity() {
         DayPeriod period = HelpFunctions.getDayPeriod(Simulation.getInstance().getCurrentTime()).orElse(DayPeriod.NIGHT);
-        if (period == DayPeriod.NIGHT) memory.add(PersonAPI.sleep.apply(this));
+        if (period == DayPeriod.NIGHT) addToMemory(PersonAPI.sleep.apply(this));
         else {
             List<Function<Person, RankedQueue<Action<Person, ?>>>> functions = Math.random() < 0.5 ? PersonAPI.streetFunctions : PersonAPI.otherFunctions;
-            HelpFunctions.getRandomObject(functions).ifPresent(function -> memory.add(function.apply(this)));
+            HelpFunctions.getRandomObject(functions).ifPresent(function -> addToMemory(function.apply(this)));
         }
     }
 
@@ -93,7 +94,7 @@ public class Person extends Creature {
             case MALE -> makeRecord(this, "Shit himself");
             case FEMALE -> makeRecord(this, "Shit herself");
         }
-        memory.add(PersonAPI.takeShower.apply(this));
+        addToMemory(PersonAPI.takeShower.apply(this));
         fullness = 0;
     }
 

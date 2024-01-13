@@ -43,7 +43,7 @@ public class Pet extends Creature {
      */
     @Override
     protected void decreaseHunger() {
-        memory.add(PetAPI.feed.apply(this));
+        addToMemory(PetAPI.feed.apply(this));
     }
 
     /**
@@ -51,7 +51,7 @@ public class Pet extends Creature {
      */
     @Override
     protected void decreaseFullness() {
-        memory.add(PetAPI.goToToilet.apply(this));
+        addToMemory(PetAPI.goToToilet.apply(this));
     }
 
     /**
@@ -60,7 +60,7 @@ public class Pet extends Creature {
     @Override
     protected void chooseActivity() {
         List<Function<Pet, RankedQueue<Action<Pet, ?>>>> functions = List.of(PetAPI.sleep, PetAPI.play, PetAPI.goToBackyard, PetAPI.brakeDevice);
-        HelpFunctions.getRandomObject(functions).ifPresent(function -> memory.add(function.apply(this)));
+        HelpFunctions.getRandomObject(functions).ifPresent(function -> addToMemory(function.apply(this)));
     }
 
     /**

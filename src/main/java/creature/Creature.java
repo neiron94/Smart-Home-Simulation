@@ -50,6 +50,11 @@ public abstract class Creature {
     protected final PriorityQueue<RankedQueue<? extends Action<? extends Creature, ?>>> memory;
 
     /**
+     * Actual sequence of actions.
+     */
+    protected RankedQueue<? extends Action<? extends Creature, ?>> currentActions;
+
+    /**
      * Strategy for reacting on events.
      */
     protected Strategy strategy;
@@ -58,11 +63,6 @@ public abstract class Creature {
      * True if creature is at home. It cannot solve events if is not at home.
      */
     protected boolean atHome;
-
-    /**
-     * True if creature is doing some busy action.
-     */
-    protected boolean isBusy;
 
     /**
      * True is creature is alive.
@@ -95,7 +95,7 @@ public abstract class Creature {
         hunger = new Random().nextDouble(0, HUNGER_THRESHOLD / 2);
         fullness = new Random().nextDouble(0, FULLNESS_THRESHOLD / 2);
 
-        isBusy = false;
+        currentActions = null;
         isAlive = true;
         atHome = true;
     }
@@ -125,19 +125,21 @@ public abstract class Creature {
         }
         if (hunger > HUNGER_THRESHOLD && notPlanned(Priority.EAT)) decreaseHunger(); // Need to eat
         if (fullness > FULLNESS_THRESHOLD && notPlanned(Priority.EMPTY)) decreaseFullness(); // Need to empty myself
-        if (!isBusy) chooseActivity(); // Nothing important is doing - take new activity
+        if (currentActions == null) chooseActivity(); // Nothing important is doing - take new activity
 
         memory.removeIf(RankedQueue::isEmpty); // Remove empty actions queue
         memory.forEach(queue -> queue.peek().decreaseDuration(1)); // Decrease first action duration in queue
         for (RankedQueue<? extends Action<? extends Creature, ?>> queue : memory) {
-            if (queue.peek().getDuration().equals(Duration.ZERO)) { // TODO Bug with doing other actions while isBusy
+            if (queue.peek().getDuration().equals(Duration.ZERO) && currentActions == queue) { // TODO CHECK THE SEQUENCE !!!
                 if (queue.poll().perform()) {
-                    isBusy = !queue.isEmpty() && queue.peek().isBusy();
-                    break;
+                    if (!queue.isEmpty() && queue.peek().isBusy()) {
+                        currentActions = queue;
+                        break;
+                    }
                 }
                 else {
                     queue.clear();
-                    isBusy = false;
+                    currentActions = null;
                 }
             }
         }
@@ -149,10 +151,11 @@ public abstract class Creature {
     }
 
     /**
-     * Adds new sequence of actions to memory.
+     * Adds new sequence of actions to memory and sets it as actual.
      * @param sequence sequence of actions
      */
     public void addToMemory(RankedQueue<? extends Action<? extends Creature, ?>> sequence) {
+        currentActions = sequence;
         memory.add(sequence);
     }
 
@@ -234,7 +237,7 @@ public abstract class Creature {
     }
 
     public boolean isBusy() {
-        return isBusy;
+        return currentActions != null;
     }
 
     public void setAtHome(boolean atHome) {
