@@ -7,16 +7,14 @@ import smarthome.Simulation;
  * Adds consumer to simulation and supply systems.
  */
 public class AddVisitor implements Visitor {
-    private final Simulation simulation = Simulation.getInstance();
-
     /**
      * Adds consumer to simulation and home's electricity supply system.
      * @param consumer ElectricityConsumer to visit.
      */
     @Override
     public void visit(ElectricityConsumer consumer) {
-        simulation.getHome().getElectricitySupplySystem().addConsumer(consumer);
-        simulation.getDevices().add((Device)consumer);
+        Simulation.getInstance().getHome().getElectricitySupplySystem().addConsumer(consumer);
+        Simulation.getInstance().getDevices().add((Device)consumer);
     }
 
     /**
@@ -25,8 +23,8 @@ public class AddVisitor implements Visitor {
      */
     @Override
     public void visit(GasConsumer consumer) {
-        simulation.getHome().getGasSupplySystem().addConsumer(consumer);
-        simulation.getDevices().add((Device)consumer);
+        Simulation.getInstance().getHome().getGasSupplySystem().addConsumer(consumer);
+        Simulation.getInstance().getDevices().add((Device)consumer);
     }
 
     /**
@@ -35,7 +33,7 @@ public class AddVisitor implements Visitor {
      */
     @Override
     public void visit(WaterConsumer consumer) {
-        simulation.getHome().getWaterSupplySystem().addConsumer(consumer);
-        simulation.getDevices().add((Device)consumer);
+        Simulation.getInstance().getHome().getWaterSupplySystem().addConsumer(consumer);
+        Simulation.getInstance().getDevices().add((Device)consumer);
     }
 }

@@ -13,7 +13,6 @@ import static utils.Constants.Probabilities.EVENT_DURABILITY_DEPENDENCY;
  * With some probability makes consumer cause disaster event.
  */
 public class EventVisitor implements Visitor {
-
     /**
      * Makes consumer cause fire event.
      * @param consumer ElectricityConsumer to visit.

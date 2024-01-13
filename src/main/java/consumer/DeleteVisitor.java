@@ -7,16 +7,14 @@ import smarthome.Simulation;
  * Deletes consumer from simulation and supply systems.
  */
 public class DeleteVisitor implements Visitor {
-    private final Simulation simulation = Simulation.getInstance();
-
     /**
      * Deletes consumer from simulation and electricity supply systems.
      * @param consumer ElectricityConsumer to visit.
      */
     @Override
     public void visit(ElectricityConsumer consumer) {
-        simulation.getHome().getElectricitySupplySystem().deleteConsumer(consumer);
-        simulation.getDevices().remove((Device)consumer);
+        Simulation.getInstance().getHome().getElectricitySupplySystem().deleteConsumer(consumer);
+        Simulation.getInstance().getDevices().remove((Device)consumer);
     }
 
     /**
@@ -25,8 +23,8 @@ public class DeleteVisitor implements Visitor {
      */
     @Override
     public void visit(GasConsumer consumer) {
-        simulation.getHome().getGasSupplySystem().deleteConsumer(consumer);
-        simulation.getDevices().remove((Device)consumer);
+        Simulation.getInstance().getHome().getGasSupplySystem().deleteConsumer(consumer);
+        Simulation.getInstance().getDevices().remove((Device)consumer);
     }
 
     /**
@@ -35,7 +33,7 @@ public class DeleteVisitor implements Visitor {
      */
     @Override
     public void visit(WaterConsumer consumer) {
-        simulation.getHome().getWaterSupplySystem().deleteConsumer(consumer);
-        simulation.getDevices().remove((Device)consumer);
+        Simulation.getInstance().getHome().getWaterSupplySystem().deleteConsumer(consumer);
+        Simulation.getInstance().getDevices().remove((Device)consumer);
     }
 }

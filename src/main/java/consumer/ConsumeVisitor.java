@@ -6,7 +6,6 @@ import smarthome.Simulation;
  * Make consumer consume resources and write it to supply systems' map.
  */
 public class ConsumeVisitor implements Visitor {
-
     /**
      * Make consumer consume electricity.
      * @param consumer ElectricityConsumer to visit.
