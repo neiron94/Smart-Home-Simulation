@@ -50,7 +50,7 @@ public interface PersonStrategy extends Strategy {
             Person adult = Simulation.getInstance().getCreatures().stream()
                             .filter(creature -> creature instanceof Person)
                             .map(person -> (Person) person)
-                            .filter(person -> person.isAlive() && !person.isBusy() && person.isAtHome() && person.getStatus() != FamilyStatus.KID)
+                            .filter(person -> person.isAlive() && person.notBusy() && person.isAtHome() && person.getStatus() != FamilyStatus.KID)
                             .findFirst()
                             .orElse(null);
 

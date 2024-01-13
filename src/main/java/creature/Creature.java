@@ -52,7 +52,7 @@ public abstract class Creature {
     /**
      * Actual sequence of actions.
      */
-    protected RankedQueue<? extends Action<? extends Creature, ?>> currentActions;
+    protected RankedQueue<? extends Action<? extends Creature, ?>> currentActivity;
 
     /**
      * Strategy for reacting on events.
@@ -95,7 +95,7 @@ public abstract class Creature {
         hunger = new Random().nextDouble(0, HUNGER_THRESHOLD / 2);
         fullness = new Random().nextDouble(0, FULLNESS_THRESHOLD / 2);
 
-        currentActions = null;
+        currentActivity = null;
         isAlive = true;
         atHome = true;
     }
@@ -107,41 +107,37 @@ public abstract class Creature {
      * increases hunger and fullness.
      */
     public void routine() {
+        memory.removeIf(queue -> {
+            if (queue.isEmpty()) return true; // Remove empty actions queue
+            queue.peek().decreaseDuration(1); // Decrease first action duration in queue
+            return false;
+        });
+
         if (atHome) {
-            Stream.concat(Simulation.getInstance().getHome().getEvents().stream(),
-                            Stream.concat(room.getFloor().getEvents().stream(), room.getEvents().stream()))
+            Stream.of(Simulation.getInstance().getHome().getEvents(), room.getFloor().getEvents(), room.getEvents())
+                    .flatMap(List::stream)
                     .forEach(event -> { // Find event to solve
                         if (notPlanned(event.getPriority())) strategy.react(event); // Need to solve event
-                        if (event.getPriority().getValue() > Priority.SLEEP.getValue()) { // Need to wake up
-                            memory.removeIf(queue -> {
-                                if (queue.getPriority() == Priority.SLEEP) {
+                        memory.stream().filter(queue -> queue.getPriority() == Priority.SLEEP && event.getPriority().getValue() > Priority.SLEEP.getValue())
+                                .findAny().ifPresent(queue -> {  // Need to wake up
+                                    memory.remove(queue);
                                     makeRecord(this, "Wake up to an event");
-                                    return true;
-                                }
-                                return false;
-                            });
-                        }
+                                });
                     });
         }
         if (hunger > HUNGER_THRESHOLD && notPlanned(Priority.EAT)) decreaseHunger(); // Need to eat
         if (fullness > FULLNESS_THRESHOLD && notPlanned(Priority.EMPTY)) decreaseFullness(); // Need to empty myself
-        if (currentActions == null) chooseActivity(); // Nothing important is doing - take new activity
+        if (currentActivity == null) chooseActivity(); // Nothing important is doing - take common activity
 
-        memory.removeIf(RankedQueue::isEmpty); // Remove empty actions queue
-        memory.forEach(queue -> queue.peek().decreaseDuration(1)); // Decrease first action duration in queue
         for (RankedQueue<? extends Action<? extends Creature, ?>> queue : memory) {
-            if (queue.peek().getDuration().equals(Duration.ZERO) && currentActions == queue) { // TODO CHECK THE SEQUENCE !!!
+            if (!queue.isEmpty() && queue.peek().getDuration().equals(Duration.ZERO) && (queue == currentActivity || !queue.peek().isBusy())) {
                 if (queue.poll().perform()) {
-                    if (!queue.isEmpty() && queue.peek().isBusy()) {
-                        currentActions = queue;
-                        break;
-                    }
-                }
-                else {
-                    queue.clear();
-                    currentActions = null;
-                }
+                    if (!queue.isEmpty() && queue.peek().isBusy()) break;
+                } else memory.remove(queue);
+                setCurrent(queue);
+                break;
             }
+            if (currentActivity != null && !currentActivity.isEmpty() && !currentActivity.peek().isBusy()) setCurrent(queue);
         }
 
         hunger = HelpFunctions.adjustPercent(hunger + HUNGER_INCREASE + new Random().nextDouble(0, HUNGER_INCREASE));
@@ -155,7 +151,7 @@ public abstract class Creature {
      * @param sequence sequence of actions
      */
     public void addToMemory(RankedQueue<? extends Action<? extends Creature, ?>> sequence) {
-        currentActions = sequence;
+        currentActivity = sequence;
         memory.add(sequence);
     }
 
@@ -188,6 +184,16 @@ public abstract class Creature {
             if (queue.getPriority().getValue() < activity.getValue()) break;
         }
         return true;
+    }
+
+    private void setCurrent(RankedQueue<? extends Action<? extends Creature, ?>> sequence) {
+        for (RankedQueue<? extends Action<? extends Creature, ?>> queue : memory) {
+            if (queue != sequence && !queue.isEmpty() && !queue.peek().isBusy()) {
+                currentActivity = queue;
+                return;
+            }
+        }
+        currentActivity = null;
     }
 
     private void reactMaxHunger() {
@@ -236,8 +242,8 @@ public abstract class Creature {
         return isAlive;
     }
 
-    public boolean isBusy() {
-        return currentActions != null;
+    public boolean notBusy() {
+        return currentActivity == null;
     }
 
     public void setAtHome(boolean atHome) {
