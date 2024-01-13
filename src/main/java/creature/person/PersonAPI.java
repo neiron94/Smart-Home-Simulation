@@ -804,7 +804,7 @@ public final class PersonAPI {
             queue.add(new Action<>(1, true, person, stereoSystem.getRoom(), goToRoom));
             queue.add(new Action<>(1, true, person, stereoSystem, setVolumeStereoSystem));
             queue.add(new Action<>(1, true, person, stereoSystem, playPlaylist));
-            queue.add(new Action<>(new Random().nextInt(20, 60), true, person, stereoSystem, stopStereoSystem));
+            queue.add(new Action<>(new Random().nextInt(20, 60), false, person, stereoSystem, stopStereoSystem));
         } catch (DeviceNotFoundException ignored) {
         }
 

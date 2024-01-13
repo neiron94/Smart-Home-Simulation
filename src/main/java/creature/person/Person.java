@@ -11,6 +11,7 @@ import place.Room;
 import smarthome.Simulation;
 import utils.DayPeriod;
 import utils.HelpFunctions;
+import utils.Priority;
 import utils.RankedQueue;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -94,7 +95,8 @@ public class Person extends Creature {
             case MALE -> makeRecord(this, "Shit himself");
             case FEMALE -> makeRecord(this, "Shit herself");
         }
-        addToMemory(PersonAPI.takeShower.apply(this));
+        // addToMemory(PersonAPI.takeShower.apply(this));
+        memory.add(PersonAPI.takeShower.apply(this));
         fullness = 0;
     }
 
