@@ -10,9 +10,8 @@ import java.util.*;
  */
 public class ControlPanel {
     private static final List<RoomConfiguration> configurations = new ArrayList<>();
-
     private final Room room;
-    public RoomConfiguration currentConfiguration;
+    private RoomConfiguration currentConfiguration;
 
 
     /**
