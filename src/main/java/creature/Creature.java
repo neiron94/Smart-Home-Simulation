@@ -6,11 +6,9 @@ import java.util.stream.Stream;
 import creature.strategy.Strategy;
 import smarthome.Simulation;
 import place.Room;
-import utils.Constants;
 import utils.HelpFunctions;
 import utils.Priority;
 import utils.RankedQueue;
-
 import static utils.Constants.Creature.*;
 import static utils.HelpFunctions.makeRecord;
 
@@ -45,11 +43,11 @@ public abstract class Creature {
      * represents sequence of actions which should be performed for some result.
      * For instance, to wash clothes, you should go to room with washer -> put clothes ->
      * start washer -> wait some time -> take clothes. Queues can have different priorities
-     * ("solve fire event" is more important than "watch TV"), that's why {@link TreeSet} is used,
+     * ("solve fire event" is more important than "watch TV"), that's why {@link PriorityQueue} is used,
      * it can store items of different priorities in decreasing order. Java don't
      * have built-in Queue, which have priority, so Adapter pattern is used in {@link RankedQueue}.
      */
-    protected final TreeSet<RankedQueue<? extends Action<? extends Creature, ?>>> memory;
+    protected final PriorityQueue<RankedQueue<? extends Action<? extends Creature, ?>>> memory;
 
     /**
      * Strategy for reacting on events.
@@ -91,7 +89,7 @@ public abstract class Creature {
         this.name = name;
         this.room = startRoom;
 
-        memory = new TreeSet<>();
+        memory = new PriorityQueue<>();
         activity = new Activity();
 
         hunger = new Random().nextDouble(0, HUNGER_THRESHOLD / 2);

@@ -58,9 +58,7 @@ public class Person extends Creature {
      */
     @Override
     protected void decreaseHunger() {
-        DayPeriod period = HelpFunctions.getDayPeriod(Simulation.getInstance().getCurrentTime()).orElse(DayPeriod.NIGHT);
-        if (period != DayPeriod.NIGHT)
-            HelpFunctions.getRandomObject(List.of(PersonAPI.takeBreakfast, PersonAPI.takeLunch, PersonAPI.takeDinner)).ifPresent(function -> memory.add(function.apply(this)));
+        HelpFunctions.getRandomObject(List.of(PersonAPI.takeBreakfast, PersonAPI.takeLunch, PersonAPI.takeDinner)).ifPresent(function -> memory.add(function.apply(this)));
     }
 
     /**
