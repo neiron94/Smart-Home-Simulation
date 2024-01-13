@@ -347,6 +347,7 @@ public final class PersonAPI {
         int amount = new Random().nextInt(5, 25);
         try {
             action.getSubject().takeFood(amount);
+            action.getExecutor().setHunger(action.getExecutor().getHunger() - EAT_HUNGER_DECREASE / 2);
         } catch (WrongDeviceStatusException e) {
             new Action<>(0, true, action.getExecutor(), action.getSubject(), turnOnDevice).perform();
         }
