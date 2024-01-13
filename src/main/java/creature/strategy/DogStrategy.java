@@ -7,6 +7,9 @@ import place.Room;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Strategy for reacting on events as dog.
+ */
 public record DogStrategy(Pet pet) implements PetStrategy {
     @Override
     public List<Action<Pet, Room>> solveAlert(Event event) {

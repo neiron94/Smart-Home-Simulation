@@ -9,6 +9,9 @@ import utils.RankedQueue;
 import java.util.List;
 import java.util.function.Function;
 
+/**
+ * Strategy for reacting on events as Pet.
+ */
 public interface PetStrategy extends Strategy {
     Pet pet();
 

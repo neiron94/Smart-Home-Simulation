@@ -6,11 +6,9 @@ import java.util.stream.Stream;
 import creature.strategy.Strategy;
 import smarthome.Simulation;
 import place.Room;
-import utils.Constants;
 import utils.HelpFunctions;
 import utils.Priority;
 import utils.RankedQueue;
-
 import static utils.Constants.Creature.*;
 import static utils.HelpFunctions.makeRecord;
 
@@ -45,11 +43,11 @@ public abstract class Creature {
      * represents sequence of actions which should be performed for some result.
      * For instance, to wash clothes, you should go to room with washer -> put clothes ->
      * start washer -> wait some time -> take clothes. Queues can have different priorities
-     * ("solve fire event" is more important than "watch TV"), that's why {@link TreeSet} is used,
+     * ("solve fire event" is more important than "watch TV"), that's why {@link PriorityQueue} is used,
      * it can store items of different priorities in decreasing order. Java don't
      * have built-in Queue, which have priority, so Adapter pattern is used in {@link RankedQueue}.
      */
-    protected final TreeSet<RankedQueue<? extends Action<? extends Creature, ?>>> memory;
+    protected final PriorityQueue<RankedQueue<? extends Action<? extends Creature, ?>>> memory;
 
     /**
      * Strategy for reacting on events.
@@ -91,7 +89,7 @@ public abstract class Creature {
         this.name = name;
         this.room = startRoom;
 
-        memory = new TreeSet<>();
+        memory = new PriorityQueue<>();
         activity = new Activity();
 
         hunger = new Random().nextDouble(0, HUNGER_THRESHOLD / 2);
@@ -113,7 +111,7 @@ public abstract class Creature {
             Stream.concat(Simulation.getInstance().getHome().getEvents().stream(),
                             Stream.concat(room.getFloor().getEvents().stream(), room.getEvents().stream()))
                     .forEach(event -> { // Find event to solve
-                        strategy.react(event); // Need to solve event
+                        if (notPlanned(event.getPriority())) strategy.react(event); // Need to solve event
                         if (event.getPriority().getValue() > Priority.SLEEP.getValue()) { // Need to wake up
                             memory.removeIf(queue -> {
                                 if (queue.getPriority() == Priority.SLEEP) {
@@ -131,19 +129,18 @@ public abstract class Creature {
 
         memory.removeIf(RankedQueue::isEmpty); // Remove empty actions queue
         memory.forEach(queue -> queue.peek().decreaseDuration(1)); // Decrease first action duration in queue
-
-        boolean[] canDoAction = {true}; // Array for changing value in stream
-        memory.forEach(queue -> {
-                    if (queue.peek().getDuration().equals(Duration.ZERO) && canDoAction[0]) { // Action can be performed // TODO Bug - Doing actions when busy by other actions
-                        if (queue.poll().perform()) { // Successful perform
-                            canDoAction[0] = false; // Can do only one action per simulation tick
-                            isBusy = !queue.isEmpty() && queue.peek().isBusy();
-                        } else { // Unsuccessful perform
-                            queue.clear();
-                            isBusy = false;
-                        }
-                    }
-                });
+        for (RankedQueue<? extends Action<? extends Creature, ?>> queue : memory) {
+            if (queue.peek().getDuration().equals(Duration.ZERO)) { // TODO Bug with doing other actions while isBusy
+                if (queue.poll().perform()) {
+                    isBusy = !queue.isEmpty() && queue.peek().isBusy();
+                    break;
+                }
+                else {
+                    queue.clear();
+                    isBusy = false;
+                }
+            }
+        }
 
         hunger = HelpFunctions.adjustPercent(hunger + HUNGER_INCREASE + new Random().nextDouble(0, HUNGER_INCREASE));
         fullness = HelpFunctions.adjustPercent(fullness + FULLNESS_INCREASE + new Random().nextDouble(0, FULLNESS_INCREASE));

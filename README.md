@@ -501,15 +501,15 @@ InitialState is random Weather.
 - #### [Adapter](https://refactoring.guru/design-patterns/adapter) 
   _(1 implementation)_
 
-**Client** - [TreeSet](https://docs.oracle.com/javase/8/docs/api/java/util/TreeSet.html)
+**Client** - [PriorityQueue](https://docs.oracle.com/javase/8/docs/api/java/util/PriorityQueue.html)
 
 **Service** - [Deque](https://docs.oracle.com/javase/8/docs/api/java/util/Deque.html)
 
 **Adapter** - [RankedQueue](https://github.com/neiron94/Smart-Home-Simulation/blob/develop/src/main/java/utils/RankedQueue.java)
 
-In the project Creature is need to work with its sequences of future actions (called memory). Those sequences have different priorities (what should be done next). Also, implementation requires to have ability in iteration by action sequences. For this reason TreeSet is used (is easily iterable + can add elements respecting priorities).
+In the project Creature is need to work with its sequences of future actions (called memory). Those sequences have different priorities (what should be done next). Also, implementation requires to have ability in iteration by action sequences. For this reason PriorityQueue is used (is easily iterable + can add elements respecting priorities).
 Every element of memory should be specific action sequence.
-That's why adapter was implemented to store those action sequences and its priority to let TreeSet work with it later.
+That's why adapter was implemented to store those action sequences and its priority to let PriorityQueue work with it later.
 
 ------------
 ### Application Input

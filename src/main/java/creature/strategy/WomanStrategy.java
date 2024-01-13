@@ -8,6 +8,9 @@ import place.Room;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Strategy for reacting on events as woman.
+ */
 public record WomanStrategy(Person person) implements AdultStrategy {
     @Override
     public List<Action<Person, Room>> solveFlood(Event event) {

@@ -149,24 +149,10 @@ public final class PersonAPI {
 
     //------------------ Food functions ------------------//
 
-    private static final Function<Action<Person, Void>, Boolean> eatBreakfast = action -> {
-        action.getExecutor().setHunger(action.getExecutor().getHunger() - EAT_HUNGER_DECREASE * new Random().nextDouble(1, 2));
-        action.getExecutor().setFullness(action.getExecutor().getFullness() + EAT_FULLNESS_INCREASE * new Random().nextDouble(0.5, 1));
-        makeRecord(action.getExecutor(), "Eat breakfast");
-        return true;
-    };
-
-    private static final Function<Action<Person, Void>, Boolean> eatLunch = action -> {
+    private static final Function<Action<Person, Void>, Boolean> eatFood = action -> {
         action.getExecutor().setHunger(action.getExecutor().getHunger() - EAT_HUNGER_DECREASE * new Random().nextDouble(1, 3));
         action.getExecutor().setFullness(action.getExecutor().getFullness() + EAT_FULLNESS_INCREASE * new Random().nextDouble(1, 2));
-        makeRecord(action.getExecutor(), "Eat lunch");
-        return true;
-    };
-
-    private static final Function<Action<Person, Void>, Boolean> eatDinner = action -> {
-        action.getExecutor().setHunger(action.getExecutor().getHunger() - EAT_HUNGER_DECREASE * new Random().nextDouble(1, 2));
-        action.getExecutor().setFullness(action.getExecutor().getFullness() + EAT_FULLNESS_INCREASE * new Random().nextDouble(0.5, 1));
-        makeRecord(action.getExecutor(), "Eat dinner");
+        makeRecord(action.getExecutor(), "Eat");
         return true;
     };
 
@@ -923,7 +909,7 @@ public final class PersonAPI {
         queue.add(new Action<>(1, true, person, oven, cookFoodOven));
         queue.add(new Action<>(new Random().nextInt(60, 120), false, person, oven, takeFoodOven));
         if (vent != null) queue.add(new Action<>(1, true, person, vent, stopVent));
-        queue.add(new Action<>(new Random().nextInt(20, 40), true, person, null, eatLunch));
+        queue.add(new Action<>(new Random().nextInt(20, 40), true, person, null, eatFood));
 
         // Put remains food
         queue.add(new Action<>(1, true, person, fridge.getRoom(), goToRoom));
@@ -958,7 +944,7 @@ public final class PersonAPI {
         } catch (DeviceNotFoundException ignored) {
         }
 
-        queue.add(new Action<>(new Random().nextInt(15, 30), true, person, null, eatBreakfast));
+        queue.add(new Action<>(new Random().nextInt(15, 30), true, person, null, eatFood));
         queue.add(new Action<>(1, true, person, fridge.getRoom(), goToRoom));
         queue.add(new Action<>(1, true, person, fridge, putFoodFridge));
 
@@ -986,7 +972,7 @@ public final class PersonAPI {
         } catch (DeviceNotFoundException ignored) {
         }
 
-        queue.add(new Action<>(new Random().nextInt(20, 40), true, person, null, eatDinner));
+        queue.add(new Action<>(new Random().nextInt(20, 40), true, person, null, eatFood));
 
         queue.add(new Action<>(1, true, person, fridge.getRoom(), goToRoom));
         queue.add(new Action<>(1, true, person, fridge, putFoodFridge));
