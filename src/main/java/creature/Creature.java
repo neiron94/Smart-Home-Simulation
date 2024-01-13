@@ -6,9 +6,12 @@ import java.util.stream.Stream;
 import creature.strategy.Strategy;
 import smarthome.Simulation;
 import place.Room;
+import utils.Constants;
 import utils.HelpFunctions;
 import utils.Priority;
 import utils.RankedQueue;
+
+import static utils.Constants.Creature.*;
 import static utils.HelpFunctions.makeRecord;
 
 /**
@@ -16,7 +19,8 @@ import static utils.HelpFunctions.makeRecord;
  * depending on their attributes and strategy. They have memory for possibility
  * of multiple interaction (for instance, person can start washing machine, go
  * cook food and then return to this washing machine when it's ready), also creatures
- * store information about their activity for future reports.
+ * store information about their activity for future reports. Creature can survive
+ * 1 week without food.
  */
 public abstract class Creature {
 
@@ -90,8 +94,8 @@ public abstract class Creature {
         memory = new TreeSet<>();
         activity = new Activity();
 
-        hunger = 0;
-        fullness = 0;
+        hunger = new Random().nextDouble(0, HUNGER_THRESHOLD / 2);
+        fullness = new Random().nextDouble(0, FULLNESS_THRESHOLD / 2);
 
         isBusy = false;
         isAlive = true;
@@ -121,8 +125,8 @@ public abstract class Creature {
                         }
                     });
         }
-        if (hunger > 50 && notPlanned(Priority.EAT)) decreaseHunger(); // Need to eat // TODO Constant (50 is wrong)
-        if (fullness > 30 && notPlanned(Priority.EMPTY)) decreaseFullness(); // Need to empty myself // TODO Constant (30 is wrong)
+        if (hunger > HUNGER_THRESHOLD && notPlanned(Priority.EAT)) decreaseHunger(); // Need to eat
+        if (fullness > FULLNESS_THRESHOLD && notPlanned(Priority.EMPTY)) decreaseFullness(); // Need to empty myself
         if (!isBusy) chooseActivity(); // Nothing important is doing - take new activity
 
         memory.removeIf(RankedQueue::isEmpty); // Remove empty actions queue
@@ -141,8 +145,8 @@ public abstract class Creature {
                     }
                 });
 
-        hunger = HelpFunctions.adjustPercent(hunger + 0.5); // TODO Constant (0.5 is wrong)
-        fullness = HelpFunctions.adjustPercent(fullness + 0.5); // TODO Constant (0.5 is wrong)
+        hunger = HelpFunctions.adjustPercent(hunger + HUNGER_INCREASE + new Random().nextDouble(0, HUNGER_INCREASE));
+        fullness = HelpFunctions.adjustPercent(fullness + FULLNESS_INCREASE + new Random().nextDouble(0, FULLNESS_INCREASE));
         if (fullness == 100) reactMaxFullness();
         if (hunger == 100) reactMaxHunger();
     }

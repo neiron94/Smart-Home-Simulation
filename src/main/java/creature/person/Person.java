@@ -59,11 +59,8 @@ public class Person extends Creature {
     @Override
     protected void decreaseHunger() {
         DayPeriod period = HelpFunctions.getDayPeriod(Simulation.getInstance().getCurrentTime()).orElse(DayPeriod.NIGHT);
-        switch (period) {
-            case MORNING -> memory.add(PersonAPI.takeBreakfast.apply(this));
-            case DAY -> memory.add(PersonAPI.takeLunch.apply(this));
-            case EVENING -> memory.add(PersonAPI.takeDinner.apply(this));
-        }
+        if (period != DayPeriod.NIGHT)
+            HelpFunctions.getRandomObject(List.of(PersonAPI.takeBreakfast, PersonAPI.takeLunch, PersonAPI.takeDinner)).ifPresent(function -> memory.add(function.apply(this)));
     }
 
     /**
@@ -72,7 +69,7 @@ public class Person extends Creature {
     @Override
     protected void decreaseFullness() {
         List<Function<Person, RankedQueue<Action<Person, ?>>>> functions = List.of(PersonAPI.pee, PersonAPI.poo);
-        if (fullness > 50) memory.add(PersonAPI.poo.apply(this)); // TODO Constant (50 is wrong)
+        if (new Random().nextInt(0, 2) == 0) memory.add(PersonAPI.poo.apply(this));
         else HelpFunctions.getRandomObject(functions).ifPresent(function -> memory.add(function.apply(this)));
     }
 

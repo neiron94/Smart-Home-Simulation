@@ -45,10 +45,10 @@ public class ConsumptionReportFactory implements ReportFactory {
         spentMoney += usedElectricity * Constants.Consumption.ELECTRICITY_COST;
 
         return new ConsumptionReport(device.toString(),
-                String.format("%.2f", usedElectricity),
-                String.format("%.2f", usedWater),
-                String.format("%.2f", usedGas),
-                String.format("%.2f", spentMoney));
+                String.format("%.5f", usedElectricity),
+                String.format("%.5f", usedWater),
+                String.format("%.5f", usedGas),
+                String.format("%.5f", spentMoney));
 
     }
 }

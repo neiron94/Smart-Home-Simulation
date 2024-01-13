@@ -5,9 +5,11 @@ import consumer.device.DeviceType;
 import consumer.device.common.*;
 import consumer.device.common.entertainment.*;
 import creature.Action;
+import creature.Creature;
 import place.Room;
 import place.RoomConfiguration;
 import place.RoomType;
+import utils.Constants;
 import utils.HelpFunctions;
 import utils.Priority;
 import utils.RankedQueue;
@@ -17,12 +19,16 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.function.Function;
+
+import static utils.Constants.Creature.*;
 import static utils.HelpFunctions.findDevice;
 import static utils.HelpFunctions.makeRecord;
 
+/**
+ * Class contains possible person's functions. Complex functions are called
+ * from {@link Creature#routine()} and consists of simple functions.
+ */
 public final class PersonAPI {
-
-    // TODO - work with hunger and fullness
 
     //*********************************************** Simple functions ***********************************************//
 
@@ -144,29 +150,29 @@ public final class PersonAPI {
     //------------------ Food functions ------------------//
 
     private static final Function<Action<Person, Void>, Boolean> eatBreakfast = action -> {
-        action.getExecutor().setHunger(action.getExecutor().getHunger() - 30);   // TODO - Constant (30 is wrong)
-        action.getExecutor().setFullness(action.getExecutor().getFullness() + 10);   // TODO - Constant (10 is wrong)
+        action.getExecutor().setHunger(action.getExecutor().getHunger() - EAT_HUNGER_DECREASE * new Random().nextDouble(1, 2));
+        action.getExecutor().setFullness(action.getExecutor().getFullness() + EAT_FULLNESS_INCREASE * new Random().nextDouble(0.5, 1));
         makeRecord(action.getExecutor(), "Eat breakfast");
         return true;
     };
 
     private static final Function<Action<Person, Void>, Boolean> eatLunch = action -> {
-        action.getExecutor().setHunger(action.getExecutor().getHunger() - 50);   // TODO - Constant (50 is wrong)
-        action.getExecutor().setFullness(action.getExecutor().getFullness() + 30);   // TODO - Constant (30 is wrong)
+        action.getExecutor().setHunger(action.getExecutor().getHunger() - EAT_HUNGER_DECREASE * new Random().nextDouble(1, 3));
+        action.getExecutor().setFullness(action.getExecutor().getFullness() + EAT_FULLNESS_INCREASE * new Random().nextDouble(1, 2));
         makeRecord(action.getExecutor(), "Eat lunch");
         return true;
     };
 
     private static final Function<Action<Person, Void>, Boolean> eatDinner = action -> {
-        action.getExecutor().setHunger(action.getExecutor().getHunger() - 40);   // TODO - Constant (40 is wrong)
-        action.getExecutor().setFullness(action.getExecutor().getFullness() + 20);   // TODO - Constant (20 is wrong)
+        action.getExecutor().setHunger(action.getExecutor().getHunger() - EAT_HUNGER_DECREASE * new Random().nextDouble(1, 2));
+        action.getExecutor().setFullness(action.getExecutor().getFullness() + EAT_FULLNESS_INCREASE * new Random().nextDouble(0.5, 1));
         makeRecord(action.getExecutor(), "Eat dinner");
         return true;
     };
 
     private static final Function<Action<Person, Void>, Boolean> drinkCoffee = action -> {
-        action.getExecutor().setHunger(action.getExecutor().getHunger() - 5);   // TODO - Constant (5 is wrong)
-        action.getExecutor().setFullness(action.getExecutor().getFullness() + 20);   // TODO - Constant (20 is wrong)
+        action.getExecutor().setHunger(action.getExecutor().getHunger() - EAT_HUNGER_DECREASE * new Random().nextDouble(0.5, 1));
+        action.getExecutor().setFullness(action.getExecutor().getFullness() + EAT_FULLNESS_INCREASE * new Random().nextDouble(2, 3));
         makeRecord(action.getExecutor(), "Drink coffee");
         return true;
     };
@@ -338,9 +344,10 @@ public final class PersonAPI {
     //----------------------- Fridge -----------------------//
 
     private static final Function<Action<Person, Fridge>, Boolean> takeFoodFridge = action -> {
-        int amount = 20;  // TODO - depends on type (breakfast, lunch, dinner)? (20 is wrong)
+        int amount = new Random().nextInt(5, 25);
         try {
             action.getSubject().takeFood(amount);
+            action.getExecutor().setHunger(action.getExecutor().getHunger() - EAT_HUNGER_DECREASE / 2);
         } catch (WrongDeviceStatusException e) {
             new Action<>(0, true, action.getExecutor(), action.getSubject(), turnOnDevice).perform();
         }
@@ -350,7 +357,7 @@ public final class PersonAPI {
     };
 
     private static final Function<Action<Person, Fridge>, Boolean> putFoodFridge = action -> {
-        int amount = 10;   // TODO - depends on type (breakfast, lunch, dinner)? (10 is wrong)
+        int amount = new Random().nextInt(0, 10);
         action.getSubject().putFood(amount);
 
         makeRecord(action.getExecutor(), action.getSubject(), String.format("Put food to %s, fullness: %d%%", action.getSubject(), action.getSubject().getFullness()));
@@ -731,7 +738,7 @@ public final class PersonAPI {
     //----------------------- WC -----------------------//
 
     private static final Function<Action<Person, WC>, Boolean> doPee = action -> {
-        action.getExecutor().setFullness(action.getExecutor().getFullness() - 10);   // TODO Constant (10 is wrong)
+        action.getExecutor().setFullness(action.getExecutor().getFullness() - FULLNESS_THRESHOLD);
         action.getSubject().makeThings();
 
         makeRecord(action.getExecutor(), action.getSubject(), String.format("Use %s", action.getSubject()));
@@ -750,7 +757,7 @@ public final class PersonAPI {
     };
 
     private static final Function<Action<Person, WC>, Boolean> doPoo = action -> {
-        action.getExecutor().setFullness(action.getExecutor().getFullness() - 30);   // TODO Constant (30 is wrong)
+        action.getExecutor().setFullness(action.getExecutor().getFullness() - FULLNESS_THRESHOLD * 2);
         action.getSubject().makeThings();
 
         makeRecord(action.getExecutor(), action.getSubject(), String.format("Use %s", action.getSubject()));
@@ -1033,7 +1040,7 @@ public final class PersonAPI {
 
     //################################# Other functions ##################################//
 
-    static final Function<Person, RankedQueue<Action<Person, ?>>> nap = person -> { // TODO - add to list?
+    static final Function<Person, RankedQueue<Action<Person, ?>>> nap = person -> {
         RankedQueue<Action<Person, ?>> queue = new RankedQueue<>(Priority.SLEEP);
 
         queue.add(new Action<>(1, true, person, null, goNap));
