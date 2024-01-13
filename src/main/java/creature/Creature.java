@@ -130,18 +130,31 @@ public abstract class Creature {
         memory.removeIf(RankedQueue::isEmpty); // Remove empty actions queue
         memory.forEach(queue -> queue.peek().decreaseDuration(1)); // Decrease first action duration in queue
 
-        boolean[] canDoAction = {true}; // Array for changing value in stream
-        memory.forEach(queue -> {
-                    if (queue.peek().getDuration().equals(Duration.ZERO) && canDoAction[0]) { // Action can be performed // TODO Bug - Doing actions when busy by other actions
-                        if (queue.poll().perform()) { // Successful perform
-                            canDoAction[0] = false; // Can do only one action per simulation tick
-                            isBusy = !queue.isEmpty() && queue.peek().isBusy();
-                        } else { // Unsuccessful perform
-                            queue.clear();
-                            isBusy = false;
-                        }
-                    }
-                });
+        for (RankedQueue<? extends Action<? extends Creature, ?>> queue : memory) {
+            if (queue.peek().getDuration().equals(Duration.ZERO)) {
+                if (queue.poll().perform()) {
+                    isBusy = !queue.isEmpty() && queue.peek().isBusy();
+                    break;
+                }
+                else {
+                    queue.clear();
+                    isBusy = false;
+                }
+            }
+        }
+
+//        boolean[] canDoAction = {true}; // Array for changing value in stream
+//        memory.forEach(queue -> {
+//                    if (queue.peek().getDuration().equals(Duration.ZERO) && canDoAction[0]) { // Action can be performed // TODO Bug - Doing actions when busy by other actions
+//                        if (queue.poll().perform()) { // Successful perform
+//                            canDoAction[0] = false; // Can do only one action per simulation tick
+//                            isBusy = !queue.isEmpty() && queue.peek().isBusy();
+//                        } else { // Unsuccessful perform
+//                            queue.clear();
+//                            isBusy = false;
+//                        }
+//                    }
+//                });
 
         hunger = HelpFunctions.adjustPercent(hunger + HUNGER_INCREASE + new Random().nextDouble(0, HUNGER_INCREASE));
         fullness = HelpFunctions.adjustPercent(fullness + FULLNESS_INCREASE + new Random().nextDouble(0, FULLNESS_INCREASE));
