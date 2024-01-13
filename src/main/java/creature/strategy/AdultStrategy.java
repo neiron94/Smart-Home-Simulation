@@ -11,7 +11,7 @@ import utils.RankedQueue;
 import java.util.List;
 
 /**
- * TODO - Javadoc
+ * Strategy for reacting on events as adult Person.
  */
 public interface AdultStrategy extends PersonStrategy {
     List<Action<Person, Room>> solveFlood(Event event);

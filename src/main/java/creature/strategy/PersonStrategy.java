@@ -17,6 +17,9 @@ import utils.exceptions.NotRepairableDeviceException;
 import java.util.List;
 import java.util.function.Function;
 
+/**
+ * Strategy for reacting on events as Person.
+ */
 public interface PersonStrategy extends Strategy {
     Person person();
 

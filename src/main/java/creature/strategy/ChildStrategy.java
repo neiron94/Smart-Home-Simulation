@@ -5,6 +5,9 @@ import creature.person.Person;
 import event.*;
 import utils.RankedQueue;
 
+/**
+ * Strategy for reacting on events as child.
+ */
 public record ChildStrategy(Person person) implements PersonStrategy {
     @Override
     public void react(BreakEvent event) {

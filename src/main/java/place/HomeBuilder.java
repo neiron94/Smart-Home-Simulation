@@ -6,7 +6,7 @@ import utils.HelpFunctions;
 import java.util.Optional;
 
 /**
- * // TODO - Javadoc
+ * Builder for creating Home.
  */
 public class HomeBuilder {
     private final JsonNode homeDraft;
@@ -14,6 +14,10 @@ public class HomeBuilder {
     private final JsonNode roomDraft;
     private Home home;
 
+    /**
+     * Creates new factory.
+     * @param config name of configuration to take info from
+     */
     public HomeBuilder(String config) {
         JsonNode draft = ConfigurationReader.readHomeConfig(config);
         homeDraft = draft.path("HOME");
@@ -22,6 +26,9 @@ public class HomeBuilder {
         reset();
     }
 
+    /**
+     * Builds new Home.
+     */
     public void buildHome() {
         for (int i = 0; i < homeDraft.size(); ++i) home.addFloor(buildFloor(homeDraft.get(i).asInt()));
         HelpFunctions.logger.info(String.format("%s was built", home));
@@ -46,10 +53,17 @@ public class HomeBuilder {
         }
     }
 
+    /**
+     * Restores builder product
+     */
     public void reset() {
         home = new Home();
     }
 
+    /**
+     * Builds new Home.
+     * @return built Home
+     */
     public Home getHome() {
         buildHome();
         return this.home;
