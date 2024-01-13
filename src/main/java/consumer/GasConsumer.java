@@ -1,8 +1,5 @@
 package consumer;
 
-import consumer.device.Device;
-import event.LeakEvent;
-
 /**
  * Devices, which consumes gas, implements this interface.
  */

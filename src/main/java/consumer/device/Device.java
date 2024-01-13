@@ -204,7 +204,7 @@ public abstract class Device implements Consumer, Prototype {
         return id;
     }
 
-    public boolean isOccupied() {
-        return isOccupied;
+    public boolean notOccupied() {
+        return !isOccupied;
     }
 }

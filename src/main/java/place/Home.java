@@ -1,14 +1,9 @@
 package place;
 
-import consumer.ElectricityConsumer;
-import consumer.GasConsumer;
 import consumer.supplySystem.ElectricitySupplySystem;
 import consumer.supplySystem.GasSupplySystem;
-import consumer.supplySystem.SupplySystem;
-import consumer.WaterConsumer;
 import consumer.supplySystem.WaterSupplySystem;
 import event.Event;
-
 import java.util.ArrayList;
 import java.util.List;
 

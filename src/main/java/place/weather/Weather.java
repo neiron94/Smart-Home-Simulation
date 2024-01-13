@@ -21,7 +21,7 @@ public abstract class Weather {
     /**
      * Preloaded tables of attribute dependency on month of a year and hour of a day.
      */
-    public static double[][][] stats = new double[3][MONTHS][HOURS];
+    public static final double[][][] stats = new double[3][MONTHS][HOURS];
     static {
         ConfigurationReader.readWeatherConfig();
     }

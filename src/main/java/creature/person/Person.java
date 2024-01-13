@@ -2,7 +2,6 @@ package creature.person;
 
 import creature.Action;
 import creature.Creature;
-import creature.pet.Pet;
 import creature.strategy.ChildStrategy;
 import creature.strategy.ManStrategy;
 import creature.strategy.WomanStrategy;
@@ -11,12 +10,10 @@ import place.Room;
 import smarthome.Simulation;
 import utils.DayPeriod;
 import utils.HelpFunctions;
-import utils.Priority;
 import utils.RankedQueue;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.function.Function;
-
 import static utils.HelpFunctions.makeRecord;
 
 /**
