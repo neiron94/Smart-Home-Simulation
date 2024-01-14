@@ -129,8 +129,8 @@ If person is trying to use device, which already `isOccupied` by other person, h
 > Project must have UML Diagrams.
 
 Project has next [UML diagrams](https://github.com/neiron94/Smart-Home-Simulation/tree/develop?tab=readme-ov-file#uml-diagrams):
-- [Class diagram]()
-- [Use-case diagram]()
+- [Class diagram](https://github.com/neiron94/Smart-Home-Simulation/blob/develop/uml/class.svg)
+- [Use-case diagram](https://github.com/neiron94/Smart-Home-Simulation/blob/develop/uml/use-case.svg)
 
 <br>
 
