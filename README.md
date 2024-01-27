@@ -396,8 +396,6 @@ Present project simulates life in smart home. Residents using devices on their n
     Main entities in the project are <a href="https://github.com/neiron94/Smart-Home-Simulation/blob/mainsrc/main/java/place/Street.java">Street</a>, <a href="https://github.com/neiron94/Smart-Home-Simulation/blob/mainsrc/main/java/place/Home.java">Home</a>, <a href="https://github.com/neiron94/Smart-Home-Simulation/blob/mainsrc/main/java/place/Room.java">Room</a>, <a href="https://github.com/neiron94/Smart-Home-Simulation/blob/mainsrc/main/java/creature/person/Person.java">Person</a>, <a href="https://github.com/neiron94/Smart-Home-Simulation/blob/mainsrc/main/java/creature/pet/Pet.java">Pet</a>, <a href="https://github.com/neiron94/Smart-Home-Simulation/blob/mainsrc/main/java/consumer/device/Device.java">Device</a>, <a href="https://github.com/neiron94/Smart-Home-Simulation/blob/mainsrc/main/java/consumer/device/sensored/sensor/Sensor.java">Sensor</a>.<br>
 </details>
 
-<br>
-
 <details>
   <summary>
     <b>F2</b>
@@ -411,8 +409,6 @@ Each device (with few exclusions) can be in one of <a href="https://github.com/n
 Some devices (eg. <a href="https://github.com/neiron94/Smart-Home-Simulation/blob/mainsrc/main/java/consumer/device/common/TV.java">TV</a>, <a href="https://github.com/neiron94/Smart-Home-Simulation/blob/mainsrc/main/java/consumer/device/common/CoffeeMachine.java">CoffeeMachine</a>, ...) have content (eg. current <a href="https://github.com/neiron94/Smart-Home-Simulation/blob/mainsrc/main/java/consumer/device/common/entertainment/Video.java">Video</a> in TV; water, milk, coffee beans in CoffeeMachine and so on).<br>
 </details>
 
-<br>
-
 <details>
   <summary>
     <b>F3</b>
@@ -422,8 +418,6 @@ Some devices (eg. <a href="https://github.com/neiron94/Smart-Home-Simulation/blo
     </blockquote>
 <a href="https://github.com/neiron94/Smart-Home-Simulation/blob/mainsrc/main/java/consumer/device/DeviceStatus.java">State</a> of the device impacts device consumption rate using state multiplier. This multiplier applies to default device rate.
 </details>
-
-<br>
 
 <details>
   <summary>
@@ -436,8 +430,6 @@ Every device is consumer and stores amount of consumed resource in <a href="http
 Those three classes have information about consumption of every existing device and have an ability to switch them altogether or by concrete room (changing resource availability in room) just as in real life.<br>
 </details>
 
-<br>
-
 <details>
   <summary>
     <b>F5</b>
@@ -447,8 +439,6 @@ Those three classes have information about consumption of every existing device 
     </blockquote>
 <a href="https://github.com/neiron94/Smart-Home-Simulation/blob/mainsrc/main/java/creature/person/Person.java">Persons</a> and <a href="https://github.com/neiron94/Smart-Home-Simulation/blob/mainsrc/main/java/creature/pet/Pet.java">pets</a> are interacting with devices using their API functions. It changes actual state of the device (such as device state <code>ON</code>/<code>OFF</code>/<code>STANDBY</code>, occupancy and so on).
 </details>
-
-<br>
 
 <details>
   <summary>
@@ -463,8 +453,6 @@ Events can have restricted visibility: for example person can see <a href="https
 
 </details>
 
-<br>
-
 <details>
   <summary>
     <b>F7</b>
@@ -475,8 +463,6 @@ Events can have restricted visibility: for example person can see <a href="https
 <a href="https://github.com/neiron94/Smart-Home-Simulation/blob/mainsrc/main/java/event/Event.java">Events</a> are taken only by persons who can solve it. Solution (as well as reaction) <a href="https://github.com/neiron94/Smart-Home-Simulation/tree/develop/src/main/java/creature/strategy">strategy</a> depends on concrete attributes (in our case <a href="https://github.com/neiron94/Smart-Home-Simulation/blob/mainsrc/main/java/creature/person/Gender.java">gender</a> and <a href="https://github.com/neiron94/Smart-Home-Simulation/blob/mainsrc/main/java/creature/person/FamilyStatus.java">family status</a> representing age).<br>
 Concrete event can be solved only by one person.<br>
 </details>
-
-<br>
 
 <details>
   <summary>
@@ -500,8 +486,6 @@ At the end of every simulation day remained three <a href="https://github.com/ne
 - ConsumptionReport, EventReport as <code>.tsv</code><br>
 </details>
 
-<br>
-
 <details>
   <summary>
     <b>F9</b>
@@ -519,8 +503,6 @@ At the end of every simulation day remained three <a href="https://github.com/ne
 In all cases proper person would do something with it. Firstly he will check <a href="https://github.com/neiron94/Smart-Home-Simulation/blob/mainsrc/main/java/consumer/device/Manual.java">warranty card</a> if device can be given to Service Center.<br>
 If not - following steps depend on <a href="https://github.com/neiron94/Smart-Home-Simulation/blob/mainsrc/main/java/creature/strategy/AdultStrategy.java">solving strategy</a>.<br>
 </details>
-
-<br>
 
 <details>
   <summary>
@@ -580,8 +562,6 @@ Visitor feature - make device consumption and write it to proper SupplySystem<br
 Visitor feature - creates disaster events (fire/flood/leak) for proper consumer<br>
 </details>
 
-<br>
-
 <details>
   <summary>
     <b><a href="https://www.baeldung.com/java-memento-design-pattern">Memento</a></b>
@@ -602,8 +582,6 @@ State - preferred temperature, humidity, brightness, and light color (fields in 
 State is saved in a static field in ControlPanel.<br>
 </details>
 
-<br>
-
 <details>
   <summary>
     <b><a href="https://refactoring.guru/design-patterns/prototype">Prototype</a></b>
@@ -620,8 +598,6 @@ State is saved in a static field in ControlPanel.<br>
 <b>ConcretePrototype</b> - <a href="https://github.com/neiron94/Smart-Home-Simulation/blob/mainsrc/main/java/consumer/device/Device.java">Device</a> (+ all inheritors)<br>
 <i>clone()</i> = <code>clone()</code><br>
 </details>
-
-<br>
 
 <details>
   <summary>
@@ -641,8 +617,6 @@ State is saved in a static field in ControlPanel.<br>
 There is no need in the project for a Builder interface as long as there is only one type of Home creating.<br>
 We don't also need a Director class because this role is played by the home draft read from the configuration file.<br>
 </details>
-
-<br>
 
 <details>
   <summary>
@@ -678,8 +652,6 @@ We don't also need a Director class because this role is played by the home draf
 <i>someOperationD()</i> = <code>createEventReports()</code> <br>
 </details>
 
-<br>
-
 <details>
   <summary>
     <b><a href="https://refactoring.guru/design-patterns/singleton">Singleton</a></b>
@@ -694,8 +666,6 @@ We don't also need a Director class because this role is played by the home draf
 <br>
 <b>Client</b> - <a href="https://github.com/neiron94/Smart-Home-Simulation/blob/mainsrc/main/java/smarthome/Simulation.java">Simulation</a> and so on <br>
 </details>
-
-<br>
 
 <details>
   <summary>
@@ -730,8 +700,6 @@ Facade provides working with JSON files. Inside it reads, parses them, and creat
 Facade provides reports creation. Inside it collects all necessary information, creates reports, and writes it into files.
 </details>
 
-<br>
-
 <details>
   <summary>
     <b><a href="https://dragonprogrammer.com/design-patterns-java-simple-factory/">SimpleFactory</a></b>
@@ -764,8 +732,6 @@ Factory provides Device creations. Hidden complexity is control of the validity 
 <br>
 Factory provides Song, Video, Game creations. Hidden complexity is control of the validity of given parameters.
 </details>
-
-<br>
 
 <details>
   <summary>
@@ -802,8 +768,6 @@ Factory provides Song, Video, Game creations. Hidden complexity is control of th
 <code>setStrategy()</code> is missing because strategies are set in creatures' constructors <br>
 </details>
 
-<br>
-
 <details>
   <summary>
     <b><a href="https://refactoring.guru/design-patterns/template-method">TemplateMethod</a></b>
@@ -831,8 +795,6 @@ Factory provides Song, Video, Game creations. Hidden complexity is control of th
 <code>_step4()</code> = <code>reactMaxFullness()</code> <br>
 </details>
 
-<br>
-
 <details>
   <summary>
     <b><a href="https://refactoring.guru/design-patterns/observer">Observer</a></b>
@@ -854,8 +816,6 @@ Factory provides Song, Video, Game creations. Hidden complexity is control of th
 <br>
 Concrete subscribers are all devices (depends on what resource they consume).
 </details>
-
-<br>
 
 <details>
   <summary>
@@ -879,8 +839,6 @@ There is no need in <code>_setContext()</code> because context is Singleton.<br>
 There is no need in explicit <code>_doThis()</code> - context uses <code>applyWeather()</code> and <code>changeWeather()</code> of its state.
 InitialState is random Weather.
 </details>
-
-<br>
 
 <details>
   <summary>
