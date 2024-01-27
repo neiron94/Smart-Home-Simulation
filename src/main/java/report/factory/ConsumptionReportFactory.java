@@ -1,3 +1,9 @@
+/**
+ * Copyright (c) 2024 Artem Liamkin, Ales Shvaibovich
+ *
+ * Licensed under the MIT License. See the LICENSE file for details.
+ */
+
 package report.factory;
 
 import consumer.device.Device;
@@ -6,7 +12,6 @@ import report.ConsumptionReport;
 import report.Report;
 import smarthome.Simulation;
 import utils.Constants;
-
 import java.util.Map;
 
 /**

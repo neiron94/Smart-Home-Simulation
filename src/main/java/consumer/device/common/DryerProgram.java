@@ -1,8 +1,13 @@
+/**
+ * Copyright (c) 2024 Artem Liamkin, Ales Shvaibovich
+ *
+ * Licensed under the MIT License. See the LICENSE file for details.
+ */
+
 package consumer.device.common;
 
 import utils.Constants.WorkDuration;
 import utils.Constants.Consumption.Electricity;
-
 import java.time.Duration;
 
 /**

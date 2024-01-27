@@ -1,9 +1,14 @@
+/**
+ * Copyright (c) 2024 Artem Liamkin, Ales Shvaibovich
+ *
+ * Licensed under the MIT License. See the LICENSE file for details.
+ */
+
 package place.weather;
 
 import place.Street;
 import smarthome.Simulation;
 import utils.ConfigurationReader;
-
 import java.time.Duration;
 import java.util.HashMap;
 import java.util.List;

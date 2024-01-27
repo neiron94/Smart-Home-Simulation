@@ -1,3 +1,9 @@
+/**
+ * Copyright (c) 2024 Artem Liamkin, Ales Shvaibovich
+ *
+ * Licensed under the MIT License. See the LICENSE file for details.
+ */
+
 package consumer.device.common;
 
 import consumer.device.Device;
@@ -7,7 +13,6 @@ import place.Room;
 import smarthome.Simulation;
 import utils.HelpFunctions;
 import utils.exceptions.*;
-
 import java.time.Duration;
 import java.time.LocalDateTime;
 

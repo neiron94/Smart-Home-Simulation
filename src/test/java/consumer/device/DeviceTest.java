@@ -1,3 +1,9 @@
+/**
+ * Copyright (c) 2024 Artem Liamkin, Ales Shvaibovich
+ *
+ * Licensed under the MIT License. See the LICENSE file for details.
+ */
+
 package consumer.device;
 
 import consumer.device.common.Dishwasher;
@@ -10,7 +16,6 @@ import place.Room;
 import smarthome.Simulation;
 import utils.exceptions.DeviceIsBrokenException;
 import utils.exceptions.ResourceNotAvailableException;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class DeviceTest {

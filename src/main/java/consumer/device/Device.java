@@ -1,3 +1,9 @@
+/**
+ * Copyright (c) 2024 Artem Liamkin, Ales Shvaibovich
+ *
+ * Licensed under the MIT License. See the LICENSE file for details.
+ */
+
 package consumer.device;
 
 import consumer.*;
@@ -7,7 +13,6 @@ import utils.Constants;
 import utils.HelpFunctions;
 import utils.Prototype;
 import utils.exceptions.*;
-
 import static utils.Constants.Time.DAYS_IN_MONTH;
 import static utils.Constants.Time.HOURS;
 

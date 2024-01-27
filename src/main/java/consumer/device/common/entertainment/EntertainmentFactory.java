@@ -1,7 +1,12 @@
+/**
+ * Copyright (c) 2024 Artem Liamkin, Ales Shvaibovich
+ *
+ * Licensed under the MIT License. See the LICENSE file for details.
+ */
+
 package consumer.device.common.entertainment;
 
 import utils.HelpFunctions;
-
 import java.time.Duration;
 import java.util.Optional;
 

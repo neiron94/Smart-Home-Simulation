@@ -1,4 +1,6 @@
 {
+  "_comment": "Copyright (c) 2024 Artem Liamkin, Ales Shvaibovich. Licensed under the MIT License. See the LICENSE file for details.",
+
   "FRIDGE" : [3],
   "COFFEE_MACHINE" : [3],
   "TOASTER" : [3],

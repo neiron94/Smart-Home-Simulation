@@ -1,3 +1,9 @@
+/**
+ * Copyright (c) 2024 Artem Liamkin, Ales Shvaibovich
+ *
+ * Licensed under the MIT License. See the LICENSE file for details.
+ */
+
 package consumer.device.sensored;
 
 import consumer.device.DeviceType;
@@ -5,7 +11,6 @@ import consumer.device.sensored.sensor.LightSensor;
 import place.Room;
 import utils.Constants.Consumption.Electricity;
 import utils.HelpFunctions;
-
 import java.awt.*;
 
 /**

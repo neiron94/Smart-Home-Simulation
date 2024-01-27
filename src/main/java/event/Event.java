@@ -1,3 +1,9 @@
+/**
+ * Copyright (c) 2024 Artem Liamkin, Ales Shvaibovich
+ *
+ * Licensed under the MIT License. See the LICENSE file for details.
+ */
+
 package event;
 
 import consumer.device.Device;
@@ -5,7 +11,6 @@ import event.throwStrategy.EventThrowStrategy;
 import place.Room;
 import smarthome.Simulation;
 import utils.Priority;
-
 import java.time.LocalDateTime;
 
 /**
