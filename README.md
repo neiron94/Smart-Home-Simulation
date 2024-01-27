@@ -743,7 +743,7 @@ Facade provides reports creation. Inside it collects all necessary information, 
 <b>Factory</b> - <a href="https://github.com/neiron94/Smart-Home-Simulation/blob/mainsrc/main/java/creature/CreatureFactory.java">CreatureFactory</a> <br>
 <code>createPerson()</code> <br>
 <code>createPet()</code> <br>
-
+<br>
 Factory provides Creature creations. Hidden complexity is control of the validity of given parameters.
 <br>
 <br>
@@ -751,7 +751,7 @@ Factory provides Creature creations. Hidden complexity is control of the validit
 <br>
 <b>Factory</b> - <a href="https://github.com/neiron94/Smart-Home-Simulation/blob/mainsrc/main/java/consumer/device/DeviceFactory.java">DeviceFactory</a> <br>
 <code>createDevice()</code> <br>
-
+<br>
 Factory provides Device creations. Hidden complexity is control of the validity of given parameters.
 <br>
 <br>
@@ -761,7 +761,7 @@ Factory provides Device creations. Hidden complexity is control of the validity 
 <code>createSong()</code> <br>
 <code>createVideo()</code> <br>
 <code>createGame()</code> <br>
-
+<br>
 Factory provides Song, Video, Game creations. Hidden complexity is control of the validity of given parameters.
 </details>
 
