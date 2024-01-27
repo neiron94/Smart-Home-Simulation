@@ -1,0 +1,51 @@
+{
+  "_comment": "Copyright (c) 2024 Artem Liamkin, Ales Shvaibovich. Licensed under the MIT License. See the LICENSE file for details.",
+
+  "PERSON" : [
+    {
+      "name" : "Bob",
+      "gender" : "MALE",
+      "status" : "ADULT"
+    },
+    {
+      "name" : "Anna",
+      "gender" : "FEMALE",
+      "status" : "ADULT"
+    },
+    {
+      "name" : "Roberto",
+      "gender" : "MALE",
+      "status" : "KID"
+    },
+    {
+      "name" : "Ivy",
+      "gender" : "FEMALE",
+      "status" : "KID"
+    },
+    {
+      "name" : "Boris",
+      "gender" : "MALE",
+      "status" : "ELDER"
+    },
+    {
+      "name" : "Irina",
+      "gender" : "FEMALE",
+      "status" : "ELDER"
+    }
+  ],
+
+  "PET" : [
+    {
+      "name" : "Bark",
+      "type" : "DOG"
+    },
+    {
+      "name" : "Kot",
+      "type" : "CAT"
+    },
+    {
+      "name" : "Murzik",
+      "type" : "CAT"
+    }
+  ]
+}

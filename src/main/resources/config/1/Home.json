@@ -1,0 +1,7 @@
+{
+  "_comment": "Copyright (c) 2024 Artem Liamkin, Ales Shvaibovich. Licensed under the MIT License. See the LICENSE file for details.",
+
+  "HOME" : [1],
+  "FLOOR" : [[1, 2, 3, 4, 5, 6]],
+  "ROOM" : ["KITCHEN", "HALL", "TOILET", "BEDROOM", "BEDROOM", "SHOWER"]
+}
