@@ -1,3 +1,9 @@
+/**
+ * Copyright (c) 2024 Artem Liamkin, Ales Shvaibovich
+ *
+ * Licensed under the MIT License. See the LICENSE file for details.
+ */
+
 package creature.pet;
 
 import creature.Action;
@@ -9,10 +15,8 @@ import place.Room;
 import smarthome.Simulation;
 import utils.HelpFunctions;
 import utils.RankedQueue;
-
 import java.util.*;
 import java.util.function.Function;
-
 import static utils.HelpFunctions.makeRecord;
 
 /**

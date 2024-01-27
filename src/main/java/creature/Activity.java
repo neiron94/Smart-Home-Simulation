@@ -1,7 +1,12 @@
+/**
+ * Copyright (c) 2024 Artem Liamkin, Ales Shvaibovich
+ *
+ * Licensed under the MIT License. See the LICENSE file for details.
+ */
+
 package creature;
 
 import consumer.device.Device;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

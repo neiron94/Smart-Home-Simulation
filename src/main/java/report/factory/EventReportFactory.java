@@ -1,10 +1,15 @@
+/**
+ * Copyright (c) 2024 Artem Liamkin, Ales Shvaibovich
+ *
+ * Licensed under the MIT License. See the LICENSE file for details.
+ */
+
 package report.factory;
 
 import creature.person.Person;
 import event.Event;
 import report.EventReport;
 import report.Report;
-
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 

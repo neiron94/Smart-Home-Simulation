@@ -1,3 +1,9 @@
+/**
+ * Copyright (c) 2024 Artem Liamkin, Ales Shvaibovich
+ *
+ * Licensed under the MIT License. See the LICENSE file for details.
+ */
+
 package consumer;
 
 import consumer.device.Device;
@@ -5,7 +11,6 @@ import consumer.device.DeviceStatus;
 import event.FireEvent;
 import event.FloodEvent;
 import event.LeakEvent;
-
 import static utils.Constants.Probabilities.DEVICE_EVENT_PROBABILITY;
 import static utils.Constants.Probabilities.EVENT_DURABILITY_DEPENDENCY;
 

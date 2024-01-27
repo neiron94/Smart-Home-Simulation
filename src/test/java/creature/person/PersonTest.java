@@ -1,3 +1,9 @@
+/**
+ * Copyright (c) 2024 Artem Liamkin, Ales Shvaibovich
+ *
+ * Licensed under the MIT License. See the LICENSE file for details.
+ */
+
 package creature.person;
 
 import consumer.device.Device;
@@ -8,7 +14,6 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import place.Room;
 import smarthome.Simulation;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class PersonTest {

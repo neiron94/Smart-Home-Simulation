@@ -1,3 +1,9 @@
+/**
+ * Copyright (c) 2024 Artem Liamkin, Ales Shvaibovich
+ *
+ * Licensed under the MIT License. See the LICENSE file for details.
+ */
+
 package consumer.supplySystem;
 
 import consumer.Consumer;
@@ -6,7 +12,6 @@ import place.Room;
 import smarthome.Simulation;
 import utils.exceptions.DeviceIsBrokenException;
 import utils.exceptions.ResourceNotAvailableException;
-
 import java.util.HashMap;
 import java.util.Map;
 

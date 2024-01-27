@@ -92,3 +92,4 @@ report/Configuration.txt
 report/Consumption.tsv
 report/Event.tsv
 src/main/resources/config/test/
+umls/
